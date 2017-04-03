@@ -25,7 +25,7 @@ class Welcome extends CI_Controller {
                 'client_id' => "04edb07d988b40e99228a38003f98da5",
                 'client_secret' => "22c2303f9eea494ebda1d6585fda8f1f",
                 'grant_type' => "authorization_code",
-                'redirect_uri' => "http://localhost/luvr",
+                'redirect_uri' => base_url(),
                 'code' => $this->input->get('code')
             );
 

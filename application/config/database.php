@@ -73,7 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 $active_group = 'default';
 $query_builder = TRUE;
-if ($_SERVER['HTTP_HOST'] == 'luvr' || $_SERVER['HTTP_HOST'] == 'localhost') {
+if ($_SERVER['HTTP_HOST'] == 'my.luvr.com' || $_SERVER['HTTP_HOST'] == 'localhost') {
     $db['default'] = array(
         'dsn' => '',
         'hostname' => 'localhost',

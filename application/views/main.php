@@ -70,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <h1>Welcome to Luvr!</h1>
             <div id="body">
                 <p>We will be online soon...</p>
-                <a href="https://api.instagram.com/oauth/authorize/?client_id=04edb07d988b40e99228a38003f98da5&redirect_uri=http://localhost/luvr&response_type=code&scope=likes+comments+follower_list+relationships+public_content">Login with instagram</a>
+                <a href="https://api.instagram.com/oauth/authorize/?client_id=<?php echo INSTA_CLIENT_ID; ?>&redirect_uri=<?php echo base_url(); ?>&response_type=code&scope=likes+comments+follower_list+relationships+public_content">Login with instagram</a>
             </div>
         </div>
     </body>
