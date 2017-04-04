@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Welcome extends CI_Controller {
+class Home extends CI_Controller {
 
     /**
      * Index Page for this controller.
@@ -54,13 +54,13 @@ class Welcome extends CI_Controller {
                 pr($result2);
             }
         } else {
-            $this->load->view('main');
+            $data['sub_view'] = 'Homepage';
+            $data['meta_title'] = "Welcome to Luvr";
+            $this->load->view('main', $data);
         }
     }
 
     public function setup_userprofile() {
-        echo "in";
-        die;
         $user_info = $this->Users_model->getUserByCol('userid', '1572217132');
         $data['sub_view'] = 'userProfileSettings';
         $data['meta_title'] = "Setup User Profile";
