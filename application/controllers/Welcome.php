@@ -19,11 +19,17 @@ class Welcome extends CI_Controller {
      * map to /index.php/welcome/<method_name>
      * @see https://codeigniter.com/user_guide/general/urls.html
      */
+    function __construct() {
+        // Call the Model constructor
+        parent::__construct();
+        $this->load->model(array('Users_model'));
+    }
+
     public function index() {
         if ($this->input->get('code')) {
             $insta_params = array(
-                'client_id' => "04edb07d988b40e99228a38003f98da5",
-                'client_secret' => "22c2303f9eea494ebda1d6585fda8f1f",
+                'client_id' => INSTA_CLIENT_ID,
+                'client_secret' => INSTA_CLIENT_SECRET,
                 'grant_type' => "authorization_code",
                 'redirect_uri' => base_url(),
                 'code' => $this->input->get('code')
@@ -50,6 +56,19 @@ class Welcome extends CI_Controller {
         } else {
             $this->load->view('main');
         }
+    }
+
+    public function setup_userprofile() {
+        echo "in";
+        die;
+        $user_info = $this->Users_model->getUserByCol('userid', '1572217132');
+        $data['sub_view'] = 'userProfileSettings';
+        $data['meta_title'] = "Setup User Profile";
+        $this->load->view('main', $data);
+    }
+
+    function test() {
+        echo "here";
     }
 
 }

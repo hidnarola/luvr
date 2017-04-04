@@ -86,3 +86,7 @@ defined('EXIT__AUTO_MIN') OR define('EXIT__AUTO_MIN', 9); // lowest automaticall
 defined('EXIT__AUTO_MAX') OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 define('INSTA_CLIENT_ID', '04edb07d988b40e99228a38003f98da5');
 define('INSTA_CLIENT_SECRET', '22c2303f9eea494ebda1d6585fda8f1f');
+if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1')
+    define('PHYSICALUPLOADPATH', 'C:/wamp/www/Luvr/assets');
+else
+    define('PHYSICALUPLOADPATH', '');
