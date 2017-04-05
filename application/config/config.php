@@ -26,10 +26,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 $config['base_url'] = 'http://my.luvr.com';
 
-// if ($_SERVER['SERVER_ADDR'] == '52.15.67.78')
-//     $config['base_url'] = 'http://52.15.67.78';
-// else if ($_SERVER['SERVER_ADDR'] == '127.0.0.1')
-//     $config['base_url'] = 'http://my.luvr.com';
+if ($_SERVER['SERVER_ADDR'] == '52.15.67.78')
+    $config['base_url'] = 'http://52.15.67.78';
+else if ($_SERVER['SERVER_ADDR'] == '127.0.0.1')
+    $config['base_url'] = 'http://my.luvr.com';
 
 /*
   |--------------------------------------------------------------------------

@@ -70,5 +70,5 @@ class Home extends CI_Controller {
     function test() {
         echo "here";
     }
-
+        
 }
