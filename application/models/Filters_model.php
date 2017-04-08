@@ -44,8 +44,9 @@ class Filters_model extends CI_Model {
     }
 
     function getUserSubFilterByCol($column, $value) {
-        $this->db->select("*");
+        $this->db->select("user_filter.*,sub_filters.sub_filter_name");
         $this->db->from("user_filter");
+        $this->db->join("sub_filters","sub_filters.sub_filter_id = user_filter.sub_filter_id");
         $this->db->where($column, $value);
         return $this->db->get()->result_array();
     }

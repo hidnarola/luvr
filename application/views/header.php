@@ -10,12 +10,14 @@ else
         <title><?php echo $site_title; ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0"/>
-        <!-- <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/css/bootstrap.min.css">
+         <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/css/bootstrap.min.css">
         <script src="<?php echo base_url(); ?>/assets/js/jquery-3.2.0.min.js"></script>
-        <script src="<?php echo base_url(); ?>/assets/js/bootstrap.min.js"></script> -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="<?php echo base_url(); ?>/assets/js/bootstrap.min.js"></script>
+        <?php if ($sub_view == "nearByMatches") { ?>
+            <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/css/jTinder.css">
+            <script src="<?php echo base_url(); ?>/assets/js/jquery.transform2d.js"></script>
+            <script src="<?php echo base_url(); ?>/assets/js/jquery.jTinder.js"></script>
+        <?php } ?>
     </head>
     <style>
         /* Remove the navbar's default margin-bottom and rounded borders */ 
@@ -124,18 +126,18 @@ else
                     <li><a href="#">Contact</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <?php 
-                        $user_data = $this->session->userdata('user'); 
-                        if(empty($user_data)) {
-                    ?>
+                    <?php
+                    $user_data = $this->session->userdata('user');
+                    if (empty($user_data)) {
+                        ?>
                         <li>
-                            <a href="<?php echo base_url().'register'; ?>"><span class="glyphicon glyphicon-log-in"></span>
+                            <a href="<?php echo base_url() . 'register'; ?>"><span class="glyphicon glyphicon-log-in"></span>
                                 Login
                             </a>
                         </li>
-                    <?php } else{ ?>
+                    <?php } else { ?>
                         <li>
-                            <a href="<?php echo base_url().'register/logout'; ?>">
+                            <a href="<?php echo base_url() . 'register/logout'; ?>">
                                 <span class="glyphicon glyphicon-log-in"></span>
                                 Logout
                             </a>

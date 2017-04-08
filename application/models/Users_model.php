@@ -28,26 +28,43 @@ class Users_model extends CI_Model {
         return false;
     }
 
-    public function fetch_userdata($where,$is_single= false,$select = '*'){
-    	$this->db->select($select);
-    	$this->db->where($where);
-    	$res = $this->db->get('users');
-    	$return_data = $res->result_array;    	
-    	if($is_single){ $return_data = $res->row_array(); }
-    	return $return_data;
+    public function fetch_userdata($where, $is_single = false, $select = '*') {
+        $this->db->select($select);
+        $this->db->where($where);
+        $res = $this->db->get('users');
+        $return_data = $res->result_array;
+        if ($is_single) {
+            $return_data = $res->row_array();
+        }
+        return $return_data;
     }
 
     // insert into users table
-    public function insert_record($data){
-    	$this->db->insert('users',$data);
+    public function insert_record($data) {
+        $this->db->insert('users', $data);
         $ins_id = $this->db->insert_id();
-    	return $ins_id;	
+        return $ins_id;
     }
 
-    public function insert_media($data){
-        $this->db->insert('media',$data);
+    public function insert_media($data) {
+        $this->db->insert('media', $data);
         $ins_id = $this->db->insert_id();
-        return $ins_id;    
+        return $ins_id;
+    }
+
+    public function getUserSetings($column, $value) {
+        if (!empty($column) && !empty($value)) {
+            return $this->db->get_where('user_settings', array($column => $value))->row_array();
+        }
+        return false;
+    }
+
+    public function likeDislikeUser($data) {
+        if (!empty($data)) {
+            $this->db->insert('users_relation', $data);
+            return $this->db->insert_id();
+        }
+        return false;
     }
 
 }

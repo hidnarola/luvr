@@ -43,6 +43,37 @@
             $("#updatefiltersform #idontcare").prop("checked", false);
         }
 <?php } ?>
+<?php if ($sub_view == "nearByMatches") { ?>
+        $("#tinderslide").jTinder({
+            onLike: function (item) {
+                likedislikeuser($(item).data("id"), 'like');
+            },
+            onDislike: function (item) {
+                likedislikeuser($(item).data("id"), 'dislike');
+            },
+            animationRevertSpeed: 200,
+            animationSpeed: 500,
+            threshold: 4,
+            likeSelector: '.like',
+            dislikeSelector: '.dislike'
+        });
+        function likedislikeuser(user_id, mode) {
+            $.ajax({
+                url: "<?php echo base_url(); ?>match/likedislike",
+                type: 'POST',
+                dataType: 'json',
+                data: "user_id=" + user_id + "&status=" + mode,
+                success: function (data) {
+                    if (data.success == true) {
+                    } else {
+                        alert("Something went wrong!");
+                    }
+                }, error: function () {
+                    alert("Something went wrong!");
+                }
+            });
+        }
+<?php } ?>
     function log(text) {
         console.log(text);
     }
