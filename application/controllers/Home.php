@@ -129,7 +129,7 @@ class Home extends CI_Controller {
                 if (empty($result) || $result == false)
                     redirect('home/setup_userfilters');
                 else
-                    redirect('match');
+                    redirect('match/nearby');
             } else {
                 $this->session->set_flashdata('error', 'Something went wrong!');
                 redirect('home/setup_userprofile');

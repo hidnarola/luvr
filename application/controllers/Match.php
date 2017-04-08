@@ -30,6 +30,10 @@ class Match extends CI_Controller {
         $data['meta_title'] = "Find Match";
         $this->load->view('main', $data);
     }
+    
+    function nearby(){
+        
+    }
 
 }
 

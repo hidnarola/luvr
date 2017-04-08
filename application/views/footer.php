@@ -24,7 +24,7 @@
                             $("#lbl_filter_name").text(data.next_filter_name);
                         $("#updatefiltersform tbody").html(data.next_filter_html);
                         if ($("#save_step_btn").attr("data-step") > $("#save_step_btn").attr("data-total-steps")) {
-                            location.href = '<?php echo base_url(); ?>match';
+                            location.href = '<?php echo base_url(); ?>match/nearby';
                         }
                     } else {
                         alert("Something went wrong!");
