@@ -78,14 +78,14 @@ if ($_SERVER['HTTP_HOST'] == 'my.luvr.com' || $_SERVER['HTTP_HOST'] == 'localhos
     $db['default'] = array(
         'dsn' => '',
       
-        'hostname' => '192.168.1.201',
-        'username' => 'luvr',
-        'password' => 'OOlk0nwzo07w01P',
-        'database' => 'luvr',
-        // 'hostname' => 'localhost',
-        // 'username' => 'root',
-        // 'password' => '',
+        // 'hostname' => '192.168.1.201',
+        // 'username' => 'luvr',
+        // 'password' => 'OOlk0nwzo07w01P',
         // 'database' => 'luvr',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'luvr',
 
         'dbdriver' => 'mysqli',
         'dbprefix' => '',
