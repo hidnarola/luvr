@@ -1,6 +1,10 @@
 </div>
 </div>
-
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 <footer class="container-fluid text-center">
     <p>Footer Text</p>
 </footer>

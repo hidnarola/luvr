@@ -70,19 +70,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   |
   | The $query_builder variables lets you determine whether or not to load
   | the query builder class.
-  DB: luvr
-  U: luvr
-  P: OOlk0nwzo07w01P
+    luvr
  */
 $active_group = 'default';
 $query_builder = TRUE;
 if ($_SERVER['HTTP_HOST'] == 'my.luvr.com' || $_SERVER['HTTP_HOST'] == 'localhost') {
     $db['default'] = array(
         'dsn' => '',
-        'hostname' => '192.168.1.201',
-        'username' => 'luvr',
-        'password' => 'OOlk0nwzo07w01P',
+      
+        // 'hostname' => '192.168.1.201',
+        // 'username' => 'luvr',
+        // 'password' => 'OOlk0nwzo07w01P',
+        // 'database' => 'luvr',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
         'database' => 'luvr',
+
         'dbdriver' => 'mysqli',
         'dbprefix' => '',
         'pconnect' => FALSE,

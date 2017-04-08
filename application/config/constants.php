@@ -84,8 +84,14 @@ defined('EXIT_USER_INPUT') OR define('EXIT_USER_INPUT', 7); // invalid user inpu
 defined('EXIT_DATABASE') OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN') OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX') OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
-define('INSTA_CLIENT_ID', '04edb07d988b40e99228a38003f98da5');
-define('INSTA_CLIENT_SECRET', '22c2303f9eea494ebda1d6585fda8f1f');
+
+// ------------------------------------------------------------------------
+// v! Instagram credentials
+// ------------------------------------------------------------------------
+define('INSTA_CLIENT_ID', '17fd6de1ec314541afd3cb022b9417be');
+define('INSTA_CLIENT_SECRET', '329c8fdfb8114840b6413b1f543ddc5d');
+define('GOOGLE_MAP_API','AIzaSyBrAT6XIzO4FSwU1_iXBgvvOkAqqx8GRBw');
+
 if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1')
     define('PHYSICALUPLOADPATH', 'C:/wamp/www/Luvr/assets');
 else

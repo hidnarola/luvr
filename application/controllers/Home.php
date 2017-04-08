@@ -4,89 +4,126 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Home extends CI_Controller {
 
-    /**
-     * Index Page for this controller.
-     *
-     * Maps to the following URL
-     * 		http://example.com/index.php/welcome
-     * 	- or -
-     * 		http://example.com/index.php/welcome/index
-     * 	- or -
-     * Since this controller is set as the default controller in
-     * config/routes.php, it's displayed at http://example.com/
-     *
-     * So any other public methods not prefixed with an underscore will
-     * map to /index.php/welcome/<method_name>
-     * @see https://codeigniter.com/user_guide/general/urls.html
-     */
-    function __construct() {
-        // Call the Model constructor
+    public function __construct() {
+        
         parent::__construct();
         $this->load->model(array('Users_model', 'Filters_model'));
-    }
-
-    public function index() {
-        if ($this->input->get('code')) {
-            $insta_params = array(
-                'client_id' => INSTA_CLIENT_ID,
-                'client_secret' => INSTA_CLIENT_SECRET,
-                'grant_type' => "authorization_code",
-                'redirect_uri' => base_url(),
-                'code' => $this->input->get('code')
-            );
-
-            $curl1 = curl_init("https://api.instagram.com/oauth/access_token");
-            curl_setopt($curl1, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($curl1, CURLOPT_POSTFIELDS, $insta_params);
-            curl_setopt($curl1, CURLOPT_SSL_VERIFYPEER, false);
-            $result1 = curl_exec($curl1);
-            curl_close($curl1);
-            $result1 = json_decode($result1, true);
-            pr($result1);
-
-            if (!empty($result1['access_token'])) {
-                $curl2 = curl_init("https://api.instagram.com/v1/users/self/media/recent?access_token=" . $result1['access_token']);
-                curl_setopt($curl2, CURLOPT_RETURNTRANSFER, 1);
-                curl_setopt($curl2, CURLOPT_SSL_VERIFYPEER, false);
-                $result2 = curl_exec($curl2);
-                curl_close($curl2);
-                $result2 = json_decode($result2);
-                pr($result2);
-            }
-        } else {
-            $data['sub_view'] = 'Homepage';
-            $data['meta_title'] = "Welcome to Luvr";
-            $this->load->view('main', $data);
+        $this->load->library('unirest');
+        $u_data = $this->session->userdata('user');
+        if(empty($u_data)){
+            redirect('register');
         }
     }
 
+    public function index() {   
+        echo "Welcome Home page";
+    }
+
+    // ------------------------------------------------------------------------
+    // BIO START
+    // ------------------------------------------------------------------------
+
+    public function save_bio(){
+        
+        $u_data = $this->session->userdata('user');
+        $insta_id = $u_data['userid'];
+        $access_token = $u_data['access_token'];
+
+        $curl1 = "https://api.instagram.com/v1/users/".$insta_id."/media/recent/?access_token=" . $access_token;
+        $response = $this->unirest->get($curl1, $headers = array());
+        $row_data = json_decode($response->raw_body,true);
+        
+        // pr($row_data);
+
+        $user_info = $this->Users_model->getUserByCol('id', $u_data['id']);
+
+        // pr($row_data,1);
+
+        $data['sub_view'] = 'bio/index';
+        $data['meta_title'] = "Save instagram bio";
+        $data['userData'] = $user_info;
+        $data['all_images'] = $row_data['data'];
+        $data['next_link'] = $row_data['pagination']['next_url'];
+        $this->load->view('main', $data);
+
+        // pr($u_data,1);
+
+    }
+
+    public function test_fetch(){
+        // $curl1 = 'https://api.instagram.com/v1/users/145281153/media/recent?max_id=988968134181522074_145281153&access_token=145281153.17fd6de.dda034d5718c4ea19a1ec798be53dc9f';
+        $curl1 = 'https://api.instagram.com/v1/users/145281153/media/recent?access_token=145281153.17fd6de.dda034d5718c4ea19a1ec798be53dc9f&max_id=685858156971165999_145281153';
+        $response = $this->unirest->get($curl1, $headers = array());
+        $row_data = json_decode($response->raw_body,true);
+        pr($row_data);
+    }
+
+    public function fetch_insta_bio(){
+        
+        $next_url = $this->input->post('next_url');
+
+        $curl1 = $next_url;
+        $response = $this->unirest->get($curl1, $headers = array());
+        $row_data = json_decode($response->raw_body,true);
+        
+        $all_images = $row_data['data'];
+        $next_link = $row_data['pagination']['next_url'];
+
+        $new_str = '';
+        
+            if(!empty($all_images)){
+                foreach($all_images as $image){                        
+                    $new_str .= '<div class="col-sm-3">';
+                    $new_str .= '<img src="'.$image['images']['standard_resolution']['url'].'" class="img-responsive" style="width:100%" alt="Image">';
+                    $new_str .= '<a href="'.$image['link'].'" class="btn btn-primary"> Insta Link </a></div>';
+                }
+            }
+        
+        $ret_data['all_images'] = $new_str;
+        $ret_data['next_link'] = $next_link;
+        $ret_data['return_data'] = $row_data;
+        echo json_encode($ret_data);
+    }
+
+    // ------------------------------------------------------------------------
+    // BIO ENDS
+    // ------------------------------------------------------------------------
+
     public function setup_userprofile() {
-        $user_id = 111;
+
+        $u_data = $this->session->userdata('user');
+
+        $user_id = $u_data['id'];
         $user_info = $this->Users_model->getUserByCol('id', $user_id);
 
-        $this->form_validation->set_rules('id', 'UserID', 'required');
-        $this->form_validation->set_rules('username', 'Username', 'required');
-        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
-        $this->form_validation->set_rules('address', 'Location', 'required');
-        $this->form_validation->set_rules('gender', 'Gender', 'required');
-        $this->form_validation->set_rules('bio', 'About Me', 'required');
-
+        $this->form_validation->set_rules('id', 'UserID', 'required|trim');
+        $this->form_validation->set_rules('username', 'Username', 'required|trim');
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email|trim');
+        $this->form_validation->set_rules('address', 'Location', 'required|callback_validate_zipcode|trim',['validate_zipcode'=>'Please enter valid address.']);
+        $this->form_validation->set_rules('gender', 'Gender', 'required|trim');
+        $this->form_validation->set_rules('bio', 'About Me', 'required|trim');
+        
         if ($this->form_validation->run() == FALSE) {
             $data['sub_view'] = 'userProfileSettings';
             $data['meta_title'] = "Setup User Profile";
             $data['userData'] = $user_info;
             $this->load->view('main', $data);
         } else {
+            
             $user_data['id'] = $this->input->post('id');
-            $user_data['user_name'] = (isset($_POST['username']) && !empty($_POST['username'])) ? trim($this->input->post('username')) : null;
-            $user_data['email'] = (isset($_POST['email']) && !empty($_POST['email'])) ? trim($this->input->post('email')) : null;
-            $user_data['gender'] = (isset($_POST['gender']) && !empty($_POST['gender'])) ? ucfirst(trim($this->input->post('gender'))) : null;
-            $user_data['age'] = (isset($_POST['age']) && !empty($_POST['age'])) ? trim($this->input->post('age')) : null;
-            $user_data['one_liner'] = (isset($_POST['one_liner']) && !empty($_POST['one_liner'])) ? trim($this->input->post('one_liner')) : null;
-            $user_data['work'] = (isset($_POST['work']) && !empty($_POST['work'])) ? trim($this->input->post('work')) : null;
-            $user_data['school'] = (isset($_POST['school']) && !empty($_POST['school'])) ? trim($this->input->post('school')) : null;
-            $user_data['address'] = (isset($_POST['address']) && !empty($_POST['address'])) ? trim($this->input->post('address')) : null;
-            $user_data['bio'] = (isset($_POST['bio']) && !empty($_POST['bio'])) ? trim($this->input->post('bio')) : null;
+            $user_data['user_name'] = $this->input->post('username');
+            $user_data['email'] = $this->input->post('email');
+            $user_data['gender'] = $this->input->post('gender');
+            $user_data['age'] =  $this->input->post('age');
+            $user_data['one_liner'] = $this->input->post('one_liner');
+            $user_data['work'] = $this->input->post('work');
+            $user_data['school'] = $this->input->post('school');
+            $user_data['address'] = $this->input->post('address');
+            $user_data['bio'] = $this->input->post('bio');
+
+            $res_address = $this->validate_zipcode($user_data['address'],true); // fetch latlong using google api
+            $user_data['latlong'] = implode(',',$res_address['results'][0]['geometry']['location']); // implode into single string
+
             $success = $this->Users_model->manageUser($user_data);
             if ($success == true) {
                 $result = $this->Users_model->checkUserPreferencesSet($user_id);
@@ -102,7 +139,9 @@ class Home extends CI_Controller {
     }
 
     public function setup_userfilters() {
-        $user_id = 111;
+        $u_data = $this->session->userdata('user');
+        $user_id = $u_data['id'];
+
         $all_filters = $this->Filters_model->getMainFilterByCol('filter_id', 1);
         $user_filters = $this->Filters_model->getUserSubFilterByCol('userid', $user_id);
         $total_filters = $this->db->count_all_results('main_filters');
@@ -115,11 +154,14 @@ class Home extends CI_Controller {
     }
 
     public function savestep() {
+        $u_data = $this->session->userdata('user');
+        $user_id = $u_data['id'];
+
         $success = false;
         $next_filter_id = null;
         $next_pref_html = "";
         if (!empty($_POST['sub_filters']) && $_POST['sub_filters'] != null && is_numeric($_POST['filter_id'])) {
-            $user_id = 111;
+                    
             $sub_filters_post = $_POST['sub_filters'];
             $sub_filters = $this->Filters_model->getSubFilterByCol('filter_id', $_POST['filter_id']);
             if (!empty($sub_filters)) {
@@ -161,5 +203,30 @@ class Home extends CI_Controller {
         }
         echo json_encode(array("success" => $success, "next_filter_id" => $next_filter_id, "next_filter_name" => $next_filter_name, "next_filter_html" => $next_pref_html));
     }
-        
+
+    // --------------------------------------------------------------------------------------
+    // function will validate whether user enter valid address so we can enter valid lat,long
+    // --------------------------------------------------------------------------------------
+    public function validate_zipcode($address,$data=''){
+        if($address != ''){
+            $str = 'https://maps.googleapis.com/maps/api/geocode/json?address='.$address.'&key='.GOOGLE_MAP_API;
+            $res = $this->unirest->get($str);
+            $res_arr = json_decode($res->raw_body,true);
+            
+            // If $data is not null means return a longitude and latitude array ohter wise only status True/False
+            // pr($res_arr,1);
+            if($data){
+                return $res_arr;
+            } else {
+                if($res_arr['status'] != 'OK' && !empty($address)){
+                    return FALSE;
+                }else if($res_arr['status'] == 'OK' && !empty($address)) {
+                    return TRUE;
+                }
+            }    
+        }        
+    } // END of function validate_zipcode
 }
+
+/* End of file Home.php */
+/* Location: ./application/controllers/Home.php */

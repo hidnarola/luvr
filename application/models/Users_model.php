@@ -2,16 +2,16 @@
 
 class Users_model extends CI_Model {
 
-    function __construct() {
+    public function __construct() {
         // Call the Model constructor
         parent::__construct();
     }
 
-    function getUserByCol($column, $value) {
+    public function getUserByCol($column, $value) {
         return $this->db->get_where('users', array($column => $value))->row_array();
     }
 
-    function manageUser($data) {
+    public function manageUser($data) {
         if (!empty($data['id'])) {
             $this->db->where('id', $data['id']);
             $this->db->update('users', $data);
@@ -21,7 +21,7 @@ class Users_model extends CI_Model {
         }
     }
 
-    function checkUserPreferencesSet($user_id) {
+    public function checkUserPreferencesSet($user_id) {
         if (!empty($user_id) && is_numeric($user_id)) {
             return $this->db->get_where('user_filter', array('userid' => $user_id))->result_array();
         }
@@ -37,10 +37,17 @@ class Users_model extends CI_Model {
     	return $return_data;
     }
 
+    // insert into users table
     public function insert_record($data){
     	$this->db->insert('users',$data);
-    	$ins_id = $this->db->insert_id();
+        $ins_id = $this->db->insert_id();
     	return $ins_id;	
+    }
+
+    public function insert_media($data){
+        $this->db->insert('media',$data);
+        $ins_id = $this->db->insert_id();
+        return $ins_id;    
     }
 
 }

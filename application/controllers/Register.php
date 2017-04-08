@@ -10,7 +10,13 @@ class Register extends CI_Controller {
 	}
 
 	public function index(){
-		$this->load->view('register/register_view');
+		$data['sub_view'] = 'register/register_view';
+    	$data['meta_title'] = "Setup User Profile";
+    	$this->load->view('main', $data);
+	}
+
+	public function test(){
+		$this->load->view('test');
 	}
 
 	public function return_url(){
@@ -28,30 +34,64 @@ class Register extends CI_Controller {
 
 			if(!empty($response_arr['access_token'])){
 				
-				$curl2 = "https://api.instagram.com/v1/users/self/media/recent?access_token=" . $response_arr['access_token'];
+				$curl2 = "https://api.instagram.com/v1/users/self?access_token=" . $response_arr['access_token'];
 				$response = $this->unirest->get($curl2, $headers = array());
 				$row_data = json_decode($response->raw_body,true);
-				
-				if(!empty($row_data['data'][0]['user'])){
-					$insta_id = $row_data['data'][0]['user']['id'];
-					$insta_username = $row_data['data'][0]['user']['username'];
-					$insta_full_name = $row_data['data'][0]['user']['full_name'];
-					$insta_profile = $row_data['data'][0]['user']['profile_picture'];
+
+				if(!empty($row_data['data'])){
+					$insta_id = $row_data['data']['id'];
+					$insta_username = $row_data['data']['username'];					
+					$insta_full_name = $row_data['data']['full_name'];
+					$insta_profile = $row_data['data']['profile_picture'];
 				}
 
-				$u_data = $this->Users_model->fetch_userdata(['userid'=>$instagram_id],true);
-				
-				pr($row_data,1);
+				$u_data = $this->Users_model->fetch_userdata(['userid'=>$insta_id],true);
+
 				if(!empty($u_data)){
-
+					$u_data['access_token'] = $response_arr['access_token'];
+					$this->session->set_userdata('user',$u_data);
+					$upd_data = ['lastseen_date'=>date('Y-m-d H:i:s'),'id'=>$u_data['id']];				
+					$this->Users_model->manageUser($upd_data);
+					redirect('home/setup_userprofile');
 				}else{
-					$ins_data = ['userid'];
 
+					$media_data = array(
+										'userid'=>'0',
+										'media_id'=>'',
+										'media_name'=>$insta_profile,
+										'media_thumb'=>'',
+										'media_type'=>'1',
+										'created_date'=>date('Y-m-d H:i:s'),
+										'is_bios'=>'0',
+										'is_active'=>'1'
+									);
+
+					$last_media_id = $this->Users_model->insert_media($media_data);
+
+					$ins_data = array(
+										'userid'=>$insta_id,
+										'instagram_username'=>$insta_username,
+										'full_name'=>$insta_full_name,
+										'profile_media_id'=>$last_media_id,
+										'created_date'=>date('Y-m-d H:i:s'),
+										'gender'=>'male',
+										'lastseen_date'=>date('Y-m-d H:i:s')
+									);
+					
+					$last_id = $this->Users_model->insert_record($ins_data);
+					$ins_data['id'] = $last_id;
+					$ins_data['access_token'] = $response_arr['access_token'];
+
+					$this->session->set_userdata('user',$ins_data);
+					redirect('home/setup_userprofile');
 				}
-
-			}
-
+			} // END of IF condition for ACCESS TOKEN
 		}
+	}
+
+	public function logout(){
+		$this->session->unset_userdata('user');
+		redirect('register');
 	}
 
 }
