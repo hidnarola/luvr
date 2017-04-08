@@ -47,7 +47,6 @@ class Home extends CI_Controller {
         $this->load->view('main', $data);
 
         // pr($u_data,1);
-
     }
 
     public function test_fetch(){
