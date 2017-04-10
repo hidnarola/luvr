@@ -52,7 +52,7 @@ class Register extends CI_Controller {
 					$this->session->set_userdata('user',$u_data);
 					$upd_data = ['lastseen_date'=>date('Y-m-d H:i:s'),'id'=>$u_data['id']];				
 					$this->Users_model->manageUser($upd_data);
-					redirect('home/setup_userprofile');
+					redirect('user/setup_userprofile');
 				}else{
 
 					$media_data = array(
@@ -83,7 +83,7 @@ class Register extends CI_Controller {
 					$ins_data['access_token'] = $response_arr['access_token'];
 
 					$this->session->set_userdata('user',$ins_data);
-					redirect('home/setup_userprofile');
+					redirect('user/setup_userprofile');
 				}
 			} // END of IF condition for ACCESS TOKEN
 		}

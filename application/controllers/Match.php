@@ -30,7 +30,7 @@ class Match extends CI_Controller {
     }
 
     function index() {
-        $data['sub_view'] = 'findMatch';
+        $data['sub_view'] = 'match/findMatch';
         $data['meta_title'] = "Find Match";
         $this->load->view('main', $data);
     }
@@ -46,10 +46,10 @@ class Match extends CI_Controller {
         $user_filters = $this->Filters_model->getUserSubFilterByCol('userid', $user_id);
         $u_data['user_settings'] = $user_settings;
         $u_data['user_filters'] = $user_filters;
-        $near_by = $this->Matches_model->getUserNearBy($u_data['id'], $u_data);
-        $data['sub_view'] = 'nearByMatches';
+        $near_by = $this->Matches_model->getUserNearBy($user_id, $u_data);
+        $data['sub_view'] = 'match/nearByMatches';
         $data['meta_title'] = "Nearby Matches";
-        $data['nearByUsers'] = $near_by;
+        $data['nearByUsers'] = $near_by['result'];
         $this->load->view('main', $data);
     }
 
@@ -73,6 +73,25 @@ class Match extends CI_Controller {
         if (is_numeric($response) && $response != false)
             $response = true;
         echo json_encode(array("success" => $response));
+    }
+
+    /* --------------------------------------------------------------------------------------
+      This function will fetch more users after reaching swipe of 10 users.
+      -------------------------------------------------------------------------------------- */
+
+    function loadMoreNearBys() {
+        $response = false;
+        $u_data = $this->session->userdata('user');
+        $user_id = $u_data['id'];
+        /*$offset = $this->input->post('offset');*/
+        $user_settings = $this->Users_model->getUserSetings('userid', $user_id);
+        $user_filters = $this->Filters_model->getUserSubFilterByCol('userid', $user_id);
+        $u_data['user_settings'] = $user_settings;
+        $u_data['user_filters'] = $user_filters;
+        $near_by = $this->Matches_model->getUserNearBy($user_id, $u_data);
+        if (!empty($near_by) && $near_by != null)
+            $response = true;
+        echo json_encode(array("success" => $response, "data" => $near_by['result']));
     }
 
 }

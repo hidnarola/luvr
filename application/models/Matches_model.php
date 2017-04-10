@@ -7,7 +7,9 @@ class Matches_model extends CI_Model {
         parent::__construct();
     }
 
-    public function getUserNearBy($user_id, $user_data) {
+    /* This function will fetch near by users for logged in user. */
+
+    public function getUserNearBy($user_id, $user_data, $offset = null) {
         $age_range = $user_data['user_settings']['age_range'];
         $interest = $user_data['user_settings']['interest'];
         if (!empty($interest) && $interest != null) {
@@ -50,15 +52,16 @@ class Matches_model extends CI_Model {
                     m.media_id,
                     m.media_name AS user_profile,
                     m.media_thumb,
+                    ur.requestto_id as test_rto,
                     IFNULL(m.media_type,0) AS media_type,
                     m.insta_datetime,IF(ur.relation_status IS NULL,'' ,ur.relation_status) AS relation_status,us.is_timestamps_on,u.latlong,is_universal_profile,
                         (SELECT GROUP_CONCAT(sub_filter_id) FROM user_filter WHERE userid = u.id AND is_filter_on = 1) AS sub_filter_ids,
-                            us.age_range,l.id AS location_id,l.latlong AS custom_location
+                            us.age_range,l.id AS location_id,l.latlong AS custom_location,u.id as uid
                             FROM users AS u
                             LEFT JOIN location AS l ON l.id = u.location_id
                             LEFT JOIN media AS m ON m.id = profile_media_id
                             LEFT JOIN user_settings AS us ON us.userid = u.id
-                            LEFT JOIN users_relation AS ur ON ur.requestto_id = $user_id AND requestby_id = u.id AND ur.is_blocked = 0
+                            LEFT JOIN users_relation AS ur ON ur.requestto_id = u.id AND requestby_id = $user_id AND ur.is_blocked = 0
                             WHERE u.is_delete = 0 AND u.id != $user_id AND us.is_visibility = 1
                             AND IFNULL((SELECT relation_status FROM users_relation WHERE requestto_id = u.id AND requestby_id = $user_id ORDER BY updated_date LIMIT 1), 1) = 1
                             AND u.age >= SUBSTRING_INDEX($age_range,'-',1) AND u.age <= SUBSTRING_INDEX($age_range,'-',-1)
@@ -82,9 +85,9 @@ class Matches_model extends CI_Model {
                     WHERE 
                         is_filter_on = 1 
                     AND 
-                        find_in_set(`sub_filter_id`,'$idontcares') 
+                        find_in_set(sub_filter_id,'$idontcares') 
                     AND 
-                        userid= $user_id) > 0 OR 
+                        userid = $user_id) > 0 OR 
                             (SELECT COUNT(*) 
                                 FROM user_filter AS user 
                                 JOIN user_filter AS parent ON parent.sub_filter_id = user.sub_filter_id 
@@ -97,11 +100,19 @@ class Matches_model extends CI_Model {
             $wherequery .= " AND ((((((acos(sin((" . $latitude . " *pi()/180)) * sin((SUBSTRING_INDEX(latlong,',',1)*pi()/180))+cos((" . $latitude . " *pi()/180)) * cos((SUBSTRING_INDEX(latlong,',',1)*pi()/180))* cos((( " . $longitude . " -SUBSTRING_INDEX(latlong,',',-1))*pi()/180))))*180/pi())*60*1.1515) <= " . $radius . ")))";
 
             if ($is_universal_profile == 1) {
-                $wherequery = "(" . $wherequery . ")" . " OR is_universal_profile=1 ";
+                $wherequery = "(" . $wherequery . ")" . " OR is_universal_profile = 1 ";
             }
 
-            $query .= $wherequery . " LIMIT 10 ";
-            return $this->db->query($query)->result_array();
+            $query .= $wherequery;
+            if ($offset == null)
+                $query .= " HAVING(test_rto IS NULL) LIMIT 10";
+            else if ($offset != null)
+                $query .= " HAVING(test_rto IS NULL) LIMIT $offset,10";
+            else
+                $query .= " HAVING(test_rto IS NULL) LIMIT 10";
+            $result['result'] = $this->db->query($query)->result_array();
+            /* $result['query'] = $query; */
+            return $result;
         }
         return false;
     }

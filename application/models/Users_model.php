@@ -7,9 +7,13 @@ class Users_model extends CI_Model {
         parent::__construct();
     }
 
+    /* This function will fetch user information based on column and value provided. */
+
     public function getUserByCol($column, $value) {
         return $this->db->get_where('users', array($column => $value))->row_array();
     }
+
+    /* This function will add new user or update existing user if id will be provided along with $data. */
 
     public function manageUser($data) {
         if (!empty($data['id'])) {
@@ -21,12 +25,16 @@ class Users_model extends CI_Model {
         }
     }
 
+    /* This function will check and return whether user's preferences already exist in db. */
+
     public function checkUserPreferencesSet($user_id) {
         if (!empty($user_id) && is_numeric($user_id)) {
             return $this->db->get_where('user_filter', array('userid' => $user_id))->result_array();
         }
         return false;
     }
+
+    /* This function will fetch user related data based on where clauses provided. */
 
     public function fetch_userdata($where, $is_single = false, $select = '*') {
         $this->db->select($select);
@@ -46,11 +54,15 @@ class Users_model extends CI_Model {
         return $ins_id;
     }
 
+    /* This function will add media in db. */
+
     public function insert_media($data) {
         $this->db->insert('media', $data);
         $ins_id = $this->db->insert_id();
         return $ins_id;
     }
+
+    /* This function will return user settings based on column and value provided. */
 
     public function getUserSetings($column, $value) {
         if (!empty($column) && !empty($value)) {
@@ -59,10 +71,21 @@ class Users_model extends CI_Model {
         return false;
     }
 
+    /* This function will mark particular user as liked or disliked in db. */
+
     public function likeDislikeUser($data) {
         if (!empty($data)) {
             $this->db->insert('users_relation', $data);
             return $this->db->insert_id();
+        }
+        return false;
+    }
+
+    /* This function will return list of users who were blocked by user with provided user_id. */
+
+    public function getBlockedUsers($user_id) {
+        if (!empty($user_id) && is_numeric($user_id)) {
+            return $this->db->get_where('users_relation', array('requestby_id' => $user_id, 'is_blocked' => 1))->result_array();
         }
         return false;
     }
