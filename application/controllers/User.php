@@ -171,7 +171,7 @@ class User extends CI_Controller {
                 foreach ($next_filter_detailed_info as $fdata) {
                     $is_checked = (in_array($fdata['sub_filter_id'], $users_filters)) ? "checked" : "";
                     $i_dont_care = (strtolower($fdata['sub_filter_name']) == strtolower('I don\'t care')) ? "onclick='ignoreOther()' id='idontcare' class='subfilters_ignoreme'" : "onclick='ignoreLast()' class='subfilters'";
-                    $next_pref_html .= '<tr><td>' . $fdata['sub_filter_name'] . '</td><td><label class="switch"><input type="checkbox" name="sub_filters[]" value="' . $fdata['sub_filter_id'] . '" ' . $is_checked . ' ' . $i_dont_care . '/><div class="slider round"></div></label></td></tr>';
+                    $next_pref_html .= '<tr><td><label for="chk_' . $fdata['sub_filter_id'] . '">' . $fdata['sub_filter_name'] . '</label></td><td><label class="switch"><input type="checkbox" id="chk_' . $fdata['sub_filter_id'] . '" name="sub_filters[]" value="' . $fdata['sub_filter_id'] . '" ' . $is_checked . ' ' . $i_dont_care . '/><div class="slider round"></div></label></td></tr>';
                 }
                 $success = true;
             }
@@ -232,14 +232,68 @@ class User extends CI_Controller {
       This function will is to fetch users who were blocked by logged in user.
       ------------------------------------------------------------------------------------------ */
 
-    public function blocked_list() {
+    public function blocked_list($offset = null) {
+        $this->load->library('pagination');
         $u_data = $this->session->userdata('user');
         $user_id = $u_data['id'];
-        $blocked_users = $this->Users_model->getBlockedUsers($user_id);
+        $blocked_users = $this->Users_model->getBlockedUsers($user_id, $offset);
         $data['sub_view'] = 'user/blockedList';
         $data['meta_title'] = "Blocked List";
         $data['blockedUsers'] = $blocked_users;
+        $config['base_url'] = base_url() . 'user/blocked_list/';
+        $config['total_rows'] = $this->Users_model->getBlockedUsers($user_id, null, true);
+        $config['per_page'] = 10;
+        $config = array_merge($config, pagination_config());
+        $this->pagination->initialize($config);
+        $data['pagination'] = $this->pagination->create_links();
         $this->load->view('main', $data);
+    }
+
+    /* -----------------------------------------------------------------------------------------
+      This function will bring user on user settings page.
+      ------------------------------------------------------------------------------------------ */
+
+    public function user_settings() {
+        $u_data = $this->session->userdata('user');
+        $user_id = $u_data['id'];
+
+        $this->form_validation->set_rules('address', 'Location', 'required|callback_validate_zipcode|trim', ['validate_zipcode' => 'Please enter valid location.']);
+
+        if ($this->form_validation->run() == FALSE) {
+            $data['sub_view'] = 'user/settings';
+            $data['meta_title'] = "Setup User Profile";
+            $notification_settings = $this->Users_model->getUserSetings('userid', $user_id);
+            $user_info = $this->Users_model->getUserByCol('id', $user_id);
+            $data['notificationSettings'] = $notification_settings;
+            $data['userInfo'] = $user_info;
+            $this->load->view('main', $data);
+        } else {
+            $user_data['id'] = $settings['userid'] = $user_id;
+            $settings['is_universal_profile'] = (int) $this->input->post('is_universal_profile');
+            $user_data['address'] = $this->input->post('address');
+            $res_address = $this->validate_zipcode($user_data['address'], true); // fetch latlong using google api
+            $user_data['latlong'] = implode(',', $res_address['results'][0]['geometry']['location']); // implode into single string
+            $user_data['radius'] = $this->input->post('hdn_radius');
+            $settings['interest'] = $this->input->post('interest');
+            $settings['age_range'] = $this->input->post('hdn_age_range');
+            $settings['is_visibility'] = (int) $this->input->post('is_visibility');
+            $settings['is_new_match'] = (int) $this->input->post('is_new_match');
+            $settings['is_allow_messages'] = (int) $this->input->post('is_allow_messages');
+            $settings['is_allow_power_likes'] = (int) $this->input->post('is_allow_power_likes');
+            $success_user = $this->Users_model->manageUser($user_data);
+            $success_settings = $this->Users_model->updateUserSettings($settings);
+            $this->session->set_flashdata('success', 'User settings saved successfully.');
+            redirect('user/user_settings');
+        }
+    }
+
+    /* -----------------------------------------------------------------------------------------
+      This function will update user's settings.
+      ------------------------------------------------------------------------------------------ */
+
+    public function edit_usersettings() {
+        pr($_POST);
+        $global_profile = $this->input->post('');
     }
 
 }
