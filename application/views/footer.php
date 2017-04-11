@@ -81,6 +81,8 @@
             });
         }
         function loadMoreNearBys() {
+            $("#tinderslide").css('visibility', 'hidden');
+            $("#radar").show();
             $.ajax({
                 url: "<?php echo base_url(); ?>match/loadMoreNearBys",
                 type: 'POST',
@@ -109,6 +111,10 @@
                                 ul_html += '</li>';
                             }
                             $("#tinderslide ul").html(ul_html);
+                            setTimeout(function () {
+                                $("#radar").hide();
+                                $("#tinderslide").removeAttr('style');
+                            }, Math.floor((Math.random() * 1000) + 1000));
                             registerjTinder();
                         }
                     }

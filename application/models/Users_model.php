@@ -19,10 +19,10 @@ class Users_model extends CI_Model {
         if (!empty($data['id'])) {
             $this->db->where('id', $data['id']);
             $this->db->update('users', $data);
-            return true;
         } else {
             $this->db->insert('users', $data);
         }
+        return true;
     }
 
     /* This function will check and return whether user's preferences already exist in db. */
@@ -71,6 +71,17 @@ class Users_model extends CI_Model {
         return false;
     }
 
+    /* This function will update user's settings. */
+
+    public function updateUserSettings($data) {
+        if (!empty($data['userid'])) {
+            $this->db->where('userid', $data['userid']);
+            $this->db->update('user_settings', $data);
+            return true;
+        }
+        return false;
+    }
+
     /* This function will mark particular user as liked or disliked in db. */
 
     public function likeDislikeUser($data) {
@@ -83,9 +94,24 @@ class Users_model extends CI_Model {
 
     /* This function will return list of users who were blocked by user with provided user_id. */
 
-    public function getBlockedUsers($user_id) {
+    public function getBlockedUsers($user_id, $offset = null, $fetch_counts = false) {
         if (!empty($user_id) && is_numeric($user_id)) {
-            return $this->db->get_where('users_relation', array('requestby_id' => $user_id, 'is_blocked' => 1))->result_array();
+            if ($fetch_counts == false) {
+                $this->db->select('users_relation.*,users.userid,users.user_name,users.email,users.full_name,users.age,media.*');
+                $this->db->from('users_relation');
+            }
+            $this->db->join('users', 'users.id = users_relation.requestto_id');
+            $this->db->join('media', 'media.id = users.profile_media_id', 'left');
+            $this->db->where('users_relation.requestby_id', $user_id);
+            $this->db->where('users_relation.is_blocked', 1);
+            if ($fetch_counts == false) {
+                if (!empty($offset) && $offset != null)
+                    $this->db->limit(10, $offset);
+                else
+                    $this->db->limit(10);
+                return $this->db->get()->result_array();
+            } else
+                return $this->db->count_all_results('users_relation');
         }
         return false;
     }
