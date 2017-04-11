@@ -5,9 +5,9 @@ class Bio extends CI_Controller {
 
 	public function __construct(){
 		parent::__construct();
-		
-		$this->load->model(array('Users_model', 'Filters_model'));
+        
         $this->load->library('unirest');
+		$this->load->model(array('Users_model', 'Filters_model','Bio_model'));
         $u_data = $this->session->userdata('user');
 
         if(empty($u_data)){
@@ -24,22 +24,26 @@ class Bio extends CI_Controller {
         $insta_id = $u_data['userid'];
         $access_token = $u_data['access_token'];
 
-        $curl1 = "https://api.instagram.com/v1/users/".$insta_id."/media/recent/?access_token=" . $access_token;
+        $curl1 = "https://api.instagram.com/v1/users/".$insta_id."/media/recent/?access_token=" . $access_token.'&count=30';
         $response = $this->unirest->get($curl1, $headers = array());
         $row_data = json_decode($response->raw_body,true);
 
-        $user_info = $this->Users_model->getUserByCol('id', $u_data['id']);
-        $all_saved_media = $this->db->select('media_id')->get_where('media',['userid'=>$u_data['id']])->result_array();
-        $data['all_saved_media'] = array_column($all_saved_media,'media_id');        
+        // pr($row_data);
+        $user_info = $this->Users_model->getUserByCol('id', $u_data['id']);            
+        $all_saved_media = $this->Bio_model->fetch_mediadata(['userid'=>$u_data['id'],'is_active'=>'1'],false,'id,media_id');
+        $data['all_saved_media'] = array_column($all_saved_media,'media_id');
+
+        $next_link = '';
+        if(isset($row_data['pagination']['next_url'])){
+            $next_link = $row_data['pagination']['next_url'];
+        }
 
         $data['sub_view'] = 'bio/index';
         $data['meta_title'] = "Save instagram bio";
         $data['userData'] = $user_info;
-        $data['all_images'] = $row_data['data'];
-        $data['next_link'] = $row_data['pagination']['next_url'];
-        $this->load->view('main', $data);
-
-        // pr($u_data,1);
+        $data['all_images'] = $row_data['data'];        
+        $data['next_link'] = $next_link;
+        $this->load->view('main', $data);        
     }
 
     public function fetch_insta_bio(){
@@ -66,6 +70,7 @@ class Bio extends CI_Controller {
             foreach($all_images as $image){
 
                 $type = $image['type'];
+                $link = $image['images']['standard_resolution']['url'];
                 $thumb = $image['images']['thumbnail']['url'];
                 
                 $is_delete = 'no';
@@ -76,24 +81,19 @@ class Bio extends CI_Controller {
                     $save_link_class = 'danger';
                     $save_icon = 'remove';
                 }
-
-                if($type == 'image'){
-                    $link = $image['images']['standard_resolution']['url'];
-                }else{
-                    $link = $image['videos']['standard_resolution']['url'];
-                }
-
-                $new_str .= '<div class="col-sm-3" style="margin-bottom:10px;">';
-                $new_str .= '<img src="'.$image['images']['standard_resolution']['url'].'" class="img-responsive" style="width:100%" alt="Image">';
                 
-                $new_str .= ' <a style="margin-top:10px" href="'.$image['link'].'" target="_blank" class="btn btn-primary"> <span class="glyphicon glyphicon-link"></span> </a>';
+                if($is_delete == 'no'){
+                    $new_str .= '<div class="col-sm-3" style="margin-bottom:10px;">';
+                    $new_str .= '<img src="'.$image['images']['standard_resolution']['url'].'" class="img-responsive" style="width:100%" alt="Image">';
+                    
+                    $new_str .= ' <a style="margin-top:10px" href="'.$image['link'].'" target="_blank" class="btn btn-primary"> <span class="glyphicon glyphicon-link"></span> </a>';
 
-                $new_str .= ' <a style="margin-top:10px"  data-type="'.$type.'" data-val="'.$link.'" class="btn btn-'.$save_link_class.'" ';
-                $new_str .= ' onclick="ajax_save_bio(this)" data-thumb="'.$thumb.'" data-is-delete="'.$is_delete.'" ';
-                $new_str .= ' data-insta-id="'.$image['id'].'" data-insta-time="'.$image['created_time'].'"> <span class="glyphicon glyphicon-'.$save_icon.'"></span> </a>';
+                    $new_str .= ' <a style="margin-top:10px"  data-type="'.$type.'" data-val="'.$link.'" class="btn btn-'.$save_link_class.'" ';
+                    $new_str .= ' onclick="ajax_save_bio(this)" data-thumb="'.$thumb.'" data-is-delete="'.$is_delete.'" ';
+                    $new_str .= ' data-insta-id="'.$image['id'].'" data-insta-time="'.$image['created_time'].'"> <span class="glyphicon glyphicon-'.$save_icon.'"></span> </a>';
 
-                $new_str .= ' <a style="margin-top:10px"  data-type="'.$type.'" data-val="'.$link.'" class="btn btn-warning"> <span class="glyphicon glyphicon-picture"></span> </a></div>';
-
+                    $new_str .= ' <a style="margin-top:10px"  data-type="'.$type.'" data-val="'.$link.'" class="btn btn-warning"> <span class="glyphicon glyphicon-picture"></span> </a></div>';
+                }
             }
         }
         
@@ -133,21 +133,60 @@ class Bio extends CI_Controller {
                     );
 
         if($is_delete == 'yes'){
-            $ret['query'] = 'delete';
-            $this->db->delete('media',['media_id'=>$insta_id]);
+            $ret['query'] = 'update_to_0';
+            $this->Bio_model->update_media(['media_id'=>$insta_id], ['is_active'=>'0']);
         }else{
-            $ret['query'] = 'insert';
-    	    $this->db->insert('media',$ins_data);
-        }
 
+            $media_data = $this->Bio_model->fetch_mediadata(['media_id'=>$insta_id],true);
+
+            if(!empty($media_data)){
+                $ret['query'] = 'update_to_1';
+                $this->Bio_model->update_media(['media_id'=>$insta_id], ['is_active'=>'1']);
+            }else{                
+                $ret['query'] = 'insert';
+        	    $this->db->insert('media',$ins_data);
+            }
+        }
 
         echo json_encode($ret);
     }
     
+    // Save picture as profile picture 
     public function ajax_picture_set_profile(){
-        $img_name = $this->input->post('img_name');        
+        
         $u_data = $this->session->userdata('user');
+        $profile_media_id = $u_data['profile_media_id'];
+        $access_token = $u_data['access_token'];
+        
+        $img_name = $this->input->post('img_name');
+        $type = $this->input->post('type');
+        $thumb = $this->input->post('thumb');
+        $media_type = ($type == 'image') ? '3': '4';
+        $insta_id = $this->input->post('insta_id');
+        $is_delete = $this->input->post('is_delete');
+        $insta_time = date('Y-m-d H:i:s',$this->input->post('insta_time'));
 
+        $ins_data = array();
+        $this->Bio_model->update_media(['id'=>$profile_media_id],['is_active'=>'0']);
+
+        $ins_data = array(
+                            'userid'=>'0',
+                            'media_id'=>$insta_id,
+                            'media_name'=>$img_name,
+                            'media_thumb'=>$thumb,
+                            'media_type'=>$media_type,
+                            'insta_datetime'=>$insta_time,
+                            'created_date'=>date('Y-m-d H:i:s')
+                        );
+
+        $last_id = $this->Bio_model->insert_media($ins_data);
+        $this->Users_model->update_record(['id'=>$u_data['id']],['profile_media_id'=>$last_id]);
+        
+        $latest_u_data = $this->Users_model->fetch_userdata(['id'=>$u_data['id']],true);
+        $latest_u_data['access_token'] = $access_token;
+        $this->session->set_userdata( 'user', $latest_u_data); 
+        
+        echo json_encode(['success'=>'success']);
     }
 
     // ------------------------------------------------------------------------

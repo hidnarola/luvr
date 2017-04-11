@@ -35,12 +35,11 @@ class Users_model extends CI_Model {
     }
 
     /* This function will fetch user related data based on where clauses provided. */
-
     public function fetch_userdata($where, $is_single = false, $select = '*') {
         $this->db->select($select);
         $this->db->where($where);
         $res = $this->db->get('users');
-        $return_data = $res->result_array;
+        $return_data = $res->result_array();
         if ($is_single) {
             $return_data = $res->row_array();
         }
@@ -54,13 +53,11 @@ class Users_model extends CI_Model {
         return $ins_id;
     }
 
-    /* This function will add media in db. */
-
-    public function insert_media($data) {
-        $this->db->insert('media', $data);
-        $ins_id = $this->db->insert_id();
-        return $ins_id;
+    public function update_record($where,$data){
+        $this->db->where($where);
+        $this->db->update('users',$data);
     }
+    
 
     /* This function will return user settings based on column and value provided. */
 

@@ -6,7 +6,7 @@ class Register extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->library(['unirest']);
-		$this->load->model(['Users_model']);
+		$this->load->model(['Users_model','Bio_model']);
 	}
 
 	public function index(){
@@ -60,13 +60,13 @@ class Register extends CI_Controller {
 										'media_id'=>'',
 										'media_name'=>$insta_profile,
 										'media_thumb'=>'',
-										'media_type'=>'1',
+										'media_type'=>'3',
 										'created_date'=>date('Y-m-d H:i:s'),
 										'is_bios'=>'0',
 										'is_active'=>'1'
 									);
 
-					$last_media_id = $this->Users_model->insert_media($media_data);
+					$last_media_id = $this->Bio_model->insert_media($media_data);
 
 					$ins_data = array(
 										'userid'=>$insta_id,

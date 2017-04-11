@@ -10,13 +10,13 @@ else
         <title><?php echo $site_title; ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0"/>
-        <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/css/bootstrap.min.css">
-        <script src="<?php echo base_url(); ?>/assets/js/jquery-3.2.0.min.js"></script>
-        <script src="<?php echo base_url(); ?>/assets/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css">
+        <script src="<?php echo base_url(); ?>assets/js/jquery-3.2.0.min.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
         <?php if ($sub_view == "match/nearByMatches") { ?>
-            <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/css/jTinder.css">
-            <script src="<?php echo base_url(); ?>/assets/js/jquery.transform2d.js"></script>
-            <script src="<?php echo base_url(); ?>/assets/js/jquery.jTinder.js"></script>
+            <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/jTinder.css">
+            <script src="<?php echo base_url(); ?>assets/js/jquery.transform2d.js"></script>
+            <script src="<?php echo base_url(); ?>assets/js/jquery.jTinder.js"></script>
         <?php } ?>
     </head>
     <style>
