@@ -34,7 +34,7 @@
                                             <a href="mailto:<?php echo $bu['email']; ?>"><?php echo $bu['email']; ?></a>
                                         </td>
                                         <td>
-                                            <a title="Unblock" class="btn green icn-only for_pointer" onclick="unblockUser(<?php echo $bu['requestto_id']; ?>);"><i class="fa fa-unlock"></i></a>
+                                            <a title="Unblock" class="btn btn-success" onclick="unblockUser(<?php echo $bu['requestto_id']; ?>);"><i class="fa fa-unlock"></i></a>
                                         </td>
                                         <!--<td>2013/08/12</td>-->
                                     </tr>

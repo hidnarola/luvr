@@ -50,7 +50,7 @@ class User extends CI_Controller {
       This function will save user profile's data.
       -------------------------------------------------------------------------------------- */
 
-    public function setup_userprofile() {
+    public function setup_userprofile($mode = null) {
         $u_data = $this->session->userdata('user');
 
         $user_id = $u_data['id'];
@@ -67,10 +67,8 @@ class User extends CI_Controller {
             $data['sub_view'] = 'user/userProfileSettings';
             $data['meta_title'] = "Setup User Profile";
             $data['userData'] = $user_info;
-            if (empty($user_info['email']))
-                $this->load->view('main', $data);
-            else
-                redirect('user/setup_userfilters');
+            $data['mode'] = $mode;
+            $this->load->view('main', $data);
         } else {
             $user_data['id'] = $this->input->post('id');
             $user_data['user_name'] = $this->input->post('username');
@@ -88,11 +86,16 @@ class User extends CI_Controller {
 
             $success = $this->Users_model->manageUser($user_data);
             if ($success == true) {
-                $result = $this->Users_model->checkUserPreferencesSet($user_id);
-                if (empty($result) || $result == false)
-                    redirect('user/setup_userfilters');
-                else
-                    redirect('match/nearby');
+                if ($mode != null && $mode == "edit") {
+                    $this->session->set_flashdata('success', 'User profile updated successfully.');
+                    redirect('user/setup_userprofile');
+                } else {
+                    $result = $this->Users_model->checkUserPreferencesSet($user_id);
+                    if (empty($result) || $result == false)
+                        redirect('user/setup_userfilters');
+                    else
+                        redirect('match/nearby');
+                }
             } else {
                 $this->session->set_flashdata('error', 'Something went wrong!');
                 redirect('user/setup_userprofile');

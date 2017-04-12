@@ -40,25 +40,36 @@ else
                     <li><a href="#">About</a></li>
                     <li><a href="#">Contact</a></li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <?php
-                    $user_data = $this->session->userdata('user');
-                    if (empty($user_data)) {
-                        ?>
+                <?php
+                $user_data = $this->session->userdata('user');
+                if (empty($user_data)) {
+                    ?>
+                    <ul class="nav navbar-nav navbar-right">
                         <li>
                             <a href="<?php echo base_url() . 'user/register'; ?>"><span class="glyphicon glyphicon-log-in"></span>
                                 Login
                             </a>
                         </li>
-                    <?php } else { ?>
                         <li>
                             <a href="<?php echo base_url() . 'user/logout'; ?>">
                                 <span class="glyphicon glyphicon-log-in"></span>
                                 Logout
                             </a>
                         </li>
-                    <?php } ?>
-                </ul>
+                    </ul>
+                <?php } else { ?>
+                    <div class="dropdown pull-right">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><?php echo $user_data['user_name']; ?>
+                            <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="<?php echo base_url() . 'user/setup_userprofile/edit'; ?>">Edit Profile</a></li>
+                            <li><a href="<?php echo base_url() . 'user/user_settings'; ?>">Edit Settings</a></li>
+                            <li><a href="<?php echo base_url() . 'user/edit_filters'; ?>">Edit Filters</a></li>
+                            <li><a href="<?php echo base_url() . 'match/nearby'; ?>">Nearby Matches</a></li>
+                            <li><a href="<?php echo base_url() . 'user/logout'; ?>">Logout</a></li>
+                        </ul>
+                    </div>
+                <?php } ?>
             </div>
         </div>
     </nav>

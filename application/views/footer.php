@@ -391,8 +391,8 @@
                     success: function (data) {
                         if (data.success == true) {
                             showMsg("Request " + mode_txted + " successfully.", "alert alert-success", true);
-                            $("#status_txt span").attr("class", (mode == 2) ? "label label-success" : "label label-danger");
-                            $("#status_txt span").html((mode == 2) ? "Request Approved" : "Request Rejected");
+                            $("#request_" + request_id + " #status_txt span").attr("class", (mode == 2) ? "label label-success" : "label label-danger");
+                            $("#request_" + request_id + " #status_txt span").html((mode == 2) ? "Request Approved" : "Request Rejected");
                         } else {
                             showMsg("Something went wrong!", "alert alert-danger", true);
                         }

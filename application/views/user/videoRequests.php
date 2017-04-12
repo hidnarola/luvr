@@ -42,8 +42,8 @@
                                         </td>
                                         <td><?php echo date("Y-m-d H:i:s", strtotime($vr['vs_created_date'])); ?></td>
                                         <td>
-                                            <a class="btn green icn-only for_pointer" title="Approve" onclick="manageVideoRequest(<?php echo $vr['vrid']; ?>, 2);"><i class="fa fa-check"></i></a>
-                                            <a class="btn red icn-only for_pointer" title="Reject" onclick="manageVideoRequest(<?php echo $vr['vrid']; ?>, 0);"><i class="fa fa-ban"></i></a>
+                                            <a class="btn btn-success" title="Approve" onclick="manageVideoRequest(<?php echo $vr['vrid']; ?>, 2);"><i class="fa fa-check"></i></a>
+                                            <a class="btn btn-danger" title="Reject" onclick="manageVideoRequest(<?php echo $vr['vrid']; ?>, 0);"><i class="fa fa-ban"></i></a>
                                         </td>
                                     </tr>
                                     <?php

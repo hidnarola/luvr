@@ -9,13 +9,19 @@
         echo $all_errors;
         echo '</div>';
     }
-    echo $this->session->flashdata('error');
+    if ($this->session->flashdata('error'))
+        echo '<div class="alert alert-danger">' . $this->session->flashdata('error') . '</div>';
+    if ($this->session->flashdata('success'))
+        echo '<div class="alert alert-success">' . $this->session->flashdata('success') . '</div>';
     ?>
     <h2>My Luvr Profile</h2>
 
     <?php
     $hidden = array('id' => $userData['id']);
-    echo form_open('user/setup_userprofile', '', $hidden);
+    if ($mode && $mode == "edit")
+        echo form_open('user/setup_userprofile/' . $mode, '', $hidden);
+    else
+        echo form_open('user/setup_userprofile', '', $hidden);
     ?>
 
     <div class="form-group">

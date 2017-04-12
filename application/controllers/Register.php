@@ -49,7 +49,10 @@ class Register extends CI_Controller {
                     $this->session->set_userdata('user', $u_data);
                     $upd_data = ['lastseen_date' => date('Y-m-d H:i:s'), 'id' => $u_data['id']];
                     $this->Users_model->manageUser($upd_data);
-                    redirect('user/setup_userprofile');
+                    if (empty($u_data['email']))
+                        redirect('user/setup_userprofile');
+                    else
+                        redirect('user/setup_userfilters');
                 } else {
 
                     $media_data = array(
