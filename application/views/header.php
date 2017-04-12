@@ -10,9 +10,11 @@ else
         <title><?php echo $site_title; ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0"/>
-        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/style.css">
-        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css">
-        <script src="<?php echo base_url(); ?>assets/js/jquery-3.2.0.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:400,500" rel="stylesheet">
+        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/style.css"/>
+        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/style-old.css"/>
+        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css"/>
+        <script src="<?php echo base_url(); ?>assets/js/jquery.min.js"></script>
         <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
         <?php if ($sub_view == "match/nearByMatches") { ?>
             <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/jTinder.css">
@@ -60,5 +62,6 @@ else
             </div>
         </div>
     </nav>
-    <div class="container">    
+    <div class="container" style="min-height:600px;">    
         <div class="row content">
+            <div id="msg_txt" style="display:none;"></div>

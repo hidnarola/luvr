@@ -1,7 +1,7 @@
 <?php
 
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+date_default_timezone_set('UTC');
 /*
   |--------------------------------------------------------------------------
   | Base Site URL
@@ -26,8 +26,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 $config['base_url'] = 'http://my.luvr.com';
 
-if ($_SERVER['SERVER_ADDR'] == '52.15.67.78')
-    $config['base_url'] = 'http://52.15.67.78';
+if ($_SERVER['SERVER_ADDR'] == '172.31.26.85')
+    $config['base_url'] = 'http://dev.luvr.me';
 else if ($_SERVER['SERVER_ADDR'] == '127.0.0.1')
     $config['base_url'] = 'http://my.luvr.com';
 

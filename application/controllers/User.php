@@ -67,7 +67,7 @@ class User extends CI_Controller {
             $data['sub_view'] = 'user/userProfileSettings';
             $data['meta_title'] = "Setup User Profile";
             $data['userData'] = $user_info;
-            if (empty($user_info) || $user_info == null)
+            if (empty($user_info['email']))
                 $this->load->view('main', $data);
             else
                 redirect('user/setup_userfilters');
@@ -170,8 +170,8 @@ class User extends CI_Controller {
                 }
                 foreach ($next_filter_detailed_info as $fdata) {
                     $is_checked = (in_array($fdata['sub_filter_id'], $users_filters)) ? "checked" : "";
-                    $i_dont_care = (strtolower($fdata['sub_filter_name']) == strtolower('I don\'t care')) ? "onclick='ignoreOther()' id='idontcare' class='subfilters_ignoreme'" : "onclick='ignoreLast()' class='subfilters'";
-                    $next_pref_html .= '<tr><td><label for="chk_' . $fdata['sub_filter_id'] . '">' . $fdata['sub_filter_name'] . '</label></td><td><label class="switch"><input type="checkbox" id="chk_' . $fdata['sub_filter_id'] . '" name="sub_filters[]" value="' . $fdata['sub_filter_id'] . '" ' . $is_checked . ' ' . $i_dont_care . '/><div class="slider round"></div></label></td></tr>';
+                    $i_dont_care = (strtolower($fdata['sub_filter_name']) == strtolower('I don\'t care')) ? "onchange='ignoreOther()' id='idontcare' class='subfilters_ignoreme'" : "onchange='ignoreLast()' id='chk_" . $fdata['sub_filter_id'] . "' class='subfilters'";
+                    $next_pref_html .= '<tr><td><label for="chk_' . $fdata['sub_filter_id'] . '">' . $fdata['sub_filter_name'] . '</label></td><td><label class="switch"><input type="checkbox" name="sub_filters[]" value="' . $fdata['sub_filter_id'] . '" ' . $is_checked . ' ' . $i_dont_care . '/><div class="slider round"></div></label></td></tr>';
                 }
                 $success = true;
             }
@@ -249,6 +249,19 @@ class User extends CI_Controller {
         $this->load->view('main', $data);
     }
 
+    public function unblockUser() {
+        $u_data = $this->session->userdata('user');
+        $data['requestby_id'] = $u_data['id'];
+        $data['requestto_id'] = $this->input->post('user_id');
+        $data['is_blocked'] = 0;
+        $data['updated_date'] = date("Y-m-d H:i:s");
+        $success = false;
+        if (!empty($data)) {
+            $success = $this->Users_model->updateUserRelation($data);
+        }
+        echo json_encode(array("success" => $success));
+    }
+
     /* -----------------------------------------------------------------------------------------
       This function will bring user on user settings page.
       ------------------------------------------------------------------------------------------ */
@@ -288,12 +301,39 @@ class User extends CI_Controller {
     }
 
     /* -----------------------------------------------------------------------------------------
-      This function will update user's settings.
+      This function will display all video requests.
       ------------------------------------------------------------------------------------------ */
 
-    public function edit_usersettings() {
-        pr($_POST);
-        $global_profile = $this->input->post('');
+    public function video_requests($offset = null) {
+        $this->load->library('pagination');
+        $u_data = $this->session->userdata('user');
+        $user_id = $u_data['id'];
+        $video_requests = $this->Users_model->getUsersVideoRequests($user_id, $offset);
+        $data['sub_view'] = 'user/videoRequests';
+        $data['meta_title'] = "Video Requests";
+        $data['videoRequests'] = $video_requests;
+        $config['base_url'] = base_url() . 'user/video_requests/';
+        $config['total_rows'] = $this->Users_model->getUsersVideoRequests($user_id, null, true);
+        $config['per_page'] = 10;
+        $config = array_merge($config, pagination_config());
+        $this->pagination->initialize($config);
+        $data['pagination'] = $this->pagination->create_links();
+        $this->load->view('main', $data);
+    }
+
+    /* -----------------------------------------------------------------------------------------
+      This function will manage status of video requests.
+      ------------------------------------------------------------------------------------------ */
+
+    public function manageVideoRequest() {
+        $data['id'] = $this->input->post('request_id');
+        $data['status'] = $this->input->post('mode');
+        $data['updated_date'] = date("Y-m-d H:i:s");
+        $success = false;
+        if (!empty($data)) {
+            $success = $this->Users_model->manageVideoRequest($data);
+        }
+        echo json_encode(array("success" => $success));
     }
 
 }

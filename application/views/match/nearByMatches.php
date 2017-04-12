@@ -30,6 +30,8 @@
                         <div class="dislike"></div>
                     </li>';
                 }
+            }else{
+                echo '<p class="alert alert-info">We could not find any nearby matches around you!</p>';
             }
             ?>
         </ul>

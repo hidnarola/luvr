@@ -16,6 +16,7 @@ class Home extends CI_Controller {
 
     public function index() {
         $data['sub_view'] = 'Homepage';
+        $data['header'] = 'home_header';
         $data['meta_title'] = "Welcome to Luvr";
         $this->load->view('main', $data);
     }

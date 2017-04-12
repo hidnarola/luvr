@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/font-awesome/css/font-awesome.min.css"/>
 <h2>Blocked Users</h2>
 <hr>
 <div class="container bootstrap snippet">
@@ -12,7 +13,7 @@
                                     <th><span>User</span></th>
                                     <th class="text-center"><span>Status</span></th>
                                     <th><span>Email</span></th>
-                                    <th>&nbsp;</th>
+                                    <th>Action</th>
                                     <!--<th><span>Created</span></th>-->
                                 </tr>
                             </thead>
@@ -20,7 +21,7 @@
                                 <?php
                                 foreach ($blockedUsers as $bu) {
                                     ?>
-                                    <tr>
+                                    <tr id="user_<?php echo $bu['requestto_id']; ?>">
                                         <td>
                                             <img src="<?php echo $bu['media_thumb']; ?>" alt="<?php echo $bu['user_name']; ?>" title="<?php echo $bu['user_name']; ?>" onerror='this.src="<?php echo base_url(); ?>assets/images/default_avatar.jpg"'>
                                             <span class="user-link"><?php echo $bu['user_name']; ?></span>
@@ -33,12 +34,7 @@
                                             <a href="mailto:<?php echo $bu['email']; ?>"><?php echo $bu['email']; ?></a>
                                         </td>
                                         <td>
-                                            <a href="#" class="table-link">
-                                                <span class="fa-stack" title="Unblock">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-unlock fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
+                                            <a title="Unblock" class="btn green icn-only for_pointer" onclick="unblockUser(<?php echo $bu['requestto_id']; ?>);"><i class="fa fa-unlock"></i></a>
                                         </td>
                                         <!--<td>2013/08/12</td>-->
                                     </tr>
