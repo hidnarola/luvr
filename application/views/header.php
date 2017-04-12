@@ -62,6 +62,6 @@ else
             </div>
         </div>
     </nav>
-    <div class="container">    
+    <div class="container" style="min-height:600px;">    
         <div class="row content">
             <div id="msg_txt" style="display:none;"></div>

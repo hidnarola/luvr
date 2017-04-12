@@ -27,7 +27,7 @@ else
                                 <div class="header">
                                     <div class="col-md-12 col-sm-12">
                                         <div class="logo">
-                                            <a href="<?php echo base_url(); ?>"><img src="<?php echo base_url(); ?>assets/images/luvr-logo.png" alt="" /></a>
+                                            <a href="<?php echo base_url(); ?>"><img src="<?php echo base_url(); ?>assets/images/luvr-logo.png" alt="Luvr" title="Luvr"/></a>
                                         </div>
                                         <div class="login-instagram">
                                             <a href="https://api.instagram.com/oauth/authorize/?client_id=<?php echo INSTA_CLIENT_ID; ?>&redirect_uri=<?php echo base_url() . 'register/return_url'; ?>&response_type=code&scope=likes+comments+follower_list+relationships+public_content">
