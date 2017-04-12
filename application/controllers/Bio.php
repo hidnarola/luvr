@@ -29,18 +29,19 @@ class Bio extends CI_Controller {
     }
 
     public function saved_feed(){
+        
         $u_data = $this->session->userdata('user');
 
         $user_info = $this->Users_model->getUserByCol('id', $u_data['id']);
-        $all_saved_media = $this->Bio_model->fetch_mediadata(['userid'=>$u_data['id'],'is_active'=>'1'],false,'id,media_id');
+        $all_saved_media = $this->Bio_model->fetch_mediadata(['userid'=>$u_data['id'],'is_active'=>'1'],false,'id,media_id');        
         $data['all_saved_media'] = array_column($all_saved_media,'media_id');
 
-        $images = $this->Bio_model->fetch_mediadata('media');
+        $all_images = $this->Bio_model->fetch_mediadata(['userid'=>$u_data['id']]);
 
         $data['sub_view'] = 'bio/saved_feed';
         $data['meta_title'] = "Save instagram bio";
         $data['userData'] = $user_info;
-        $data['all_images'] = $row_data['data'];
+        $data['all_images'] = $all_images;
 
         $this->load->view('main', $data);
     }
@@ -103,7 +104,7 @@ class Bio extends CI_Controller {
                 $is_delete = 'no';
                 $save_icon = 'ok';
                 $save_link_class = 'success';
-                if(!empty($all_saved_media) && in_array($image['id'], $all_saved_media) == true){
+                if(!empty($all_saved_media) && in_array($image['id'], $all_saved_media) == true){                    
                     $is_delete = 'yes';
                     $save_link_class = 'danger';
                     $save_icon = 'remove';
@@ -111,7 +112,7 @@ class Bio extends CI_Controller {
                 
                 if($is_delete == 'no'){
                     $new_str .= '<div class="col-sm-3" style="margin-bottom:10px;">';
-                    $new_str .= '<img src="'.$image['images']['standard_resolution']['url'].'" class="img-responsive" style="width:100%" alt="Image">';
+                    $new_str .= '<img src="'.$link.'" class="img-responsive" style="width:100%" alt="Image">';
                     
                     $new_str .= ' <a style="margin-top:10px" href="'.$image['link'].'" target="_blank" class="btn btn-primary"> <span class="glyphicon glyphicon-link"></span> </a>';
 

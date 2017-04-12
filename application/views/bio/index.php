@@ -28,7 +28,7 @@
         ?>
                         <div class="col-sm-3" style="margin-bottom:10px;">
 
-                            <img src="<?php echo $image['images']['standard_resolution']['url']; ?>" class="img-responsive" style="width:100%" alt="Image">
+                            <img src="<?php echo $link; ?>" class="img-responsive" style="width:100%" alt="Image">
                             
                             <a style="margin-top:10px" href="<?php echo $image['link']; ?>" target="_blank" class="btn btn-primary"> 
                                 <span class="glyphicon glyphicon-link"></span>
@@ -79,7 +79,7 @@
             dataType:"JSON",
             success:function(data){
                 if(data['all_images'] != ''){
-                    
+
                     $('#insta_img_list').append(data['all_images']);
                     if(data['next_link'] != ''){
                         $('#load_more_id').data('val',data['next_link']);

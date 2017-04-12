@@ -68,6 +68,8 @@ else
                             <li><a href="<?php echo base_url() . 'user/video_requests'; ?>">Video Requests</a></li>
                             <li><a href="<?php echo base_url() . 'user/blocked_list'; ?>">Blocked List</a></li>
                             <li><a href="<?php echo base_url() . 'match/nearby'; ?>">Nearby Matches</a></li>
+                            <li><a href="<?php echo base_url() . 'bio/instagram_feed'; ?>">Instagram Feeds</a></li>
+                            <li><a href="<?php echo base_url() . 'bio/saved_feed'; ?>">My Media</a></li>
                             <li><a href="<?php echo base_url() . 'user/logout'; ?>">Logout</a></li>
                         </ul>
                     </div>

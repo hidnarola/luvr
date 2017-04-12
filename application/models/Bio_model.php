@@ -25,7 +25,7 @@ class Bio_model extends CI_Model {
 	/* This function will fetch user related data based on where clauses provided. */
     public function fetch_mediadata($where, $is_single = false, $select = '*') {
 
-        // $this->db->select($select);
+        $this->db->select($select);
         $this->db->where($where);
         $res = $this->db->get('media');
         $return_data = $res->result_array();

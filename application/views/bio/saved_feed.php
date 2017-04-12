@@ -3,45 +3,44 @@
     <br>
     <div class="row" id="insta_img_list">
         <?php
+            $i=0;                    
             if(!empty($all_images)){                
                 foreach($all_images as $image){
-                    
-                    $type = $image['type'];
-                    $thumb = $image['images']['thumbnail']['url'];
-                    $link = $image['images']['standard_resolution']['url'];
-                    
-                    $is_delete = 'no';
-                    $save_icon = 'ok';
-                    $save_link_class = 'success';
-                    
-                    if(in_array($image['id'], $all_saved_media)){
-                        $is_delete = 'yes';
-                        $save_link_class = 'danger';
-                        $save_icon = 'remove';
-                    }
 
-                    if($is_delete == 'no') {
+                    $type = $image['media_type'];
+                    $thumb = $image['media_thumb'];
+                    $link = $image['media_name'];
+                    
+                    $is_delete = 'yes';
+                    $save_link_class = 'danger';
+                    $save_icon = 'remove';
+
+                    // if(in_array($image['media_id'], $all_saved_media) == false){
+                    //     $is_delete = 'yes';
+                    //     $save_icon = 'ok';
+                    //     $save_link_class = 'success';    
+                    // }
         ?>
-                        <div class="col-sm-3" style="margin-bottom:10px;">
+                        <div class="col-sm-3" style="margin-bottom:10px;" id="dynamic_<?=$i?>">
 
-                            <img src="<?php echo $image['images']['standard_resolution']['url']; ?>" class="img-responsive" style="width:100%" alt="Image">
-                            
-                            <a style="margin-top:10px" href="<?php echo $image['link']; ?>" target="_blank" class="btn btn-primary"> 
+                            <img src="<?php echo $link; ?>" class="img-responsive" style="width:100%" alt="Image">
+
+                            <a style="margin-top:10px" href="<?php echo $link; ?>" target="_blank" class="btn btn-primary"> 
                                 <span class="glyphicon glyphicon-link"></span>
                             </a>
 
-                            <a style="margin-top:10px" data-type="<?php echo $type; ?>" data-insta-id="<?=$image['id']?>" data-insta-time="<?= $image['created_time']?>"
-                               data-val="<?=$link?>" class="btn btn-<?=$save_link_class?>" data-thumb="<?=$thumb?>" onclick="ajax_save_bio(this)" data-is-delete="<?=$is_delete?>" >
+                            <a style="margin-top:10px" data-type="<?php echo $type; ?>" data-insta-id="<?=$image['media_id']?>" data-insta-time="<?= strtotime($image['insta_datetime'])?>"
+                               data-val="<?=$link?>" class="btn btn-<?=$save_link_class?>" data-thumb="<?=$thumb?>" onclick="ajax_save_bio(this)" data-is-delete="<?=$is_delete?>"
+                               data-dynamic-id="<?php echo $i; ?>" >
                                 <span class="glyphicon glyphicon-<?=$save_icon?>"></span>
                             </a>
                             
-                            <a style="margin-top:10px" data-type="<?php echo $type; ?>" data-insta-id="<?=$image['id']?>" data-insta-time="<?= $image['created_time']?>"
+                            <a style="margin-top:10px" data-type="<?php echo $type; ?>" data-insta-id="<?=$image['id']?>" data-insta-time="<?= strtotime($image['insta_datetime'])?>"
                                 data-val="<?=$link?>" class="btn btn-warning" data-thumb="<?=$thumb?>" onclick="ajax_set_profile(this)">
                                 <span class="glyphicon glyphicon-picture"></span>
                             </a>
-                        </div>
-                    <?php } ?>
-                <?php } ?>
+                        </div>                    
+                <?php $i++; } ?>
             <?php } ?>
     </div>
 </div>
@@ -64,26 +63,15 @@
         var insta_time = $(obj).data('insta-time');
         var thumb = $(obj).data('thumb');
         var is_delete = $(obj).data('is-delete');
+        var i_id = $(obj).data('dynamic-id');
 
         $.ajax({
             url:"<?php echo base_url().'bio/ajax_save_bio'; ?>",
             method:"POST",
             data:{img_name:img_name,type:type,insta_id:insta_id,insta_time:insta_time,thumb:thumb,is_delete:is_delete},
             dataType:"JSON",
-            success:function(data){
-                if(data['status'] != 'error'){
-                    if(is_delete == 'yes'){
-                        $(obj).data('is-delete','no');
-                        $(obj).removeClass('btn-danger').addClass('btn-success');
-                        $(obj).find("span").removeClass('glyphicon-remove').addClass('glyphicon-ok');
-                    }else{
-                        $(obj).data('is-delete','yes');
-                        $(obj).addClass('btn-danger').removeClass('btn-success');
-                        $(obj).find("span").removeClass('glyphicon-ok').addClass('glyphicon-remove');
-                    }
-                }else{
-                    alert('ERROR:CAN NOT SAVE MORE THAN 50 IMAGES');
-                }
+            success:function(data){                
+                $('#dynamic_'+i_id).fadeOut();
             }
         });
     }
