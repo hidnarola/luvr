@@ -1,3 +1,6 @@
+<?php
+/*pr($nearByUsers, 1);*/
+?>
 <div class="wrap">
     <div id="radar">
         <div id="rad"></div>
@@ -15,13 +18,14 @@
             if (!empty($nearByUsers)) {
                 foreach ($nearByUsers as $user) {
                     $path = "";
-                    if ($user['media_type'] == 1 || $user['media_type'] == 2) {
-                        if ($user['media_type'] == 1)
-                            $path = base_url() . "assets/images/users/" . $user['user_profile'];
-                        else
-                            $path = base_url() . "assets/videos/users/" . $user['user_profile'];
+                    if ($user['media_type'] == 0 && !empty($user['media_thumb'])) {
+                        $path = $user['media_thumb'];
+                    } else if ($user['media_type'] == 1 || $user['media_type'] == 2) {
+                        $path = base_url() . "assets/images/users/" . $user['media_thumb'];
+                        if (!file_exists(PHYSICALUPLOADPATH . "/images/users/" . $user['media_thumb']))
+                            $path = base_url() . "assets/images/big_avatar.jpg";
                     } else if ($user['media_type'] == 3 || $user['media_type'] == 4) {
-                        $path = $user['user_profile'];
+                        $path = $user['media_thumb'];
                     }
                     echo '<li class="panel" data-id="' . $user['id'] . '">
                         <div style="background:url(\'' . $path . '\') no-repeat scroll center center;" class="img"></div>
@@ -30,7 +34,7 @@
                         <div class="dislike"></div>
                     </li>';
                 }
-            }else{
+            } else {
                 echo '<p class="alert alert-info">We could not find any nearby matches around you!</p>';
             }
             ?>
