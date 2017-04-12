@@ -13,11 +13,7 @@ class Register extends CI_Controller {
 		$data['sub_view'] = 'register/register_view';
     	$data['meta_title'] = "Setup User Profile";
     	$this->load->view('main', $data);
-	}
-
-	public function test(){
-		$this->load->view('test');
-	}
+	}	
 
 	public function return_url(){
 

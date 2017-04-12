@@ -1,13 +1,9 @@
- <?php //pr($all_saved_media); //pr($all_images); ?>
-  
-<div class="container-fluid bg-3 text-center">    
-    
-    <h3>Instagram BIO</h3>    
+<div class="container-fluid bg-3 text-center">
+    <h3>SAVED BIO FEED </h3>
     <br>
     <div class="row" id="insta_img_list">
         <?php
-            if(!empty($all_images)){
-                $i = 30;
+            if(!empty($all_images)){                
                 foreach($all_images as $image){
                     
                     $type = $image['type'];
@@ -44,53 +40,21 @@
                                 <span class="glyphicon glyphicon-picture"></span>
                             </a>
                         </div>
-                    <?php $i--; } ?>
+                    <?php } ?>
                 <?php } ?>
             <?php } ?>
     </div>
-
-    
-    
-    <?php if(!empty($next_link)) { ?>
-        <div class="row">           
-            <a class="btn btn-success" data-val="<?php echo $next_link; ?>" id="load_more_id" onclick="load_more(this)"> Load More </a>
-        </div>
-    <?php } ?>
-
-    <span class="span_next_link"> </span> 
 </div>
-<br>
-<br>
-<br>
-<br>
 
-<?php echo $i; ?>
+<br>
+<br>
+<br>
+<br>
 
 <input type="hidden" id="all_saved_media"  value="<?php echo (!empty($all_saved_media)) ? implode(',',$all_saved_media):'';?>">
 
 <script type="text/javascript">
-
-    function load_more(obj){
-        var all_saved_media = $('#all_saved_media').val();
-        $.ajax({
-            url:"<?php echo base_url().'bio/fetch_insta_bio'; ?>",
-            method:"POST",
-            data:{next_url:$(obj).data('val'),all_saved_media:all_saved_media},
-            dataType:"JSON",
-            success:function(data){
-                if(data['all_images'] != ''){
-                    
-                    $('#insta_img_list').append(data['all_images']);
-                    if(data['next_link'] != ''){
-                        $('#load_more_id').data('val',data['next_link']);
-                    }else{
-                        $('#load_more_id').data('val','');
-                        $('#load_more_id').hide();
-                    }                    
-                }
-            }
-        });
-    }
+ 
 
     function ajax_save_bio(obj){
 
@@ -142,10 +106,7 @@
             }
         });
     }
-
-    <?php if($i == 30 || ($i>=15 && $i<=30)) { ?>
-        $('#load_more_id').click();
-    <?php } ?>
+ 
 
 </script>
 
