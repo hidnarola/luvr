@@ -224,7 +224,7 @@ class User extends CI_Controller {
         $total_filters = $this->db->count_all_results('main_filters');
         $data['sub_view'] = 'user/userFilterSettings';
         $data['meta_title'] = "Edit User Preferences";
-        $data['redirect'] = "user/profile";
+        $data['redirect'] = "match/nearby";
         $data['filtersData'] = $all_filters;
         $data['userFilters'] = $user_filters;
         $data['totalFilters'] = $total_filters;
