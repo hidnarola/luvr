@@ -277,7 +277,7 @@ class User extends CI_Controller {
 
         if ($this->form_validation->run() == FALSE) {
             $data['sub_view'] = 'user/settings';
-            $data['meta_title'] = "Setup User Profile";
+            $data['meta_title'] = "Edit User Settings";
             $notification_settings = $this->Users_model->getUserSetings('userid', $user_id);
             $user_info = $this->Users_model->getUserByCol('id', $user_id);
             $data['notificationSettings'] = $notification_settings;

@@ -65,6 +65,8 @@ else
                             <li><a href="<?php echo base_url() . 'user/setup_userprofile/edit'; ?>">Edit Profile</a></li>
                             <li><a href="<?php echo base_url() . 'user/user_settings'; ?>">Edit Settings</a></li>
                             <li><a href="<?php echo base_url() . 'user/edit_filters'; ?>">Edit Filters</a></li>
+                            <li><a href="<?php echo base_url() . 'user/video_requests'; ?>">Video Requests</a></li>
+                            <li><a href="<?php echo base_url() . 'user/blocked_list'; ?>">Blocked List</a></li>
                             <li><a href="<?php echo base_url() . 'match/nearby'; ?>">Nearby Matches</a></li>
                             <li><a href="<?php echo base_url() . 'user/logout'; ?>">Logout</a></li>
                         </ul>

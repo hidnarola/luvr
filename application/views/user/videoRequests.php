@@ -55,7 +55,7 @@
                     <?php
                     echo $pagination;
                 } else {
-                    echo '<p class="alert alert-info">Nothing to show!</p>';
+                    echo '<p class="alert alert-info">No video requests available!</p>';
                 }
                 ?>
             </div>
