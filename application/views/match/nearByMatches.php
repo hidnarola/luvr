@@ -1,5 +1,10 @@
 <?php
-/*pr($nearByUsers, 1);*/
+/* pr($nearByUsers, 1); */
+if ($user_swipes_per_day >= MAX_SWIPES_PER_DAY) {
+    echo '<div class="alert alert-danger alert-dismissable">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        Your daily swipe quota has been reached!</div>';
+}
 ?>
 <div class="wrap">
     <div id="radar">

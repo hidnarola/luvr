@@ -45,6 +45,11 @@ class Match extends CI_Controller {
         $user_settings = $this->Users_model->getUserSetings('userid', $user_id);
         $user_filters = $this->Filters_model->getUserSubFilterByCol('userid', $user_id);
         $user_info = $this->Users_model->getUserByCol('id', $user_id);
+        if ($user_settings['is_premium_member'] == 0) {
+            $data['user_swipes_per_day'] = $this->Users_model->getTotalUsersSwipesByCol('requestby_id', $user_id, true);
+        } else {
+            $data['user_swipes_per_day'] = "n/a";
+        }
         $u_data['latlong'] = $user_info['latlong'];
         $u_data['radius'] = $user_info['radius'];
         $u_data['user_settings'] = $user_settings;
@@ -63,6 +68,7 @@ class Match extends CI_Controller {
     function likedislike() {
         $u_data = $this->session->userdata('user');
         $logged_in_user_id = $u_data['id'];
+        $user_settings = $this->Users_model->getUserSetings('userid', $logged_in_user_id);
         $user_id = $this->input->post('user_id');
         $status = $this->input->post('status');
         $data['requestby_id'] = $logged_in_user_id;
@@ -72,10 +78,14 @@ class Match extends CI_Controller {
         else if ($status == "dislike")
             $data['relation_status'] = 0;
         $data['created_date'] = $data['updated_date'] = date("Y-m-d H:i:s");
+        $user_swipes_per_day = 0;
         $response = $this->Users_model->likeDislikeUser($data);
+        if ($user_settings['is_premium_member'] == 0) {
+            $user_swipes_per_day = $this->Users_model->getTotalUsersSwipesByCol('requestby_id', $logged_in_user_id, true);
+        }
         if (is_numeric($response) && $response != false)
             $response = true;
-        echo json_encode(array("success" => $response));
+        echo json_encode(array("success" => $response, "user_swipes_per_day" => $user_swipes_per_day));
     }
 
     /* --------------------------------------------------------------------------------------
@@ -86,7 +96,7 @@ class Match extends CI_Controller {
         $response = false;
         $u_data = $this->session->userdata('user');
         $user_id = $u_data['id'];
-        /*$offset = $this->input->post('offset');*/
+        /* $offset = $this->input->post('offset'); */
         $user_settings = $this->Users_model->getUserSetings('userid', $user_id);
         $user_filters = $this->Filters_model->getUserSubFilterByCol('userid', $user_id);
         $u_data['user_settings'] = $user_settings;

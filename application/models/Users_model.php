@@ -162,6 +162,18 @@ class Users_model extends CI_Model {
         return true;
     }
 
+    /* This function will return user's swipes by user id. */
+
+    public function getTotalUsersSwipesByCol($column, $value, $per_day = true) {
+        if (!empty($column) && !empty($value)) {
+            $this->db->where($column, $value);
+            if ($per_day == true)
+                $this->db->where('DATE(created_date)', date("Y-m-d"));
+            return $this->db->count_all_results('users_relation');
+        }
+        return false;
+    }
+
 }
 
 ?>

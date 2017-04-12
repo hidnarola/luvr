@@ -275,22 +275,24 @@
 <?php } ?>
 <?php if ($sub_view == "match/nearByMatches") { ?>
         var likedislikecounts = 0;
-        registerjTinder();
-        function registerjTinder() {
-            $("#tinderslide").jTinder({
-                onLike: function (item) {
-                    likedislikeuser($(item).data("id"), 'like');
-                },
-                onDislike: function (item) {
-                    likedislikeuser($(item).data("id"), 'dislike');
-                },
-                animationRevertSpeed: 200,
-                animationSpeed: 500,
-                threshold: 4,
-                likeSelector: '.like',
-                dislikeSelector: '.dislike'
-            });
-        }
+    <?php if ($user_swipes_per_day < MAX_SWIPES_PER_DAY) { ?>
+            registerjTinder();
+            function registerjTinder() {
+                $("#tinderslide").jTinder({
+                    onLike: function (item) {
+                        likedislikeuser($(item).data("id"), 'like');
+                    },
+                    onDislike: function (item) {
+                        likedislikeuser($(item).data("id"), 'dislike');
+                    },
+                    animationRevertSpeed: 200,
+                    animationSpeed: 500,
+                    threshold: 4,
+                    likeSelector: '.like',
+                    dislikeSelector: '.dislike'
+                });
+            }
+    <?php } ?>
         function likedislikeuser(user_id, mode) {
             $.ajax({
                 url: "<?php echo base_url(); ?>match/likedislike",
@@ -301,12 +303,23 @@
                     likedislikecounts++;
                     if (data.success == true) {
                     }
-                    if (likedislikecounts == $("#tinderslide ul li.panel").length)
+                    if (data.user_swipes_per_day == <?php echo MAX_SWIPES_PER_DAY; ?>)
                     {
-                        loadMoreNearBys();
+                        $("#tinderslide").unbind('touchstart mousedown');
+                        $("#tinderslide").unbind('touchmove mousemove');
+                        $("#tinderslide").unbind('touchend mouseup');
+                        showMsg("Your daily swipe quota has been reached!", "alert alert-danger");
+                        scrollToElement("#msg_txt");
+                    } else
+                    {
+                        if (likedislikecounts == $("#tinderslide ul li.panel").length)
+                        {
+                            loadMoreNearBys();
+                        }
                     }
                 }, error: function () {
                     showMsg("Something went wrong!", "alert alert-danger", true);
+                    scrollToElement("#msg_txt");
                 }
             });
         }
@@ -366,12 +379,15 @@
                             $("#user_" + user_id).fadeOut(function () {
                                 $(this).remove();
                                 showMsg("User unblocked successfully.", "alert alert-success", true);
+                                scrollToElement("#msg_txt");
                             });
                         } else {
                             showMsg("Something went wrong!", "alert alert-danger", true);
+                            scrollToElement("#msg_txt");
                         }
                     }, error: function () {
                         showMsg("Something went wrong!", "alert alert-danger", true);
+                        scrollToElement("#msg_txt");
                     }
                 });
             }
@@ -395,9 +411,11 @@
                             $("#request_" + request_id + " #status_txt span").html((mode == 2) ? "Request Approved" : "Request Rejected");
                         } else {
                             showMsg("Something went wrong!", "alert alert-danger", true);
+                            scrollToElement("#msg_txt");
                         }
                     }, error: function () {
                         showMsg("Something went wrong!", "alert alert-danger", true);
+                        scrollToElement("#msg_txt");
                     }
                 });
             }
