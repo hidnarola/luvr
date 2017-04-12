@@ -1,3 +1,7 @@
+<?php if ($sub_view != "Homepage") { ?>
+    </div>
+    </div>
+<?php } ?>
 <footer id="footer" class="footer">
     <div class="footer-top">
         <div class="container">
