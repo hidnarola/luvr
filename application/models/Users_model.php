@@ -35,6 +35,7 @@ class Users_model extends CI_Model {
     }
 
     /* This function will fetch user related data based on where clauses provided. */
+
     public function fetch_userdata($where, $is_single = false, $select = '*') {
         $this->db->select($select);
         $this->db->where($where);
@@ -53,11 +54,10 @@ class Users_model extends CI_Model {
         return $ins_id;
     }
 
-    public function update_record($where,$data){
+    public function update_record($where, $data) {
         $this->db->where($where);
-        $this->db->update('users',$data);
+        $this->db->update('users', $data);
     }
-    
 
     /* This function will return user settings based on column and value provided. */
 
@@ -111,6 +111,55 @@ class Users_model extends CI_Model {
                 return $this->db->count_all_results('users_relation');
         }
         return false;
+    }
+
+    /* This function will update user's relation. */
+
+    public function updateUserRelation($data) {
+        if (!empty($data['requestby_id']) && !empty($data['requestto_id'])) {
+            $this->db->where('requestby_id', $data['requestby_id']);
+            $this->db->where('requestto_id', $data['requestto_id']);
+            $this->db->update('users_relation', $data);
+            return true;
+        }
+        return false;
+    }
+
+    /* This function will return list of users who were blocked by user with provided user_id. */
+
+    public function getUsersVideoRequests($user_id, $offset = null, $fetch_counts = false) {
+        if (!empty($user_id) && is_numeric($user_id)) {
+            if ($fetch_counts == false) {
+                $this->db->select('videosnaps.*,videosnaps.id as vrid,videosnaps.created_date as vs_created_date,users.userid,users.user_name,users.email,users.full_name,users.age,media.*');
+                $this->db->from('videosnaps');
+            }
+            $this->db->join('users', 'users.id = videosnaps.requestby_id');
+            $this->db->join('media', 'media.id = users.profile_media_id', 'left');
+            $this->db->where('videosnaps.requestto_id', $user_id);
+            $this->db->where('videosnaps.is_read', 0);
+            /* $this->db->where('videosnaps.status', 1); */
+            if ($fetch_counts == false) {
+                if (!empty($offset) && $offset != null)
+                    $this->db->limit(10, $offset);
+                else
+                    $this->db->limit(10);
+                return $this->db->get()->result_array();
+            } else
+                return $this->db->count_all_results('videosnaps');
+        }
+        return false;
+    }
+
+    /* This function will add new request or update existing video request if id will be provided along with $data. */
+
+    public function manageVideoRequest($data) {
+        if (!empty($data['id'])) {
+            $this->db->where('id', $data['id']);
+            $this->db->update('videosnaps', $data);
+        } else {
+            $this->db->insert('videosnaps', $data);
+        }
+        return true;
     }
 
 }
