@@ -67,7 +67,10 @@ class User extends CI_Controller {
             $data['sub_view'] = 'user/userProfileSettings';
             $data['meta_title'] = "Setup User Profile";
             $data['userData'] = $user_info;
-            $this->load->view('main', $data);
+            if (empty($user_info['email']))
+                $this->load->view('main', $data);
+            else
+                redirect('user/setup_userfilters');
         } else {
             $user_data['id'] = $this->input->post('id');
             $user_data['user_name'] = $this->input->post('username');
@@ -167,8 +170,8 @@ class User extends CI_Controller {
                 }
                 foreach ($next_filter_detailed_info as $fdata) {
                     $is_checked = (in_array($fdata['sub_filter_id'], $users_filters)) ? "checked" : "";
-                    $i_dont_care = (strtolower($fdata['sub_filter_name']) == strtolower('I don\'t care')) ? "onclick='ignoreOther()' id='idontcare' class='subfilters_ignoreme'" : "onclick='ignoreLast()' class='subfilters'";
-                    $next_pref_html .= '<tr><td><label for="chk_' . $fdata['sub_filter_id'] . '">' . $fdata['sub_filter_name'] . '</label></td><td><label class="switch"><input type="checkbox" id="chk_' . $fdata['sub_filter_id'] . '" name="sub_filters[]" value="' . $fdata['sub_filter_id'] . '" ' . $is_checked . ' ' . $i_dont_care . '/><div class="slider round"></div></label></td></tr>';
+                    $i_dont_care = (strtolower($fdata['sub_filter_name']) == strtolower('I don\'t care')) ? "onchange='ignoreOther()' id='idontcare' class='subfilters_ignoreme'" : "onchange='ignoreLast()' id='chk_" . $fdata['sub_filter_id'] . "' class='subfilters'";
+                    $next_pref_html .= '<tr><td><label for="chk_' . $fdata['sub_filter_id'] . '">' . $fdata['sub_filter_name'] . '</label></td><td><label class="switch"><input type="checkbox" name="sub_filters[]" value="' . $fdata['sub_filter_id'] . '" ' . $is_checked . ' ' . $i_dont_care . '/><div class="slider round"></div></label></td></tr>';
                 }
                 $success = true;
             }

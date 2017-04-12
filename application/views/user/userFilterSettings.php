@@ -16,8 +16,8 @@
             }
             foreach ($filtersData as $fdata) {
                 $is_checked = (in_array($fdata['sub_filter_id'], $users_filters)) ? "checked" : "";
-                $i_dont_care = (strtolower($fdata['sub_filter_name']) == strtolower('I don\'t care')) ? "onclick='ignoreOther()' id='idontcare' class='subfilters_ignoreme'" : "onclick='ignoreLast()' class='subfilters'";
-                echo '<tr><td><label for="chk_' . $fdata['sub_filter_id'] . '">' . $fdata['sub_filter_name'] . '</label></td><td><label class="switch"><input type="checkbox" id="chk_' . $fdata['sub_filter_id'] . '" name="sub_filters[]" value="' . $fdata['sub_filter_id'] . '" ' . $is_checked . ' ' . $i_dont_care . '/><div class="slider round"></div></label></td></tr>';
+                $i_dont_care = (strtolower($fdata['sub_filter_name']) == strtolower('I don\'t care')) ? "onchange='ignoreOther()' id='idontcare' class='subfilters_ignoreme'" : "onchange='ignoreLast()' id='chk_" . $fdata['sub_filter_id'] . "' class='subfilters'";
+                echo '<tr><td><label for="chk_' . $fdata['sub_filter_id'] . '">' . $fdata['sub_filter_name'] . '</label></td><td><label class="switch"><input type="checkbox" name="sub_filters[]" value="' . $fdata['sub_filter_id'] . '" ' . $is_checked . ' ' . $i_dont_care . '/><div class="slider round"></div></label></td></tr>';
             }
             ?>
         </table>

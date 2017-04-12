@@ -233,28 +233,36 @@
 <script type="text/javascript">
 <?php if ($sub_view == "user/userFilterSettings") { ?>
         function saveFilter(filter_id) {
-            $.ajax({
-                url: "<?php echo base_url(); ?>user/savestep",
-                type: 'POST',
-                dataType: 'json',
-                data: "filter_id=" + filter_id + "&" + $('#updatefiltersform').serialize(),
-                success: function (data) {
-                    if (data.success == true) {
-                        $("#save_step_btn").attr("onclick", "saveFilter(" + data.next_filter_id + ")");
-                        $("#save_step_btn").attr("data-step", parseInt($("#save_step_btn").attr("data-step")) + 1);
-                        if (data.next_filter_name)
-                            $("#lbl_filter_name").text(data.next_filter_name);
-                        $("#updatefiltersform tbody").html(data.next_filter_html);
-                        if ($("#save_step_btn").attr("data-step") > $("#save_step_btn").attr("data-total-steps")) {
-                            location.href = '<?php echo base_url() . $redirect; ?>';
+            if ($('#updatefiltersform input[type="checkbox"]:checked').length > 0)
+            {
+                $.ajax({
+                    url: "<?php echo base_url(); ?>user/savestep",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: "filter_id=" + filter_id + "&" + $('#updatefiltersform').serialize(),
+                    success: function (data) {
+                        if (data.success == true) {
+                            $("#save_step_btn").attr("onclick", "saveFilter(" + data.next_filter_id + ")");
+                            $("#save_step_btn").attr("data-step", parseInt($("#save_step_btn").attr("data-step")) + 1);
+                            if (data.next_filter_name)
+                                $("#lbl_filter_name").text(data.next_filter_name);
+                            $("#updatefiltersform tbody").html(data.next_filter_html);
+                            if ($("#save_step_btn").attr("data-step") > $("#save_step_btn").attr("data-total-steps")) {
+                                location.href = '<?php echo base_url() . $redirect; ?>';
+                            }
+                        } else {
+                            showMsg("Something went wrong!", "alert alert-danger", true);
+                            scrollToElement("#msg_txt");
                         }
-                    } else {
+                    }, error: function () {
                         showMsg("Something went wrong!", "alert alert-danger", true);
+                        scrollToElement("#msg_txt");
                     }
-                }, error: function () {
-                    showMsg("Something went wrong!", "alert alert-danger", true);
-                }
-            });
+                });
+            } else {
+                showMsg("Please select atleast one of the below choices!", "alert alert-danger", true);
+                scrollToElement("#msg_txt");
+            }
         }
         function ignoreOther() {
             if ($("#idontcare").is(":checked")) {
@@ -405,6 +413,10 @@
             $('#msg_txt').fadeIn().delay(5000).fadeOut('slow');
         else
             $('#msg_txt').fadeIn();
+    }
+    function scrollToElement(id) {
+        $('html,body').animate({
+            scrollTop: $(id).offset().top}, 'slow');
     }
 </script>
 </body>

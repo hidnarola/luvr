@@ -44,6 +44,9 @@ class Match extends CI_Controller {
         $user_id = $u_data['id'];
         $user_settings = $this->Users_model->getUserSetings('userid', $user_id);
         $user_filters = $this->Filters_model->getUserSubFilterByCol('userid', $user_id);
+        $user_info = $this->Users_model->getUserByCol('id', $user_id);
+        $u_data['latlong'] = $user_info['latlong'];
+        $u_data['radius'] = $user_info['radius'];
         $u_data['user_settings'] = $user_settings;
         $u_data['user_filters'] = $user_filters;
         $near_by = $this->Matches_model->getUserNearBy($user_id, $u_data);

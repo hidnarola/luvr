@@ -17,7 +17,10 @@ if ($this->session->flashdata('error2'))
 <h2>Settings</h2>
 <hr>
 <?php
-$age_range = (!empty($notificationSettings['age_range'])) ? explode(" - ", $notificationSettings['age_range']) : "";
+if (!empty($notificationSettings['age_range'])) {
+    $agerange = str_replace(' ', '', $notificationSettings['age_range']);
+    $age_range = explode("-", $agerange);
+}
 ?>
 <form id="updatenotificationsettingsform" method="post" class="form-horizontal" action="<?php echo base_url(); ?>user/user_settings">
     <table class="table-responsive table-condensed">
