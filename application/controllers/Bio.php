@@ -20,10 +20,27 @@ class Bio extends CI_Controller {
 	}	
 
     public function change_profile(){
+        
         $data['sub_view'] = 'bio/change_profile';
         $data['meta_title'] = "Change Profile";
-        $data['userData'] = $user_info;
-        $data['all_images'] = $row_data['data'];
+        $data['userData'] = [];        
+
+        if($_POST){
+
+            $config['upload_path'] = './assets/uploads/';
+            $config['allowed_types'] = 'gif|jpg|png';
+            $config['max_size']  = '100000000000';        
+
+            $this->upload->initialize($config);
+            
+            if ( ! $this->upload->do_upload('profile_picture')){
+                $error = array('error' => $this->upload->display_errors());
+                pr($error,1);
+            } else {
+                $data = array('upload_data' => $this->upload->data());
+                pr($data,1);
+            }
+        }
 
         $this->load->view('main', $data);
     }
@@ -36,7 +53,7 @@ class Bio extends CI_Controller {
         $all_saved_media = $this->Bio_model->fetch_mediadata(['userid'=>$u_data['id'],'is_active'=>'1'],false,'id,media_id');        
         $data['all_saved_media'] = array_column($all_saved_media,'media_id');
 
-        $all_images = $this->Bio_model->fetch_mediadata(['userid'=>$u_data['id']]);
+        $all_images = $this->Bio_model->fetch_mediadata(['userid'=>$u_data['id'],'is_active'=>'1']);
 
         $data['sub_view'] = 'bio/saved_feed';
         $data['meta_title'] = "Save instagram bio";
@@ -85,7 +102,7 @@ class Bio extends CI_Controller {
             $all_saved_media = [];
         }
         $curl1 = $next_url;
-        // die;
+        
         $response = $this->unirest->get($curl1, $headers = array());
         $row_data = json_decode($response->raw_body,true);
         
@@ -193,45 +210,32 @@ class Bio extends CI_Controller {
     // ------------------------------------------------------------------------
 
     public function ajax_picture_set_profile(){
-        
+
         $u_data = $this->session->userdata('user');
         $profile_media_id = $u_data['profile_media_id'];
         $access_token = $u_data['access_token'];
         
-        $img_name = $this->input->post('img_name');
-        $type = $this->input->post('type');
-        $thumb = $this->input->post('thumb');
+        $img_name = $this->input->get('img_name');
+        $type = $this->input->get('type');
+        $thumb = $this->input->get('thumb');
         $media_type = ($type == 'image') ? '3': '4';
-        $insta_id = $this->input->post('insta_id');
-        $is_delete = $this->input->post('is_delete');
-        $insta_time = date('Y-m-d H:i:s',$this->input->post('insta_time'));
+        $insta_id = $this->input->get('insta_id');
+        $is_delete = $this->input->get('is_delete');
+        $insta_time = date('Y-m-d H:i:s',$this->input->get('insta_time'));        
 
-        // Step-1) Set existing profile image to is_active -> 0
-        // Step-2) Insert new data into media with userid - 0 which indiacte it's for profile
-        // Step-3) Update last media id into users table
-
-        $ins_data = array();
-        $this->Bio_model->update_media(['id'=>$profile_media_id],['is_active'=>'0']); // Step-1)
-
-        $ins_data = array(
+        $upd_data = array(
                             'userid'=>'0',
                             'media_id'=>$insta_id,
                             'media_name'=>$img_name,
                             'media_thumb'=>$thumb,
                             'media_type'=>$media_type,
                             'insta_datetime'=>$insta_time,
-                            'created_date'=>date('Y-m-d H:i:s')
+                            'updated_date'=>date('Y-m-d H:i:s')
                         );
 
-        $last_id = $this->Bio_model->insert_media($ins_data); // Step-2)
-
-        $this->Users_model->update_record(['id'=>$u_data['id']],['profile_media_id'=>$last_id]); // Step-3)
-        
-        $latest_u_data = $this->Users_model->fetch_userdata(['id'=>$u_data['id']],true);
-        $latest_u_data['access_token'] = $access_token;
-        $this->session->set_userdata( 'user', $latest_u_data); 
-        
-        echo json_encode(['success'=>'success']);
+        // Update new data into media with userid - 0 which indiacte it's for profile
+        $this->Bio_model->update_media(['id'=>$profile_media_id],$upd_data); 
+        redirect('user/view_profile');
     }
 
     // ------------------------------------------------------------------------
