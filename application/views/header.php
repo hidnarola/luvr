@@ -22,7 +22,6 @@ else
             <script src="<?php echo base_url(); ?>assets/js/jquery.jTinder.js"></script>
         <?php } ?>
     </head>
-</head>
 <body>
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
@@ -46,7 +45,7 @@ else
                     ?>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a href="<?php echo base_url() . 'user/register'; ?>"><span class="glyphicon glyphicon-log-in"></span>
+                            <a href="<?php echo base_url() . 'register'; ?>"><span class="glyphicon glyphicon-log-in"></span>
                                 Login
                             </a>
                         </li>

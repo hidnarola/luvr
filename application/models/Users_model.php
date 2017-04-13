@@ -35,7 +35,6 @@ class Users_model extends CI_Model {
     }
 
     /* This function will fetch user related data based on where clauses provided. */
-
     public function fetch_userdata($where, $is_single = false, $select = '*') {
         $this->db->select($select);
         $this->db->where($where);
@@ -175,5 +174,4 @@ class Users_model extends CI_Model {
     }
 
 }
-
 ?>

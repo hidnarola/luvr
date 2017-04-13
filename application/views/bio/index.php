@@ -8,6 +8,7 @@
         <?php
             if(!empty($all_images)){
                 $i = 30;
+
                 foreach($all_images as $image){
                     
                     $type = $image['type'];
@@ -25,7 +26,7 @@
                     }
 
                     if($is_delete == 'no') {
-        ?>
+                        ?>
                         <div class="col-sm-3" style="margin-bottom:10px;">
 
                             <img src="<?php echo $link; ?>" class="img-responsive" style="width:100%" alt="Image">
@@ -125,6 +126,7 @@
     }
 
     function ajax_set_profile(obj){
+        
         var img_name = $(obj).data('val');
         var type = $(obj).data('type');
         var insta_id = $(obj).data('insta-id');
@@ -132,15 +134,10 @@
         var thumb = $(obj).data('thumb');
         var is_delete = $(obj).data('is-delete');
 
-        $.ajax({
-            url:"<?php echo base_url().'bio/ajax_picture_set_profile'; ?>",
-            method:"POST",
-            data:{img_name:img_name,type:type,insta_id:insta_id,insta_time:insta_time,thumb:thumb,is_delete:is_delete},
-            dataType:"JSON",
-            success:function(data){
-                location.reload();
-            }
-        });
+        var new_str = "?img_name="+img_name + "&type="+type + "&insta_id="+insta_id + "&insta_time="+insta_time + "&thumb="+thumb + "&is_delete="+is_delete;
+
+        window.location.href = "<?php echo base_url().'bio/ajax_picture_set_profile'; ?>"+new_str;
+        
     }
 
     <?php if($i == 30 || ($i>=15 && $i<=30)) { ?>

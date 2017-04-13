@@ -88,12 +88,7 @@ class Register extends CI_Controller {
                 }
             } // END of IF condition for ACCESS TOKEN
         }
-    }
-
-    public function logout() {
-        $this->session->unset_userdata('user');
-        redirect('register');
-    }
+    }   
 
 }
 

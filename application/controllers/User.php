@@ -4,47 +4,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class User extends CI_Controller {
 
-    /**
-     * Index Page for this controller.
-     *
-     * Maps to the following URL
-     * 		http://example.com/index.php/welcome
-     * 	- or -
-     * 		http://example.com/index.php/welcome/index
-     * 	- or -
-     * Since this controller is set as the default controller in
-     * config/routes.php, it's displayed at http://example.com/
-     *
-     * So any other public methods not prefixed with an underscore will
-     * map to /index.php/welcome/<method_name>
-     * @see https://codeigniter.com/user_guide/general/urls.html
-     */
-    function __construct() {
+    
+    public function __construct() {
         // Call the Model constructor
         parent::__construct();
-        $this->load->model(array('Users_model', 'Filters_model', 'Matches_model'));
+        $this->load->model(array('Users_model', 'Filters_model', 'Matches_model','Bio_model'));
         $this->load->library('unirest');
         $u_data = $this->session->userdata('user');
-        if (empty($u_data) && uri_string() != "user/register") {
-            redirect('user/register');
+        if (empty($u_data)) {
+            redirect('register');
         }
     }
 
-    function index() {
+    public function index() {
         $data['sub_view'] = 'viewProfile';
         $data['meta_title'] = "User Profile";
         $this->load->view('main', $data);
-    }
-
-    public function register() {
-        if ($this->session->userdata('user')) {
-            redirect('user/profile');
-        } else {
-            $data['sub_view'] = 'register/register_view';
-            $data['meta_title'] = "User Registration";
-            $this->load->view('main', $data);
-        }
-    }
+    }   
 
     /* --------------------------------------------------------------------------------------
       This function will save user profile's data.
@@ -339,6 +315,20 @@ class User extends CI_Controller {
         echo json_encode(array("success" => $success));
     }
 
-}
+    public function view_profile($user_id = ''){
+        $u_data = $this->session->userdata('user');
+        
+        if(empty($user_id)){
+            $user_id = $u_data['id'];
+        }
 
-?>
+        $data['sub_view'] = 'user/userProfile';
+        $data['meta_title'] = "View User Profile";                
+        $data['db_user_data'] =  $this->Users_model->fetch_userdata(['id'=>$user_id],true);
+        $data['user_profile'] = $this->Bio_model->fetch_mediadata(['id'=>$data['db_user_data']['profile_media_id']] ,true);
+
+        if(empty($data['db_user_data'])){ show_404(); }        
+
+        $this->load->view('main', $data);
+    }
+}
