@@ -21,10 +21,6 @@ class Bio extends CI_Controller {
 
     public function change_profile(){
         
-        $data['sub_view'] = 'bio/change_profile';
-        $data['meta_title'] = "Change Profile";
-        $data['userData'] = [];        
-
         if($_POST){
 
             $config['upload_path'] = './assets/uploads/';
@@ -35,13 +31,17 @@ class Bio extends CI_Controller {
             
             if ( ! $this->upload->do_upload('profile_picture')){
                 $error = array('error' => $this->upload->display_errors());
-                pr($error,1);
+                $this->session->set_flashdata('message', ['message'=>$error['error'],'class'=>'alert alert-danger']);
+                redirect('bio/change_profile');
             } else {
                 $data = array('upload_data' => $this->upload->data());
                 pr($data,1);
             }
         }
 
+        $data['sub_view'] = 'bio/change_profile';
+        $data['meta_title'] = "Change Profile";
+        $data['userData'] = [];        
         $this->load->view('main', $data);
     }
 
