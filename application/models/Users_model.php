@@ -174,6 +174,12 @@ class Users_model extends CI_Model {
         return false;
     }
 
+    /* This function will fetch user media by id. */
+
+    public function getUserMediaByCol($column, $value) {
+        return $this->db->get_where('media', array($column => $value))->row_array();
+    }
+
 }
 
 ?>

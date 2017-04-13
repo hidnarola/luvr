@@ -45,7 +45,7 @@ if (!empty($notificationSettings['age_range'])) {
             </td>
             <td>
                 <div class="slider-value">
-                    <span id="slider-range1-amount"><?php echo $userInfo['radius']; ?></span>
+                    <span id="slider-range1-amount"><?php echo $userInfo['radius']; ?> Miles</span>
                     <input type="hidden" id="hdn_radius" name="hdn_radius" value="<?php echo $userInfo['radius']; ?>"/>
                 </div>
             </td>
@@ -118,7 +118,7 @@ if (!empty($notificationSettings['age_range'])) {
                                 max: 100,
                                 value: <?php echo $userInfo['radius']; ?>,
                                 slide: function (event, ui) {
-                                    $("#slider-range1-amount").html("&nbsp;" + ui.value);
+                                    $("#slider-range1-amount").html("&nbsp;" + ui.value + " Miles");
                                     $("#hdn_radius").val(ui.value);
                                 }
                             });

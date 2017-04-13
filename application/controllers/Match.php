@@ -40,6 +40,7 @@ class Match extends CI_Controller {
       -------------------------------------------------------------------------------------- */
 
     function nearby() {
+        $this->load->library('unirest');
         $u_data = $this->session->userdata('user');
         $user_id = $u_data['id'];
         $user_settings = $this->Users_model->getUserSetings('userid', $user_id);
@@ -102,8 +103,22 @@ class Match extends CI_Controller {
         $u_data['user_settings'] = $user_settings;
         $u_data['user_filters'] = $user_filters;
         $near_by = $this->Matches_model->getUserNearBy($user_id, $u_data);
-        if (!empty($near_by) && $near_by != null)
+        if (!empty($near_by['result']) && $near_by['result'] != null) {
             $response = true;
+            $i = 0;
+            foreach ($near_by['result'] as $res) {
+                $loc1 = explode(",", $u_data['latlong']);
+                $lat1 = $loc1[0];
+                $lon1 = $loc1[1];
+                $loc2 = explode(",", $res['latlong']);
+                $lat2 = $loc2[0];
+                $lon2 = $loc2[1];
+                $distance = distance($lat1, $lon1, $lat2, $lon2, "K");
+                $distance = number_format($distance, 2);
+                $near_by['result'][$i]['distance'] = $distance;
+                $i++;
+            }
+        }
         echo json_encode(array("success" => $response, "data" => $near_by['result']));
     }
 

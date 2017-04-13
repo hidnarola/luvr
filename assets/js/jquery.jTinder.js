@@ -57,6 +57,17 @@
         next: function () {
             return this.showPane(current_pane - 1);
         },
+        /*prev: function () {
+         return this.showPane(current_pane + 1);
+         },*/
+        prev: function () {
+            /*panes.eq(current_pane).hide();*/
+            current_pane = current_pane + 1;
+            panes.eq(current_pane).fadeIn();
+            panes.eq(current_pane).removeAttr('style');
+            panes.eq(current_pane).attr('data-nav', 1);
+            reflectUserInfo(current_pane);
+        },
         dislike: function () {
             panes.eq(current_pane).animate({"transform": "translate(-" + (pane_width) + "px," + (pane_width * -1.5) + "px) rotate(-60deg)"}, $that.settings.animationSpeed, function () {
                 if ($that.settings.onDislike) {
@@ -110,7 +121,6 @@
                             panes.eq(current_pane).find($that.settings.likeSelector).css('opacity', opa);
                             panes.eq(current_pane).find($that.settings.dislikeSelector).css('opacity', 0);
                         } else if (posX < 0) {
-
                             panes.eq(current_pane).find($that.settings.dislikeSelector).css('opacity', opa);
                             panes.eq(current_pane).find($that.settings.likeSelector).css('opacity', 0);
                         }
@@ -172,7 +182,8 @@
             if (!$.data(this, "plugin_" + pluginName)) {
                 $.data(this, "plugin_" + pluginName, new Plugin(this, options));
             } else {
-                $.data(this, "plugin_" + pluginName).bindNew(this);
+                if (options != "prev")
+                    $.data(this, "plugin_" + pluginName).bindNew(this);
             }
         });
 

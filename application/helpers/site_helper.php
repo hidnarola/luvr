@@ -1,11 +1,12 @@
 <?php
-    function qry($is_die = false) {
-        $CI = & get_instance();
-        echo $CI->db->last_query();
-        if ($is_die == true) {
-            die();
-        }
+
+function qry($is_die = false) {
+    $CI = & get_instance();
+    echo $CI->db->last_query();
+    if ($is_die == true) {
+        die();
     }
+}
 
 if (!function_exists('pr')) {
 
@@ -69,9 +70,29 @@ if (!function_exists('pagination_config')) {
         $config['last_tag_open'] = "<li>";
         $config['last_tagl_close'] = "</li>";
         $config['num_links'] = 5;
-        /*$config['page_query_string'] = TRUE;
-        $config['query_string_segment'] = 'per_page';*/
+        /* $config['page_query_string'] = TRUE;
+          $config['query_string_segment'] = 'per_page'; */
         return $config;
+    }
+
+}
+if (!function_exists('distance')) {
+
+    function distance($lat1, $lon1, $lat2, $lon2, $unit = "M") {
+        $theta = $lon1 - $lon2;
+        $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+        $dist = acos($dist);
+        $dist = rad2deg($dist);
+        $miles = $dist * 60 * 1.1515;
+        $unit = strtoupper($unit);
+
+        if ($unit == "K") {
+            return ($miles * 1.609344);
+        } else if ($unit == "N") {
+            return ($miles * 0.8684);
+        } else {
+            return $miles;
+        }
     }
 
 }
