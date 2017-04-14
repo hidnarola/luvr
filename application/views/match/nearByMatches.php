@@ -24,7 +24,7 @@ if (!empty($nearByUsers)) {
     foreach ($nearByUsers as $nbu) {
         $distance = null;
         if (!empty($nbu['latlong'])) {
-            $loc1 = explode(",", $user_data['latlong']);
+            $loc1 = explode(",", $latlong);
             $lat1 = (double) $loc1[0];
             $lon1 = (double) $loc1[1];
             $loc2 = explode(",", $nbu['latlong']);
@@ -211,8 +211,8 @@ if (!empty($nearByUsers)) {
         }
         if (!empty($nearByUsers)) {
             $distance = null;
-            if (!empty($user_data['latlong']) && !empty($lastObj['latlong'])) {
-                $loc1 = explode(",", $user_data['latlong']);
+            if (!empty($latlong) && !empty($lastObj['latlong'])) {
+                $loc1 = explode(",", $latlong);
                 $lat1 = (double) $loc1[0];
                 $lon1 = (double) $loc1[1];
                 $loc2 = explode(",", $lastObj['latlong']);

@@ -60,6 +60,8 @@ class Match extends CI_Controller {
         $data['sub_view'] = 'match/nearByMatches';
         $data['meta_title'] = "Nearby Matches";
         $data['nearByUsers'] = $near_by['result'];
+        $data['latlong'] = $user_info['latlong'];
+        $data['radius'] = $user_info['radius'];
         $data['is_user_premium_member'] = $user_settings['is_premium_member'];
         $this->load->view('main', $data);
     }
