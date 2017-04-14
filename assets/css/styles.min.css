@@ -268,7 +268,7 @@ a{font-family:'Poppins';font-size:12px;font-weight:500;color:#fff;text-decoratio
 0 0 72px;min-height:60px;display:block;text-decoration:none !important;margin:8px
 -2px 0 0}.user-dropdown > a
 big{font-family:'poppins';font-size:15px;color:#231f20;text-decoration:none;line-height:20px;text-transform:uppercase;letter-spacing:0.04em;font-weight:700;margin:0
-0 3px;display:block}.user-dropdown > a
+0 3px;display:block;min-width:90px}.user-dropdown > a
 small{font-family:'poppins';font-size:12px;color:#666;text-decoration:none;line-height:20px;text-transform:uppercase;letter-spacing:0.04em;display:block}.user-pic{border:2px
 solid #fff;box-shadow:1px 2px 3px 0 rgba(0,0,0,.2);width:60px;height:60px;display:block;position:absolute;top:0;left:0;border-radius:100px;display:block}.user-pic
 img{min-width:56px;min-height:56px;max-width:56px;border-radius:100px}.down-caret{position:absolute;bottom:4px;right:0}.down-caret
