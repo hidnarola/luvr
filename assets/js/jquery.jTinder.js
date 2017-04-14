@@ -13,6 +13,7 @@
             defaults = {
                 onDislike: null,
                 onLike: null,
+                onPrev: null,
                 animationRevertSpeed: 200,
                 animationSpeed: 400,
                 threshold: 1,
@@ -38,7 +39,6 @@
 
     Plugin.prototype = {
         init: function (element) {
-
             container = $(">ul", element);
             panes = $(">ul>li", element);
             pane_width = container.width();
@@ -57,16 +57,12 @@
         next: function () {
             return this.showPane(current_pane - 1);
         },
-        /*prev: function () {
-         return this.showPane(current_pane + 1);
-         },*/
         prev: function () {
-            /*panes.eq(current_pane).hide();*/
             current_pane = current_pane + 1;
             panes.eq(current_pane).fadeIn();
             panes.eq(current_pane).removeAttr('style');
             panes.eq(current_pane).attr('data-nav', 1);
-            reflectUserInfo(current_pane);
+            $that.settings.onPrev(panes.eq(current_pane));
         },
         dislike: function () {
             panes.eq(current_pane).animate({"transform": "translate(-" + (pane_width) + "px," + (pane_width * -1.5) + "px) rotate(-60deg)"}, $that.settings.animationSpeed, function () {
@@ -189,5 +185,4 @@
 
         return this;
     };
-
 })(jQuery, window, document);

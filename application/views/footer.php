@@ -23,7 +23,7 @@
          $obj = $('.obj'),
          deg = 0,
          rad = $rad.width() / 2;
-             
+         
          $obj.each(function () {
          var pos = $(this).data(),
          getAtan = Math.atan2(pos.x - rad, pos.y - rad),
@@ -31,7 +31,7 @@
          // Read/set positions and store degree
          $(this).css({left: pos.x, top: pos.y}).attr('data-atDeg', getDeg);
          });
-             
+         
          (function rotate() {
          $rad.css({transform: 'rotate(' + deg + 'deg)'}); // Radar rotation
          $('[data-atDeg=' + deg + ']').stop().fadeTo(0, 1).fadeTo(1700, 0.2); // Animate dot at deg
@@ -332,6 +332,9 @@
                     onDislike: function (item) {
                         reflectUserInfo(item.index() - 1);
                         //likedislikeuser($(item).data("id"), 'dislike');
+                    },
+                    onPrev: function (item) {
+                        reflectUserInfo(item.index());
                     },
                     animationRevertSpeed: 200,
                     animationSpeed: 500,
