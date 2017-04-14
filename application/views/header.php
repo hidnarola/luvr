@@ -40,19 +40,22 @@ else
                                         $user_data = $this->session->userdata('user');
                                         if (!empty($user_data)) {
                                             $user_media = $this->Users_model->getUserMediaByCol('id', $user_data['profile_media_id']);
+                                            $username = (!empty($user_data['user_name'])) ? $user_data['user_name'] : $user_data['instagram_name'];
                                             ?>
                                             <div class="user-dropdown dropdown">
                                                 <a href="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                    <span class="user-pic"><img src="<?php echo $user_media['media_name']; ?>" alt="<?php echo $user_data['user_name']; ?>" title="<?php echo $user_data['user_name']; ?>" onerror="this.src='<?php echo base_url(); ?>assets/images/default_avatar.jpg'"/></span>
-                                                    <big><?php echo $user_data['user_name']; ?></big>
+                                                    <span class="user-pic"><img src="<?php echo $user_media['media_name']; ?>" alt="<?php echo $username; ?>" title="<?php echo $username; ?>" onerror="this.src='<?php echo base_url(); ?>assets/images/default_avatar.jpg'"/></span>
+                                                    <big><?php echo $username; ?></big>
                                                     <?php
-                                                    $address = $user_data['address'];
-                                                    if ($address != '' && !empty($address)) {
-                                                        $str = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $address . '&key=' . GOOGLE_MAP_API;
-                                                        $res = $this->unirest->get($str);
-                                                        $res_arr = json_decode($res->raw_body, true);
-                                                        if ($res_arr) {
-                                                            echo '<small>[' . $res_arr['results'][0]['address_components'][2]['short_name'] . ']</small>';
+                                                    if (!empty($user_data['address'])) {
+                                                        $address = $user_data['address'];
+                                                        if ($address != '' && !empty($address)) {
+                                                            $str = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $address . '&key=' . GOOGLE_MAP_API;
+                                                            $res = $this->unirest->get($str);
+                                                            $res_arr = json_decode($res->raw_body, true);
+                                                            if ($res_arr) {
+                                                                echo '<small>[' . $res_arr['results'][0]['address_components'][2]['short_name'] . ']</small>';
+                                                            }
                                                         }
                                                     }
                                                     ?>
