@@ -282,7 +282,6 @@ input:checked + .slider:before {
 .switch .slider.round {
     border-radius: 34px;
 }
-
 .switch .slider.round:before {
     border-radius: 50%;
 }
