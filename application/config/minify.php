@@ -30,10 +30,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $config['assets_dir'] = 'assets';
 
 // optional - path where the compiled css files will be stored (default value: '' - for backward compatibility)
-$config['assets_dir_css'] = ''; 
+$config['assets_dir_css'] = 'assets/css'; 
 
 // optional - path where the compiled js files will be stored (default value: '' - for backward compatibility)
-$config['assets_dir_js'] = '';     
+$config['assets_dir_js'] = 'assets/js';     
 
 // where to look for css files (default value: 'assets/css')
 $config['css_dir'] = 'assets/css';
