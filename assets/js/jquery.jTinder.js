@@ -14,6 +14,8 @@
                 onDislike: null,
                 onLike: null,
                 onPrev: null,
+                onLuv: null,
+                onPowerLuv: null,
                 animationRevertSpeed: 200,
                 animationSpeed: 400,
                 threshold: 1,
@@ -58,11 +60,17 @@
             return this.showPane(current_pane - 1);
         },
         prev: function () {
-            current_pane = current_pane + 1;
-            panes.eq(current_pane).fadeIn();
-            panes.eq(current_pane).removeAttr('style');
-            panes.eq(current_pane).attr('data-nav', 1);
-            $that.settings.onPrev(panes.eq(current_pane));
+            if (current_pane != panes.length - 1)
+            {
+                current_pane = current_pane + 1;
+                panes.eq(current_pane).fadeIn();
+                panes.eq(current_pane).removeAttr('style');
+                panes.eq(current_pane).attr('data-nav', 1);
+                $that.settings.onPrev(panes.eq(current_pane));
+            } else if (current_pane == panes.length - 1) {
+                showMsg("You are too early to swipe back!", "alert alert-danger", true);
+                scrollToElement("#msg_txt");
+            }
         },
         dislike: function () {
             panes.eq(current_pane).animate({"transform": "translate(-" + (pane_width) + "px," + (pane_width * -1.5) + "px) rotate(-60deg)"}, $that.settings.animationSpeed, function () {
@@ -80,9 +88,24 @@
                 $that.next();
             });
         },
+        luv: function () {
+            panes.eq(current_pane).animate({"transform": "translate(" + (pane_width) + "px," + (pane_width * -1.5) + "px) rotate(60deg)"}, $that.settings.animationSpeed, function () {
+                if ($that.settings.onLuv) {
+                    $that.settings.onLuv(panes.eq(current_pane));
+                }
+                $that.next();
+            });
+        },
+        powerluv: function () {
+            panes.eq(current_pane).animate({"transform": "translate(" + (pane_width) + "px," + (pane_width * -1.5) + "px) rotate(60deg)"}, $that.settings.animationSpeed, function () {
+                if ($that.settings.onPowerLuv) {
+                    $that.settings.onPowerLuv(panes.eq(current_pane));
+                }
+                $that.next();
+            });
+        },
         handler: function (ev) {
             ev.preventDefault();
-
             switch (ev.type) {
                 case 'touchstart':
                     if (touchStart === false) {
@@ -178,7 +201,7 @@
             if (!$.data(this, "plugin_" + pluginName)) {
                 $.data(this, "plugin_" + pluginName, new Plugin(this, options));
             } else {
-                if (options != "prev")
+                if (options != "prev" && options != "dislike" && options != "luv" && options != "powerluv")
                     $.data(this, "plugin_" + pluginName).bindNew(this);
             }
         });

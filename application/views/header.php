@@ -13,14 +13,14 @@ else
                 <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:400,500" rel="stylesheet"/>
                 <?php
                 /* Load css files */
-                $css = array('style.css', 'bootstrap.min.css', 'responsive.css');
+                $css = array('bootstrap.min.css', 'style.css', 'responsive.css');
                 $js = array('jquery.min.js', 'bootstrap.min.js');
                 if ($sub_view == "match/nearByMatches") {
                     array_push($css, "jTinder.css");
                     array_push($js, "jquery.transform2d.js", "jquery.jTinder.js");
                 }
                 $this->minify->css($css);
-                echo $this->minify->deploy_css(TRUE, 'styles.min.css');
+                echo $this->minify->deploy_css();
 
                 /* Load js files */
                 $this->minify->js($js);
@@ -31,8 +31,8 @@ else
                     <header id="header">
                         <div class="container">
                             <div class="row">
-                                <div class="header">
-                                    <div class="col-md-12 col-sm-12">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="header">    
                                         <div class="logo">
                                             <a href="<?php echo base_url(); ?>"><img src="<?php echo base_url(); ?>assets/images/luvr-logo.png" alt="Luvr" title="Luvr"/></a>
                                         </div>
@@ -73,7 +73,7 @@ else
                                                     <li><a href="<?php echo base_url() . 'match/nearby'; ?>">Nearby Matches</a></li>
                                                     <li><a href="<?php echo base_url() . 'bio/instagram_feed'; ?>">Instagram Feeds</a></li>
                                                     <li><a href="<?php echo base_url() . 'bio/saved_feed'; ?>">My Media</a></li>
-                                                    <li><a href="<?php echo base_url() . 'user / logout'; ?>">Logout</a></li>
+                                                    <li><a href="<?php echo base_url() . 'user/logout'; ?>">Logout</a></li>
                                                 </ul>
                                             </div>
                                         <?php } ?>
