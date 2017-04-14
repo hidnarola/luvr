@@ -42,7 +42,7 @@ else
                                         $user_data = $this->session->userdata('user');
                                         if (!empty($user_data)) {
                                             $user_media = $this->Users_model->getUserMediaByCol('id', $user_data['profile_media_id']);
-                                            $username = (!empty($user_data['user_name'])) ? $user_data['user_name'] : $user_data['instagram_name'];
+                                            $username = (!empty($user_data['user_name'])) ? $user_data['user_name'] : $user_data['instagram_username'];
                                             ?>
                                             <div class="user-dropdown dropdown">
                                                 <a href="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
