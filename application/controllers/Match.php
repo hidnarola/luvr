@@ -145,16 +145,15 @@ class Match extends CI_Controller {
         $response = false;
         $u_data = $this->session->userdata('user');
         $user_id = $u_data['id'];
-        /* $offset = $this->input->post('offset'); */
         $user_settings = $this->Users_model->getUserSetings('userid', $user_id);
         $user_filters = $this->Filters_model->getUserSubFilterByCol('userid', $user_id);
         $u_data['user_settings'] = $user_settings;
         $u_data['user_filters'] = $user_filters;
         $near_by = $this->Matches_model->getUserNearBy($user_id, $u_data);
+        $html = "";
         if (!empty($near_by['result']) && $near_by['result'] != null) {
             $response = true;
             $i = 0;
-            $html = "";
             foreach ($near_by['result'] as $user) {
                 $distance = null;
                 if (!empty($user['latlong'])) {
