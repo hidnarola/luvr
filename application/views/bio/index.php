@@ -1,8 +1,109 @@
  <?php //pr($all_saved_media); //pr($all_images); ?>
-  
+
+ <div class="my-account">
+    
+    <?php $this->load->view('side_bar_account'); ?>
+
+    <div class="col-md-8 col-sm-8 col-xs-12 account-r">
+        <div class="account-r-head">
+            <h2><big>Luvr Admin Name</big> <small>Standard dummy</small></h2>
+            <a href="" class="green-btn" ><big>015</big><small> View</small></a>
+        </div>
+        <div class="account-r-body">
+            <div class="account-body-head">
+                <h2 class="account-title">My Picture</h2>
+                <p>luvr.com</p>
+            </div>  
+            <div class="account-body-body">
+                <ul class="my-picture-ul">
+                    <li>
+                        <div class="my-picture-box">
+                            <a ><img src="<?php echo base_url(); ?>assets/images/popup-img02.jpg" alt="" /></a>
+                            <div class="picture-action">
+                                <div class="picture-action-inr">
+                                    <a href="" class="icon-picture"></a>
+                                    <a href="<?php echo base_url(); ?>assets/images/popup-img01.jpg" class="icon-full-screen image-link"></a>
+                                    <a href="" class="icon-cancel"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="my-picture-box">
+                            <a ><img src="<?php echo base_url(); ?>assets/images/popup-img02.jpg" alt="" /></a>
+                            <div class="picture-action">
+                                <div class="picture-action-inr">
+                                    <a href="" class="icon-picture"></a>
+                                    <a href="<?php echo base_url(); ?>assets/images/popup-img01.jpg" class="icon-full-screen image-link"></a>
+                                    <a href="" class="icon-tick-inside-circle"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="my-picture-box">
+                            <a ><img src="<?php echo base_url(); ?>assets/images/popup-img03.jpg" alt="" /></a>
+                            <div class="picture-action">
+                                <div class="picture-action-inr">
+                                    <a href="" class="icon-picture"></a>
+                                    <a href="<?php echo base_url(); ?>assets/images/popup-img01.jpg" class="icon-full-screen image-link" ></a>
+                                    <a href="" class="icon-tick-inside-circle"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="my-picture-box">
+                            <a ><img src="<?php echo base_url(); ?>assets/images/popup-img04.jpg" alt="" /></a>
+                            <div class="picture-action">
+                                <div class="picture-action-inr">
+                                    <a href="" class="icon-picture"></a>
+                                    <a href="<?php echo base_url(); ?>assets/images/popup-img01.jpg" class="icon-full-screen image-link" ></a>
+                                    <a href="" class="icon-tick-inside-circle"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="my-picture-box">
+                            <a ><img src="<?php echo base_url(); ?>assets/images/popup-img01.jpg" alt="" /></a>
+                            <div class="picture-action">
+                                <div class="picture-action-inr">
+                                    <a class="icon-picture image-link" href="<?php echo base_url(); ?>assets/images/popup-img01.jpg"></a>
+                                    <a href="<?php echo base_url(); ?>assets/images/popup-img01.jpg" class="icon-full-screen image-link"></a>
+                                    <a href="" class="icon-tick-inside-circle"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="my-picture-box">
+                            <a ><img src="<?php echo base_url(); ?>assets/images/popup-img02.jpg" alt="" /></a>
+                            <div class="picture-action">
+                                <div class="picture-action-inr">
+                                    <a class="image-link icon-picture" href="<?php echo base_url(); ?>assets/images/popup-img02.jpg"></a>
+                                    <a href="<?php echo base_url(); ?>assets/images/popup-img01.jpg" class="icon-full-screen image-link" ></a>
+                                    <a href="" class="icon-tick-inside-circle"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="load-more"><a href="#">Load more</a></div>
+            </div>
+        </div>
+    </div>
+</div>  
+
+
+<!-- NEW SECTION   -->
+
 <div class="container-fluid bg-3 text-center">    
     
     <h3>Instagram BIO</h3>    
+
+    <a class="test-popup-link" href="<?php echo base_url(); ?>assets/images/popup-img01.jpg">Open popup</a>
+
     <br>
     <div class="row" id="insta_img_list">
         <?php
@@ -142,6 +243,24 @@
         $('#load_more_id').click();
     <?php } ?>
 
+
 </script>
+<?php
+    $js_2 = array('jquery.magnific-popup.min.js','custom.js');
+?>
+<!--
+    <script src="<?php echo base_url(); ?>assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/js/custom.js"></script>
+-->
+<?php echo $this->minify->deploy_js(FALSE, 'combined.min.js'); ?>
+
+<script type="text/javascript">
+    
+    $('.test-popup-link').magnificPopup({
+        type: 'image'
+    });
+
+</script>
+
 
  

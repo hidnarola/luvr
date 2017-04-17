@@ -317,7 +317,7 @@ class User extends CI_Controller {
 
     public function view_profile($user_id = ''){
         $u_data = $this->session->userdata('user');
-        
+                
         if(empty($user_id)){
             $user_id = $u_data['id'];
         }

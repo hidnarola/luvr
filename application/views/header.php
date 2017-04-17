@@ -13,8 +13,8 @@ else
                 <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:400,500" rel="stylesheet"/>
                 <?php
                 /* Load css files */
-                $css = array('bootstrap.min.css', 'style.css', 'responsive.css');
-                $js = array('jquery.min.js', 'bootstrap.min.js');
+                $css = array('bootstrap.min.css', 'style.css', 'responsive.css','icomoon.css','jquery.bxslider.css','magnific-popup.css');
+                $js = array('jquery.min.js', 'bootstrap.min.js','jquery.magnific-popup.min.js','custom.js');
                 if ($sub_view == "match/nearByMatches") {
                     array_push($css, "jTinder.css");
                     array_push($js, "jquery.transform2d.js", "jquery.jTinder.js");
@@ -24,7 +24,7 @@ else
 
                 /* Load js files */
                 $this->minify->js($js);
-                echo $this->minify->deploy_js(FALSE, 'combined.min.js');
+                // echo $this->minify->deploy_js(FALSE, 'combined.min.js');
                 ?>
                 </head>
                 <body class="with-login">
