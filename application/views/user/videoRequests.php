@@ -62,3 +62,31 @@
         </div>
     </div>
 </div>
+<script type='text/javascript'>
+    function manageVideoRequest(request_id, mode) {
+        var mode_txt = (mode == 2) ? "approve" : "reject";
+        var mode_txted = (mode == 2) ? "approved" : "rejected";
+        if (confirm("Are you sure you want to " + mode_txt + " this request?"))
+        {
+            $.ajax({
+                url: "<?php echo base_url(); ?>user/manageVideoRequest",
+                type: 'POST',
+                dataType: 'json',
+                data: "mode=" + mode + "&request_id=" + request_id,
+                success: function (data) {
+                    if (data.success == true) {
+                        showMsg("Request " + mode_txted + " successfully.", "alert alert-success", true);
+                        $("#request_" + request_id + " #status_txt span").attr("class", (mode == 2) ? "label label-success" : "label label-danger");
+                        $("#request_" + request_id + " #status_txt span").html((mode == 2) ? "Request Approved" : "Request Rejected");
+                    } else {
+                        showMsg("Something went wrong!", "alert alert-danger", true);
+                        scrollToElement("#msg_txt");
+                    }
+                }, error: function () {
+                    showMsg("Something went wrong!", "alert alert-danger", true);
+                    scrollToElement("#msg_txt");
+                }
+            });
+        }
+    }
+</script>

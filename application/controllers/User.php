@@ -4,11 +4,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class User extends CI_Controller {
 
-    
     public function __construct() {
         // Call the Model constructor
         parent::__construct();
-        $this->load->model(array('Users_model', 'Filters_model', 'Matches_model','Bio_model'));
+        $this->load->model(array('Users_model', 'Filters_model', 'Matches_model', 'Bio_model'));
         $this->load->library('unirest');
         $u_data = $this->session->userdata('user');
         if (empty($u_data)) {
@@ -20,7 +19,7 @@ class User extends CI_Controller {
         $data['sub_view'] = 'viewProfile';
         $data['meta_title'] = "User Profile";
         $this->load->view('main', $data);
-    }   
+    }
 
     /* --------------------------------------------------------------------------------------
       This function will save user profile's data.
@@ -315,20 +314,31 @@ class User extends CI_Controller {
         echo json_encode(array("success" => $success));
     }
 
-    public function view_profile($user_id = ''){
+    public function view_profile($user_id = '', $view_card = 0, $mode = null) {
         $u_data = $this->session->userdata('user');
-                
-        if(empty($user_id)){
+
+        if (empty($user_id)) {
             $user_id = $u_data['id'];
         }
 
         $data['sub_view'] = 'user/userProfile';
-        $data['meta_title'] = "View User Profile";                
-        $data['db_user_data'] =  $this->Users_model->fetch_userdata(['id'=>$user_id],true);
-        $data['user_profile'] = $this->Bio_model->fetch_mediadata(['id'=>$data['db_user_data']['profile_media_id']] ,true);
-
-        if(empty($data['db_user_data'])){ show_404(); }        
+        $data['view_card'] = $view_card;
+        $data['mode'] = $mode;
+        $data['meta_title'] = "View User Profile";
+        $data['db_user_data'] = $this->Users_model->fetch_userdata(['id' => $user_id], true);
+        $data['user_profile'] = $this->Bio_model->fetch_mediadata(['id' => $data['db_user_data']['profile_media_id']], true);
+        $data['user_swipes_per_day'] = 0;
+        if ($view_card == 1) {
+            $user_settings = $this->Users_model->getUserSetings('userid', $user_id);
+            if ($user_settings['is_premium_member'] == 0) {
+                $data['user_swipes_per_day'] = $this->Users_model->getTotalUsersSwipesByCol('requestby_id', $user_id, true, array("relation_status" => 1));
+            }
+        }
+        if (empty($data['db_user_data'])) {
+            show_404();
+        }
 
         $this->load->view('main', $data);
     }
+
 }

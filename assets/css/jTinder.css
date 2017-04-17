@@ -15,23 +15,24 @@ html, body {
     padding:0;
 }
 
-#tinderslide {position:relative;width:auto;height:auto;}
-#tinderslide ul {margin:0;position:relative;display:block;height:auto;}
-#tinderslide li {display:block;border-radius:0;margin:0; position: absolute;top:0;z-index:2;left:0;overflow:visible;text-align:center;padding:0;
-display:block;font-size:24px;color: #000;border:0;box-shadow:none; background:transparent; box-shadow:none; background-color:transparent;
--webkit-transform: translate3d(0%,0,0) scale3d(1,1,1);
--moz-transform: translate3d(0%,0,0) scale3d(1,1,1);
--ms-transform: translate3d(0%,0,0) scale3d(1,1,1);
--o-transform: translate3d(0%,0,0) scale3d(1,1,1);
-transform: translate3d(0%,0,0) scale3d(1,1,1);
-backface-visibility: hidden;
--webkit-backface-visibility: hidden;
+#tinderslide,#tinderslide2 {position:relative;width:auto;height:auto;}
+#tinderslide ul,#tinderslide2 ul{margin:0;position:relative;display:block;height:auto;}
+#tinderslide li,#tinderslide2 li{display:block;border-radius:0;margin:0; position: absolute;top:0;z-index:2;left:0;overflow:visible;text-align:center;padding:0;
+                                 display:block;font-size:24px;color: #000;border:0;box-shadow:none; background:transparent; box-shadow:none; background-color:transparent;
+                                 -webkit-transform: translate3d(0%,0,0) scale3d(1,1,1);
+                                 -moz-transform: translate3d(0%,0,0) scale3d(1,1,1);
+                                 -ms-transform: translate3d(0%,0,0) scale3d(1,1,1);
+                                 -o-transform: translate3d(0%,0,0) scale3d(1,1,1);
+                                 transform: translate3d(0%,0,0) scale3d(1,1,1);
+                                 backface-visibility: hidden;
+                                 -webkit-backface-visibility: hidden;
 }
 .user-list-pic-bg{display:block;background:transparent;width:100%;height:458px;background-color:transparent;
-position:relative;box-shadow:0 0 26px 0 rgba(0,0,0,.06);border:6px solid rgba(255,255,255,.2);}
-#tinderslide li h2 {color: #fff;font-size: 30px;text-align: center;position: absolute;top: 40%;left: 0;width: 100%;}
+                  position:relative;box-shadow:0 0 26px 0 rgba(0,0,0,.06);border:6px solid rgba(255,255,255,.2);}
+.user-list-pic-bg a{display:block;}
+#tinderslide li h2,#tinderslide2 li h2{color: #fff;font-size: 30px;text-align: center;position: absolute;top: 40%;left: 0;width: 100%;}
 
-#tinderslide li.panel {
+#tinderslide li.panel,#tinderslide2 li.panel {
     /*-webkit-transform: rotate(-1deg);
     -moz-transform: rotate(-1deg);
     -o-transform: rotate(-1deg);
@@ -57,7 +58,7 @@ position:relative;box-shadow:0 0 26px 0 rgba(0,0,0,.06);border:6px solid rgba(25
 
 /* Like & dislike badge images */
 #tinderslide .like,
-#tinderslide .dislike {
+#tinderslide .dislike,#tinderslide2 .like,#tinderslide2 .dislike {
     background: url("../images/liked.png") no-repeat scroll 0 0;
     opacity: 0;
     height: 80px;
@@ -83,17 +84,17 @@ position:relative;box-shadow:0 0 26px 0 rgba(0,0,0,.06);border:6px solid rgba(25
 }
 
 /* Image container */
-#tinderslide .img{height:100%;width:100%;background-size:100% !important;margin:0;position:relative;
--webkit-transform: translate3d(0%,0,0) scale3d(1,1,1);
--moz-transform: translate3d(0%,0,0) scale3d(1,1,1);
--ms-transform: translate3d(0%,0,0) scale3d(1,1,1);
--o-transform: translate3d(0%,0,0) scale3d(1,1,1);
-transform: translate3d(0%,0,0) scale3d(1,1,1);
-overflow: hidden;
-backface-visibility: hidden;
--webkit-backface-visibility: hidden;
--webkit-transform: translate3d(0,0,0) scale3d(1,1,1);
--webkit-transform-style: preserve-3d;}
+#tinderslide .img,#tinderslide2 .img{height:100%;width:100%;background-size:100% !important;margin:0;position:relative;
+                  -webkit-transform: translate3d(0%,0,0) scale3d(1,1,1);
+                  -moz-transform: translate3d(0%,0,0) scale3d(1,1,1);
+                  -ms-transform: translate3d(0%,0,0) scale3d(1,1,1);
+                  -o-transform: translate3d(0%,0,0) scale3d(1,1,1);
+                  transform: translate3d(0%,0,0) scale3d(1,1,1);
+                  overflow: hidden;
+                  backface-visibility: hidden;
+                  -webkit-backface-visibility: hidden;
+                  -webkit-transform: translate3d(0,0,0) scale3d(1,1,1);
+                  -webkit-transform-style: preserve-3d;}
 /* Action - buttons */
 .actions {text-align:center;width:304px;margin:0 auto;overflow:hidden;}
 .actions div {position: relative;display: inline-block;margin-right:-4px;}
