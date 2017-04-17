@@ -13,14 +13,14 @@ else
                 <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:400,500" rel="stylesheet"/>
                 <?php
                 /* Load css files */
-                $css = array('style.css', 'bootstrap.min.css', 'responsive.css');
+                $css = array('bootstrap.min.css', 'style.css', 'responsive.css');
                 $js = array('jquery.min.js', 'bootstrap.min.js');
                 if ($sub_view == "match/nearByMatches") {
                     array_push($css, "jTinder.css");
                     array_push($js, "jquery.transform2d.js", "jquery.jTinder.js");
                 }
                 $this->minify->css($css);
-                echo $this->minify->deploy_css(TRUE, 'styles.min.css');
+                echo $this->minify->deploy_css();
 
                 /* Load js files */
                 $this->minify->js($js);
@@ -31,8 +31,8 @@ else
                     <header id="header">
                         <div class="container">
                             <div class="row">
-                                <div class="header">
-                                    <div class="col-md-12 col-sm-12">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="header">    
                                         <div class="logo">
                                             <a href="<?php echo base_url(); ?>"><img src="<?php echo base_url(); ?>assets/images/luvr-logo.png" alt="Luvr" title="Luvr"/></a>
                                         </div>
@@ -40,9 +40,11 @@ else
                                         $user_data = $this->session->userdata('user');
                                         if (!empty($user_data)) {
                                             $user_media = $this->Users_model->getUserMediaByCol('id', $user_data['profile_media_id']);
+                                            $username = (!empty($user_data['user_name'])) ? $user_data['user_name'] : $user_data['instagram_username'];
                                             ?>
                                             <div class="user-dropdown dropdown">
                                                 <a href="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
                                                     <span class="user-pic">                                                        
                                                         <?php if($user_media['media_type'] == '1' || $user_media['media_type'] == '2') { ?>
                                                             <img src="<?php echo base_url().'bio/show_img/'.$user_media['media_thumb'].'/1'; ?>" alt="<?php echo $user_data['user_name']; ?>" 
@@ -54,13 +56,15 @@ else
                                                     </span>
                                                     <big><?php echo $user_data['user_name']; ?></big>
                                                     <?php
-                                                    $address = $user_data['address'];
-                                                    if ($address != '' && !empty($address)) {
-                                                        $str = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $address . '&key=' . GOOGLE_MAP_API;
-                                                        $res = $this->unirest->get($str);
-                                                        $res_arr = json_decode($res->raw_body, true);
-                                                        if ($res_arr) {
-                                                            echo '<small>[' . $res_arr['results'][0]['address_components'][2]['short_name'] . ']</small>';
+                                                    if (!empty($user_data['address'])) {
+                                                        $address = $user_data['address'];
+                                                        if ($address != '' && !empty($address)) {
+                                                            $str = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $address . '&key=' . GOOGLE_MAP_API;
+                                                            $res = $this->unirest->get($str);
+                                                            $res_arr = json_decode($res->raw_body, true);
+                                                            if ($res_arr) {
+                                                                echo '<small>[' . $res_arr['results'][0]['address_components'][2]['short_name'] . ']</small>';
+                                                            }
                                                         }
                                                     }
                                                     ?>

@@ -22,6 +22,7 @@ class Matches_model extends CI_Model {
         $is_universal_profile = $user_data['user_settings']['is_universal_profile'];
 
         $idontcares = array();
+        $idontcares_txt = "";
         if (!empty($user_data['user_filters'])) {
             foreach ($user_data['user_filters'] as $filter) {
                 if ($filter['sub_filter_name'] == "I don't care") {
@@ -29,8 +30,10 @@ class Matches_model extends CI_Model {
                 }
             }
         }
-        if (!empty($idontcares))
+        if (!empty($idontcares)) {
             $idontcares = implode(",", $idontcares);
+            $idontcares_txt = "AND find_in_set(sub_filter_id,'$idontcares') ";
+        }
         if (!empty($user_id) && is_numeric($user_id)) {
             $subquery = "
                 SELECT 
@@ -84,8 +87,7 @@ class Matches_model extends CI_Model {
                         user_filter 
                     WHERE 
                         is_filter_on = 1 
-                    AND 
-                        find_in_set(sub_filter_id,'$idontcares') 
+                    $idontcares_txt
                     AND 
                         userid = $user_id) > 0 OR 
                             (SELECT COUNT(*) 

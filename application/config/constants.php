@@ -92,6 +92,8 @@ define('INSTA_CLIENT_ID', '17fd6de1ec314541afd3cb022b9417be');
 define('INSTA_CLIENT_SECRET', '329c8fdfb8114840b6413b1f543ddc5d');
 define('GOOGLE_MAP_API', 'AIzaSyBrAT6XIzO4FSwU1_iXBgvvOkAqqx8GRBw');
 define('MAX_SWIPES_PER_DAY', 100);
+define('MAX_POWERLUVS_PER_DAY', 5);
+define('MAX_POWERLUVS_PER_DAY_P', 25);
 
 if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1')
     define('PHYSICALUPLOADPATH', $_SERVER['DOCUMENT_ROOT'].'/assets');

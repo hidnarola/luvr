@@ -1,25 +1,44 @@
 <?php
-/* pr($nearByUsers, 1); */
+$user_data = $this->session->userdata('user');
 if ($user_swipes_per_day >= MAX_SWIPES_PER_DAY) {
     echo '<div class="alert alert-danger alert-dismissable">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        Your daily swipe quota has been reached!</div>';
+        Your likes quota per day has been reached! Therefore, right swipes for cards will not be considered.</div>';
 }
-$user_data = $this->session->userdata('user');
+$max_powerluvs = MAX_POWERLUVS_PER_DAY;
+$pl_onclick = "onclick=\"$('#tinderslide').jTinder('powerluv');\"";
+if ($is_user_premium_member == 1) {
+    $max_powerluvs = MAX_POWERLUVS_PER_DAY_P;
+}
+if ($user_powerluvs_per_day >= $max_powerluvs) {
+    $pl_onclick = "";
+    echo '<div class="alert alert-danger alert-dismissable">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+       Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.</div>';
+}
+if (empty($nearByUsers) || $nearByUsers == null) {
+    echo '<div class="alert alert-info">We could not find any nearby matches around you!</div>';
+}
 if (!empty($nearByUsers)) {
     $i = 0;
     foreach ($nearByUsers as $nbu) {
-        $loc1 = explode(",", $user_data['latlong']);
-        $lat1 = $loc1[0];
-        $lon1 = $loc1[1];
-        $loc2 = explode(",", $nbu['latlong']);
-        $lat2 = $loc2[0];
-        $lon2 = $loc2[1];
-        $distance = distance($lat1, $lon1, $lat2, $lon2, "K");
-        $distance = number_format($distance, 2);
+        $distance = null;
+        if (!empty($nbu['latlong'])) {
+            $loc1 = explode(",", $latlong);
+            $lat1 = (double) $loc1[0];
+            $lon1 = (double) $loc1[1];
+            $loc2 = explode(",", $nbu['latlong']);
+            $lat2 = (double) $loc2[0];
+            $lon2 = (double) $loc2[1];
+            if (!empty($loc1) && !empty($loc2)) {
+                $distance = distance($lat1, $lon1, $lat2, $lon2, "K");
+                $distance = number_format($distance, 2);
+            }
+        }
         $nearByUsers[$i]['distance'] = $distance;
         $i++;
     }
+    $lastObj = end($nearByUsers);
 }
 ?>
 <script type="text/javascript">
@@ -28,12 +47,12 @@ if (!empty($nearByUsers)) {
 <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="user-list">
         <div class="bg-name">luvr</div>
-        <div class="user-list-l">
-            <div class="user-list-pic">
-                <div id="tinderslide" style="visibility:hidden;">
-                    <ul>
-                        <?php
-                        if (!empty($nearByUsers)) {
+        <?php if (!empty($nearByUsers)) { ?>
+            <div class="user-list-l">
+                <div class="user-list-pic">
+                    <div id="tinderslide" style="visibility:hidden;">
+                        <ul>
+                            <?php
                             $it = 1;
                             foreach ($nearByUsers as $user) {
                                 $path = "";
@@ -46,9 +65,9 @@ if (!empty($nearByUsers)) {
                                 } else if ($user['media_type'] == 3 || $user['media_type'] == 4) {
                                     $path = $user['media_thumb'];
                                 }
-                                $prev_btn_style = "";
-                                if ($it == count($nearByUsers))
-                                    $prev_btn_style = "style='display:none;'";
+                                /* $prev_btn_style = "";
+                                  if ($it == count($nearByUsers))
+                                  $prev_btn_style = "style='display:none;'"; */
                                 echo '<li class="panel" data-id="' . $user['id'] . '">
                                         <div class="user-list-pic-wrapper">
                                             <div class="user-list-pic-bg">
@@ -94,7 +113,7 @@ if (!empty($nearByUsers)) {
                                         </a>
                                     </div>
                                     <div class="user-next-prev">
-                                        <a class="for_pointer" onclick="prevMatch(' . $user['id'] . ')" ' . $prev_btn_style . '>
+                                        <a class="for_pointer" onclick="prevMatch(' . $user['id'] . ')">
                                             <svg version="1.0" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
                                                  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="27.08px"
                                                  height="17.699px" viewBox="0 0 27.08 17.699" enable-background="new 0 0 27.08 17.699" xml:space="preserve">
@@ -111,7 +130,7 @@ if (!empty($nearByUsers)) {
                                             </switch>
                                             </svg>
                                         </a>
-                                        <a href="">
+                                        <a href="#">
                                             <svg version="1.0" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
                                                  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="27.08px"
                                                  height="17.699px" viewBox="0 0 27.08 17.699" enable-background="new 0 0 27.08 17.699" xml:space="preserve">
@@ -129,17 +148,23 @@ if (!empty($nearByUsers)) {
                                             </svg>	
                                         </a>
                                     </div>
-                                    <div class="user-likes">
-                                        <a href="">
-                                            <svg version="1.0" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
-                                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="26.962px"
-                                                 height="21.416px" viewBox="0 0 26.962 21.416" enable-background="new 0 0 26.962 21.416" xml:space="preserve">
-                                            <switch>
-                                            <foreignObject requiredExtensions="&ns_ai;" x="0" y="0" width="1" height="1">
+                                    </div>
+                                    </li>';
+                                $it++;
+                            }
+                            ?>
+                        </ul>
+                        <div class="user-likes">
+                            <a class="for_pointer" id="luv_user" title="Luv" onclick="$('#tinderslide').jTinder('luv');">
+                                <svg version="1.0" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+                                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="26.962px"
+                                     height="21.416px" viewBox="0 0 26.962 21.416" enable-background="new 0 0 26.962 21.416" xml:space="preserve">
+                                    <switch>
+                                        <foreignObject requiredExtensions="&ns_ai;" x="0" y="0" width="1" height="1">
                                             <i:pgfRef  xlink:href="#adobe_illustrator_pgf">
                                             </i:pgfRef>
-                                            </foreignObject>
-                                            <g i:extraneous="self">
+                                        </foreignObject>
+                                        <g i:extraneous="self">
                                             <path d="M24.411,2.564c-1.361-1.191-3.163-1.842-5.087-1.842s-3.732,0.656-5.093,1.847L13.52,3.191L12.798,2.56
                                                   c-1.361-1.191-3.175-1.852-5.099-1.852c-1.918,0-3.726,0.656-5.082,1.842C1.256,3.741,0.506,5.323,0.512,7.006
                                                   c0,1.683,0.755,3.26,2.116,4.452l10.351,9.057c0.144,0.126,0.336,0.193,0.524,0.193s0.38-0.063,0.523-0.188L24.4,11.477
@@ -147,20 +172,20 @@ if (!empty($nearByUsers)) {
                                                   C2.596,9.596,2,8.342,2,7.006s0.59-2.59,1.67-3.53c1.075-0.94,2.508-1.461,4.029-1.461c1.527,0,2.965,0.521,4.046,1.466
                                                   l1.246,1.09c0.292,0.256,0.761,0.256,1.053,0l1.235-1.08c1.08-0.945,2.519-1.466,4.04-1.466s2.954,0.521,4.035,1.461
                                                   c1.08,0.945,1.67,2.199,1.67,3.535C25.028,8.357,24.434,9.611,23.354,10.556z"/>
-                                            </g>
-                                            </switch>
-                                            </svg>
-                                        </a>
-                                        <a href="">
-                                            <svg version="1.0" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
-                                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="28.968px"
-                                                 height="26.607px" viewBox="0 0 28.968 26.607" enable-background="new 0 0 28.968 26.607" xml:space="preserve">
-                                            <switch>
-                                            <foreignObject requiredExtensions="&ns_ai;" x="0" y="0" width="1" height="1">
+                                        </g>
+                                    </switch>
+                                </svg>
+                            </a>
+                            <a class="for_pointer" id="power_luv_user" title="Power Luv" <?php echo $pl_onclick; ?>>
+                                <svg version="1.0" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+                                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="28.968px"
+                                     height="26.607px" viewBox="0 0 28.968 26.607" enable-background="new 0 0 28.968 26.607" xml:space="preserve">
+                                    <switch>
+                                        <foreignObject requiredExtensions="&ns_ai;" x="0" y="0" width="1" height="1">
                                             <i:pgfRef  xlink:href="#adobe_illustrator_pgf">
                                             </i:pgfRef>
-                                            </foreignObject>
-                                            <g i:extraneous="self">
+                                        </foreignObject>
+                                        <g i:extraneous="self">
                                             <path d="M27.867,12.087c0.551-0.521,0.745-1.285,0.508-1.995c-0.238-0.71-0.858-1.217-1.62-1.325l-6.775-0.955
                                                   c-0.289-0.041-0.537-0.216-0.666-0.47l-3.029-5.954c-0.34-0.669-1.031-1.084-1.8-1.084c-0.769,0-1.459,0.416-1.799,1.084
                                                   L9.655,7.343c-0.129,0.254-0.379,0.429-0.667,0.47L2.213,8.768c-0.761,0.107-1.381,0.614-1.62,1.324
@@ -174,36 +199,29 @@ if (!empty($nearByUsers)) {
                                                   c0.654-0.092,1.219-0.49,1.511-1.064l3.03-5.954c0.152-0.3,0.45-0.479,0.794-0.479c0.345,0,0.642,0.179,0.795,0.479l3.029,5.954
                                                   c0.293,0.575,0.857,0.973,1.512,1.064l6.774,0.955c0.341,0.048,0.608,0.267,0.715,0.585c0.106,0.318,0.023,0.647-0.224,0.881
                                                   l-4.902,4.634C21.71,16.391,21.494,17.034,21.606,17.666z"/>
-                                            </g>
-                                            </switch>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                    </div>
-                                    
-                                    </li>';
-                                $it++;
-                            }
-                        } else {
-                            echo '<p class="alert alert-info">We could not find any nearby matches around you!</p>';
-                        }
-                        ?>
-                    </ul>
+                                        </g>
+                                    </switch>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <?php
+            <?php
+        }
         if (!empty($nearByUsers)) {
-            $lastObj = end($nearByUsers);
-            if (!empty($user_data['latlong']) && !empty($lastObj['latlong'])) {
-                $loc1 = explode(",", $user_data['latlong']);
-                $lat1 = $loc1[0];
-                $lon1 = $loc1[1];
+            $distance = null;
+            if (!empty($latlong) && !empty($lastObj['latlong'])) {
+                $loc1 = explode(",", $latlong);
+                $lat1 = (double) $loc1[0];
+                $lon1 = (double) $loc1[1];
                 $loc2 = explode(",", $lastObj['latlong']);
-                $lat2 = $loc2[0];
-                $lon2 = $loc2[1];
-                $distance = distance($lat1, $lon1, $lat2, $lon2, "K");
-                $distance = number_format($distance, 2);
+                $lat2 = (double) $loc2[0];
+                $lon2 = (double) $loc2[1];
+                if (!empty($loc1) && !empty($loc2)) {
+                    $distance = distance($lat1, $lon1, $lat2, $lon2, "K");
+                    $distance = number_format($distance, 2);
+                }
             }
             ?>
             <div class="user-list-r">
@@ -229,7 +247,7 @@ if (!empty($nearByUsers)) {
                         echo $lastObj['age'];
                         ?>)</li>
                     <li id="right_location">Location : <?php echo (!empty($lastObj['address'])) ? $lastObj['address'] : "N/A"; ?></li>
-                    <li id="right_distance">Distance : (<?php echo $distance; ?> km)</li>
+                    <li id="right_distance">Distance : (<?php echo ($distance != null) ? $distance : "N/A"; ?> km)</li>
                 </ul>
                 <div class="user-list-r-btn">
                     <a href="" class="video-option white-btn">

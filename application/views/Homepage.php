@@ -70,7 +70,7 @@
     </ul>
 </section>
 
-<section id="home-package" class="home-package">
+<section id="packages" class="home-package">
     <div class="container">
         <div class="package-table">
             <table class="table">
@@ -153,7 +153,7 @@
                         <td>Unlimited</td>
                     </tr>
                     <tr>
-                        <td>Power luv's</td>
+                        <td>Power luvs</td>
                         <td>05</td>
                         <td>25</td>
                     </tr>
@@ -190,7 +190,7 @@
                     <tr>
                         <td></td>
                         <td></td>
-                        <td class="package-buy"><a href=""> Buy Now </a></td>
+                        <td class="package-buy"><a href="#">Buy Now</a></td>
                     </tr>
                 </tbody>
             </table>

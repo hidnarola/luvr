@@ -35,6 +35,7 @@ class Users_model extends CI_Model {
     }
 
     /* This function will fetch user related data based on where clauses provided. */
+
     public function fetch_userdata($where, $is_single = false, $select = '*') {
         $this->db->select($select);
         $this->db->where($where);
@@ -163,11 +164,13 @@ class Users_model extends CI_Model {
 
     /* This function will return user's swipes by user id. */
 
-    public function getTotalUsersSwipesByCol($column, $value, $per_day = true) {
+    public function getTotalUsersSwipesByCol($column, $value, $per_day = true, $custom_where = null) {
         if (!empty($column) && !empty($value)) {
             $this->db->where($column, $value);
             if ($per_day == true)
                 $this->db->where('DATE(created_date)', date("Y-m-d"));
+            if ($custom_where != null)
+                $this->db->where($custom_where);
             return $this->db->count_all_results('users_relation');
         }
         return false;
@@ -180,4 +183,5 @@ class Users_model extends CI_Model {
     }
 
 }
+
 ?>

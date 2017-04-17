@@ -13,32 +13,8 @@
 <?php if ($sub_view == "match/nearByMatches") { ?>
     <style type="text/css">
         .inner-content{position:relative;}
-        /*#radar{position:relative;overflow:hidden;width:321px; height:321px;background:#222 url(<?php echo base_url(); ?>assets/images/vY6Tl.png);border-radius: 50%;    }
-        #rad{position:absolute;width:321px;height:321px; background:url(<?php echo base_url(); ?>assets/images/fbgUD.png);}
-        .obj{background:#cf5;position:absolute;border-radius: 50%;width:4px; height:4px; margin:-2px;box-shadow:0 0 10px 5px rgba(100,255,0,0.5);opacity:0.2;}*/
     </style>
     <script type="text/javascript">
-        /*$(function () {
-         var $rad = $('#rad'),
-         $obj = $('.obj'),
-         deg = 0,
-         rad = $rad.width() / 2;
-         
-         $obj.each(function () {
-         var pos = $(this).data(),
-         getAtan = Math.atan2(pos.x - rad, pos.y - rad),
-         getDeg = (-getAtan / (Math.PI / 180) + 180) | 0;
-         // Read/set positions and store degree
-         $(this).css({left: pos.x, top: pos.y}).attr('data-atDeg', getDeg);
-         });
-         
-         (function rotate() {
-         $rad.css({transform: 'rotate(' + deg + 'deg)'}); // Radar rotation
-         $('[data-atDeg=' + deg + ']').stop().fadeTo(0, 1).fadeTo(1700, 0.2); // Animate dot at deg
-         deg = ++deg % 360;      // Increment and reset to 0 at 360
-         setTimeout(rotate, 15); // LOOP
-         })();
-         });*/
         $(window).on('load', function () {
             setTimeout(function () {
                 /*$("#radar").hide();*/
@@ -321,67 +297,110 @@
 <?php } ?>
 <?php if ($sub_view == "match/nearByMatches") { ?>
         var likedislikecounts = 0;
+        var likesreached = powerluvsreached = 0;
+        registerjTinder();
+        function registerjTinder() {
+            $("#tinderslide").jTinder({
+                onLike: function (item) {
     <?php if ($user_swipes_per_day < MAX_SWIPES_PER_DAY) { ?>
-            registerjTinder();
-            function registerjTinder() {
-                $("#tinderslide").jTinder({
-                    onLike: function (item) {
-                        reflectUserInfo(item.index() - 1);
-                        //likedislikeuser($(item).data("id"), 'like');
-                    },
-                    onDislike: function (item) {
-                        reflectUserInfo(item.index() - 1);
-                        //likedislikeuser($(item).data("id"), 'dislike');
-                    },
-                    onPrev: function (item) {
-                        reflectUserInfo(item.index());
-                    },
-                    animationRevertSpeed: 200,
-                    animationSpeed: 500,
-                    threshold: 4,
-                    likeSelector: '.like',
-                    dislikeSelector: '.dislike'
-                });
-            }
-            function reflectUserInfo(index) {
-                if (index >= 0 && index < $("#tinderslide ul li.panel").length)
+                        likedislikeuser($(item).data("id"), 'like');
+    <?php } ?>
+                    reflectUserInfo(item.index() - 1);
+                },
+                onDislike: function (item) {
+                    likedislikeuser($(item).data("id"), 'dislike');
+                    reflectUserInfo(item.index() - 1);
+                },
+                onLuv: function (item) {
+                    likedislikeuser($(item).data("id"), 'luv', item);
+                },
+                onPowerLuv: function (item) {
+                    likedislikeuser($(item).data("id"), 'powerluv', item.index() - 1);
+                },
+                onPrev: function (item) {
+                    reflectUserInfo(item.index());
+                },
+                animationRevertSpeed: 200,
+                animationSpeed: 500,
+                threshold: 4,
+                likeSelector: '.like',
+                dislikeSelector: '.dislike'
+            });
+        }
+        function reflectUserInfo(index) {
+            if (index >= 0 && index < $("#tinderslide ul li.panel").length)
+            {
+                $("#right_username").html(nearby_matches[index].user_name);
+                $("#right_oneliner").html(nearby_matches[index].one_liner);
+                $("#right_bio").html((nearby_matches[index].bio) ? nearby_matches[index].bio : "&nbsp;");
+                $("#right_age").html("Age (" + nearby_matches[index].age + ")");
+                $("#right_location").html((nearby_matches[index].address) ? "Location : " + nearby_matches[index].address : "Location : N/A");
+                $("#right_distance").html((nearby_matches[index].distance) ? "Distance : " + nearby_matches[index].distance + " km" : "Distance : N/A");
+                if (powerluvsreached == 1)
                 {
-                    $("#right_username").html(nearby_matches[index].user_name);
-                    $("#right_oneliner").html(nearby_matches[index].one_liner);
-                    $("#right_bio").html((nearby_matches[index].bio) ? nearby_matches[index].bio : "&nbsp;");
-                    $("#right_age").html("Age (" + nearby_matches[index].age + ")");
-                    $("#right_location").html((nearby_matches[index].address) ? "Location : " + nearby_matches[index].address : "Location : N/A");
-                    $("#right_distance").html((nearby_matches[index].distance) ? "Distance : " + nearby_matches[index].distance + " km" : "Distance : N/A");
+                    $("#power_luv_user").removeAttr("onclick");
+                } else
+                {
+                    if (nearby_matches[index].id)
+                    {
+                        $("#luv_user").attr("onclick", "$('#tinderslide').jTinder('luv');");
+                        $("#power_luv_user").attr("onclick", "$('#tinderslide').jTinder('powerluv');");
+                    } else
+                    {
+                        $("#luv_user").attr("onclick", "showMsg('Something went wrong!','alert alert-danger',true);");
+                        $("#power_luv_user").attr("onclick", "showMsg('Something went wrong!','alert alert-danger',true);");
+                    }
                 }
             }
-            function prevMatch(id) {
+        }
+        function prevMatch(id) {
+    <?php if ($is_user_premium_member == 1) { ?>
                 if ($("#tinderslide ul li[data-id='" + id + "']").attr("data-nav") != 1)
                     $('#tinderslide').jTinder('prev');
-            }
+    <?php } else { ?>
+                showMsg("You need to be Luvr premium member to swipe back! <a href='<?php echo base_url() ?>#packages'>Click here to join</a>", "alert alert-danger", true);
+                scrollToElement("#msg_txt");
     <?php } ?>
-        function likedislikeuser(user_id, mode) {
+        }
+        function likedislikeuser(user_id, mode, li_index) {
             $.ajax({
                 url: "<?php echo base_url(); ?>match/likedislike",
                 type: 'POST',
                 dataType: 'json',
-                data: "user_id=" + user_id + "&status=" + mode,
+                data: "user_id=" + user_id + "&status=" + mode + "&totallikesreached=" + likesreached,
                 success: function (data) {
                     likedislikecounts++;
                     if (data.success == true) {
                     }
-                    if (data.user_swipes_per_day == <?php echo MAX_SWIPES_PER_DAY; ?>)
+                    if ((data.user_swipes_per_day == <?php echo MAX_SWIPES_PER_DAY; ?>) && mode == "like")
                     {
-                        $("#tinderslide").unbind('touchstart mousedown');
-                        $("#tinderslide").unbind('touchmove mousemove');
-                        $("#tinderslide").unbind('touchend mouseup');
-                        showMsg("Your daily swipe quota has been reached!", "alert alert-danger");
+                        /*$("#tinderslide").unbind('touchstart mousedown');
+                         $("#tinderslide").unbind('touchmove mousemove');
+                         $("#tinderslide").unbind('touchend mouseup');*/
+                        likesreached = 1;
+                        showMsg("Your likes quota per day has been reached! Therefore, right swipes for cards will not be considered.", "alert alert-danger");
                         scrollToElement("#msg_txt");
-                    } else
-                    {
-                        if (likedislikecounts == $("#tinderslide ul li.panel").length)
+                    }
+    <?php if ($is_user_premium_member == 1) { ?>
+                        if ((data.user_powerluvs_per_day == <?php echo MAX_POWERLUVS_PER_DAY_P; ?>) && mode == "powerluv")
                         {
-                            loadMoreNearBys();
+                            powerluvsreached = 1;
+                            reflectUserInfo(li_index);
+                            showMsg("Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.", "alert alert-danger");
+                            scrollToElement("#msg_txt");
                         }
+    <?php } else { ?>
+                        if ((data.user_powerluvs_per_day == <?php echo MAX_POWERLUVS_PER_DAY; ?>) && mode == "powerluv")
+                        {
+                            powerluvsreached = 1;
+                            reflectUserInfo(li_index);
+                            showMsg("Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.", "alert alert-danger");
+                            scrollToElement("#msg_txt");
+                        }
+    <?php } ?>
+                    if (likedislikecounts == $("#tinderslide ul li.panel").length)
+                    {
+                        loadMoreNearBys();
                     }
                 }, error: function () {
                     showMsg("Something went wrong!", "alert alert-danger", true);
@@ -400,36 +419,21 @@
                     if (data.success == true) {
                         likedislikecounts = 0;
                         if (data.data) {
-                            var ul_html = "";
                             nearby_matches = data.data;
-                            for (var i = 0; i < data.data.length; i++) {
-                                var user = data.data[i];
-                                var path = "";
-                                if (user.media_type == 1 || user.media_type == 2) {
-                                    if (user.media_type == 1)
-                                        path = "<?php echo base_url(); ?>assets/images/users/" + user.user_profile;
-                                    else
-                                        path = "<?php echo base_url(); ?>assets/videos/users/" + user.user_profile;
-                                } else if (user.media_type == 3 || user.media_type == 4) {
-                                    path = user.user_profile;
-                                }
-                                ul_html += '<li class="panel" data-id="' + user.id + '">';
-                                ul_html += '<div style="background:url(\'' + path + '\') no-repeat scroll center center;" class="img"></div>';
-                                ul_html += '<div>' + user.user_name + '</div>';
-                                ul_html += '<div class="like"></div>';
-                                ul_html += '<div class="dislike"></div>';
-                                ul_html += '</li>';
-                            }
-                            $("#tinderslide ul").html(ul_html);
+                            $("#tinderslide ul").html(data.html);
                             reflectUserInfo(parseInt(data.data.length) - 1);
-                            setTimeout(function () {
-                                /*$("#radar").hide();*/
-                                $("#loader").fadeOut();
-                                $("#tinderslide").removeAttr('style');
-                            }, Math.floor((Math.random() * 1000) + 1000));
                             registerjTinder();
                         }
+                    } else {
+                        $(".user-list-l,.user-list-r").hide();
+                        $("#msg_txt").after('<div class="alert alert-info" id="nomoredata">We could not find more nearby matches around you!</div>');
+                        scrollToElement("#nomoredata");
                     }
+                    setTimeout(function () {
+                        /*$("#radar").hide();*/
+                        $("#loader").fadeOut();
+                        $("#tinderslide").removeAttr('style');
+                    }, Math.floor((Math.random() * 1000) + 1000));
                 }
             });
         }
@@ -497,7 +501,7 @@
         $("#msg_txt").html(text);
         $("#msg_txt").attr("class", msg_class);
         if (autofadeout == true)
-            $('#msg_txt').fadeIn().delay(5000).fadeOut('slow');
+            $('#msg_txt').fadeIn().delay(8000).fadeOut('slow');
         else
             $('#msg_txt').fadeIn();
     }

@@ -7,13 +7,12 @@ class Home extends CI_Controller {
     public function __construct() {
 
         parent::__construct();
-        /* $this->load->model(array('Users_model', 'Filters_model'));
-          $u_data = $this->session->userdata('user');
+        $this->load->model(array('Users_model'));
+        /* $u_data = $this->session->userdata('user');
           if (empty($u_data)) {
           redirect('register');
           } */
-          
-        $this->load->library('minify');
+        $this->load->library('unirest');
     }
 
     public function index() {
