@@ -56,10 +56,18 @@
             panes.eq(current_pane).hide();
             current_pane = index;
         },
+        resetIndex: function () {
+            current_pane = $("#" + $(this.element).attr("id") + " ul li.panel:visible:last").index();
+        },
         next: function () {
             return this.showPane(current_pane - 1);
         },
         prev: function () {
+            var hidden_lis = 0;
+            panes.each(function () {
+                if ($(this).css('display') == "none")
+                    hidden_lis = hidden_lis + 1;
+            });
             if (current_pane != panes.length - 1)
             {
                 current_pane = current_pane + 1;
@@ -67,9 +75,15 @@
                 panes.eq(current_pane).removeAttr('style');
                 panes.eq(current_pane).attr('data-nav', 1);
                 $that.settings.onPrev(panes.eq(current_pane));
-            } else if (current_pane == panes.length - 1) {
+            } else if ((current_pane == panes.length - 1) && hidden_lis == 0) {
                 showMsg("You are too early to swipe back!", "alert alert-danger", true);
                 scrollToElement("#msg_txt");
+            } else if (hidden_lis > 0) {
+                current_pane = current_pane + 1;
+                panes.eq(current_pane).fadeIn();
+                panes.eq(current_pane).removeAttr('style');
+                panes.eq(current_pane).attr('data-nav', 1);
+                $that.settings.onPrev(panes.eq(current_pane));
             }
         },
         dislike: function () {
@@ -201,7 +215,7 @@
             if (!$.data(this, "plugin_" + pluginName)) {
                 $.data(this, "plugin_" + pluginName, new Plugin(this, options));
             } else {
-                if (options != "prev" && options != "dislike" && options != "luv" && options != "powerluv")
+                if (options != "prev" && options != "dislike" && options != "luv" && options != "powerluv" && options != "resetIndex")
                     $.data(this, "plugin_" + pluginName).bindNew(this);
             }
         });

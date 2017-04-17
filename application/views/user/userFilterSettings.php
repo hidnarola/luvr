@@ -24,3 +24,45 @@
     </form>
 <?php } ?>
 <input type="button" class="btn btn-primary" onclick="saveFilter(1);" data-step="1" data-total-steps="<?php echo $totalFilters; ?>" id="save_step_btn" value="Next"/>
+<script type="text/javascript">
+    function saveFilter(filter_id) {
+        if ($('#updatefiltersform input[type="checkbox"]:checked').length > 0)
+        {
+            $.ajax({
+                url: "<?php echo base_url(); ?>user/savestep",
+                type: 'POST',
+                dataType: 'json',
+                data: "filter_id=" + filter_id + "&" + $('#updatefiltersform').serialize(),
+                success: function (data) {
+                    if (data.success == true) {
+                        $("#save_step_btn").attr("onclick", "saveFilter(" + data.next_filter_id + ")");
+                        $("#save_step_btn").attr("data-step", parseInt($("#save_step_btn").attr("data-step")) + 1);
+                        if (data.next_filter_name)
+                            $("#lbl_filter_name").text(data.next_filter_name);
+                        $("#updatefiltersform tbody").html(data.next_filter_html);
+                        if ($("#save_step_btn").attr("data-step") > $("#save_step_btn").attr("data-total-steps")) {
+                            location.href = '<?php echo base_url() . $redirect; ?>';
+                        }
+                    } else {
+                        showMsg("Something went wrong!", "alert alert-danger", true);
+                        scrollToElement("#msg_txt");
+                    }
+                }, error: function () {
+                    showMsg("Something went wrong!", "alert alert-danger", true);
+                    scrollToElement("#msg_txt");
+                }
+            });
+        } else {
+            showMsg("Please select atleast one of the below choices!", "alert alert-danger", true);
+            scrollToElement("#msg_txt");
+        }
+    }
+    function ignoreOther() {
+        if ($("#idontcare").is(":checked")) {
+            $("#updatefiltersform .subfilters").prop("checked", false);
+        }
+    }
+    function ignoreLast() {
+        $("#updatefiltersform #idontcare").prop("checked", false);
+    }
+</script>

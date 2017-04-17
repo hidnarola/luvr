@@ -22,7 +22,7 @@ class Match extends CI_Controller {
     function __construct() {
         // Call the Model constructor
         parent::__construct();
-        $this->load->model(array('Users_model', 'Filters_model', 'Matches_model'));
+        $this->load->model(array('Users_model', 'Filters_model', 'Matches_model', 'Bio_model'));
         $u_data = $this->session->userdata('user');
         if (empty($u_data)) {
             redirect('register');
@@ -44,18 +44,18 @@ class Match extends CI_Controller {
         $u_data = $this->session->userdata('user');
         $user_id = $u_data['id'];
         $user_settings = $this->Users_model->getUserSetings('userid', $user_id);
-        $user_filters = $this->Filters_model->getUserSubFilterByCol('userid', $user_id);
+        /* $user_filters = $this->Filters_model->getUserSubFilterByCol('userid', $user_id); */
         $user_info = $this->Users_model->getUserByCol('id', $user_id);
         if ($user_settings['is_premium_member'] == 0) {
             $data['user_swipes_per_day'] = $this->Users_model->getTotalUsersSwipesByCol('requestby_id', $user_id, true, array("relation_status" => 1));
         } else {
-            $data['user_swipes_per_day'] = "n/a";
+            $data['user_swipes_per_day'] = 0;
         }
         $data['user_powerluvs_per_day'] = $this->Users_model->getTotalUsersSwipesByCol('requestby_id', $user_id, true, array("relation_status" => 3));
         $u_data['latlong'] = $user_info['latlong'];
         $u_data['radius'] = $user_info['radius'];
         $u_data['user_settings'] = $user_settings;
-        $u_data['user_filters'] = $user_filters;
+        /* $u_data['user_filters'] = $user_filters; */
         $near_by = $this->Matches_model->getUserNearBy($user_id, $u_data);
         $data['sub_view'] = 'match/nearByMatches';
         $data['meta_title'] = "Nearby Matches";
@@ -63,6 +63,39 @@ class Match extends CI_Controller {
         $data['latlong'] = $user_info['latlong'];
         $data['radius'] = $user_info['radius'];
         $data['is_user_premium_member'] = $user_settings['is_premium_member'];
+        $this->load->view('main', $data);
+    }
+
+    /* --------------------------------------------------------------------------------------
+      This function will bring user to next level after like/luv.
+      -------------------------------------------------------------------------------------- */
+
+    function level2($user_id = '', $view_card = 0, $mode = null) {
+        $this->load->library('unirest');
+        $u_data = $this->session->userdata('user');
+        if (empty($user_id)) {
+            $user_id = $u_data['id'];
+        }
+        $user_settings = $this->Users_model->getUserSetings('userid', $u_data['id']);
+        $user_info = $this->Users_model->getUserByCol('id', $u_data['id']);
+        if ($user_settings['is_premium_member'] == 0) {
+            $data['user_swipes_per_day'] = $this->Users_model->getTotalUsersSwipesByCol('requestby_id', $u_data['id'], true, array("relation_status" => 1));
+        } else {
+            $data['user_swipes_per_day'] = 0;
+        }
+        $data['user_powerluvs_per_day'] = $this->Users_model->getTotalUsersSwipesByCol('requestby_id', $u_data['id'], true, array("relation_status" => 3));
+        $u_data['latlong'] = $user_info['latlong'];
+        $u_data['radius'] = $user_info['radius'];
+        $u_data['user_settings'] = $user_settings;
+        $data['sub_view'] = 'match/level2';
+        $data['db_user_data'] = $this->Users_model->fetch_userdata(['id' => $user_id], true);
+        $data['user_profile'] = $this->Bio_model->fetch_mediadata(['id' => $data['db_user_data']['profile_media_id']], true);
+        $data['meta_title'] = "User info : " . $data['db_user_data']['user_name'];
+        $data['latlong'] = $user_info['latlong'];
+        $data['radius'] = $user_info['radius'];
+        $data['is_user_premium_member'] = $user_settings['is_premium_member'];
+        $data['view_card'] = $view_card;
+        $data['mode'] = $mode;
         $this->load->view('main', $data);
     }
 

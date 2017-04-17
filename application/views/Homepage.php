@@ -3,24 +3,24 @@
         <li>
             <img src="<?php echo base_url(); ?>assets/images/hero-01.jpg" />
             <div class="hero-caption">
-                <h2>Meet People with the <br/> same spiritual beliefs as you.</h2>
-                <p>Standard dummy text ever since the has <br/> survived not only five centuries but <br/> also the leap into electronic.</p>
+                <h2>Welcome to the Future <br/>of Online Dating.</h2>
+                <p>Introducing Luvr, the world's most first and <br/>most advanced video dating application.<br/>Luvr allows you to connect with your <br/>perfect match via 3 levels of <br/>video based communication.</p>
                 <a href="">View more</a>
             </div>
         </li>
         <li>
             <img src="<?php echo base_url(); ?>assets/images/hero-02.jpg" />
             <div class="hero-caption">
-                <h2>Meet People with the <br/> same spiritual beliefs as you.</h2>
-                <p>Standard dummy text eversince thehas <br/> survived not only five centuries but <br/> also the leap into electronic.</p>
+                <h2>Welcome to the Future <br/>of Online Dating.</h2>
+                <p>Introducing Luvr, the world's most first and <br/>most advanced video dating application.<br/>Luvr allows you to connect with your <br/>perfect match via 3 levels of <br/>video based communication.</p>
                 <a href="">View more</a>
             </div>
         </li>
         <li>
             <img src="<?php echo base_url(); ?>assets/images/hero-03.jpg" />
             <div class="hero-caption">
-                <h2>Meet People with the <br/> same spiritual beliefs as you.</h2>
-                <p>Standard dummy text eversince thehas <br/> survived not only five centuries but <br/> also the leap into electronic.</p>
+                <h2>Welcome to the Future <br/>of Online Dating.</h2>
+                <p>Introducing Luvr, the world's most first and <br/>most advanced video dating application.<br/>Luvr allows you to connect with your <br/>perfect match via 3 levels of <br/>video based communication.</p>
                 <a href="">View more</a>
             </div>
         </li>
@@ -33,7 +33,7 @@
             <span><img src="<?php echo base_url(); ?>assets/images/welcome-icon.png" alt="" /></span>
             <big>Welcome to luvr</big>
         </h2>
-        <p>When an unknown printer took a galley of type and scrambled it to make a type specimen book has survived not only five centuries but also the leap into <br/> electronic typesetting remaining essentially unchanged It was popularised in the with the release of etraset sheets containing and more <br/> recently with desktop publishing software like aldus pageMaker including versions.</p>
+        <p>Luvr's patent pending technology makes it easier for you to connect with the person of your dreams or find a new hookup if thats your thing!<br/> Utilizing video as opposed to photos will ensure you never get catfished again! <br/> Remember, if a picture is worth a thousand words, than a video is worth a million!</p>
     </div>
 </section>
 
@@ -42,29 +42,29 @@
         <li class="free-ragistration">
             <div class="benefits-img"><img src="<?php echo base_url(); ?>assets/images/free-ragistration.jpg" alt="" /></div>
             <div class="benefits-content">
-                <h2>free registration</h2>
-                <p>You can register and create your profile for <br/> FREE!  ipsum amet  dolor consecteturo <br/> amet dolor tempor.</p>
+                <h2>Luvr is Free</h2>
+                <p>Luvr is free to use. If you want to <br/>enjoy all of the features of the app or <br/>website then you pay the low cost <br/>of $4.99! We want luvr affordable to everyone.</p>
             </div>	
         </li>
         <li class="matching-partners">
             <div class="benefits-img"><img src="<?php echo base_url(); ?>assets/images/matching-partners.jpg" alt="" /></div>
             <div class="benefits-content">
-                <h2>Matching partner</h2>
-                <p>You can register and create your profile for <br/> FREE!  ipsum amet  dolor consecteturo <br/> amet dolor tempor.</p>
+                <h2>Dual swipe verification system</h2>
+                <p>Luvr's dual swipe feature ensures that you are matching with the right person. It takes only <br/>an extra 5 seconds to learn up to 3x more <br/>information using our system.</p>
             </div>	
         </li>
         <li class="share-experiences">
             <div class="benefits-img"><img src="<?php echo base_url(); ?>assets/images/share-experiences.jpg" alt="" /></div>
             <div class="benefits-content">
-                <h2>Share experiences</h2>
-                <p>You can register and create your profile for <br/> FREE!  ipsum amet  dolor consecteturo <br/> amet dolor tempor.</p>
+                <h2>Timestamps</h2>
+                <p>Using Luvr's timestamp feature you are able to see exactly when a photo or video was created. <br/>This ensures that someone is showing you <br/>the current them, and not then from 5 years ago.</p>
             </div>	
         </li>
         <li class="count-people">
             <div class="benefits-img"><img src="<?php echo base_url(); ?>assets/images/count-people.jpg" alt="" /></div>
             <div class="benefits-content">
-                <h2><span>2</span> Million +</h2>
-                <p>You can register and create your profile for <br/> FREE!  ipsum amet  dolor consecteturo <br/> amet dolor tempor.</p>
+                <h2>Advanced filters</h2>
+                <p>Luvr's Advanced Filters allow you to select over 1,000 different combinations that you want in a match. <br/>You can be as picky or as flexible as you want.<br/>&nbsp;</p>
             </div>	
         </li>
     </ul>
@@ -88,36 +88,7 @@
                                   c-0.207,0.207-0.397,0.441-0.581,0.689c-0.054,0.073-0.107,0.152-0.159,0.229c-0.06,0.088-0.123,0.167-0.18,0.26h-4.972
                                   L16.916,11.53z M2,24.002v-10h14.559h4.733h2.255H28v10H5H2z M28,26.002v12H7v-12H28z M7,40.002h21v14H7V40.002z M30,54.002v-14h21
                                   v14H30z M51,38.002H30v-12h21V38.002z M55,24.002h-2H30v-10h9.899H55V24.002z"/>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
-                            <g>
-                            </g>
+                            <g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g>
                             </svg>
                         </th>
                         <th>
@@ -135,7 +106,7 @@
                             <h3>
                                 <span>$</span>
                                 <big>25</big>
-                                <small>06 Month</small>
+                                <small>6 Months</small>
                             </h3>
                             <span> / </span>
                             <h3>
@@ -148,43 +119,63 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Likes/Swipe right <span>(Per day)</span></td>
+                        <td>Likes/Swipe Right <span>(Per day)</span></td>
                         <td>100</td>
                         <td>Unlimited</td>
                     </tr>
                     <tr>
-                        <td>Power luvs</td>
-                        <td>05</td>
+                        <td>Power Luv's <span>(Per day)</span></td>
+                        <td>5</td>
                         <td>25</td>
                     </tr>
                     <tr>
                         <td>Timestamps <span>(Can you see them?)</span></td>
                         <td>No</td>
-                        <td>YES</td>
+                        <td>Yes</td>
                     </tr>
                     <tr>
-                        <td>ADS <span>(DO you see them?)</span></td>
+                        <td>Ads <span>(Do You See Them?)</span></td>
                         <td>Yes</td>
                         <td>No</td>
                     </tr>
                     <tr>
                         <td>Location <span>(How many cities can you search?)</span></td>
-                        <td>01</td>
-                        <td>05</td>
+                        <td>1</td>
+                        <td>5</td>
                     </tr>
                     <tr>
-                        <td>Rewind last swipe <span>(Swipe Bank who you choose -  who you don't choose)</span></td>
+                        <td>Rewind last swipe</td>
                         <td>No</td>
                         <td>Yes</td>
                     </tr>
                     <tr>
-                        <td>upload all outside videos</td>
+                        <td>Upload IG Videos</td>
                         <td>Yes</td>
                         <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Upload All Outside Videos</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Video Snaps</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Video Chat</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Video Length</td>
+                        <td>15 Seconds</td>
+                        <td>60 Seconds</td>
                     </tr>
                     <tr>
                         <td>Text</td>
-                        <td>No</td>
+                        <td>Yes</td>
                         <td>Yes</td>
                     </tr>
                     <tr>
@@ -197,3 +188,11 @@
         </div>
     </div>
 </section>
+<script src="<?php echo base_url(); ?>assets/js/jquery.bxslider.min.js"></script>
+<script type="text/javascript">
+    $('.bxslider').bxSlider({
+        mode: 'fade',
+        captions: true,
+        auto: true
+    });
+</script>

@@ -1,7 +1,7 @@
 <?php if ($sub_view != "Homepage") { ?>
     </div>
     </div>
-    <?php if ($sub_view == "match/nearByMatches") { ?>
+    <?php if ($sub_view == "match/nearByMatches" || $sub_view == "match/level2") { ?>
         <div id="loader" class="loader-style">
             <div class="loader-container">
                 <img src="<?php echo base_url(); ?>assets/images/loader.gif"/>
@@ -10,35 +10,18 @@
     <?php } ?>
     </section>
 <?php } ?>
-<?php if ($sub_view == "match/nearByMatches") { ?>
-    <style type="text/css">
-        .inner-content{position:relative;}
-    </style>
-    <script type="text/javascript">
-        $(window).on('load', function () {
-            setTimeout(function () {
-                /*$("#radar").hide();*/
-                $("#loader").fadeOut();
-                $("#tinderslide").removeAttr('style');
-            }, Math.floor((Math.random() * 1000) + 1000));
-        });
-    </script>
-<?php } ?>
 <footer id="footer" class="footer">
     <div class="footer-top">
         <div class="container">
             <div class="quick-link footer-column">
-                <h3>Quick Links</h3>
                 <ul class="footer-ul">
-                    <li> <a href="#">About Us</a></li>
-                    <li> <a href="#">FAQ</a></li>
+                    <li> <a href="https://www.luvr.us">Luvr, Inc.</a></li>
                 </ul>
             </div>
             <div class="ftr-contact footer-column">
                 <h3>Contact us</h3>
                 <ul class="footer-ul">
-                    <li><a href="tel:+91 (9870) 543 210">+91 (9870) 543 210</a></li>
-                    <li><a href="mailto:support@luvr.com">support@luvr.com</a></li>
+                    <li><a href="mailto:support@luvr.com">info@luvr.us</a></li>
                 </ul>
             </div>
             <div class="ftr-newsletter footer-column">
@@ -50,7 +33,7 @@
             </div>
             <div class="follow-luvr footer-column">
                 <h3>follow on luvr</h3>
-                <a href="" class="">
+                <a href="#" class="">
                     <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          viewBox="0 0 310 310" style="enable-background:new 0 0 310 310;" xml:space="preserve">
                     <g id="XMLID_834_">
@@ -60,39 +43,10 @@
                           C187.467,0.023,186.832,0,185.896,0c-7.035,0-31.488,1.381-50.804,19.151c-21.402,19.692-18.427,43.27-17.716,47.358v37.752H81.703
                           c-2.762,0-5,2.238-5,5v50.844C76.703,162.867,78.941,165.106,81.703,165.106z"/>
                     </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
+                    <g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g>
                     </svg>
                 </a>
-                <a href="">
+                <a href="#">
                     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          width="512.002px" height="512.002px" viewBox="0 0 512.002 512.002" style="enable-background:new 0 0 512.002 512.002;"
                          xml:space="preserve">
@@ -106,39 +60,10 @@
                           c46.486,29.807,101.701,47.197,161.021,47.197c193.211,0,298.868-160.062,298.868-298.872c0-4.554-0.104-9.084-0.305-13.59
                           C480.111,136.775,497.92,118.275,512.002,97.211z"/>
                     </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
+                    <g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g>
                     </svg>
                 </a>
-                <a href="">
+                <a href="#">
                     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          width="510px" height="510px" viewBox="0 0 510 510" style="enable-background:new 0 0 510 510;" xml:space="preserve">
                     <g>
@@ -150,79 +75,7 @@
                           c-7.65,0-12.75-5.1-12.75-12.75v-51c0-7.65,5.1-12.75,12.75-12.75h51C453.9,51,459,56.1,459,63.75V114.75z"/>
                     </g>
                     </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    </svg>
-                </a>
-                <a href="">
-                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                         viewBox="0 0 310 310" style="enable-background:new 0 0 310 310;" xml:space="preserve">
-                    <g id="XMLID_822_">
-                    <path id="XMLID_823_" d="M297.917,64.645c-11.19-13.302-31.85-18.728-71.306-18.728H83.386c-40.359,0-61.369,5.776-72.517,19.938
-                          C0,79.663,0,100.008,0,128.166v53.669c0,54.551,12.896,82.248,83.386,82.248h143.226c34.216,0,53.176-4.788,65.442-16.527
-                          C304.633,235.518,310,215.863,310,181.835v-53.669C310,98.471,309.159,78.006,297.917,64.645z M199.021,162.41l-65.038,33.991
-                          c-1.454,0.76-3.044,1.137-4.632,1.137c-1.798,0-3.592-0.484-5.181-1.446c-2.992-1.813-4.819-5.056-4.819-8.554v-67.764
-                          c0-3.492,1.822-6.732,4.808-8.546c2.987-1.814,6.702-1.938,9.801-0.328l65.038,33.772c3.309,1.718,5.387,5.134,5.392,8.861
-                          C204.394,157.263,202.325,160.684,199.021,162.41z"/>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
-                    <g>
-                    </g>
+                    <g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g>
                     </svg>
                 </a>
             </div>
@@ -231,269 +84,18 @@
     <div class="footer-bottom">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 col-sm-6 col-xs-12"><p>© 2017 <a href="index.html">LUVR</a>. All Right Reserved</p></div>
+                <div class="col-md-6 col-sm-6 col-xs-12"><p>© 2017 <a href="<?php echo base_url(); ?>">LUVR</a>. All Rights Reserved.</p></div>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="policy-link">
-                        <a href="#">Privacy</a>
-                        <a href="#">Terms & Conditions</a>
+                        <a href="https://www.luvr.us/privacy-policy">Privacy</a>
+                        <a href="https://www.luvr.us/terms-of-use">Terms of use</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </footer>
-<?php if ($sub_view == "Homepage") { ?>
-    <script src="<?php echo base_url(); ?>assets/js/jquery.bxslider.min.js"></script>
-    <script type="text/javascript">
-        $('.bxslider').bxSlider({
-            mode: 'fade',
-            captions: true,
-            auto: true
-        });
-    </script>
-<?php } ?>
 <script type="text/javascript">
-<?php if ($sub_view == "user/userFilterSettings") { ?>
-        function saveFilter(filter_id) {
-            if ($('#updatefiltersform input[type="checkbox"]:checked').length > 0)
-            {
-                $.ajax({
-                    url: "<?php echo base_url(); ?>user/savestep",
-                    type: 'POST',
-                    dataType: 'json',
-                    data: "filter_id=" + filter_id + "&" + $('#updatefiltersform').serialize(),
-                    success: function (data) {
-                        if (data.success == true) {
-                            $("#save_step_btn").attr("onclick", "saveFilter(" + data.next_filter_id + ")");
-                            $("#save_step_btn").attr("data-step", parseInt($("#save_step_btn").attr("data-step")) + 1);
-                            if (data.next_filter_name)
-                                $("#lbl_filter_name").text(data.next_filter_name);
-                            $("#updatefiltersform tbody").html(data.next_filter_html);
-                            if ($("#save_step_btn").attr("data-step") > $("#save_step_btn").attr("data-total-steps")) {
-                                location.href = '<?php echo base_url() . $redirect; ?>';
-                            }
-                        } else {
-                            showMsg("Something went wrong!", "alert alert-danger", true);
-                            scrollToElement("#msg_txt");
-                        }
-                    }, error: function () {
-                        showMsg("Something went wrong!", "alert alert-danger", true);
-                        scrollToElement("#msg_txt");
-                    }
-                });
-            } else {
-                showMsg("Please select atleast one of the below choices!", "alert alert-danger", true);
-                scrollToElement("#msg_txt");
-            }
-        }
-        function ignoreOther() {
-            if ($("#idontcare").is(":checked")) {
-                $("#updatefiltersform .subfilters").prop("checked", false);
-            }
-        }
-        function ignoreLast() {
-            $("#updatefiltersform #idontcare").prop("checked", false);
-        }
-<?php } ?>
-<?php if ($sub_view == "match/nearByMatches") { ?>
-        var likedislikecounts = 0;
-        var likesreached = powerluvsreached = 0;
-        registerjTinder();
-        function registerjTinder() {
-            $("#tinderslide").jTinder({
-                onLike: function (item) {
-    <?php if ($user_swipes_per_day < MAX_SWIPES_PER_DAY) { ?>
-                        likedislikeuser($(item).data("id"), 'like');
-    <?php } ?>
-                    reflectUserInfo(item.index() - 1);
-                },
-                onDislike: function (item) {
-                    likedislikeuser($(item).data("id"), 'dislike');
-                    reflectUserInfo(item.index() - 1);
-                },
-                onLuv: function (item) {
-                    likedislikeuser($(item).data("id"), 'luv', item);
-                },
-                onPowerLuv: function (item) {
-                    likedislikeuser($(item).data("id"), 'powerluv', item.index() - 1);
-                },
-                onPrev: function (item) {
-                    reflectUserInfo(item.index());
-                },
-                animationRevertSpeed: 200,
-                animationSpeed: 500,
-                threshold: 4,
-                likeSelector: '.like',
-                dislikeSelector: '.dislike'
-            });
-        }
-        function reflectUserInfo(index) {
-            if (index >= 0 && index < $("#tinderslide ul li.panel").length)
-            {
-                $("#right_username").html(nearby_matches[index].user_name);
-                $("#right_oneliner").html(nearby_matches[index].one_liner);
-                $("#right_bio").html((nearby_matches[index].bio) ? nearby_matches[index].bio : "&nbsp;");
-                $("#right_age").html("Age (" + nearby_matches[index].age + ")");
-                $("#right_location").html((nearby_matches[index].address) ? "Location : " + nearby_matches[index].address : "Location : N/A");
-                $("#right_distance").html((nearby_matches[index].distance) ? "Distance : " + nearby_matches[index].distance + " km" : "Distance : N/A");
-                if (powerluvsreached == 1)
-                {
-                    $("#power_luv_user").removeAttr("onclick");
-                } else
-                {
-                    if (nearby_matches[index].id)
-                    {
-                        $("#luv_user").attr("onclick", "$('#tinderslide').jTinder('luv');");
-                        $("#power_luv_user").attr("onclick", "$('#tinderslide').jTinder('powerluv');");
-                    } else
-                    {
-                        $("#luv_user").attr("onclick", "showMsg('Something went wrong!','alert alert-danger',true);");
-                        $("#power_luv_user").attr("onclick", "showMsg('Something went wrong!','alert alert-danger',true);");
-                    }
-                }
-            }
-        }
-        function prevMatch(id) {
-    <?php if ($is_user_premium_member == 1) { ?>
-                if ($("#tinderslide ul li[data-id='" + id + "']").attr("data-nav") != 1)
-                    $('#tinderslide').jTinder('prev');
-    <?php } else { ?>
-                showMsg("You need to be Luvr premium member to swipe back! <a href='<?php echo base_url() ?>#packages'>Click here to join</a>", "alert alert-danger", true);
-                scrollToElement("#msg_txt");
-    <?php } ?>
-        }
-        function likedislikeuser(user_id, mode, li_index) {
-            $.ajax({
-                url: "<?php echo base_url(); ?>match/likedislike",
-                type: 'POST',
-                dataType: 'json',
-                data: "user_id=" + user_id + "&status=" + mode + "&totallikesreached=" + likesreached,
-                success: function (data) {
-                    likedislikecounts++;
-                    if (data.success == true) {
-                    }
-                    if ((data.user_swipes_per_day == <?php echo MAX_SWIPES_PER_DAY; ?>) && mode == "like")
-                    {
-                        /*$("#tinderslide").unbind('touchstart mousedown');
-                         $("#tinderslide").unbind('touchmove mousemove');
-                         $("#tinderslide").unbind('touchend mouseup');*/
-                        likesreached = 1;
-                        showMsg("Your likes quota per day has been reached! Therefore, right swipes for cards will not be considered.", "alert alert-danger");
-                        scrollToElement("#msg_txt");
-                    }
-    <?php if ($is_user_premium_member == 1) { ?>
-                        if ((data.user_powerluvs_per_day == <?php echo MAX_POWERLUVS_PER_DAY_P; ?>) && mode == "powerluv")
-                        {
-                            powerluvsreached = 1;
-                            reflectUserInfo(li_index);
-                            showMsg("Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.", "alert alert-danger");
-                            scrollToElement("#msg_txt");
-                        }
-    <?php } else { ?>
-                        if ((data.user_powerluvs_per_day == <?php echo MAX_POWERLUVS_PER_DAY; ?>) && mode == "powerluv")
-                        {
-                            powerluvsreached = 1;
-                            reflectUserInfo(li_index);
-                            showMsg("Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.", "alert alert-danger");
-                            scrollToElement("#msg_txt");
-                        }
-    <?php } ?>
-                    if (likedislikecounts == $("#tinderslide ul li.panel").length)
-                    {
-                        loadMoreNearBys();
-                    }
-                }, error: function () {
-                    showMsg("Something went wrong!", "alert alert-danger", true);
-                    scrollToElement("#msg_txt");
-                }
-            });
-        }
-        function loadMoreNearBys() {
-            $("#tinderslide").css('visibility', 'hidden');
-            $("#loader").show();
-            $.ajax({
-                url: "<?php echo base_url(); ?>match/loadMoreNearBys",
-                type: 'POST',
-                dataType: 'json',
-                success: function (data) {
-                    if (data.success == true) {
-                        likedislikecounts = 0;
-                        if (data.data) {
-                            nearby_matches = data.data;
-                            $("#tinderslide ul").html(data.html);
-                            reflectUserInfo(parseInt(data.data.length) - 1);
-                            registerjTinder();
-                        }
-                    } else {
-                        $(".user-list-l,.user-list-r").hide();
-                        $("#msg_txt").after('<div class="alert alert-info" id="nomoredata">We could not find more nearby matches around you!</div>');
-                        scrollToElement("#nomoredata");
-                    }
-                    setTimeout(function () {
-                        /*$("#radar").hide();*/
-                        $("#loader").fadeOut();
-                        $("#tinderslide").removeAttr('style');
-                    }, Math.floor((Math.random() * 1000) + 1000));
-                }
-            });
-        }
-<?php } ?>
-<?php if ($sub_view == "user/blockedList") { ?>
-        function unblockUser(user_id) {
-            if (confirm("Are you sure you want to unblock this user?"))
-            {
-                $.ajax({
-                    url: "<?php echo base_url(); ?>user/unblockUser",
-                    type: 'POST',
-                    dataType: 'json',
-                    data: "user_id=" + user_id,
-                    success: function (data) {
-                        if (data.success == true) {
-                            $("#user_" + user_id).fadeOut(function () {
-                                $(this).remove();
-                                showMsg("User unblocked successfully.", "alert alert-success", true);
-                                scrollToElement("#msg_txt");
-                            });
-                        } else {
-                            showMsg("Something went wrong!", "alert alert-danger", true);
-                            scrollToElement("#msg_txt");
-                        }
-                    }, error: function () {
-                        showMsg("Something went wrong!", "alert alert-danger", true);
-                        scrollToElement("#msg_txt");
-                    }
-                });
-            }
-        }
-<?php } ?>
-<?php if ($sub_view == "user/videoRequests") { ?>
-        function manageVideoRequest(request_id, mode) {
-            var mode_txt = (mode == 2) ? "approve" : "reject";
-            var mode_txted = (mode == 2) ? "approved" : "rejected";
-            if (confirm("Are you sure you want to " + mode_txt + " this request?"))
-            {
-                $.ajax({
-                    url: "<?php echo base_url(); ?>user/manageVideoRequest",
-                    type: 'POST',
-                    dataType: 'json',
-                    data: "mode=" + mode + "&request_id=" + request_id,
-                    success: function (data) {
-                        if (data.success == true) {
-                            showMsg("Request " + mode_txted + " successfully.", "alert alert-success", true);
-                            $("#request_" + request_id + " #status_txt span").attr("class", (mode == 2) ? "label label-success" : "label label-danger");
-                            $("#request_" + request_id + " #status_txt span").html((mode == 2) ? "Request Approved" : "Request Rejected");
-                        } else {
-                            showMsg("Something went wrong!", "alert alert-danger", true);
-                            scrollToElement("#msg_txt");
-                        }
-                    }, error: function () {
-                        showMsg("Something went wrong!", "alert alert-danger", true);
-                        scrollToElement("#msg_txt");
-                    }
-                });
-            }
-        }
-<?php } ?>
     function log(text) {
         console.log(text);
     }

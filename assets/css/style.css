@@ -313,3 +313,29 @@ input:checked + .slider:before {
     -o-transform: translateY(-50%);
     transform: translateY(-50%);
 }
+
+.user-list-pic-bg .play-btn{
+    background: white;
+    background: transparent;
+    display: inline-block;
+    padding: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius:50%;
+    border:3px solid #fff;
+    cursor:pointer;
+}
+
+.user-list-pic-bg .play-btn:after {
+    content: "";
+    display: block;
+    position: relative;
+    left: 4px;
+    width: 0;
+    height: 0;
+    border-style:solid;
+    border-width:15px 0 15px 30px;
+    border-color:transparent transparent transparent white;
+}

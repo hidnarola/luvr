@@ -15,7 +15,7 @@ else
                 /* Load css files */
                 $css = array('bootstrap.min.css', 'style.css', 'responsive.css');
                 $js = array('jquery.min.js', 'bootstrap.min.js');
-                if ($sub_view == "match/nearByMatches") {
+                if ($sub_view == "match/nearByMatches" || $sub_view == "match/level2") {
                     array_push($css, "jTinder.css");
                     array_push($js, "jquery.transform2d.js", "jquery.jTinder.js");
                 }

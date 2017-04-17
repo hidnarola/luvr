@@ -1,3 +1,4 @@
+<link href='<?php echo base_url('/assets/fancybox/dist/jquery.fancybox.min.css'); ?>' rel='stylesheet' media="screen"/>
 <?php
 $user_data = $this->session->userdata('user');
 if ($user_swipes_per_day >= MAX_SWIPES_PER_DAY) {
@@ -16,7 +17,7 @@ if ($user_powerluvs_per_day >= $max_powerluvs) {
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
        Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.</div>';
 }
-if (empty($nearByUsers) || $nearByUsers == null) {
+if ((empty($nearByUsers) || $nearByUsers == null) && $view_card == 0) {
     echo '<div class="alert alert-info">We could not find any nearby matches around you!</div>';
 }
 if (!empty($nearByUsers)) {
@@ -55,60 +56,34 @@ if (!empty($nearByUsers)) {
                             <?php
                             $it = 1;
                             foreach ($nearByUsers as $user) {
-                                $path = "";
+                                $path = $href = "";
                                 if ($user['media_type'] == 0 && !empty($user['media_thumb'])) {
                                     $path = $user['media_thumb'];
+                                    $href = $user['user_profile'];
                                 } else if ($user['media_type'] == 1 || $user['media_type'] == 2) {
                                     $path = base_url() . "assets/images/users/" . $user['media_thumb'];
                                     if (!file_exists(PHYSICALUPLOADPATH . "/images/users/" . $user['media_thumb']))
                                         $path = base_url() . "assets/images/big_avatar.jpg";
+                                    $href = base_url() . "assets/images/users/" . $user['user_profile'];
                                 } else if ($user['media_type'] == 3 || $user['media_type'] == 4) {
                                     $path = $user['media_thumb'];
+                                    $href = $user['user_profile'];
                                 }
-                                /* $prev_btn_style = "";
-                                  if ($it == count($nearByUsers))
-                                  $prev_btn_style = "style='display:none;'"; */
                                 echo '<li class="panel" data-id="' . $user['id'] . '">
                                         <div class="user-list-pic-wrapper">
                                             <div class="user-list-pic-bg">
-                                                <div style="background:url(\'' . $path . '\') no-repeat scroll center center;" class="img"></div>
-                                            </div>
+                                                <a style="background:url(\'' . $path . '\') no-repeat scroll center center;" class="img"></a>';
+                                if ($user['media_type'] == 2 || $user['media_type'] == 4) {
+                                    echo '<span class = "play-btn" data-fancybox href = "' . $href . '"></span>';
+                                }
+                                echo '</div>
                                         <div class="user-list-pic-close">
                                         <a class="for_pointer" onclick="$(\'#tinderslide\').jTinder(\'dislike\');">
                                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                                  viewBox="0 0 371.23 371.23" style="enable-background:new 0 0 371.23 371.23;" xml:space="preserve">
                                             <polygon points="371.23,21.213 350.018,0 185.615,164.402 21.213,0 0,21.213 164.402,185.615 0,350.018 21.213,371.23 
                                                      185.615,206.828 350.018,371.23 371.23,350.018 206.828,185.615 "/>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
+                                            <g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g>
                                             </svg>
                                         </a>
                                     </div>
@@ -161,8 +136,7 @@ if (!empty($nearByUsers)) {
                                      height="21.416px" viewBox="0 0 26.962 21.416" enable-background="new 0 0 26.962 21.416" xml:space="preserve">
                                     <switch>
                                         <foreignObject requiredExtensions="&ns_ai;" x="0" y="0" width="1" height="1">
-                                            <i:pgfRef  xlink:href="#adobe_illustrator_pgf">
-                                            </i:pgfRef>
+                                            <i:pgfRef  xlink:href="#adobe_illustrator_pgf"></i:pgfRef>
                                         </foreignObject>
                                         <g i:extraneous="self">
                                             <path d="M24.411,2.564c-1.361-1.191-3.163-1.842-5.087-1.842s-3.732,0.656-5.093,1.847L13.52,3.191L12.798,2.56
@@ -182,8 +156,7 @@ if (!empty($nearByUsers)) {
                                      height="26.607px" viewBox="0 0 28.968 26.607" enable-background="new 0 0 28.968 26.607" xml:space="preserve">
                                     <switch>
                                         <foreignObject requiredExtensions="&ns_ai;" x="0" y="0" width="1" height="1">
-                                            <i:pgfRef  xlink:href="#adobe_illustrator_pgf">
-                                            </i:pgfRef>
+                                            <i:pgfRef  xlink:href="#adobe_illustrator_pgf"></i:pgfRef>
                                         </foreignObject>
                                         <g i:extraneous="self">
                                             <path d="M27.867,12.087c0.551-0.521,0.745-1.285,0.508-1.995c-0.238-0.71-0.858-1.217-1.62-1.325l-6.775-0.955
@@ -250,7 +223,7 @@ if (!empty($nearByUsers)) {
                     <li id="right_distance">Distance : (<?php echo ($distance != null) ? $distance : "N/A"; ?> km)</li>
                 </ul>
                 <div class="user-list-r-btn">
-                    <a href="" class="video-option white-btn">
+                    <a href="#" class="video-option white-btn">
                         <svg version="1.0" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
                              xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="25.133px"
                              height="20.201px" viewBox="0 0 25.133 20.201" enable-background="new 0 0 25.133 20.201" xml:space="preserve">
@@ -313,14 +286,13 @@ if (!empty($nearByUsers)) {
                             </switch>
                         </svg>
                     </a>
-                    <a href="" class="chat-option green-btn">
+                    <a href="#" class="chat-option green-btn">
                         <span><svg version="1.0" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="19.232px"
                                    height="18.82px" viewBox="0 0 19.232 18.82" enable-background="new 0 0 19.232 18.82" xml:space="preserve">
                                 <switch>
                                     <foreignObject requiredExtensions="&ns_ai;" x="0" y="0" width="1" height="1">
-                                        <i:pgfRef  xlink:href="#adobe_illustrator_pgf">
-                                        </i:pgfRef>
+                                        <i:pgfRef  xlink:href="#adobe_illustrator_pgf"></i:pgfRef>
                                     </foreignObject>
                                     <g i:extraneous="self">
                                         <path d="M12.429,9.973H6.804c-0.311,0-0.563,0.252-0.563,0.562c0,0.311,0.252,0.563,0.563,0.563h5.625
@@ -340,3 +312,167 @@ if (!empty($nearByUsers)) {
         <?php } ?>
     </div>
 </div>
+<style type="text/css">
+    .inner-content{position:relative;}
+</style>
+<script type="text/javascript" src='<?php echo base_url('/assets/fancybox/dist/jquery.fancybox.min.js'); ?>'></script>
+<script type="text/javascript">
+                                $(window).on('load', function () {
+                                    setTimeout(function () {
+                                        /*$("#radar").hide();*/
+                                        $("#loader").fadeOut();
+                                        $("#tinderslide").removeAttr('style');
+                                    }, Math.floor((Math.random() * 1000) + 1000));
+                                });
+                                var likedislikecounts = 0;
+                                var likesreached = powerluvsreached = 0;
+                                registerjTinder();
+                                function registerjTinder() {
+                                    $("#tinderslide").jTinder({
+                                        onLike: function (item) {
+<?php if ($user_swipes_per_day < MAX_SWIPES_PER_DAY) { ?>
+                                                /*loadLevel2(item, 'like');*/
+                                                location.href = "<?php echo base_url('/match/level2/'); ?>" + $(item).data("id") + "/1/1";
+<?php } ?>
+                                            reflectUserInfo(item.index() - 1);
+                                        },
+                                        onDislike: function (item) {
+                                            likedislikeuser($(item).data("id"), 'dislike');
+                                            reflectUserInfo(item.index() - 1);
+                                        },
+                                        onLuv: function (item) {
+                                            /*loadLevel2(item, 'luv');*/
+                                            location.href = "<?php echo base_url('/match/level2/'); ?>" + $(item).data("id") + "/1/2";
+                                        },
+                                        onPowerLuv: function (item) {
+                                            likedislikeuser($(item).data("id"), 'powerluv', item.index() - 1);
+                                        },
+                                        onPrev: function (item) {
+                                            reflectUserInfo(item.index());
+                                        },
+                                        animationRevertSpeed: 200,
+                                        animationSpeed: 500,
+                                        threshold: 4,
+                                        likeSelector: '.like',
+                                        dislikeSelector: '.dislike'
+                                    });
+                                }
+                                function reflectUserInfo(index) {
+                                    if (index >= 0 && index < $("#tinderslide ul li.panel").length)
+                                    {
+                                        $("#right_username").html(nearby_matches[index].user_name);
+                                        $("#right_oneliner").html(nearby_matches[index].one_liner);
+                                        $("#right_bio").html((nearby_matches[index].bio) ? nearby_matches[index].bio : "&nbsp;");
+                                        $("#right_age").html("Age (" + nearby_matches[index].age + ")");
+                                        $("#right_location").html((nearby_matches[index].address) ? "Location : " + nearby_matches[index].address : "Location : N/A");
+                                        $("#right_distance").html((nearby_matches[index].distance) ? "Distance : " + nearby_matches[index].distance + " km" : "Distance : N/A");
+                                        if (powerluvsreached == 1)
+                                        {
+                                            $("#power_luv_user").removeAttr("onclick");
+                                        } else
+                                        {
+                                            if (nearby_matches[index].id)
+                                            {
+                                                $("#luv_user").attr("onclick", "$('#tinderslide').jTinder('luv');");
+                                                $("#power_luv_user").attr("onclick", "$('#tinderslide').jTinder('powerluv');");
+                                            } else
+                                            {
+                                                $("#luv_user").attr("onclick", "showMsg('Something went wrong!','alert alert-danger',true);");
+                                                $("#power_luv_user").attr("onclick", "showMsg('Something went wrong!','alert alert-danger',true);");
+                                            }
+                                        }
+                                    }
+                                }
+                                function prevMatch(id) {
+<?php if ($is_user_premium_member == 1) { ?>
+                                        if ($("#tinderslide ul li[data-id='" + id + "']").attr("data-nav") != 1)
+                                            $('#tinderslide').jTinder('prev');
+<?php } else { ?>
+                                        showMsg("You need to be Luvr premium member to swipe back! <a href='<?php echo base_url() ?>#packages'>Click here to join</a>", "alert alert-danger", true);
+                                        scrollToElement("#msg_txt");
+<?php } ?>
+                                }
+                                function likedislikeuser(user_id, mode, li_index) {
+                                    $.ajax({
+                                        url: "<?php echo base_url(); ?>match/likedislike",
+                                        type: 'POST',
+                                        dataType: 'json',
+                                        data: "user_id=" + user_id + "&status=" + mode + "&totallikesreached=" + likesreached,
+                                        success: function (data) {
+                                            likedislikecounts++;
+                                            if (data.success == true) {
+                                            }
+                                            if ((data.user_swipes_per_day == <?php echo MAX_SWIPES_PER_DAY; ?>) && mode == "like")
+                                            {
+                                                /*$("#tinderslide").unbind('touchstart mousedown');
+                                                 $("#tinderslide").unbind('touchmove mousemove');
+                                                 $("#tinderslide").unbind('touchend mouseup');*/
+                                                likesreached = 1;
+                                                showMsg("Your likes quota per day has been reached! Therefore, right swipes for cards will not be considered.", "alert alert-danger");
+                                                scrollToElement("#msg_txt");
+                                            }
+<?php if ($is_user_premium_member == 1) { ?>
+                                                if ((data.user_powerluvs_per_day == <?php echo MAX_POWERLUVS_PER_DAY_P; ?>) && mode == "powerluv")
+                                                {
+                                                    powerluvsreached = 1;
+                                                    reflectUserInfo(li_index);
+                                                    showMsg("Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.", "alert alert-danger");
+                                                    scrollToElement("#msg_txt");
+                                                }
+<?php } else { ?>
+                                                if ((data.user_powerluvs_per_day == <?php echo MAX_POWERLUVS_PER_DAY; ?>) && mode == "powerluv")
+                                                {
+                                                    powerluvsreached = 1;
+                                                    reflectUserInfo(li_index);
+                                                    showMsg("Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.", "alert alert-danger");
+                                                    scrollToElement("#msg_txt");
+                                                }
+<?php } ?>
+                                            if (likedislikecounts == $("#tinderslide ul li.panel").length)
+                                            {
+                                                loadMoreNearBys();
+                                            }
+                                        }, error: function () {
+                                            showMsg("Something went wrong!", "alert alert-danger", true);
+                                            scrollToElement("#msg_txt");
+                                        }
+                                    });
+                                }
+                                function loadMoreNearBys() {
+                                    $("#tinderslide").css('visibility', 'hidden');
+                                    $("#loader").show();
+                                    $.ajax({
+                                        url: "<?php echo base_url(); ?>match/loadMoreNearBys",
+                                        type: 'POST',
+                                        dataType: 'json',
+                                        success: function (data) {
+                                            if (data.success == true) {
+                                                likedislikecounts = 0;
+                                                if (data.data) {
+                                                    nearby_matches = data.data;
+                                                    $("#tinderslide ul").html(data.html);
+                                                    reflectUserInfo(parseInt(data.data.length) - 1);
+                                                    registerjTinder();
+                                                }
+                                            } else {
+                                                $(".user-list-l,.user-list-r").hide();
+                                                $("#msg_txt").after('<div class="alert alert-info" id="nomoredata">We could not find more nearby matches around you!</div>');
+                                                scrollToElement("#nomoredata");
+                                            }
+                                            setTimeout(function () {
+                                                /*$("#radar").hide();*/
+                                                $("#loader").fadeOut();
+                                                $("#tinderslide").removeAttr('style');
+                                            }, Math.floor((Math.random() * 1000) + 1000));
+                                        }
+                                    });
+                                }
+                                /*function loadLevel2(item, mode) {
+                                 var index = item.index();
+                                 $("#tinderslide2 ul li.panel").attr("data-id", nearby_matches[index].id);
+                                 $("#tinderslide2 ul li.panel .user-list-pic-bg").attr("style", "background:url('" + nearby_matches[index].media_thumb + "') no-repeat scroll center center;");
+                                 $('#level2Popup').modal('show');
+                                 $('.secondSwiper ul li,panel').removeAttr('style');
+                                 $('.secondSwiper ul li,panel').show();
+                                 }*/
+</script>
