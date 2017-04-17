@@ -16,7 +16,7 @@ else
                 $css = array('bootstrap.min.css', 'style.css', 'responsive.css');
                 $js = array('jquery.min.js', 'bootstrap.min.js');
                 if ($sub_view == "match/nearByMatches" || $sub_view == "match/level2") {
-                    array_push($css, "jTinder.css");
+                    array_push($css, "jTinder.css", "jquery.fancybox.min.css");
                     array_push($js, "jquery.transform2d.js", "jquery.jTinder.js");
                 }
                 $this->minify->css($css);
@@ -46,13 +46,13 @@ else
                                                 <a href="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 
                                                     <span class="user-pic">                                                        
-                                                        <?php if($user_media['media_type'] == '1' || $user_media['media_type'] == '2') { ?>
-                                                            <img src="<?php echo base_url().'bio/show_img/'.$user_media['media_thumb'].'/1'; ?>" alt="<?php echo $user_data['user_name']; ?>" 
+                                                        <?php if ($user_media['media_type'] == '1' || $user_media['media_type'] == '2') { ?>
+                                                            <img src="<?php echo base_url() . 'bio/show_img/' . $user_media['media_thumb'] . '/1'; ?>" alt="<?php echo $user_data['user_name']; ?>" 
                                                                  title="<?php echo $user_data['user_name']; ?>" 
                                                                  onerror="this.src='<?php echo base_url(); ?>assets/images/default_avatar.jpg'"/>
-                                                        <?php }else{ ?>
+                                                             <?php } else { ?>
                                                             <img alt="User Pic" src="<?php echo $user_media['media_name']; ?>" class="img-circle img-responsive">
-                                                        <?php } ?>                                                        
+                                                            <?php } ?>                                                        
                                                     </span>
                                                     <big><?php echo $user_data['user_name']; ?></big>
                                                     <?php
