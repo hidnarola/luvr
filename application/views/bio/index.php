@@ -65,8 +65,6 @@
 <br>
 <br>
 
-<?php echo $i; ?>
-
 <input type="hidden" id="all_saved_media"  value="<?php echo (!empty($all_saved_media)) ? implode(',',$all_saved_media):'';?>">
 
 <script type="text/javascript">

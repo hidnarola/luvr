@@ -9,7 +9,16 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-3 col-lg-3 " align="center">
-                            <img alt="User Pic" src="<?php echo $user_profile['media_name']; ?>" class="img-circle img-responsive">
+                            <?php if($user_profile['media_type'] == '1' || $user_profile['media_type'] == '2') { ?>
+                                <img alt="User Pic" src="<?php echo base_url().'bio/show_img/'.$user_profile['media_thumb'].'/1'; ?>" class="img-responsive">
+                            <?php }else{ ?>
+                                <img alt="User Pic" src="<?php echo $user_profile['media_name']; ?>" class="img-circle img-responsive">
+                            <?php } ?>
+                            <br/>
+                            <a data-toggle="tooltip" type="button" class="btn btn-sm btn-primary" href="<?php echo base_url().'bio/change_profile'; ?>">
+                                <i class="glyphicon glyphicon-edit"></i>
+                                Change image
+                            </a>
                         </div>
                         <div class=" col-md-9 col-lg-9 ">
                             <table class="table table-user-information">
@@ -59,7 +68,7 @@
                             </table>
                             
                             
-                            <a data-toggle="tooltip" type="button" class="btn btn-sm btn-warning">
+                            <a data-toggle="tooltip" type="button" class="btn btn-sm btn-warning" href="<?php echo base_url().'user/setup_userprofile/edit'; ?>">
                                 <i class="glyphicon glyphicon-edit"></i>
                                  Edit Profile
                             </a>

@@ -84,6 +84,7 @@ defined('EXIT_USER_INPUT') OR define('EXIT_USER_INPUT', 7); // invalid user inpu
 defined('EXIT_DATABASE') OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN') OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX') OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
 // ------------------------------------------------------------------------
 // v! Instagram credentials
 // ------------------------------------------------------------------------
@@ -93,6 +94,18 @@ define('GOOGLE_MAP_API', 'AIzaSyBrAT6XIzO4FSwU1_iXBgvvOkAqqx8GRBw');
 define('MAX_SWIPES_PER_DAY', 100);
 
 if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1')
-    define('PHYSICALUPLOADPATH', 'C:/wamp/www/Luvr/assets');
+    define('PHYSICALUPLOADPATH', $_SERVER['DOCUMENT_ROOT'].'/assets');
 else
     define('PHYSICALUPLOADPATH', '');
+
+if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1'){
+    define('UPLOADPATH_VIDEO', $_SERVER['DOCUMENT_ROOT'].'/assets/uploads/Video');
+    define('UPLOADPATH_IMAGE', $_SERVER['DOCUMENT_ROOT'].'/assets/uploads/Image');
+    define('UPLOADPATH_THUMB', $_SERVER['DOCUMENT_ROOT'].'/assets/uploads/thumb');
+    define('FFMPEG_PATH', 'C:\wamp64\www\ffmpeg\bin\ffmpeg.exe');
+} else{
+    define('UPLOADPATH_VIDEO', '');
+    define('UPLOADPATH_IMAGE', '');
+    define('UPLOADPATH_THUMB', '');    
+    define('FFMPEG_PATH', '');
+}

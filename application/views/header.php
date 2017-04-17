@@ -43,7 +43,15 @@ else
                                             ?>
                                             <div class="user-dropdown dropdown">
                                                 <a href="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                    <span class="user-pic"><img src="<?php echo $user_media['media_name']; ?>" alt="<?php echo $user_data['user_name']; ?>" title="<?php echo $user_data['user_name']; ?>" onerror="this.src='<?php echo base_url(); ?>assets/images/default_avatar.jpg'"/></span>
+                                                    <span class="user-pic">                                                        
+                                                        <?php if($user_media['media_type'] == '1' || $user_media['media_type'] == '2') { ?>
+                                                            <img src="<?php echo base_url().'bio/show_img/'.$user_media['media_thumb'].'/1'; ?>" alt="<?php echo $user_data['user_name']; ?>" 
+                                                                 title="<?php echo $user_data['user_name']; ?>" 
+                                                                 onerror="this.src='<?php echo base_url(); ?>assets/images/default_avatar.jpg'"/>
+                                                        <?php }else{ ?>
+                                                            <img alt="User Pic" src="<?php echo $user_media['media_name']; ?>" class="img-circle img-responsive">
+                                                        <?php } ?>                                                        
+                                                    </span>
                                                     <big><?php echo $user_data['user_name']; ?></big>
                                                     <?php
                                                     $address = $user_data['address'];
@@ -73,7 +81,7 @@ else
                                                     <li><a href="<?php echo base_url() . 'match/nearby'; ?>">Nearby Matches</a></li>
                                                     <li><a href="<?php echo base_url() . 'bio/instagram_feed'; ?>">Instagram Feeds</a></li>
                                                     <li><a href="<?php echo base_url() . 'bio/saved_feed'; ?>">My Media</a></li>
-                                                    <li><a href="<?php echo base_url() . 'user / logout'; ?>">Logout</a></li>
+                                                    <li><a href="<?php echo base_url() . 'user/logout'; ?>">Logout</a></li>
                                                 </ul>
                                             </div>
                                         <?php } ?>

@@ -13,20 +13,11 @@ else
         <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:400,500" rel="stylesheet">
         <?php // add css files
             $this->minify->css(array('bootstrap.min.css','icomoon.css','style.css','responsive.css','jquery.bxslider.css'));
-            echo $this->minify->deploy_css();
+            echo $this->minify->deploy_css(TRUE, 'styles.min.css');
 
-            $this->minify->js(array('jquery.min.js', 'bootstrap.min.js'));
-            echo $this->minify->deploy_js(FALSE, 'custom_js_name.min.js');
-        ?>
-
-
-        <!-- <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/icomoon.css"/>
-        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/jquery.bxslider.css"/>
-        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/style.css"/>
-        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/responsive.css"/> 
-        <script src="<?php echo base_url(); ?>assets/js/jquery.min.js"></script>
-        <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script> -->
+            $this->minify->js(array('jquery.min.js', 'bootstrap.min.js'));            
+            echo $this->minify->deploy_js(FALSE, 'combined.min.js');
+        ?>       
     </head> 
     <body>
         <header id="header">
