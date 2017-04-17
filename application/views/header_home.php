@@ -6,19 +6,19 @@ else
 ?>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0"/>
-            <title><?php echo $site_title; ?></title>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0"/>
+        <link rel="icon" href="<?php echo base_url('/favicon.png'); ?>" type="image/x-icon"/>
+        <title><?php echo $site_title; ?></title>
+        <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:400,500" rel="stylesheet"/>
+        <?php
+        // add css files
+        $this->minify->css(array('bootstrap.min.css', 'icomoon.css', 'style.css', 'responsive.css', 'jquery.bxslider.css'));
+        echo $this->minify->deploy_css();
 
-            <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:400,500" rel="stylesheet"/>
-            <?php
-            // add css files
-            $this->minify->css(array('bootstrap.min.css', 'icomoon.css', 'style.css', 'responsive.css', 'jquery.bxslider.css'));
-            echo $this->minify->deploy_css();
-
-            $this->minify->js(array('jquery.min.js', 'bootstrap.min.js'));
-            echo $this->minify->deploy_js(FALSE, 'combined.min.js');
-            ?>
+        $this->minify->js(array('jquery.min.js', 'bootstrap.min.js'));
+        echo $this->minify->deploy_js(FALSE, 'combined.min.js');
+        ?>
     </head> 
     <body>
         <header id="header">
