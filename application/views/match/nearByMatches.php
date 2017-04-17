@@ -16,9 +16,6 @@ if ($user_powerluvs_per_day >= $max_powerluvs) {
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
        Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.</div>';
 }
-if (empty($nearByUsers) || $nearByUsers == null) {
-    echo '<div class="alert alert-info">We could not find any nearby matches around you!</div>';
-}
 if (!empty($nearByUsers)) {
     $i = 0;
     foreach ($nearByUsers as $nbu) {
@@ -319,6 +316,9 @@ if (!empty($nearByUsers)) {
         setTimeout(function () {
             /*$("#radar").hide();*/
             $("#loader").fadeOut();
+<?php if (empty($nearByUsers) || $nearByUsers == null) { ?>
+                $("#loader-nodata").fadeIn();
+<?php } ?>
             $("#tinderslide").removeAttr('style');
         }, Math.floor((Math.random() * 1000) + 1000));
     });

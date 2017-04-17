@@ -8,6 +8,14 @@
             </div>
         </div>
     <?php } ?>
+    <div id="loader-nodata" class="loader-style" style='background:none;display:none;'>
+        <div class="loader-container">
+            <img src="<?php echo base_url(); ?>assets/images/loader.gif"/>
+            <?php if (empty($nearByUsers) || $nearByUsers == null) { ?>
+                <p>Hey Luvr! Right now, there is no one else to Luv in your area! Check back soon!<br/>We are growing fast with your help! Spread the word about Luvr on all your social media!</p>
+            <?php } ?>
+        </div>
+    </div>
     </section>
 <?php } ?>
 <footer id="footer" class="footer">
