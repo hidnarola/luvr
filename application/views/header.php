@@ -24,7 +24,7 @@ else
 
                 /* Load js files */
                 $this->minify->js($js);
-                // echo $this->minify->deploy_js(FALSE, 'combined.min.js');
+                echo $this->minify->deploy_js(FALSE, 'combined.min.js');
                 ?>
                 </head>
                 <body class="with-login">
