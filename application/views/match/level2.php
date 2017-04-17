@@ -1,4 +1,3 @@
-<link href='<?php echo base_url('/assets/fancybox/dist/jquery.fancybox.min.css'); ?>' rel='stylesheet' media="screen"/>
 <?php
 $user_data = $this->session->userdata('user');
 if ($user_swipes_per_day >= MAX_SWIPES_PER_DAY) {
@@ -113,73 +112,73 @@ else if ($mode == 2)
 <style type="text/css">
     .inner-content{position:relative;}
 </style>
-<script type="text/javascript" src='<?php echo base_url('/assets/fancybox/dist/jquery.fancybox.min.js'); ?>'></script>
 <script type="text/javascript">
-                                        var likedislikecounts = 0;
-                                        $(window).on('load', function () {
-                                            setTimeout(function () {
-                                                /*$("#radar").hide();*/
-                                                $("#loader").fadeOut();
-                                                $("#tinderslide").removeAttr('style');
-                                            }, Math.floor((Math.random() * 1000) + 1000));
-                                        });
-                                        var likesreached = powerluvsreached = 0;
-                                        registerjTinder();
-                                        function registerjTinder() {
-                                            $("#tinderslide").jTinder({
-                                                onLike: function (item) {
+    var likedislikecounts = 0;
+    $(window).on('load', function () {
+        setTimeout(function () {
+            /*$("#radar").hide();*/
+            $("#loader").fadeOut();
+            $("#tinderslide").removeAttr('style');
+        }, Math.floor((Math.random() * 1000) + 1000));
+    });
+    var likesreached = powerluvsreached = 0;
+    registerjTinder();
+    function registerjTinder() {
+        $("#tinderslide").jTinder({
+            onLike: function (item) {
 <?php if ($user_swipes_per_day < MAX_SWIPES_PER_DAY) { ?>
-                                                        likedislikeuser($(item).data("id"), '<?php echo $md; ?>');
+                    likedislikeuser($(item).data("id"), '<?php echo $md; ?>');
 <?php } ?>
-                                                },
-                                                onDislike: function (item) {
-                                                    likedislikeuser($(item).data("id"), 'dislike');
-                                                },
-                                                animationRevertSpeed: 200,
-                                                animationSpeed: 500,
-                                                threshold: 4,
-                                                likeSelector: '.like',
-                                                dislikeSelector: '.dislike'
-                                            });
-                                        }
-                                        function likedislikeuser(user_id, mode, li_index) {
-                                            $.ajax({
-                                                url: "<?php echo base_url(); ?>match/likedislike",
-                                                type: 'POST',
-                                                dataType: 'json',
-                                                data: "user_id=" + user_id + "&status=" + mode + "&totallikesreached=" + likesreached,
-                                                success: function (data) {
-                                                    likedislikecounts++;
-                                                    if (data.success == true) {
-                                                        location.href = "<?php echo base_url('/match/nearby'); ?>";
-                                                    }
-                                                    if ((data.user_swipes_per_day == <?php echo MAX_SWIPES_PER_DAY; ?>) && mode == "like")
-                                                    {
-                                                        likesreached = 1;
-                                                        showMsg("Your likes quota per day has been reached! Therefore, right swipes for cards will not be considered.", "alert alert-danger");
-                                                        scrollToElement("#msg_txt");
-                                                    }
+            },
+            onDislike: function (item) {
+                likedislikeuser($(item).data("id"), 'dislike');
+            },
+            animationRevertSpeed: 200,
+            animationSpeed: 500,
+            threshold: 4,
+            likeSelector: '.like',
+            dislikeSelector: '.dislike'
+        });
+    }
+    function likedislikeuser(user_id, mode, li_index) {
+        $.ajax({
+            url: "<?php echo base_url(); ?>match/likedislike",
+            type: 'POST',
+            dataType: 'json',
+            data: "user_id=" + user_id + "&status=" + mode + "&totallikesreached=" + likesreached,
+            success: function (data) {
+                likedislikecounts++;
+                if (data.success == true) {
+                    location.href = "<?php echo base_url('/match/nearby'); ?>";
+                }
+                if ((data.user_swipes_per_day == <?php echo MAX_SWIPES_PER_DAY; ?>) && mode == "like")
+                {
+                    likesreached = 1;
+                    showMsg("Your likes quota per day has been reached! Therefore, right swipes for cards will not be considered.", "alert alert-danger");
+                    scrollToElement("#msg_txt");
+                }
 <?php if ($is_user_premium_member == 1) { ?>
-                                                        if ((data.user_powerluvs_per_day == <?php echo MAX_POWERLUVS_PER_DAY_P; ?>) && mode == "powerluv")
-                                                        {
-                                                            powerluvsreached = 1;
-                                                            reflectUserInfo(li_index);
-                                                            showMsg("Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.", "alert alert-danger");
-                                                            scrollToElement("#msg_txt");
-                                                        }
+                    if ((data.user_powerluvs_per_day == <?php echo MAX_POWERLUVS_PER_DAY_P; ?>) && mode == "powerluv")
+                    {
+                        powerluvsreached = 1;
+                        reflectUserInfo(li_index);
+                        showMsg("Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.", "alert alert-danger");
+                        scrollToElement("#msg_txt");
+                    }
 <?php } else { ?>
-                                                        if ((data.user_powerluvs_per_day == <?php echo MAX_POWERLUVS_PER_DAY; ?>) && mode == "powerluv")
-                                                        {
-                                                            powerluvsreached = 1;
-                                                            reflectUserInfo(li_index);
-                                                            showMsg("Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.", "alert alert-danger");
-                                                            scrollToElement("#msg_txt");
-                                                        }
+                    if ((data.user_powerluvs_per_day == <?php echo MAX_POWERLUVS_PER_DAY; ?>) && mode == "powerluv")
+                    {
+                        powerluvsreached = 1;
+                        reflectUserInfo(li_index);
+                        showMsg("Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.", "alert alert-danger");
+                        scrollToElement("#msg_txt");
+                    }
 <?php } ?>
-                                                }, error: function () {
-                                                    showMsg("Something went wrong!", "alert alert-danger", true);
-                                                    scrollToElement("#msg_txt");
-                                                }
-                                            });
-                                        }
+            }, error: function () {
+                showMsg("Something went wrong!", "alert alert-danger", true);
+                scrollToElement("#msg_txt");
+            }
+        });
+    }
 </script>
+<script src="<?php echo base_url() . 'assets/js/jquery.fancybox.min.js'; ?>" type="text/javascript"></script>
