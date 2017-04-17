@@ -63,7 +63,7 @@ else if ($mode == 2)
                                 <div class="user-list-pic-bg">
                                     <a style="background:url('<?php echo $path; ?>') no-repeat scroll center center;" class="img"></a>
                                     <?php if ($user_profile['media_type'] == 2 || $user_profile['media_type'] == 4) { ?>
-                                        <span class='play-btn' data-fancybox href="<?php echo $href; ?>"></span>
+                                        <a class='play-btn' data-fancybox href="<?php echo $href; ?>"></a>
                                     <?php } ?>
                                 </div>
                                 <div class="user-list-pic-close">

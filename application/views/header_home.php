@@ -102,7 +102,7 @@ else
                                                 <circle style="fill:#B3404A;" cx="346.406" cy="164.504" r="20.449"/>
                                             </g>
                                             <g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g>
-                                        </svg>	
+                                        </svg>  
                                         <span>Login With <br/>instagram</span>
                                     </a>
                                 </div>

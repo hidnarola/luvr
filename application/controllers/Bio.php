@@ -8,11 +8,10 @@ class Bio extends CI_Controller {
         
         $this->load->library('unirest');
 		$this->load->model(array('Users_model', 'Filters_model','Bio_model'));
-        $u_data = $this->session->userdata('user');
+        $this->load->helper('string');
 
-        if(empty($u_data)){
-            redirect('register');
-        }
+        $u_data = $this->session->userdata('user');
+        if(empty($u_data)){ redirect('register'); }
 	}
 
 	public function index(){
@@ -20,22 +19,66 @@ class Bio extends CI_Controller {
 	}	
 
     public function change_profile(){
-        
-        if($_POST){
 
-            $config['upload_path'] = './assets/uploads/';
-            $config['allowed_types'] = 'gif|jpg|png';
-            $config['max_size']  = '100000000000';        
+        $u_data = $this->session->userdata('user');
+
+        if($_POST){
+            
+            $path = $_FILES['profile_picture']['name'];
+            $ext = pathinfo($path, PATHINFO_EXTENSION);
+            
+            if($ext == 'mp4'){
+                $upload_path = UPLOADPATH_VIDEO;
+            }else{
+                $upload_path = UPLOADPATH_IMAGE;
+            }
+
+            $config['upload_path'] = $upload_path;
+            $config['allowed_types'] = 'jpg|png|jpeg|mp4';
+            $config['max_size']  = '100000000000';
+            $config['encrypt_name'] = TRUE;
+            $config['detect_mime'] = TRUE;
+            $config['file_ext_tolower'] = TRUE;
 
             $this->upload->initialize($config);
-            
+
             if ( ! $this->upload->do_upload('profile_picture')){
                 $error = array('error' => $this->upload->display_errors());
                 $this->session->set_flashdata('message', ['message'=>$error['error'],'class'=>'alert alert-danger']);
                 redirect('bio/change_profile');
             } else {
+                
                 $data = array('upload_data' => $this->upload->data());
-                pr($data,1);
+                $profile_media_id = $u_data['profile_media_id'];
+
+                $user_media = $this->Bio_model->fetch_mediadata(['id'=>$profile_media_id],true);
+
+                $full_path = $data['upload_data']['full_path'];
+                $file_name = $data['upload_data']['file_name'];
+                $raw_name  = $data['upload_data']['raw_name'];
+
+                $thumb_name = 'thumb_'.$raw_name.'.jpg';
+
+                $thumb_path = UPLOADPATH_THUMB.'/'.$thumb_name;
+
+                $upd_data = [];
+
+                // IF image then create thumb using GD library otherwise use ffmpeg for create image
+                if($data['upload_data']['is_image'] == '1'){
+                    _createThumbnail($full_path,$thumb_path);
+                    $upd_data['media_type'] = '1';
+                }else{
+                    exec(FFMPEG_PATH.' -i ' . $full_path . ' -ss 00:00:01.000 -vframes 1 ' . $thumb_path);
+                    $upd_data['media_type'] = '2';
+                }
+
+                $upd_data['media_name'] = $file_name;
+                $upd_data['media_thumb'] = $thumb_name;
+                $upd_data['insta_datetime'] = '0000-00-00 00:00:00';
+                $upd_data['updated_date'] = date('Y-m-d H:i:s');
+                                
+                $this->Bio_model->update_media(['id'=>$profile_media_id],$upd_data); 
+                redirect('user/view_profile');
             }
         }
 
@@ -43,7 +86,7 @@ class Bio extends CI_Controller {
         $data['meta_title'] = "Change Profile";
         $data['userData'] = [];        
         $this->load->view('main', $data);
-    }
+    }    
 
     public function saved_feed(){
         
@@ -239,6 +282,17 @@ class Bio extends CI_Controller {
     }
 
     // ------------------------------------------------------------------------
+
+    public function show_img($file,$is_thumb='0'){
+        
+        if($is_thumb == '1'){
+            $path = UPLOADPATH_THUMB.'/'.$file;
+        }else{
+            $path = UPLOADPATH_IMAGE.'/'.$file;
+        }        
+        header('Content-type: image/jpeg');
+        readfile($path);
+    }
 }
 
 /* End of file Bio.php */

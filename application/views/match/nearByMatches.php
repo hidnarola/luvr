@@ -74,7 +74,7 @@ if (!empty($nearByUsers)) {
                                             <div class="user-list-pic-bg">
                                                 <a style="background:url(\'' . $path . '\') no-repeat scroll center center;" class="img"></a>';
                                 if ($user['media_type'] == 2 || $user['media_type'] == 4) {
-                                    echo '<span class = "play-btn" data-fancybox href = "' . $href . '"></span>';
+                                    echo '<a class="play-btn" data-fancybox href="' . $href . '"></a>';
                                 }
                                 echo '</div>
                                         <div class="user-list-pic-close">

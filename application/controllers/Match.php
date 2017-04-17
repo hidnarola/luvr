@@ -171,21 +171,27 @@ class Match extends CI_Controller {
                 }
                 $near_by['result'][$i]['distance'] = $distance;
 
-                $path = "";
+                $path = $href = "";
                 if ($user['media_type'] == 0 && !empty($user['media_thumb'])) {
                     $path = $user['media_thumb'];
+                    $href = $user['user_profile'];
                 } else if ($user['media_type'] == 1 || $user['media_type'] == 2) {
                     $path = base_url() . "assets/images/users/" . $user['media_thumb'];
                     if (!file_exists(PHYSICALUPLOADPATH . "/images/users/" . $user['media_thumb']))
                         $path = base_url() . "assets/images/big_avatar.jpg";
+                    $href = base_url() . "assets/images/users/" . $user['user_profile'];
                 } else if ($user['media_type'] == 3 || $user['media_type'] == 4) {
                     $path = $user['media_thumb'];
+                    $href = $user['user_profile'];
                 }
                 $html .= '<li class="panel" data-id="' . $user['id'] . '">
                                         <div class="user-list-pic-wrapper">
                                             <div class="user-list-pic-bg">
-                                                <div style="background:url(\'' . $path . '\') no-repeat scroll center center;" class="img"></div>
-                                            </div>
+                                                <a style="background:url(\'' . $path . '\') no-repeat scroll center center;" class="img"></a>';
+                if ($user['media_type'] == 2 || $user['media_type'] == 4) {
+                    $html .= '<a class="play-btn" data-fancybox href="' . $href . '"></a>';
+                }
+                $html .= '</div>
                                         <div class="user-list-pic-close">
                                         <a class="for_pointer" onclick="$(\'#tinderslide\').jTinder(\'dislike\');">
                                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"

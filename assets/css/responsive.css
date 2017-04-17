@@ -1,6 +1,6 @@
-/*@media(min-width:1025px){
+@media(min-width:1025px){
 .ftr-contact a{pointer-events:none;}
-}*/
+}
 
 @media(max-width:1499px){
 .bx-wrapper img {max-width:100%;min-width:1199px;}
