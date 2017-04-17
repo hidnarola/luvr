@@ -6,4 +6,5 @@
 !*/cache/.htaccess
 /nbproject/private/
 /assets/css/styles.min.css
+/assets/js/combined.min.js
 /nbproject
