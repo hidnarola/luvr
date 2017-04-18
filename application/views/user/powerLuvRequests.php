@@ -28,7 +28,7 @@
     }
     .usr-list tbody td .user-link {
         display: block;
-        font-size: 0.8em;
+        font-size: 1em;
         padding-top: 3px;
         margin-left: 60px;
     }
@@ -61,21 +61,13 @@
         padding: 12px 8px;
     }
 </style>
-<?php
-$this->load->view('side_bar_account');
-$user_data = $this->session->userdata('user');
-$username = (!empty($user_data['user_name'])) ? $user_data['user_name'] : $user_data['instagram_username'];
-?>
-<div class="col-md-8 col-sm-8 col-xs-12 account-r">
-    <div class="account-r-head"><h2><big><?php echo $username; ?></big></h2></div>
-    <div class="account-r-body">
-        <div class="account-body-head">
-            <h2 class="account-title">Blocked Users</h2>
-            <p>&nbsp;</p>
-        </div>
+<h2>Powerluv Requests</h2>
+<hr>
+<div class="container bootstrap snippet">
+    <div class="row">
         <div class="main-box no-header clearfix">
             <div class="main-box-body clearfix">
-                <?php if (!empty($blockedUsers)) { ?>
+                <?php if (!empty($powerLuvRequests)) { ?>
                     <div class="table-responsive">
                         <table class="table usr-list">
                             <thead>
@@ -84,29 +76,29 @@ $username = (!empty($user_data['user_name'])) ? $user_data['user_name'] : $user_
                                     <th class="text-center"><span>Status</span></th>
                                     <th><span>Email</span></th>
                                     <th>Action</th>
-                                    <!--<th><span>Created</span></th>-->
+                                    <th><span>Request Date</span></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                foreach ($blockedUsers as $bu) {
+                                foreach ($powerLuvRequests as $plr) {
                                     ?>
-                                    <tr id="user_<?php echo $bu['requestto_id']; ?>">
+                                    <tr id="user_<?php echo $plr['requestto_id']; ?>">
                                         <td>
-                                            <img class="pro_pic" src="<?php echo $bu['media_thumb']; ?>" alt="<?php echo $bu['user_name']; ?>" title="<?php echo $bu['user_name']; ?>" onerror='this.src="<?php echo base_url(); ?>assets/images/default_avatar.jpg"'>
-                                            <span class="user-link"><?php echo $bu['user_name']; ?></span>
-                                            <span class="user-subhead">Age : <?php echo $bu['age']; ?></span>
+                                            <img class="pro_pic" src="<?php echo $plr['media_thumb']; ?>" alt="<?php echo $plr['user_name']; ?>" title="<?php echo $plr['user_name']; ?>" onerror='this.src="<?php echo base_url(); ?>assets/images/default_avatar.jpg"'>
+                                            <span class="user-link"><?php echo $plr['user_name']; ?></span>
+                                            <span class="user-subhead">Age : <?php echo $plr['age']; ?></span>
                                         </td>
                                         <td class="text-center">
                                             <span class="label label-danger">Blocked</span>
                                         </td>
                                         <td>
-                                            <a href="mailto:<?php echo $bu['email']; ?>"><?php echo $bu['email']; ?></a>
+                                            <a href="mailto:<?php echo $plr['email']; ?>"><?php echo $plr['email']; ?></a>
                                         </td>
                                         <td>
-                                            <a title="Unblock" class="btn btn-success" onclick="unblockUser(<?php echo $bu['requestto_id']; ?>);"><i class="fa fa-unlock"></i></a>
+                                            <a title="Unblock" class="btn btn-success" onclick="unblockUser(<?php echo $plr['requestto_id']; ?>);"><i class="fa fa-unlock"></i></a>
                                         </td>
-                                        <!--<td>2013/08/12</td>-->
+                                        <td><?php echo date("Y-m-d H:i:s", strtotime($plr['request_date'])); ?></td>
                                     </tr>
                                     <?php
                                 }

@@ -1,13 +1,83 @@
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/font-awesome/css/font-awesome.min.css"/>
-<h2>Video Requests</h2>
-<hr>
-<div class="container bootstrap snippet">
-    <div class="row">
+<style type="text/css">
+    .main-box.no-header {
+        padding-top: 20px;
+    }
+    .main-box {
+        background: #FFFFFF;
+        -webkit-box-shadow: 1px 1px 2px 0 #CCCCCC;
+        -moz-box-shadow: 1px 1px 2px 0 #CCCCCC;
+        -o-box-shadow: 1px 1px 2px 0 #CCCCCC;
+        -ms-box-shadow: 1px 1px 2px 0 #CCCCCC;
+        box-shadow: 1px 1px 2px 0 #CCCCCC;
+        margin-bottom: 16px;
+        -webikt-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+    }
+    .table a.table-link.danger {
+        color: #e74c3c;
+    }
+    .label {
+        border-radius: 3px;
+        font-size: 0.875em;
+        font-weight: 600;
+    }
+    .usr-list tbody td .user-subhead {
+        font-size: 0.8em;
+    }
+    .usr-list tbody td .user-link {
+        display: block;
+        font-size: 0.8em;
+        padding-top: 3px;
+        margin-left: 60px;
+    }
+    a {
+        color: #3498db;
+        outline: none!important;
+    }
+    .usr-list tbody td>img {
+        position: relative;
+        max-width: 50px;
+        float: left;
+        margin-right: 15px;
+    }
+
+    .table thead tr th {
+        text-transform: uppercase;
+        font-size: 0.875em;
+    }
+    .table thead tr th {
+        border-bottom: 2px solid #e7ebee;
+    }
+    .table tbody tr td:first-child {
+        font-size: 1.125em;
+        font-weight: 300;
+    }
+    .table tbody tr td {
+        font-size: 0.875em;
+        vertical-align: middle !important;
+        border-top: 1px solid #e7ebee;
+        padding: 12px 8px;
+    }
+</style>
+<?php
+$this->load->view('side_bar_account');
+$user_data = $this->session->userdata('user');
+$username = (!empty($user_data['user_name'])) ? $user_data['user_name'] : $user_data['instagram_username'];
+?>
+<div class="col-md-8 col-sm-8 col-xs-12 account-r">
+    <div class="account-r-head"><h2><big><?php echo $username; ?></big></h2></div>
+    <div class="account-r-body">
+        <div class="account-body-head">
+            <h2 class="account-title">Video Requests</h2>
+            <p>&nbsp;</p>
+        </div>
         <div class="main-box no-header clearfix">
             <div class="main-box-body clearfix">
                 <?php if (!empty($videoRequests)) { ?>
                     <div class="table-responsive">
-                        <table class="table user-list">
+                        <table class="table usr-list">
                             <thead>
                                 <tr>
                                     <th><span>User</span></th>
@@ -23,7 +93,7 @@
                                     ?>
                                     <tr id="request_<?php echo $vr['vrid']; ?>">
                                         <td>
-                                            <img src="<?php echo $vr['media_thumb']; ?>" alt="<?php echo $vr['user_name']; ?>" title="<?php echo $vr['user_name']; ?>" onerror='this.src="<?php echo base_url(); ?>assets/images/default_avatar.jpg"'>
+                                            <img class="pro_pic" src="<?php echo $vr['media_thumb']; ?>" alt="<?php echo $vr['user_name']; ?>" title="<?php echo $vr['user_name']; ?>" onerror='this.src="<?php echo base_url(); ?>assets/images/default_avatar.jpg"'>
                                             <span class="user-link"><?php echo $vr['user_name']; ?></span>
                                             <span class="user-subhead">Age : <?php echo $vr['age']; ?></span>
                                         </td>

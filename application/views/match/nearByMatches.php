@@ -1,3 +1,5 @@
+<link href='<?php echo base_url('/assets/css/jTinder.css'); ?>' rel='stylesheet'/>
+<link href='<?php echo base_url('/assets/css/jquery.fancybox.min.css'); ?>' rel='stylesheet' media="screen"/>
 <?php
 $user_data = $this->session->userdata('user');
 if ($user_swipes_per_day >= MAX_SWIPES_PER_DAY) {
@@ -6,7 +8,7 @@ if ($user_swipes_per_day >= MAX_SWIPES_PER_DAY) {
         Your likes quota per day has been reached! Therefore, right swipes for cards will not be considered.</div>';
 }
 $max_powerluvs = MAX_POWERLUVS_PER_DAY;
-$pl_onclick = "onclick=\"$('#tinderslide').jTinder('powerluv');\"";
+$pl_onclick = "onclick=powerLuv();";
 if ($is_user_premium_member == 1) {
     $max_powerluvs = MAX_POWERLUVS_PER_DAY_P;
 }
@@ -65,12 +67,17 @@ if (!empty($nearByUsers)) {
                                     $path = $user['media_thumb'];
                                     $href = $user['user_profile'];
                                 }
+                                $timestamp_html = "";
+                                if ($is_user_premium_member == 1) {
+                                    $timestamp_html = '<span class="_timestamp">' . date("m/d/y", strtotime($user['insta_datetime'])) . '<br/>' . date("h:s a", strtotime($user['insta_datetime'])) . '</span>';
+                                }
                                 echo '<li class="panel" data-id="' . $user['id'] . '">
                                         <div class="user-list-pic-wrapper">
+                                            ' . $timestamp_html . '
                                             <div class="user-list-pic-bg">
                                                 <a style="background:url(\'' . $path . '\') no-repeat scroll center center;" class="img"></a>';
                                 if ($user['media_type'] == 2 || $user['media_type'] == 4) {
-                                    echo '<a class="play-btn" data-fancybox href="' . $href . '"></a>';
+                                    echo '<a class="play-btn-large icon-play-button" data-fancybox href="' . $href . '"></a>';
                                 }
                                 echo '</div>
                                         <div class="user-list-pic-close">
@@ -100,23 +107,6 @@ if (!empty($nearByUsers)) {
                                             </g>
                                             </switch>
                                             </svg>
-                                        </a>
-                                        <a href="#">
-                                            <svg version="1.0" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
-                                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="27.08px"
-                                                 height="17.699px" viewBox="0 0 27.08 17.699" enable-background="new 0 0 27.08 17.699" xml:space="preserve">
-                                            <switch>
-                                            <foreignObject requiredExtensions="&ns_ai;" x="0" y="0" width="1" height="1">
-                                            <i:pgfRef  xlink:href="#adobe_illustrator_pgf">
-                                            </i:pgfRef>
-                                            </foreignObject>
-                                            <g i:extraneous="self">
-                                            <path d="M0.54,7.782h15.682V1.917c0-0.391,0.225-0.75,0.586-0.938s0.802-0.172,1.148,0.04l8.068,6.933
-                                                  c0.321,0.196,0.516,0.535,0.516,0.897c0,0.363-0.194,0.701-0.516,0.898l-8.068,6.933c-0.346,0.212-0.787,0.227-1.148,0.04
-                                                  c-0.361-0.188-0.586-0.547-0.586-0.938V9.918H0.552 M23.337,8.85l-4.865-4.975v9.949L23.337,8.85z"/>
-                                            </g>
-                                            </switch>
-                                            </svg>	
                                         </a>
                                     </div>
                                     </div>
@@ -175,6 +165,11 @@ if (!empty($nearByUsers)) {
                         </div>
                     </div>
                 </div>
+                <div id="loader-pl" class="loader-style" style="background:none;display:none;">
+                    <div class="loader-container">
+                        <img src="<?php echo base_url(); ?>assets/images/loader.gif" />
+                    </div>
+                </div>
             </div>
             <?php
         }
@@ -212,7 +207,7 @@ if (!empty($nearByUsers)) {
                     ?>
                 </p>
                 <ul class="user-info">
-                    <li id="right_age">Age (<?php
+                    <li id="right_age">Age : (<?php
                         echo $lastObj['age'];
                         ?>)</li>
                     <li id="right_location">Location : <?php echo (!empty($lastObj['address'])) ? $lastObj['address'] : "N/A"; ?></li>
@@ -314,166 +309,174 @@ if (!empty($nearByUsers)) {
 <script src="<?php echo base_url() . 'assets/js/jquery.transform2d.js'; ?>" type="text/javascript"></script>
 <script src="<?php echo base_url() . 'assets/js/jquery.jTinder.js'; ?>" type="text/javascript"></script>
 <script type="text/javascript">
-    $(window).on('load', function () {
-        setTimeout(function () {
-            /*$("#radar").hide();*/
-            $("#loader").fadeOut();
+                                $(window).on('load', function () {
+                                    setTimeout(function () {
+                                        /*$("#radar").hide();*/
+                                        $("#loader").fadeOut();
 <?php if (empty($nearByUsers) || $nearByUsers == null) { ?>
-                $("#loader-nodata").fadeIn();
+                                            $("#loader-nodata").fadeIn();
 <?php } ?>
-            $("#tinderslide").removeAttr('style');
-        }, Math.floor((Math.random() * 1000) + 1000));
-    });
-    var likedislikecounts = 0;
-    var likesreached = powerluvsreached = 0;
-    registerjTinder();
-    function registerjTinder() {
-        $("#tinderslide").jTinder({
-            onLike: function (item) {
+                                        $("#tinderslide").removeAttr('style');
+                                    }, Math.floor((Math.random() * 1000) + 1000));
+                                });
+                                var likedislikecounts = 0;
+                                var likesreached = powerluvsreached = 0;
+                                registerjTinder();
+                                function registerjTinder() {
+                                    $("#tinderslide").jTinder({
+                                        onLike: function (item) {
 <?php if ($user_swipes_per_day < MAX_SWIPES_PER_DAY) { ?>
-                    /*loadLevel2(item, 'like');*/
-                    location.href = "<?php echo base_url('/match/level2/'); ?>" + $(item).data("id") + "/1/1";
+                                                /*loadLevel2(item, 'like');*/
+                                                location.href = "<?php echo base_url('/match/level2/'); ?>" + $(item).data("id") + "/1/1";
 <?php } ?>
-                reflectUserInfo(item.index() - 1);
-            },
-            onDislike: function (item) {
-                likedislikeuser($(item).data("id"), 'dislike');
-                reflectUserInfo(item.index() - 1);
-            },
-            onLuv: function (item) {
-                /*loadLevel2(item, 'luv');*/
-                location.href = "<?php echo base_url('/match/level2/'); ?>" + $(item).data("id") + "/1/2";
-            },
-            onPowerLuv: function (item) {
-                likedislikeuser($(item).data("id"), 'powerluv', item.index() - 1);
-            },
-            onPrev: function (item) {
-                reflectUserInfo(item.index());
-            },
-            animationRevertSpeed: 200,
-            animationSpeed: 500,
-            threshold: 4,
-            likeSelector: '.like',
-            dislikeSelector: '.dislike'
-        });
-    }
-    function reflectUserInfo(index) {
-        if (index >= 0 && index < $("#tinderslide ul li.panel").length)
-        {
-            $("#right_username").html(nearby_matches[index].user_name);
-            $("#right_oneliner").html(nearby_matches[index].one_liner);
-            $("#right_bio").html((nearby_matches[index].bio) ? nearby_matches[index].bio : "&nbsp;");
-            $("#right_age").html("Age (" + nearby_matches[index].age + ")");
-            $("#right_location").html((nearby_matches[index].address) ? "Location : " + nearby_matches[index].address : "Location : N/A");
-            $("#right_distance").html((nearby_matches[index].distance) ? "Distance : " + nearby_matches[index].distance + " km" : "Distance : N/A");
-            if (powerluvsreached == 1)
-            {
-                $("#power_luv_user").removeAttr("onclick");
-            } else
-            {
-                if (nearby_matches[index].id)
-                {
-                    $("#luv_user").attr("onclick", "$('#tinderslide').jTinder('luv');");
-                    $("#power_luv_user").attr("onclick", "$('#tinderslide').jTinder('powerluv');");
-                } else
-                {
-                    $("#luv_user").attr("onclick", "showMsg('Something went wrong!','alert alert-danger',true);");
-                    $("#power_luv_user").attr("onclick", "showMsg('Something went wrong!','alert alert-danger',true);");
-                }
-            }
-        }
-    }
-    function prevMatch(id) {
+                                            reflectUserInfo(item.index() - 1);
+                                        },
+                                        onDislike: function (item) {
+                                            likedislikeuser($(item).data("id"), 'dislike');
+                                            reflectUserInfo(item.index() - 1);
+                                        },
+                                        onLuv: function (item) {
+                                            /*loadLevel2(item, 'luv');*/
+                                            location.href = "<?php echo base_url('/match/level2/'); ?>" + $(item).data("id") + "/1/2";
+                                        },
+                                        onPowerLuv: function (item) {
+                                            likedislikeuser($(item).data("id"), 'powerluv', item.index() - 1);
+                                        },
+                                        onPrev: function (item) {
+                                            reflectUserInfo(item.index());
+                                        },
+                                        animationRevertSpeed: 200,
+                                        animationSpeed: 500,
+                                        threshold: 4,
+                                        likeSelector: '.like',
+                                        dislikeSelector: '.dislike'
+                                    });
+                                }
+                                function reflectUserInfo(index) {
+                                    if (index >= 0 && index < $("#tinderslide ul li.panel").length)
+                                    {
+                                        $("#right_username").html(nearby_matches[index].user_name);
+                                        $("#right_oneliner").html(nearby_matches[index].one_liner);
+                                        $("#right_bio").html((nearby_matches[index].bio) ? nearby_matches[index].bio : "&nbsp;");
+                                        $("#right_age").html("Age : (" + nearby_matches[index].age + ")");
+                                        $("#right_location").html((nearby_matches[index].address) ? "Location : " + nearby_matches[index].address : "Location : N/A");
+                                        $("#right_distance").html((nearby_matches[index].distance) ? "Distance : " + nearby_matches[index].distance + " km" : "Distance : N/A");
+                                        if (powerluvsreached == 1)
+                                        {
+                                            $("#power_luv_user").removeAttr("onclick");
+                                        } else
+                                        {
+                                            if (nearby_matches[index].id)
+                                            {
+                                                $("#luv_user").attr("onclick", "$('#tinderslide').jTinder('luv');");
+                                                $("#power_luv_user").attr("onclick", "powerLuv();");
+                                            } else
+                                            {
+                                                $("#luv_user").attr("onclick", "showMsg('Something went wrong!','alert alert-danger',true);");
+                                                $("#power_luv_user").attr("onclick", "showMsg('Something went wrong!','alert alert-danger',true);");
+                                            }
+                                        }
+                                    }
+                                }
+                                function powerLuv() {
+                                    $("#loader-pl").show();
+                                    setTimeout(function () {
+                                        $("#loader-pl").hide();
+                                        $('#tinderslide').jTinder('powerluv');
+                                    }, 2000);
+                                }
+                                function prevMatch(id) {
 <?php if ($is_user_premium_member == 1) { ?>
-            if ($("#tinderslide ul li[data-id='" + id + "']").attr("data-nav") != 1)
-                $('#tinderslide').jTinder('prev');
+                                        if ($("#tinderslide ul li[data-id='" + id + "']").attr("data-nav") != 1)
+                                            $('#tinderslide').jTinder('prev');
 <?php } else { ?>
-            showMsg("You need to be Luvr premium member to swipe back! <a href='<?php echo base_url() ?>#packages'>Click here to join</a>", "alert alert-danger", true);
-            scrollToElement("#msg_txt");
+                                        showMsg("You need to be Luvr premium member to swipe back! <a href='<?php echo base_url() ?>#packages'>Click here to join</a>", "alert alert-danger", true);
+                                        scrollToElement("#msg_txt");
 <?php } ?>
-    }
-    function likedislikeuser(user_id, mode, li_index) {
-        $.ajax({
-            url: "<?php echo base_url(); ?>match/likedislike",
-            type: 'POST',
-            dataType: 'json',
-            data: "user_id=" + user_id + "&status=" + mode + "&totallikesreached=" + likesreached,
-            success: function (data) {
-                likedislikecounts++;
-                if (data.success == true) {
-                }
-                if ((data.user_swipes_per_day == <?php echo MAX_SWIPES_PER_DAY; ?>) && mode == "like")
-                {
-                    /*$("#tinderslide").unbind('touchstart mousedown');
-                     $("#tinderslide").unbind('touchmove mousemove');
-                     $("#tinderslide").unbind('touchend mouseup');*/
-                    likesreached = 1;
-                    showMsg("Your likes quota per day has been reached! Therefore, right swipes for cards will not be considered.", "alert alert-danger");
-                    scrollToElement("#msg_txt");
-                }
+                                }
+                                function likedislikeuser(user_id, mode, li_index) {
+                                    $.ajax({
+                                        url: "<?php echo base_url(); ?>match/likedislike",
+                                        type: 'POST',
+                                        dataType: 'json',
+                                        data: "user_id=" + user_id + "&status=" + mode + "&totallikesreached=" + likesreached,
+                                        success: function (data) {
+                                            likedislikecounts++;
+                                            if (data.success == true) {
+                                            }
+                                            if ((data.user_swipes_per_day == <?php echo MAX_SWIPES_PER_DAY; ?>) && mode == "like")
+                                            {
+                                                /*$("#tinderslide").unbind('touchstart mousedown');
+                                                 $("#tinderslide").unbind('touchmove mousemove');
+                                                 $("#tinderslide").unbind('touchend mouseup');*/
+                                                likesreached = 1;
+                                                showMsg("Your likes quota per day has been reached! Therefore, right swipes for cards will not be considered.", "alert alert-danger");
+                                                scrollToElement("#msg_txt");
+                                            }
 <?php if ($is_user_premium_member == 1) { ?>
-                    if ((data.user_powerluvs_per_day == <?php echo MAX_POWERLUVS_PER_DAY_P; ?>) && mode == "powerluv")
-                    {
-                        powerluvsreached = 1;
-                        reflectUserInfo(li_index);
-                        showMsg("Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.", "alert alert-danger");
-                        scrollToElement("#msg_txt");
-                    }
+                                                if ((data.user_powerluvs_per_day == <?php echo MAX_POWERLUVS_PER_DAY_P; ?>) && mode == "powerluv")
+                                                {
+                                                    powerluvsreached = 1;
+                                                    reflectUserInfo(li_index);
+                                                    showMsg("Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.", "alert alert-danger");
+                                                    scrollToElement("#msg_txt");
+                                                }
 <?php } else { ?>
-                    if ((data.user_powerluvs_per_day == <?php echo MAX_POWERLUVS_PER_DAY; ?>) && mode == "powerluv")
-                    {
-                        powerluvsreached = 1;
-                        reflectUserInfo(li_index);
-                        showMsg("Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.", "alert alert-danger");
-                        scrollToElement("#msg_txt");
-                    }
+                                                if ((data.user_powerluvs_per_day == <?php echo MAX_POWERLUVS_PER_DAY; ?>) && mode == "powerluv")
+                                                {
+                                                    powerluvsreached = 1;
+                                                    reflectUserInfo(li_index);
+                                                    showMsg("Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.", "alert alert-danger");
+                                                    scrollToElement("#msg_txt");
+                                                }
 <?php } ?>
-                if (likedislikecounts == $("#tinderslide ul li.panel").length)
-                {
-                    loadMoreNearBys();
-                }
-            }, error: function () {
-                showMsg("Something went wrong!", "alert alert-danger", true);
-                scrollToElement("#msg_txt");
-            }
-        });
-    }
-    function loadMoreNearBys() {
-        $("#tinderslide").css('visibility', 'hidden');
-        $("#loader").show();
-        $.ajax({
-            url: "<?php echo base_url(); ?>match/loadMoreNearBys",
-            type: 'POST',
-            dataType: 'json',
-            success: function (data) {
-                if (data.success == true) {
-                    likedislikecounts = 0;
-                    if (data.data) {
-                        nearby_matches = data.data;
-                        $("#tinderslide ul").html(data.html);
-                        reflectUserInfo(parseInt(data.data.length) - 1);
-                        registerjTinder();
-                    }
-                } else {
-                    $(".user-list-l,.user-list-r").hide();
-                    $("#msg_txt").after('<div class="alert alert-info" id="nomoredata">We could not find more nearby matches around you!</div>');
-                    scrollToElement("#nomoredata");
-                }
-                setTimeout(function () {
-                    /*$("#radar").hide();*/
-                    $("#loader").fadeOut();
-                    $("#tinderslide").removeAttr('style');
-                }, Math.floor((Math.random() * 1000) + 1000));
-            }
-        });
-    }
-    /*function loadLevel2(item, mode) {
-     var index = item.index();
-     $("#tinderslide2 ul li.panel").attr("data-id", nearby_matches[index].id);
-     $("#tinderslide2 ul li.panel .user-list-pic-bg").attr("style", "background:url('" + nearby_matches[index].media_thumb + "') no-repeat scroll center center;");
-     $('#level2Popup').modal('show');
-     $('.secondSwiper ul li,panel').removeAttr('style');
-     $('.secondSwiper ul li,panel').show();
-     }*/
+                                            if (likedislikecounts == $("#tinderslide ul li.panel").length)
+                                            {
+                                                loadMoreNearBys();
+                                            }
+                                        }, error: function () {
+                                            showMsg("Something went wrong!", "alert alert-danger", true);
+                                            scrollToElement("#msg_txt");
+                                        }
+                                    });
+                                }
+                                function loadMoreNearBys() {
+                                    $("#tinderslide").css('visibility', 'hidden');
+                                    $("#loader").show();
+                                    $.ajax({
+                                        url: "<?php echo base_url(); ?>match/loadMoreNearBys",
+                                        type: 'POST',
+                                        dataType: 'json',
+                                        success: function (data) {
+                                            if (data.success == true) {
+                                                likedislikecounts = 0;
+                                                if (data.data) {
+                                                    nearby_matches = data.data;
+                                                    $("#tinderslide ul").html(data.html);
+                                                    reflectUserInfo(parseInt(data.data.length) - 1);
+                                                    registerjTinder();
+                                                }
+                                            } else {
+                                                $("#loader").hide();
+                                                $(".user-list-l,.user-list-r").hide();
+                                                $("#loader-nodata .loader-container").append('<p>Hey Luvr! Right now, there is no one else to Luv in your area! Check back soon!<br/>We are growing fast with your help! Spread the word about Luvr on all your social media!</p>');
+                                                $("#loader-nodata").show();
+                                            }
+                                            setTimeout(function () {
+                                                /*$("#radar").hide();*/
+                                                $("#loader").fadeOut();
+                                                $("#tinderslide").removeAttr('style');
+                                            }, Math.floor((Math.random() * 1000) + 1000));
+                                        }
+                                    });
+                                }
+                                /*function loadLevel2(item, mode) {
+                                 var index = item.index();
+                                 $("#tinderslide2 ul li.panel").attr("data-id", nearby_matches[index].id);
+                                 $("#tinderslide2 ul li.panel .user-list-pic-bg").attr("style", "background:url('" + nearby_matches[index].media_thumb + "') no-repeat scroll center center;");
+                                 $('#level2Popup').modal('show');
+                                 $('.secondSwiper ul li,panel').removeAttr('style');
+                                 $('.secondSwiper ul li,panel').show();
+                                 }*/
 </script>
 <script src="<?php echo base_url() . 'assets/js/jquery.fancybox.min.js'; ?>" type="text/javascript"></script>

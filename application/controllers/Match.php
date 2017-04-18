@@ -89,7 +89,7 @@ class Match extends CI_Controller {
         $u_data['user_settings'] = $user_settings;
         $data['sub_view'] = 'match/level2';
         $data['db_user_data'] = $this->Users_model->fetch_userdata(['id' => $user_id], true);
-        $data['user_profile'] = $this->Bio_model->fetch_mediadata(['id' => $data['db_user_data']['profile_media_id']], true);
+        $data['user_profile'] = $this->Bio_model->fetch_mediadata(['userid' => $user_id]);
         $data['meta_title'] = "User info : " . $data['db_user_data']['user_name'];
         $data['latlong'] = $user_info['latlong'];
         $data['radius'] = $user_info['radius'];
@@ -183,12 +183,17 @@ class Match extends CI_Controller {
                     $path = $user['media_thumb'];
                     $href = $user['user_profile'];
                 }
+                $timestamp_html = "";
+                if ($user_settings['is_premium_member'] == 1) {
+                    $timestamp_html = '<span class="_timestamp">' . date("m/d/y", strtotime($user['insta_datetime'])) . '<br/>' . date("h:s a", strtotime($user['insta_datetime'])) . '</span>';
+                }
                 $html .= '<li class="panel" data-id="' . $user['id'] . '">
                                         <div class="user-list-pic-wrapper">
+                                            ' . $timestamp_html . '
                                             <div class="user-list-pic-bg">
                                                 <a style="background:url(\'' . $path . '\') no-repeat scroll center center;" class="img"></a>';
                 if ($user['media_type'] == 2 || $user['media_type'] == 4) {
-                    $html .= '<a class="play-btn" data-fancybox href="' . $href . '"></a>';
+                    $html .= '<a class="play-btn-large icon-play-button" data-fancybox href="' . $href . '"></a>';
                 }
                 $html .= '</div>
                                         <div class="user-list-pic-close">
@@ -197,36 +202,7 @@ class Match extends CI_Controller {
                                                  viewBox="0 0 371.23 371.23" style="enable-background:new 0 0 371.23 371.23;" xml:space="preserve">
                                             <polygon points="371.23,21.213 350.018,0 185.615,164.402 21.213,0 0,21.213 164.402,185.615 0,350.018 21.213,371.23 
                                                      185.615,206.828 350.018,371.23 371.23,350.018 206.828,185.615 "/>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
-                                            <g>
-                                            </g>
+                                            <g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g>
                                             </svg>
                                         </a>
                                     </div>
@@ -247,23 +223,6 @@ class Match extends CI_Controller {
                                             </g>
                                             </switch>
                                             </svg>
-                                        </a>
-                                        <a href="#">
-                                            <svg version="1.0" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
-                                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="27.08px"
-                                                 height="17.699px" viewBox="0 0 27.08 17.699" enable-background="new 0 0 27.08 17.699" xml:space="preserve">
-                                            <switch>
-                                            <foreignObject requiredExtensions="&ns_ai;" x="0" y="0" width="1" height="1">
-                                            <i:pgfRef  xlink:href="#adobe_illustrator_pgf">
-                                            </i:pgfRef>
-                                            </foreignObject>
-                                            <g i:extraneous="self">
-                                            <path d="M0.54,7.782h15.682V1.917c0-0.391,0.225-0.75,0.586-0.938s0.802-0.172,1.148,0.04l8.068,6.933
-                                                  c0.321,0.196,0.516,0.535,0.516,0.897c0,0.363-0.194,0.701-0.516,0.898l-8.068,6.933c-0.346,0.212-0.787,0.227-1.148,0.04
-                                                  c-0.361-0.188-0.586-0.547-0.586-0.938V9.918H0.552 M23.337,8.85l-4.865-4.975v9.949L23.337,8.85z"/>
-                                            </g>
-                                            </switch>
-                                            </svg>	
                                         </a>
                                     </div>
                                     </div>
