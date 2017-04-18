@@ -1,5 +1,4 @@
 <link href='<?php echo base_url('/assets/css/jTinder.css'); ?>' rel='stylesheet'/>
-<link href='<?php echo base_url('/assets/css/jquery.fancybox.min.css'); ?>' rel='stylesheet' media="screen"/>
 <?php
 $user_data = $this->session->userdata('user');
 if ($user_swipes_per_day >= MAX_SWIPES_PER_DAY) {
@@ -177,7 +176,6 @@ else if ($mode == 2)
 </style>
 <script src="<?php echo base_url() . 'assets/js/jquery.transform2d.js'; ?>" type="text/javascript"></script>
 <script src="<?php echo base_url() . 'assets/js/jquery.jTinder.js'; ?>" type="text/javascript"></script>
-<script src="<?php echo base_url() . 'assets/js/jquery.fancybox.min.js'; ?>" type="text/javascript"></script>
 <script type="text/javascript">
                                                     /*$(document).ready(function () {
                                                      $(".image-link").fancybox({

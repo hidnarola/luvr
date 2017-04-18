@@ -61,73 +61,75 @@
         padding: 12px 8px;
     }
 </style>
-<?php
-$this->load->view('side_bar_account');
-$user_data = $this->session->userdata('user');
-$username = (!empty($user_data['user_name'])) ? $user_data['user_name'] : $user_data['instagram_username'];
-?>
-<div class="col-md-8 col-sm-8 col-xs-12 account-r">
-    <div class="account-r-head"><h2><big><?php echo $username; ?></big></h2></div>
-    <div class="account-r-body">
-        <div class="account-body-head">
-            <h2 class="account-title">Video Requests</h2>
-            <p>&nbsp;</p>
-        </div>
-        <div class="main-box no-header clearfix">
-            <div class="main-box-body clearfix">
-                <?php if (!empty($videoRequests)) { ?>
-                    <div class="table-responsive">
-                        <table class="table usr-list">
-                            <thead>
-                                <tr>
-                                    <th><span>User</span></th>
-                                    <th class="text-center"><span>Status</span></th>
-                                    <th><span>Email</span></th>
-                                    <th><span>Request Date</span></th>
-                                    <th><span>Action</span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                foreach ($videoRequests as $vr) {
-                                    ?>
-                                    <tr id="request_<?php echo $vr['vrid']; ?>">
-                                        <td>
-                                            <img class="pro_pic" src="<?php echo $vr['media_thumb']; ?>" alt="<?php echo $vr['user_name']; ?>" title="<?php echo $vr['user_name']; ?>" onerror='this.src="<?php echo base_url(); ?>assets/images/default_avatar.jpg"'>
-                                            <span class="user-link"><?php echo $vr['user_name']; ?></span>
-                                            <span class="user-subhead">Age : <?php echo $vr['age']; ?></span>
-                                        </td>
-                                        <td class="text-center" id="status_txt">
-                                            <?php
-                                            if ($vr['status'] == 1)
-                                                echo '<span class="label label-success">New Request';
-                                            else if ($vr['status'] == 2)
-                                                echo '<span class="label label-success">Request Approved</span>';
-                                            else
-                                                echo '<span class="label label-danger">Request Rejected</span>';
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <a href="mailto:<?php echo $vr['email']; ?>"><?php echo $vr['email']; ?></a>
-                                        </td>
-                                        <td><?php echo date("Y-m-d H:i:s", strtotime($vr['vs_created_date'])); ?></td>
-                                        <td>
-                                            <a class="btn btn-success" title="Approve" onclick="manageVideoRequest(<?php echo $vr['vrid']; ?>, 2);"><i class="fa fa-check"></i></a>
-                                            <a class="btn btn-danger" title="Reject" onclick="manageVideoRequest(<?php echo $vr['vrid']; ?>, 0);"><i class="fa fa-ban"></i></a>
-                                        </td>
+<div class="my-account">
+    <?php
+    $this->load->view('side_bar_account');
+    $user_data = $this->session->userdata('user');
+    $username = (!empty($user_data['user_name'])) ? ucfirst($user_data['user_name']) : $user_data['instagram_username'];
+    ?>
+    <div class="col-md-8 col-sm-8 col-xs-12 account-r">
+        <div class="account-r-head"><h2><big><?php echo $username; ?></big></h2></div>
+        <div class="account-r-body">
+            <div class="account-body-head">
+                <h2 class="account-title">Video Requests</h2>
+                <p>&nbsp;</p>
+            </div>
+            <div class="main-box no-header clearfix">
+                <div class="main-box-body clearfix">
+                    <?php if (!empty($videoRequests)) { ?>
+                        <div class="table-responsive">
+                            <table class="table usr-list">
+                                <thead>
+                                    <tr>
+                                        <th><span>User</span></th>
+                                        <th class="text-center"><span>Status</span></th>
+                                        <th><span>Email</span></th>
+                                        <th><span>Request Date</span></th>
+                                        <th><span>Action</span></th>
                                     </tr>
+                                </thead>
+                                <tbody>
                                     <?php
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-                    <?php
-                    echo $pagination;
-                } else {
-                    echo '<p class="alert alert-info">No video requests available!</p>';
-                }
-                ?>
+                                    foreach ($videoRequests as $vr) {
+                                        ?>
+                                        <tr id="request_<?php echo $vr['vrid']; ?>">
+                                            <td>
+                                                <img class="pro_pic" src="<?php echo $vr['media_thumb']; ?>" alt="<?php echo $vr['user_name']; ?>" title="<?php echo $vr['user_name']; ?>" onerror='this.src="<?php echo base_url(); ?>assets/images/default_avatar.jpg"'>
+                                                <span class="user-link"><?php echo $vr['user_name']; ?></span>
+                                                <span class="user-subhead">Age : <?php echo $vr['age']; ?></span>
+                                            </td>
+                                            <td class="text-center" id="status_txt">
+                                                <?php
+                                                if ($vr['status'] == 1)
+                                                    echo '<span class="label label-success">New Request';
+                                                else if ($vr['status'] == 2)
+                                                    echo '<span class="label label-success">Request Approved</span>';
+                                                else
+                                                    echo '<span class="label label-danger">Request Rejected</span>';
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <a href="mailto:<?php echo $vr['email']; ?>"><?php echo $vr['email']; ?></a>
+                                            </td>
+                                            <td><?php echo date("Y-m-d H:i:s", strtotime($vr['vs_created_date'])); ?></td>
+                                            <td>
+                                                <a class="btn btn-success" title="Approve" onclick="manageVideoRequest(<?php echo $vr['vrid']; ?>, 2);"><i class="fa fa-check"></i></a>
+                                                <a class="btn btn-danger" title="Reject" onclick="manageVideoRequest(<?php echo $vr['vrid']; ?>, 0);"><i class="fa fa-ban"></i></a>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <?php
+                        echo $pagination;
+                    } else {
+                        echo '<p class="alert alert-info">No video requests available!</p>';
+                    }
+                    ?>
+                </div>
             </div>
         </div>
     </div>

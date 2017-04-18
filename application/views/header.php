@@ -52,16 +52,8 @@ else
                                         </span>
                                         <big><?php echo $username; ?></big>
                                         <?php
-                                        if (!empty($user_data['address'])) {
-                                            $address = $user_data['address'];
-                                            if ($address != '' && !empty($address)) {
-                                                $str = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $address . '&key=' . GOOGLE_MAP_API;
-                                                $res = $this->unirest->get($str);
-                                                $res_arr = json_decode($res->raw_body, true);
-                                                if ($res_arr) {
-                                                    echo '<small>[' . $res_arr['results'][0]['address_components'][2]['short_name'] . ']</small>';
-                                                }
-                                            }
+                                        if (!empty($user_data['country_short_code'])) {
+                                            echo '<small>[' . $user_data['country_short_code'] . ']</small>';
                                         }
                                         ?>
                                         <span class="down-caret">
