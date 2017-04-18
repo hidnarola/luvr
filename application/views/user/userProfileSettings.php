@@ -12,7 +12,10 @@
             <h2>
                 <big>
                     <?php 
-                        $uname = $this->session->userdata('user')['user_name']; 
+                        $uname = '';
+                        if($this->session->userdata('user')['user_name']){
+                            $uname = $this->session->userdata('user')['user_name']; 
+                        }
                         echo ucfirst($uname);
                     ?>
                 </big>

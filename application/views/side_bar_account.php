@@ -1,4 +1,3 @@
-<?php echo $sub_view; ?>
 <div class="col-md-4 col-sm-4 col-xs-12 account-l">
     <div class="account-l-head">
         <span class="user-pic"><img src="<?php echo base_url(); ?>assets/images/user-img.jpg" alt="" /></span>
