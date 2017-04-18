@@ -13,9 +13,9 @@
                 <big>
                     <?php 
                         $uname = '';
-                        if($this->session->userdata('user')['user_name']){
-                            $uname = $this->session->userdata('user')['user_name']; 
-                        }
+                        // if($this->session->userdata('user')['user_name']){
+                        //$uname = $this->session->userdata('user')['user_name']; 
+                        // }
                         //echo ucfirst($uname);
                     ?>
                 </big>
