@@ -15,9 +15,6 @@ else
         /* Load css files */
         $css = array('bootstrap.min.css', 'style.css', 'responsive.css', 'icomoon.css', 'jquery.bxslider.css', 'magnific-popup.css');
         $js = array('jquery.min.js', 'bootstrap.min.js');
-        if ($sub_view == "match/nearByMatches" || $sub_view == "match/level2") {
-            array_push($css, "jTinder.css", "jquery.fancybox.min.css");
-        }
         $this->minify->css($css);
         echo $this->minify->deploy_css();
 
@@ -80,6 +77,7 @@ else
                                         <li><a href="<?php echo base_url() . 'user/user_settings'; ?>">Edit Settings</a></li>
                                         <li><a href="<?php echo base_url() . 'user/edit_filters'; ?>">Edit Filters</a></li>
                                         <li><a href="<?php echo base_url() . 'user/video_requests'; ?>">Video Requests</a></li>
+                                        <li><a href="<?php echo base_url() . 'user/pl_requests'; ?>">Powerluv Requests</a></li>
                                         <li><a href="<?php echo base_url() . 'user/blocked_list'; ?>">Blocked List</a></li>
                                         <li><a href="<?php echo base_url() . 'match/nearby'; ?>">Nearby Matches</a></li>
                                         <li><a href="<?php echo base_url() . 'bio/instagram_feed'; ?>">Instagram Feeds</a></li>
