@@ -457,9 +457,10 @@ if (!empty($nearByUsers)) {
                                                     registerjTinder();
                                                 }
                                             } else {
+                                                $("#loader").hide();
                                                 $(".user-list-l,.user-list-r").hide();
-                                                $("#msg_txt").after('<div class="alert alert-info" id="nomoredata">We could not find more nearby matches around you!</div>');
-                                                scrollToElement("#nomoredata");
+                                                $("#loader-nodata .loader-container").append('<p>Hey Luvr! Right now, there is no one else to Luv in your area! Check back soon!<br/>We are growing fast with your help! Spread the word about Luvr on all your social media!</p>');
+                                                $("#loader-nodata").show();
                                             }
                                             setTimeout(function () {
                                                 /*$("#radar").hide();*/
