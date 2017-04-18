@@ -1,170 +1,88 @@
- <?php //pr($all_saved_media); //pr($all_images); ?>
+<div class="my-account">
 
- <div class="my-account">
-    
     <?php $this->load->view('side_bar_account'); ?>
 
     <div class="col-md-8 col-sm-8 col-xs-12 account-r">
         <div class="account-r-head">
-            <h2><big>Luvr Admin Name</big> <small>Standard dummy</small></h2>
-            <a href="" class="green-btn" ><big>015</big><small> View</small></a>
+            <h2>
+                <big>
+                    <?php 
+                        $uname = $this->session->userdata('user')['user_name']; 
+                        echo ucfirst($uname);
+                    ?>
+                </big>
+            </h2>
         </div>
         <div class="account-r-body">
             <div class="account-body-head">
-                <h2 class="account-title">My Picture</h2>
-                <p>luvr.com</p>
+                <h2 class="account-title">My Instagram Feeds</h2>
+                <p> &nbsp; </p>
             </div>  
             <div class="account-body-body">
-                <ul class="my-picture-ul">
-                    <li>
-                        <div class="my-picture-box">
-                            <a ><img src="<?php echo base_url(); ?>assets/images/popup-img02.jpg" alt="" /></a>
-                            <div class="picture-action">
-                                <div class="picture-action-inr">
-                                    <a href="" class="icon-picture"></a>
-                                    <a href="<?php echo base_url(); ?>assets/images/popup-img01.jpg" class="icon-full-screen image-link"></a>
-                                    <a href="" class="icon-cancel"></a>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="my-picture-box">
-                            <a ><img src="<?php echo base_url(); ?>assets/images/popup-img02.jpg" alt="" /></a>
-                            <div class="picture-action">
-                                <div class="picture-action-inr">
-                                    <a href="" class="icon-picture"></a>
-                                    <a href="<?php echo base_url(); ?>assets/images/popup-img01.jpg" class="icon-full-screen image-link"></a>
-                                    <a href="" class="icon-tick-inside-circle"></a>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="my-picture-box">
-                            <a ><img src="<?php echo base_url(); ?>assets/images/popup-img03.jpg" alt="" /></a>
-                            <div class="picture-action">
-                                <div class="picture-action-inr">
-                                    <a href="" class="icon-picture"></a>
-                                    <a href="<?php echo base_url(); ?>assets/images/popup-img01.jpg" class="icon-full-screen image-link" ></a>
-                                    <a href="" class="icon-tick-inside-circle"></a>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="my-picture-box">
-                            <a ><img src="<?php echo base_url(); ?>assets/images/popup-img04.jpg" alt="" /></a>
-                            <div class="picture-action">
-                                <div class="picture-action-inr">
-                                    <a href="" class="icon-picture"></a>
-                                    <a href="<?php echo base_url(); ?>assets/images/popup-img01.jpg" class="icon-full-screen image-link" ></a>
-                                    <a href="" class="icon-tick-inside-circle"></a>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="my-picture-box">
-                            <a ><img src="<?php echo base_url(); ?>assets/images/popup-img01.jpg" alt="" /></a>
-                            <div class="picture-action">
-                                <div class="picture-action-inr">
-                                    <a class="icon-picture image-link" href="<?php echo base_url(); ?>assets/images/popup-img01.jpg"></a>
-                                    <a href="<?php echo base_url(); ?>assets/images/popup-img01.jpg" class="icon-full-screen image-link"></a>
-                                    <a href="" class="icon-tick-inside-circle"></a>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="my-picture-box">
-                            <a ><img src="<?php echo base_url(); ?>assets/images/popup-img02.jpg" alt="" /></a>
-                            <div class="picture-action">
-                                <div class="picture-action-inr">
-                                    <a class="image-link icon-picture" href="<?php echo base_url(); ?>assets/images/popup-img02.jpg"></a>
-                                    <a href="<?php echo base_url(); ?>assets/images/popup-img01.jpg" class="icon-full-screen image-link" ></a>
-                                    <a href="" class="icon-tick-inside-circle"></a>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
+                <ul class="my-picture-ul" id="insta_img_list">
+                    <?php
+                        if(!empty($all_images)){
+                            $i = 30;
+
+                            foreach($all_images as $image){
+                                
+                                $type = $image['type'];
+                                $thumb = $image['images']['thumbnail']['url'];
+                                $image_link = $link = $image['images']['standard_resolution']['url'];
+
+                                $dynamic_id = random_string();
+
+                                if($type == 'video'){                                    
+                                    $image_link = $image['videos']['standard_resolution']['url'];
+                                }
+
+                                $is_delete = 'no';
+
+                                if(in_array($image['id'], $all_saved_media)){
+                                    $is_delete = 'yes';                                                                        
+                                }
+
+                                if($is_delete == 'no') {
+                        ?>
+                                <li id="<?php echo $dynamic_id;?>">
+                                    <div class="my-picture-box">
+                                        <a>
+                                            <img src="<?php echo $link; ?>" alt="" />
+                                        </a>
+                                        <div class="picture-action">
+                                            <div class="picture-action-inr">
+
+                                                <a data-type="<?php echo $type; ?>" data-insta-id="<?=$image['id']?>" data-insta-time="<?= $image['created_time']?>"
+                                                   data-val="<?=$link?>" class="for_pointer icon-picture" data-thumb="<?=$thumb?>" onclick="ajax_set_profile(this)">
+                                                </a>
+                                                
+                                                <a data-fancybox="gallery" href="<?php echo $image_link; ?>" class="icon-full-screen image-link"></a>
+
+                                                <a data-type="<?php echo $type; ?>" data-insta-id="<?=$image['id']?>" data-insta-time="<?= $image['created_time']?>"
+                                                   data-val="<?=$link?>" class="for_pointer icon-tick-inside-circle" data-thumb="<?=$thumb?>" 
+                                                   onclick="ajax_save_bio(this)" data-is-delete="<?=$is_delete?>" data-dynamic-id="<?php echo $dynamic_id; ?>">
+                                                </a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            <?php $i--; } ?>
+                        <?php } ?>
+                    <?php } ?>
                 </ul>
-                <div class="load-more"><a href="#">Load more</a></div>
+                
+
+                <?php if(!empty($next_link)) { ?>                    
+                    <div class="load-more">
+                        <a data-val="<?php echo $next_link; ?>" class="for_pointer" id="load_more_id" onclick="load_more(this)"> Load More </a>
+                    </div>                                            
+                <?php } ?>
+
             </div>
         </div>
     </div>
-</div>  
-
-
-<!-- NEW SECTION   -->
-
-<div class="container-fluid bg-3 text-center">    
-    
-    <h3>Instagram BIO</h3>    
-
-    <a class="test-popup-link" href="<?php echo base_url(); ?>assets/images/popup-img01.jpg">Open popup</a>
-
-    <br>
-    <div class="row" id="insta_img_list">
-        <?php
-            if(!empty($all_images)){
-                $i = 30;
-
-                foreach($all_images as $image){
-                    
-                    $type = $image['type'];
-                    $thumb = $image['images']['thumbnail']['url'];
-                    $link = $image['images']['standard_resolution']['url'];
-                    
-                    $is_delete = 'no';
-                    $save_icon = 'ok';
-                    $save_link_class = 'success';
-                    
-                    if(in_array($image['id'], $all_saved_media)){
-                        $is_delete = 'yes';
-                        $save_link_class = 'danger';
-                        $save_icon = 'remove';
-                    }
-
-                    if($is_delete == 'no') {
-                        ?>
-                        <div class="col-sm-3" style="margin-bottom:10px;">
-
-                            <img src="<?php echo $link; ?>" class="img-responsive" style="width:100%" alt="Image">
-                            
-                            <a style="margin-top:10px" href="<?php echo $image['link']; ?>" target="_blank" class="btn btn-primary"> 
-                                <span class="glyphicon glyphicon-link"></span>
-                            </a>
-
-                            <a style="margin-top:10px" data-type="<?php echo $type; ?>" data-insta-id="<?=$image['id']?>" data-insta-time="<?= $image['created_time']?>"
-                               data-val="<?=$link?>" class="btn btn-<?=$save_link_class?>" data-thumb="<?=$thumb?>" onclick="ajax_save_bio(this)" data-is-delete="<?=$is_delete?>" >
-                                <span class="glyphicon glyphicon-<?=$save_icon?>"></span>
-                            </a>
-                            
-                            <a style="margin-top:10px" data-type="<?php echo $type; ?>" data-insta-id="<?=$image['id']?>" data-insta-time="<?= $image['created_time']?>"
-                                data-val="<?=$link?>" class="btn btn-warning" data-thumb="<?=$thumb?>" onclick="ajax_set_profile(this)">
-                                <span class="glyphicon glyphicon-picture"></span>
-                            </a>
-                        </div>
-                    <?php $i--; } ?>
-                <?php } ?>
-            <?php } ?>
-    </div>
-
-    
-    
-    <?php if(!empty($next_link)) { ?>
-        <div class="row">           
-            <a class="btn btn-success" data-val="<?php echo $next_link; ?>" id="load_more_id" onclick="load_more(this)"> Load More </a>
-        </div>
-    <?php } ?>
-
-    <span class="span_next_link"> </span> 
 </div>
-<br>
-<br>
-<br>
-<br>
 
 <input type="hidden" id="all_saved_media"  value="<?php echo (!empty($all_saved_media)) ? implode(',',$all_saved_media):'';?>">
 
@@ -200,6 +118,10 @@
         var insta_time = $(obj).data('insta-time');
         var thumb = $(obj).data('thumb');
         var is_delete = $(obj).data('is-delete');
+        var dynamic_id = $(obj).data('dynamic-id');
+
+        // console.log(is_delete);
+        // return false;
 
         $.ajax({
             url:"<?php echo base_url().'bio/ajax_save_bio'; ?>",
@@ -208,15 +130,7 @@
             dataType:"JSON",
             success:function(data){
                 if(data['status'] != 'error'){
-                    if(is_delete == 'yes'){
-                        $(obj).data('is-delete','no');
-                        $(obj).removeClass('btn-danger').addClass('btn-success');
-                        $(obj).find("span").removeClass('glyphicon-remove').addClass('glyphicon-ok');
-                    }else{
-                        $(obj).data('is-delete','yes');
-                        $(obj).addClass('btn-danger').removeClass('btn-success');
-                        $(obj).find("span").removeClass('glyphicon-ok').addClass('glyphicon-remove');
-                    }
+                    $('#'+dynamic_id).fadeOut();
                 }else{
                     alert('ERROR:CAN NOT SAVE MORE THAN 50 IMAGES');
                 }
@@ -241,9 +155,5 @@
 
     <?php if($i == 30 || ($i>=15 && $i<=30)) { ?>
         $('#load_more_id').click();
-    <?php } ?>
-
-
-</script>    
-<script src="<?php echo base_url() . 'assets/js/jquery.fancybox.min.js'; ?>" type="text/javascript"></script>
-<script src="<?php echo base_url(); ?>assets/js/custom.js"></script>
+    <?php } ?>    
+</script>

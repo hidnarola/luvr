@@ -34,6 +34,7 @@ class User extends CI_Controller {
         $this->form_validation->set_rules('id', 'UserID', 'required|trim');
         $this->form_validation->set_rules('username', 'Username', 'required|trim');
         $this->form_validation->set_rules('email', 'Email', 'required|valid_email|trim');
+        $this->form_validation->set_rules('age', 'Age', 'min[1]');
         $this->form_validation->set_rules('address', 'Location', 'required|callback_validate_zipcode|trim', ['validate_zipcode' => 'Please enter valid address.']);
         $this->form_validation->set_rules('gender', 'Gender', 'required|trim');
         $this->form_validation->set_rules('bio', 'About Me', 'required|trim');

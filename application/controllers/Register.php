@@ -45,8 +45,29 @@ class Register extends CI_Controller {
                 $u_data = $this->Users_model->fetch_userdata(['userid' => $insta_id], true);
 
                 if (!empty($u_data)) {
+
                     $u_data['access_token'] = $response_arr['access_token'];
+                    $u_data['country_short_code'] = '';
+
+                    $address = $u_data['address'];                        
+                    if($address != ''){
+                        $str = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $address . '&key=' . GOOGLE_MAP_API;
+                        $res = $this->unirest->get($str);
+                        $res_arr = json_decode($res->raw_body, true);
+
+                        $all_address = $res_arr['results'][0]['address_components'];
+                        if(!empty($all_address)){
+                            foreach($all_address as $a_address){
+                                $map_type = $a_address['types'][0]; echo "<br/>";                                
+                                if($map_type == 'country'){
+                                    $u_data['country_short_code'] = $a_address['short_name'];
+                                }
+                            }
+                        }                        
+                    }
+
                     $this->session->set_userdata('user', $u_data);
+
                     $upd_data = ['lastseen_date' => date('Y-m-d H:i:s'), 'id' => $u_data['id']];
                     $this->Users_model->manageUser($upd_data);
                     if (empty($u_data['email']))
@@ -82,6 +103,7 @@ class Register extends CI_Controller {
                     $last_id = $this->Users_model->insert_record($ins_data);
                     $ins_data['id'] = $last_id;
                     $ins_data['access_token'] = $response_arr['access_token'];
+                    $ins_data['country_short_code'] = '';
 
                     $this->session->set_userdata('user', $ins_data);
                     redirect('user/setup_userprofile');

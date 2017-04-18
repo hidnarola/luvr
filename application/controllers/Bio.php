@@ -8,10 +8,9 @@ class Bio extends CI_Controller {
         
         $this->load->library('unirest');
 		$this->load->model(array('Users_model', 'Filters_model','Bio_model'));
-        $this->load->helper('string');
 
         $u_data = $this->session->userdata('user');
-        if(empty($u_data)){ redirect('register'); }
+        if(empty($u_data)){ redirect(''); }
 	}
 
 	public function index(){
@@ -160,27 +159,29 @@ class Bio extends CI_Controller {
                 $type = $image['type'];
                 $link = $image['images']['standard_resolution']['url'];
                 $thumb = $image['images']['thumbnail']['url'];
-                
-                $is_delete = 'no';
-                $save_icon = 'ok';
-                $save_link_class = 'success';
-                if(!empty($all_saved_media) && in_array($image['id'], $all_saved_media) == true){                    
-                    $is_delete = 'yes';
-                    $save_link_class = 'danger';
-                    $save_icon = 'remove';
+                $image_link = $link = $image['images']['standard_resolution']['url'];
+                $dynamic_id = random_string();
+
+                if($type == 'video'){                                    
+                    $image_link = $image['videos']['standard_resolution']['url'];
                 }
                 
+                $is_delete = 'no';
+                if(!empty($all_saved_media) && in_array($image['id'], $all_saved_media) == true){                    
+                    $is_delete = 'yes';                                        
+                }
+
                 if($is_delete == 'no'){
-                    $new_str .= '<div class="col-sm-3" style="margin-bottom:10px;">';
-                    $new_str .= '<img src="'.$link.'" class="img-responsive" style="width:100%" alt="Image">';
-                    
-                    $new_str .= ' <a style="margin-top:10px" href="'.$image['link'].'" target="_blank" class="btn btn-primary"> <span class="glyphicon glyphicon-link"></span> </a>';
+                    $new_str .= '<li id="'.$dynamic_id.'"> <div class="my-picture-box"> <a> <img src="'.$link.'" alt="" /> </a>';
+                    $new_str .= '<div class="picture-action"> <div class="picture-action-inr">';
+                    $new_str .= '<a data-type="'.$type.'" data-insta-id="'.$image['id'].'" data-insta-time="'.$image['created_time'].'"';
+                    $new_str .= ' data-val="'.$link.'" class="for_pointer icon-picture" data-thumb="'.$thumb.'" onclick="ajax_set_profile(this)"></a>';
+                                    
+                    $new_str .= ' <a data-fancybox="gallery" href="'.$image_link.'" class="icon-full-screen image-link"></a>';
 
-                    $new_str .= ' <a style="margin-top:10px"  data-type="'.$type.'" data-val="'.$link.'" class="btn btn-'.$save_link_class.'" ';
-                    $new_str .= ' onclick="ajax_save_bio(this)" data-thumb="'.$thumb.'" data-is-delete="'.$is_delete.'" ';
-                    $new_str .= ' data-insta-id="'.$image['id'].'" data-insta-time="'.$image['created_time'].'"> <span class="glyphicon glyphicon-'.$save_icon.'"></span> </a>';
-
-                    $new_str .= ' <a style="margin-top:10px"  data-type="'.$type.'" data-val="'.$link.'" class="btn btn-warning"> <span class="glyphicon glyphicon-picture"></span> </a></div>';
+                    $new_str .= ' <a data-type="'.$type.'" data-insta-id="'.$image['id'].'" data-insta-time="'.$image['created_time'].'"';
+                    $new_str .= ' data-val="'.$link.'" class="for_pointer icon-tick-inside-circle" data-thumb="'.$thumb.'" ';
+                    $new_str .= ' onclick="ajax_save_bio(this)" data-is-delete="'.$is_delete.'" data-dynamic-id="'.$dynamic_id.'" > </a> </div> </div> </div> </li>';
                 }
             }
         }
@@ -231,17 +232,17 @@ class Bio extends CI_Controller {
 
         if($is_delete == 'yes'){
             $ret['query'] = 'update_to_0';
-            $this->Bio_model->update_media(['media_id'=>$insta_id], ['is_active'=>'0']);
+            $this->Bio_model->update_media(['media_id'=>$insta_id], ['is_active'=>'0']);            
         }else{
 
             $media_data = $this->Bio_model->fetch_mediadata(['media_id'=>$insta_id],true);
 
             if(!empty($media_data)){
                 $ret['query'] = 'update_to_1';
-                $this->Bio_model->update_media(['media_id'=>$insta_id], ['is_active'=>'1']);
+                $this->Bio_model->update_media(['media_id'=>$insta_id], ['is_active'=>'1']);                
             }else{                
                 $ret['query'] = 'insert';
-        	    $this->db->insert('media',$ins_data);
+        	    $this->db->insert('media',$ins_data);                
             }
         }
         $ret['status'] = 'success';
