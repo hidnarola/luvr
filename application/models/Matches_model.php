@@ -119,6 +119,30 @@ class Matches_model extends CI_Model {
         return false;
     }
 
+    /* This function will get all power luv requests of logged in user. */
+
+    public function getUsersPLRequests($user_id, $offset = null, $fetch_counts = false) {
+        if (!empty($user_id) && is_numeric($user_id)) {
+            if ($fetch_counts == false) {
+                $this->db->select('users_relation.*,users_relation.created_date as request_date,users.userid,users.user_name,users.email,users.full_name,users.age,media.*');
+                $this->db->from('users_relation');
+            }
+            $this->db->join('users', 'users.id = users_relation.requestby_id');
+            $this->db->join('media', 'media.id = users.profile_media_id', 'left');
+            $this->db->where('users_relation.requestto_id', $user_id);
+            $this->db->where('users_relation.relation_status', 3);
+            if ($fetch_counts == false) {
+                if (!empty($offset) && $offset != null)
+                    $this->db->limit(10, $offset);
+                else
+                    $this->db->limit(10);
+                return $this->db->get()->result_array();
+            } else
+                return $this->db->count_all_results('users_relation');
+        }
+        return false;
+    }
+
 }
 
 ?>

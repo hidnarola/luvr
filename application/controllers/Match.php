@@ -89,7 +89,7 @@ class Match extends CI_Controller {
         $u_data['user_settings'] = $user_settings;
         $data['sub_view'] = 'match/level2';
         $data['db_user_data'] = $this->Users_model->fetch_userdata(['id' => $user_id], true);
-        $data['user_profile'] = $this->Bio_model->fetch_mediadata(['id' => $data['db_user_data']['profile_media_id']], true);
+        $data['user_profile'] = $this->Bio_model->fetch_mediadata(['userid' => $user_id]);
         $data['meta_title'] = "User info : " . $data['db_user_data']['user_name'];
         $data['latlong'] = $user_info['latlong'];
         $data['radius'] = $user_info['radius'];
@@ -183,12 +183,17 @@ class Match extends CI_Controller {
                     $path = $user['media_thumb'];
                     $href = $user['user_profile'];
                 }
+                $timestamp_html = "";
+                if ($user_settings['is_premium_member'] == 1) {
+                    $timestamp_html = '<span class="_timestamp">' . date("m/d/y", strtotime($user['insta_datetime'])) . '<br/>' . date("h:s a", strtotime($user['insta_datetime'])) . '</span>';
+                }
                 $html .= '<li class="panel" data-id="' . $user['id'] . '">
                                         <div class="user-list-pic-wrapper">
+                                            ' . $timestamp_html . '
                                             <div class="user-list-pic-bg">
                                                 <a style="background:url(\'' . $path . '\') no-repeat scroll center center;" class="img"></a>';
                 if ($user['media_type'] == 2 || $user['media_type'] == 4) {
-                    $html .= '<a class="play-btn" data-fancybox href="' . $href . '"></a>';
+                    $html .= '<a class="play-btn-large icon-play-button" data-fancybox href="' . $href . '"></a>';
                 }
                 $html .= '</div>
                                         <div class="user-list-pic-close">

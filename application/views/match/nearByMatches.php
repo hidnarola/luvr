@@ -8,7 +8,7 @@ if ($user_swipes_per_day >= MAX_SWIPES_PER_DAY) {
         Your likes quota per day has been reached! Therefore, right swipes for cards will not be considered.</div>';
 }
 $max_powerluvs = MAX_POWERLUVS_PER_DAY;
-$pl_onclick = "onclick=\"$('#tinderslide').jTinder('powerluv');\"";
+$pl_onclick = "onclick=powerLuv();";
 if ($is_user_premium_member == 1) {
     $max_powerluvs = MAX_POWERLUVS_PER_DAY_P;
 }
@@ -67,12 +67,17 @@ if (!empty($nearByUsers)) {
                                     $path = $user['media_thumb'];
                                     $href = $user['user_profile'];
                                 }
+                                $timestamp_html = "";
+                                if ($is_user_premium_member == 1) {
+                                    $timestamp_html = '<span class="_timestamp">' . date("m/d/y", strtotime($user['insta_datetime'])) . '<br/>' . date("h:s a", strtotime($user['insta_datetime'])) . '</span>';
+                                }
                                 echo '<li class="panel" data-id="' . $user['id'] . '">
                                         <div class="user-list-pic-wrapper">
+                                            ' . $timestamp_html . '
                                             <div class="user-list-pic-bg">
                                                 <a style="background:url(\'' . $path . '\') no-repeat scroll center center;" class="img"></a>';
                                 if ($user['media_type'] == 2 || $user['media_type'] == 4) {
-                                    echo '<a class="play-btn" data-fancybox href="' . $href . '"></a>';
+                                    echo '<a class="play-btn-large icon-play-button" data-fancybox href="' . $href . '"></a>';
                                 }
                                 echo '</div>
                                         <div class="user-list-pic-close">
@@ -177,6 +182,11 @@ if (!empty($nearByUsers)) {
                         </div>
                     </div>
                 </div>
+                <div id="loader-pl" class="loader-style" style="background:none;display:none;">
+                    <div class="loader-container">
+                        <img src="<?php echo base_url(); ?>assets/images/loader.gif" />
+                    </div>
+                </div>
             </div>
             <?php
         }
@@ -214,7 +224,7 @@ if (!empty($nearByUsers)) {
                     ?>
                 </p>
                 <ul class="user-info">
-                    <li id="right_age">Age (<?php
+                    <li id="right_age">Age : (<?php
                         echo $lastObj['age'];
                         ?>)</li>
                     <li id="right_location">Location : <?php echo (!empty($lastObj['address'])) ? $lastObj['address'] : "N/A"; ?></li>
@@ -365,7 +375,7 @@ if (!empty($nearByUsers)) {
                                         $("#right_username").html(nearby_matches[index].user_name);
                                         $("#right_oneliner").html(nearby_matches[index].one_liner);
                                         $("#right_bio").html((nearby_matches[index].bio) ? nearby_matches[index].bio : "&nbsp;");
-                                        $("#right_age").html("Age (" + nearby_matches[index].age + ")");
+                                        $("#right_age").html("Age : (" + nearby_matches[index].age + ")");
                                         $("#right_location").html((nearby_matches[index].address) ? "Location : " + nearby_matches[index].address : "Location : N/A");
                                         $("#right_distance").html((nearby_matches[index].distance) ? "Distance : " + nearby_matches[index].distance + " km" : "Distance : N/A");
                                         if (powerluvsreached == 1)
@@ -376,7 +386,7 @@ if (!empty($nearByUsers)) {
                                             if (nearby_matches[index].id)
                                             {
                                                 $("#luv_user").attr("onclick", "$('#tinderslide').jTinder('luv');");
-                                                $("#power_luv_user").attr("onclick", "$('#tinderslide').jTinder('powerluv');");
+                                                $("#power_luv_user").attr("onclick", "powerLuv();");
                                             } else
                                             {
                                                 $("#luv_user").attr("onclick", "showMsg('Something went wrong!','alert alert-danger',true);");
@@ -384,6 +394,13 @@ if (!empty($nearByUsers)) {
                                             }
                                         }
                                     }
+                                }
+                                function powerLuv() {
+                                    $("#loader-pl").show();
+                                    setTimeout(function () {
+                                        $("#loader-pl").hide();
+                                        $('#tinderslide').jTinder('powerluv');
+                                    }, 2000);
                                 }
                                 function prevMatch(id) {
 <?php if ($is_user_premium_member == 1) { ?>

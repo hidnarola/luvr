@@ -159,10 +159,10 @@ a:hover, a:focus{outline:none;outline:0;outline-offset:0;}
 .dropdown-menu > li > a{padding:6px 20px;}
 .inner-content{padding:0 0 60px;min-height:700px;overflow-x:hidden;}
 /***** List page content *****/
-.user-list{padding:90px 0 0;display:block;position:relative;}
+.user-list{padding:90px 0 0;display:inline-block;position:relative;width:100%;margin-bottom:50px;}
 .bg-name{font-family:'Poppins';font-size:280px;font-weight:700;color:rgba(39,35,36,.03);line-height:100%;text-transform:uppercase;position:absolute;top:-32px;right:-31px;z-index:-1;letter-spacing:0.1em;}
 .user-list:after{content:'';clear:both;display:blck;}
-.user-list-l{width:100%;float:left;max-width:582px;position:relative;}
+.user-list-l{width:100%;float:left;max-width:498px;position:relative;min-height:458px;}
 .user-list-pic:after{content:'';position:absolute;top:70px;left:-119%;height:82px;background:#221e1e;width:125%;z-index:-1;}
 .user-list-pic:before{content:'';position:absolute;top:70px;right:-84px;height:82px;background:#221e1e;width:50%;z-index:-1;}
 .user-list-pic{width:496px;position:relative;}
@@ -240,7 +240,7 @@ a:hover, a:focus{outline:none;outline:0;outline-offset:0;}
 .left-my-picture ul li a:hover:after{background:rgba(242,111,111,.6);opacity:1;}
 .left-my-picture ul li a img{display:block;border-radius:4px;width:100%;max-height:81px;}
 
-#loader,#loader-nodata{position:absolute;top:0;left:0;width:100%;height:100%;text-align: center; background:#e9e9e9; opacity:1; z-index:99; transition: top .8s cubic-bezier(.7,0,.3,1);-moz-transition:top .8s cubic-bezier(.7,0,.3,1);-webkit-transition:top .8s cubic-bezier(.7,0,.3,1);-o-transition:top .8s cubic-bezier(.7,0,.3,1);}
+.loader-style{position:absolute;top:0;left:0;width:100%;height:100%;text-align: center; background:#e9e9e9; opacity:1; z-index:99; transition: top .8s cubic-bezier(.7,0,.3,1);-moz-transition:top .8s cubic-bezier(.7,0,.3,1);-webkit-transition:top .8s cubic-bezier(.7,0,.3,1);-o-transition:top .8s cubic-bezier(.7,0,.3,1);}
 .loader-container {position:absolute;width:100%;margin-left:0;left:0;top:50%;display:inline-block;-webkit-transform:translateY(-50%); -ms-transform: translateY(-50%); -moz-transform: translateY(-50%); -o-transform: translateY(-50%); transform: translateY(-50%);}
 .my-account{position:relative;width:100%;display:inline-block;vertical-align:top;margin:0 0 -60px;padding:0 0 25px;}
 .my-account:before{background:#f3f3f3;top:90px;left:-70%;width:240%;position:absolute;content:'';height:1px;}
@@ -264,13 +264,14 @@ ul.my-picture-ul:after,
 .account-body-head p{margin:5px 0 0;padding:0;font-size:12px;font-family:'Roboto';letter-spacing:0.08em;text-transform:uppercase;color:#666;font-weight:500;}
 ul.my-picture-ul{list-style:none;margin:-15px -15px 0;padding:0;}
 ul.my-picture-ul > li{width:33.33%;float:left;padding:15px;position:relative;}
+ul.my-picture-ul.level2 > li{width:25%;max-height:250px;overflow:hidden;}
 ul.my-picture-ul > li > .my-picture-box > a{display:block;width:100%;position:relative;}
 ul.my-picture-ul > li > .my-picture-box > a img{width:100%;}
 .my-picture-box{position:relative;border:4px solid #fff;}
 .picture-action:before{content:'';background:rgba(242,111,111,.6);width:100%;height:100%;position:absolute;top:0;left:0;z-index:-1;}
 .picture-action{opacity:0;width:100%;height:100%;position:absolute;top:0;left:0;text-align:center;z-index:10;display:block;vertical-align:middle;}
-.picture-action  a{width:42px;height:42px;background:#fff;border:2px solid #fff;line-height:40px;display:inline-block;vertical-align:middle;border-radius:100%;text-align:center;font-size:15px;color:#666;text-decoration:none;margin:0 4px;}
-.picture-action  a:hover{background:transparent;color:#fff;}
+.picture-action a{width:42px;height:42px;background:#fff;border:2px solid #fff;line-height:40px;display:inline-block;vertical-align:middle;border-radius:100%;text-align:center;font-size:15px;color:#666;text-decoration:none;margin:0 4px;}
+.picture-action a:hover{background:transparent;color:#fff;}
 .picture-action a:first-child{font-size:16px;}
 .picture-action a:last-child{font-size:18px;}
 ul.my-picture-ul > li:hover .picture-action{opacity:1;}
@@ -318,27 +319,11 @@ input:checked + .slider:before { -webkit-transform: translateX(56px); -ms-transf
 .switch .slider.round { border-radius: 34px; }
 .switch .slider.round:before { border-radius:50%;}
 /*.slider:after {content: "OFF";text-align: right;position: absolute;right: 15px;font-size: 16px;letter-spacing: .08em;font-weight: 400;top: 1px;}*/
-.user-list-pic-bg .play-btn{
-    background: white;
-    background: transparent;
-    display: inline-block;
-    padding: 25px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius:50%;
-    border:3px solid #fff;
-    cursor:pointer;
-}
-.user-list-pic-bg .play-btn:after {
-    content: "";
-    display: block;
-    position: relative;
-    left: 4px;
-    width: 0;
-    height: 0;
-    border-style:solid;
-    border-width:15px 0 15px 30px;
-    border-color:transparent transparent transparent white;
-}
+/*.user-list-pic-bg .play-btn{background: white;background: transparent;display: inline-block;padding: 25px;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);border-radius:50%;border:3px solid #fff;cursor:pointer;}
+.user-list-pic-bg .play-btn:after {content: "";display: block;position: relative;left: 4px;width: 0;height: 0;border-style:solid;border-width:15px 0 15px 30px;border-color:transparent transparent transparent white;}*/
+.play-btn-large{width:62px;height:62px;background:#fff;border:2px solid #fff;line-height:40px;display:inline-block !important;vertical-align:middle;border-radius:100%;text-align:center;font-size:15px;color:#666;text-decoration:none;margin:0 4px;position:absolute;top:50%;transform:translate(-50%, -50%);}
+.play-btn-large:before{position:relative;left:5px;font-size:30px;line-height:58px;vertical-align:middle;text-decoration:none;}
+.play-btn-large:hover{background:transparent;color:#fff;text-decoration:none;}
+._timestamp{padding:4px;background:#fff;opacity:0.7;color:#000;position:absolute;top:15px;right:15px;border-radius:5px;font-size:10px;z-index:10;}
+.level2 .my-picture-box > a:first-child{overflow:hidden;height:250px;width:250px;}
+.level2 .my-picture-box img{position: absolute;left:-99999px;top:-99999px;right:-99999px;bottom:-99999px;margin:auto;}

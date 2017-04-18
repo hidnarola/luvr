@@ -77,7 +77,6 @@ else
                                         <li><a href="<?php echo base_url() . 'user/user_settings'; ?>">Edit Settings</a></li>
                                         <li><a href="<?php echo base_url() . 'user/edit_filters'; ?>">Edit Filters</a></li>
                                         <li><a href="<?php echo base_url() . 'user/video_requests'; ?>">Video Requests</a></li>
-                                        <li><a href="<?php echo base_url() . 'user/pl_requests'; ?>">Powerluv Requests</a></li>
                                         <li><a href="<?php echo base_url() . 'user/blocked_list'; ?>">Blocked List</a></li>
                                         <li><a href="<?php echo base_url() . 'match/nearby'; ?>">Nearby Matches</a></li>
                                         <li><a href="<?php echo base_url() . 'bio/instagram_feed'; ?>">Instagram Feeds</a></li>
