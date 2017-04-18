@@ -16,7 +16,7 @@
                         if($this->session->userdata('user')['user_name']){
                             $uname = $this->session->userdata('user')['user_name']; 
                         }
-                        echo ucfirst($uname);
+                        //echo ucfirst($uname);
                     ?>
                 </big>
             </h2>
