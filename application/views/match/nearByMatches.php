@@ -311,6 +311,7 @@ if (!empty($nearByUsers)) {
 <style type="text/css">
     .inner-content{position:relative;}
 </style>
+<script src="<?php echo base_url() . 'assets/js/jquery.transform2d.js'; ?>" type="text/javascript"></script>
 <script src="<?php echo base_url() . 'assets/js/jquery.jTinder.js'; ?>" type="text/javascript"></script>
 <script type="text/javascript">
     $(window).on('load', function () {

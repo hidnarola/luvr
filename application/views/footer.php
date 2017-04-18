@@ -41,7 +41,7 @@
             </div>
             <div class="follow-luvr footer-column">
                 <h3>follow on luvr</h3>
-                <a href="#" class="">
+                <a href="https://www.facebook.com/therealluvr/" class="">
                     <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          viewBox="0 0 310 310" style="enable-background:new 0 0 310 310;" xml:space="preserve">
                     <g id="XMLID_834_">
@@ -54,7 +54,7 @@
                     <g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g>
                     </svg>
                 </a>
-                <a href="#">
+                <a href="https://twitter.com/therealluvr">
                     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          width="512.002px" height="512.002px" viewBox="0 0 512.002 512.002" style="enable-background:new 0 0 512.002 512.002;"
                          xml:space="preserve">
@@ -71,7 +71,7 @@
                     <g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g>
                     </svg>
                 </a>
-                <a href="#">
+                <a href="https://www.instagram.com/therealluvr/">
                     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          width="510px" height="510px" viewBox="0 0 510 510" style="enable-background:new 0 0 510 510;" xml:space="preserve">
                     <g>

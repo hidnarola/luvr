@@ -92,7 +92,7 @@
                             </svg>
                         </th>
                         <th>
-                            <h4>Luvr Package</h4>
+                            <h4>Luvr</h4>
                             <h3>Free</h3>
                         </th>
                         <th>
