@@ -22,8 +22,9 @@
     <div class="footer-top">
         <div class="container">
             <div class="quick-link footer-column">
+                <h3>&nbsp;</h3>
                 <ul class="footer-ul">
-                    <li> <a href="https://www.luvr.us">Luvr, Inc.</a></li>
+                    <li> <a href="https://www.luvr.us">www.luvr.us</a></li>
                 </ul>
             </div>
             <div class="ftr-contact footer-column">

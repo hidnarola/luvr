@@ -90,12 +90,6 @@ else
                             <?php } ?>
                         </div>
                     </div>
-                    <!--                                        <div class="breadcrumb-div">
-                                                                <ul>
-                                                                    <li><a href="<?php echo base_url(); ?>">Home</a></li>
-                                                                    <li>Nearby Matches</li>
-                                                                </ul>
-                                                            </div>-->
                 </div>
             </div>
         </header>
