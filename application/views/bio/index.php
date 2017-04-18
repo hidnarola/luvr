@@ -244,23 +244,6 @@
     <?php } ?>
 
 
-</script>
-<?php
-    $js_2 = array('jquery.magnific-popup.min.js','custom.js');
-?>
-<!--
-    <script src="<?php echo base_url(); ?>assets/js/jquery.magnific-popup.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/js/custom.js"></script>
--->
-<?php echo $this->minify->deploy_js(FALSE, 'combined.min.js'); ?>
-
-<script type="text/javascript">
-    
-    $('.test-popup-link').magnificPopup({
-        type: 'image'
-    });
-
-</script>
-
-
- 
+</script>    
+<script src="<?php echo base_url() . 'assets/js/jquery.fancybox.min.js'; ?>" type="text/javascript"></script>
+<script src="<?php echo base_url(); ?>assets/js/custom.js"></script>

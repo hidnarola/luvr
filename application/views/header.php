@@ -13,7 +13,7 @@ else
         <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:400,500" rel="stylesheet"/>
         <?php
         /* Load css files */
-        $css = array('bootstrap.min.css', 'style.css', 'responsive.css', 'icomoon.css', 'jquery.bxslider.css', 'magnific-popup.css');
+        $css = array('bootstrap.min.css', 'style.css', 'responsive.css', 'icomoon.css', 'jquery.bxslider.css');
         $js = array('jquery.min.js', 'bootstrap.min.js');
         if ($sub_view == "match/nearByMatches" || $sub_view == "match/level2") {
             array_push($css, "jTinder.css", "jquery.fancybox.min.css");
