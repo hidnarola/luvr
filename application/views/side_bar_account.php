@@ -1,3 +1,4 @@
+<?php echo $sub_view; ?>
 <div class="col-md-4 col-sm-4 col-xs-12 account-l">
     <div class="account-l-head">
         <span class="user-pic"><img src="<?php echo base_url(); ?>assets/images/user-img.jpg" alt="" /></span>
@@ -20,6 +21,7 @@
                 <li class="<?php echo ($sub_view == "user/userFilterSettings") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/edit_filters'); ?>">Edit Filters </a></li>
                 <li class="<?php echo ($sub_view == "user/videoRequests") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/video_requests'); ?>">Video Requests </a></li>
                 <li class="<?php echo ($sub_view == "user/blockedList") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/blocked_list'); ?>">Blocked List </a></li>
+                <li class="<?php echo ($sub_view == "bio/index") ? "active" : ""; ?>"><a href="<?php echo base_url('bio/instagram_feed'); ?>">Instagram Feeds</a></li>
                 <li class="<?php echo ($sub_view == "bio/saved_feed") ? "active" : ""; ?>"><a href="<?php echo base_url('/bio/saved_feed'); ?>">My Media</a></li>
             </ul>
         </div>

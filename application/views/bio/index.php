@@ -69,9 +69,13 @@
                                 </li>
                             <?php $i--; } ?>
                         <?php } ?>
-                    <?php } ?>
+                    <?php }else{ ?>
+
                 </ul>
                 
+                <div class="alert alert-danger">No Feed found</div>    
+
+                <?php } ?>
 
                 <?php if(!empty($next_link)) { ?>                    
                     <div class="load-more">
