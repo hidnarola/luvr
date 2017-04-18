@@ -149,7 +149,10 @@ class User extends CI_Controller {
                 foreach ($next_filter_detailed_info as $fdata) {
                     $is_checked = (in_array($fdata['sub_filter_id'], $users_filters)) ? "checked" : "";
                     $i_dont_care = (strtolower($fdata['sub_filter_name']) == strtolower('I don\'t care')) ? "onchange='ignoreOther()' id='idontcare' class='subfilters_ignoreme'" : "onchange='ignoreLast()' id='chk_" . $fdata['sub_filter_id'] . "' class='subfilters'";
-                    $next_pref_html .= '<tr><td><label for="chk_' . $fdata['sub_filter_id'] . '">' . $fdata['sub_filter_name'] . '</label></td><td><label class="switch"><input type="checkbox" name="sub_filters[]" value="' . $fdata['sub_filter_id'] . '" ' . $is_checked . ' ' . $i_dont_care . '/><div class="slider round"></div></label></td></tr>';
+                    $id = "chk_" . $fdata['sub_filter_id'] . "";
+                    if (strtolower($fdata['sub_filter_name']) == strtolower('I don\'t care'))
+                        $id = "idontcare";
+                    $next_pref_html .= '<li><span><label for="' . $id . '">' . $fdata['sub_filter_name'] . '</label></span><label class="switch"><input type="checkbox" name="sub_filters[]" value="' . $fdata['sub_filter_id'] . '" ' . $is_checked . ' ' . $i_dont_care . '/><div class="slider round"></div></label></li>';
                 }
                 $success = true;
             }

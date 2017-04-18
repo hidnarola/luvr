@@ -28,7 +28,7 @@
     }
     .usr-list tbody td .user-link {
         display: block;
-        font-size: 1em;
+        font-size: 0.8em;
         padding-top: 3px;
         margin-left: 60px;
     }
@@ -61,10 +61,18 @@
         padding: 12px 8px;
     }
 </style>
-<h2>Video Requests</h2>
-<hr>
-<div class="container bootstrap snippet">
-    <div class="row">
+<?php
+$this->load->view('side_bar_account');
+$user_data = $this->session->userdata('user');
+$username = (!empty($user_data['user_name'])) ? $user_data['user_name'] : $user_data['instagram_username'];
+?>
+<div class="col-md-8 col-sm-8 col-xs-12 account-r">
+    <div class="account-r-head"><h2><big><?php echo $username; ?></big></h2></div>
+    <div class="account-r-body">
+        <div class="account-body-head">
+            <h2 class="account-title">Video Requests</h2>
+            <p>&nbsp;</p>
+        </div>
         <div class="main-box no-header clearfix">
             <div class="main-box-body clearfix">
                 <?php if (!empty($videoRequests)) { ?>
