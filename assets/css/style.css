@@ -308,6 +308,7 @@ text-transform:uppercase;letter-spacing:0.04em;background:transparent;margin:0 1
 .preferences-ul{list-style:none;margin:10px 0 25px;padding:0;}
 .preferences-ul li{width:38%;display:inline-block;vertical-align:middle;margin:0 10% 30px 0;}
 .preferences-ul li span{display:inline-block;vertical-align:middle;font-family:'Poppins';font-size:15px;color:#666;text-transform:uppercase;line-height:34px;letter-spacing:0.08em;float:left;}
+.preferences-ul li span label{font-weight:normal;}
 
 .switch {position: relative; display: inline-block; width:90px;height:34px;margin:0;vertical-align:middle;float:right;}
 .switch input {display:none;}
