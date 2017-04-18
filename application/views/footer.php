@@ -8,14 +8,23 @@
             </div>
         </div>
     <?php } ?>
+    <div id="loader-nodata" class="loader-style" style='background:none;display:none;'>
+        <div class="loader-container">
+            <img src="<?php echo base_url(); ?>assets/images/loader.gif"/>
+            <?php if (empty($nearByUsers) || $nearByUsers == null) { ?>
+                <p>Hey Luvr! Right now, there is no one else to Luv in your area! Check back soon!<br/>We are growing fast with your help! Spread the word about Luvr on all your social media!</p>
+            <?php } ?>
+        </div>
+    </div>
     </section>
 <?php } ?>
 <footer id="footer" class="footer">
     <div class="footer-top">
         <div class="container">
             <div class="quick-link footer-column">
+                <h3>&nbsp;</h3>
                 <ul class="footer-ul">
-                    <li> <a href="https://www.luvr.us">Luvr, Inc.</a></li>
+                    <li> <a href="https://www.luvr.us">www.luvr.us</a></li>
                 </ul>
             </div>
             <div class="ftr-contact footer-column">
@@ -33,7 +42,7 @@
             </div>
             <div class="follow-luvr footer-column">
                 <h3>follow on luvr</h3>
-                <a href="#" class="">
+                <a href="https://www.facebook.com/therealluvr/" class="">
                     <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          viewBox="0 0 310 310" style="enable-background:new 0 0 310 310;" xml:space="preserve">
                     <g id="XMLID_834_">
@@ -46,7 +55,7 @@
                     <g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g>
                     </svg>
                 </a>
-                <a href="#">
+                <a href="https://twitter.com/therealluvr">
                     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          width="512.002px" height="512.002px" viewBox="0 0 512.002 512.002" style="enable-background:new 0 0 512.002 512.002;"
                          xml:space="preserve">
@@ -63,7 +72,7 @@
                     <g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g>
                     </svg>
                 </a>
-                <a href="#">
+                <a href="https://www.instagram.com/therealluvr/">
                     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          width="510px" height="510px" viewBox="0 0 510 510" style="enable-background:new 0 0 510 510;" xml:space="preserve">
                     <g>

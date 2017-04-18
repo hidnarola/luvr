@@ -17,7 +17,6 @@ else
         $js = array('jquery.min.js', 'bootstrap.min.js');
         if ($sub_view == "match/nearByMatches" || $sub_view == "match/level2") {
             array_push($css, "jTinder.css", "jquery.fancybox.min.css");
-            array_push($js, "jquery.transform2d.js", "jquery.jTinder.js");
         }
         $this->minify->css($css);
         echo $this->minify->deploy_css();
@@ -91,12 +90,6 @@ else
                             <?php } ?>
                         </div>
                     </div>
-                    <!--                                        <div class="breadcrumb-div">
-                                                                <ul>
-                                                                    <li><a href="<?php echo base_url(); ?>">Home</a></li>
-                                                                    <li>Nearby Matches</li>
-                                                                </ul>
-                                                            </div>-->
                 </div>
             </div>
         </header>

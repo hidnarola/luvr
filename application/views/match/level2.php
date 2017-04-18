@@ -112,6 +112,8 @@ else if ($mode == 2)
 <style type="text/css">
     .inner-content{position:relative;}
 </style>
+<script src="<?php echo base_url() . 'assets/js/jquery.transform2d.js'; ?>" type="text/javascript"></script>
+<script src="<?php echo base_url() . 'assets/js/jquery.jTinder.js'; ?>" type="text/javascript"></script>
 <script type="text/javascript">
     var likedislikecounts = 0;
     $(window).on('load', function () {
