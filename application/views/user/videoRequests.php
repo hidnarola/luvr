@@ -4,12 +4,6 @@
         padding-top: 20px;
     }
     .main-box {
-        background: #FFFFFF;
-        -webkit-box-shadow: 1px 1px 2px 0 #CCCCCC;
-        -moz-box-shadow: 1px 1px 2px 0 #CCCCCC;
-        -o-box-shadow: 1px 1px 2px 0 #CCCCCC;
-        -ms-box-shadow: 1px 1px 2px 0 #CCCCCC;
-        box-shadow: 1px 1px 2px 0 #CCCCCC;
         margin-bottom: 16px;
         -webikt-border-radius: 3px;
         -moz-border-radius: 3px;
