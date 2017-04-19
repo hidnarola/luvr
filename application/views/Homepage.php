@@ -43,28 +43,28 @@
             <div class="benefits-img"><img src="<?php echo base_url(); ?>assets/images/free-ragistration.jpg" alt="" /></div>
             <div class="benefits-content">
                 <h2>Luvr is Free</h2>
-                <p>Luvr is free to use. If you want to <br/>enjoy all of the features of the app or <br/>website then you pay the low cost <br/>of $4.99! We want luvr affordable to everyone.</p>
+                <p>Luvr is free to use. If you want to enjoy all of the features of the app or website then you pay the low cost of $4.99! We want luvr affordable to everyone.</p>
             </div>	
         </li>
         <li class="matching-partners">
             <div class="benefits-img"><img src="<?php echo base_url(); ?>assets/images/matching-partners.jpg" alt="" /></div>
             <div class="benefits-content">
                 <h2>Dual swipe verification system</h2>
-                <p>Luvr's dual swipe feature ensures that you are matching with the right person. It takes only <br/>an extra 5 seconds to learn up to 3x more <br/>information using our system.</p>
+                <p>Luvr's dual swipe feature ensures that you are matching with the right person. It takes only an extra 5 seconds to learn up to 3x more information using our system.</p>
             </div>	
         </li>
         <li class="share-experiences">
             <div class="benefits-img"><img src="<?php echo base_url(); ?>assets/images/share-experiences.jpg" alt="" /></div>
             <div class="benefits-content">
                 <h2>Timestamps</h2>
-                <p>Using Luvr's timestamp feature you are able to see exactly when a photo or video was created. <br/>This ensures that someone is showing you <br/>the current them, and not then from 5 years ago.</p>
+                <p>Using Luvr's timestamp feature you are able to see exactly when a photo or video was created. This ensures that someone is showing you the current them, and not then from 5 years ago.</p>
             </div>	
         </li>
         <li class="count-people">
             <div class="benefits-img"><img src="<?php echo base_url(); ?>assets/images/count-people.jpg" alt="" /></div>
             <div class="benefits-content">
                 <h2>Advanced filters</h2>
-                <p>Luvr's Advanced Filters allow you to select over 1,000 different combinations that you want in a match. <br/>You can be as picky or as flexible as you want.<br/>&nbsp;</p>
+                <p>Luvr's Advanced Filters allow you to select over 1,000 different combinations that you want in a match. You can be as picky or as flexible as you want.<br/>&nbsp;</p>
             </div>	
         </li>
     </ul>
