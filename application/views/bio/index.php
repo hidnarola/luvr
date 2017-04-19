@@ -1,14 +1,20 @@
+
+<link rel="stylesheet" href="<?php echo base_url().'assets/css/asTooltip.min.css'; ?>"> <!-- Css for the tooltip -->
+
 <div class="my-account">
 
     <?php $this->load->view('side_bar_account'); ?>
 
     <div class="col-md-8 col-sm-8 col-xs-12 account-r">
+
+
         <div class="account-r-head">
             <h2>
                 <big>
                     <?php 
-                        $uname = $this->session->userdata('user')['user_name']; 
-                        echo ucfirst($uname);
+                        $user_data = $this->session->userdata('user');
+                        $username = (!empty($user_data['user_name'])) ? ucfirst($user_data['user_name']) : $user_data['instagram_username'];
+                        echo $username;
                     ?>
                 </big>
             </h2>
@@ -161,3 +167,5 @@
         $('#load_more_id').click();
     <?php } ?>    
 </script>
+
+<script type="text/javascript" href="<?php echo base_url().'assets/js/jquery-asTooltip.min.js'; ?>"></script>

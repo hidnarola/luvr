@@ -7,8 +7,9 @@
             <h2>
                 <big>
                     <?php 
-                        $uname = $this->session->userdata('user')['user_name']; 
-                        echo ucfirst($uname);
+                        $user_data = $this->session->userdata('user');
+                        $username = (!empty($user_data['user_name'])) ? ucfirst($user_data['user_name']) : $user_data['instagram_username'];
+                        echo $username;
                     ?>
                 </big>
             </h2>
