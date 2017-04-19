@@ -5,6 +5,10 @@
 !*/cache/index.html
 !*/cache/.htaccess
 /nbproject/private/
+/nbproject
+/assets/uploads/Image
+/assets/uploads/thumb
+/assets/uploads/Video
+/assets/uploads
 /assets/css/styles.min.css
 /assets/js/combined.min.js
-/nbproject

@@ -109,5 +109,5 @@ if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1'){
     define('UPLOADPATH_VIDEO', '/var/www/html/Luvr/Webservices/upload/Video');
     define('UPLOADPATH_IMAGE', '/var/www/html/Luvr/Webservices/upload/Image');
     define('UPLOADPATH_THUMB', '/var/www/html/Luvr/Webservices/upload/thumb');    
-    define('FFMPEG_PATH', 'ffmpeg.exe');
+    define('FFMPEG_PATH', 'ffmpeg');
 }

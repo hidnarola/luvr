@@ -53,13 +53,6 @@ $user_media = $this->Users_model->getUserMediaByCol('id', $user_data['profile_me
 </div>
 <script type="text/javascript">
     $(document).on('change', '#profile_picture', function () {
-        /*if ($(this).get(0).files[0].type == "image/png" || $(this).get(0).files[0].type == "image/jpeg" || $(this).get(0).files[0].type == "image/jpg")
-         {*/
         $("#frm_change_profile_pic").submit();
-        /*} else
-         {
-         $('#profile_picture').val('');
-         showMsg("Please select valid profile image!", "alert alert-danger", true);
-         }*/
     });
 </script>
