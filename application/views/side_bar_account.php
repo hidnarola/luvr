@@ -6,9 +6,9 @@ $user_media = $this->Users_model->getUserMediaByCol('id', $user_data['profile_me
     <div class="account-l-head">
         <span class="user-pic">
             <?php if ($user_media['media_type'] == '1' || $user_media['media_type'] == '2') { ?>
-                <img alt="User Pic" src="<?php echo base_url() . 'bio/show_img/' . $user_media['media_thumb'] . '/1'; ?>" class="img-responsive"/>
+                <img alt="User Pic" src="<?php echo base_url() . 'bio/show_img/' . $user_media['media_thumb'] . '/1'; ?>" onerror="this.src='<?php echo base_url(); ?>assets/images/default_avatar.jpg'" class="img-responsive"/>
             <?php } else { ?>
-                <img alt="User Pic" src="<?php echo $user_media['media_name']; ?>" class="img-circle img-responsive"/>
+                <img alt="User Pic" src="<?php echo $user_media['media_name']; ?>" class="img-circle img-responsive" onerror="this.src='<?php echo base_url(); ?>assets/images/default_avatar.jpg'"/>
             <?php } ?>
         </span>
         <a class="white-btn user-edit for_pointer" onclick="$('#profile_picture').click();">

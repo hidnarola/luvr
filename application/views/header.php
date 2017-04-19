@@ -47,8 +47,8 @@ else
                                                      title="<?php echo $username; ?>" 
                                                      onerror="this.src='<?php echo base_url(); ?>assets/images/default_avatar.jpg'"/>
                                                  <?php } else { ?>
-                                                <img alt="User Pic" src="<?php echo $user_media['media_name']; ?>" class="img-circle img-responsive">
-                                                <?php } ?>                                                        
+                                                <img alt="User Pic" src="<?php echo $user_media['media_name']; ?>" class="img-circle img-responsive"/>
+                                            <?php } ?>                                             
                                         </span>
                                         <big><?php echo $username; ?></big>
                                         <?php
@@ -65,14 +65,8 @@ else
                                         </span>
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                        <li><a href="<?php echo base_url() . 'user/setup_userprofile/edit'; ?>">Edit Profile</a></li>
-                                        <li><a href="<?php echo base_url() . 'user/user_settings'; ?>">Edit Settings</a></li>
-                                        <li><a href="<?php echo base_url() . 'user/edit_filters'; ?>">Edit Filters</a></li>
-                                        <li><a href="<?php echo base_url() . 'user/video_requests'; ?>">Video Requests</a></li>
-                                        <li><a href="<?php echo base_url() . 'user/blocked_list'; ?>">Blocked List</a></li>
+                                        <li><a href="<?php echo base_url() . 'user/view_profile'; ?>">My Account</a></li>
                                         <li><a href="<?php echo base_url() . 'match/nearby'; ?>">Nearby Matches</a></li>
-                                        <li><a href="<?php echo base_url() . 'bio/instagram_feed'; ?>">Instagram Feeds</a></li>
-                                        <li><a href="<?php echo base_url() . 'bio/saved_feed'; ?>">My Media</a></li>
                                         <li><a href="<?php echo base_url() . 'user/logout'; ?>">Logout</a></li>
                                     </ul>
                                 </div>
