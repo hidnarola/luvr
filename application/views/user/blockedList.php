@@ -57,6 +57,10 @@
 </style>
 <div class="my-account">
     <?php
+    $message = $this->session->flashdata('message');
+    if (!empty($message)) {
+        echo '<div class="' . $message['class'] . '">' . $message['message'] . '</div>';
+    }
     $this->load->view('side_bar_account');
     $user_data = $this->session->userdata('user');
     $username = (!empty($user_data['user_name'])) ? ucfirst($user_data['user_name']) : $user_data['instagram_username'];
