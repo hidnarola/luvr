@@ -287,6 +287,7 @@ border-bottom:1px solid #eeecec;border-right:1px solid #eeecec;vertical-align:to
 .content-list table tbody td:first-child{width:26%;text-transform:uppercase;font-family:'poppins';font-weight:600;background:#fff;border-left:1px solid #eeecec;text-align:right;}
 .content-list table tbody td:last-child{width:74%;font-size:14px;}
 .content-list table tbody tr:hover td{background:#fff;}
+.content-list table tbody tr a{color:#f26f6f;text-decoration:none;}
 .input-wrapper {position:relative;}
 .input-wrapper input{width:100%;padding:12px 15px;line-height:20px;background:#fff;border:1px solid #eeecec;display:block;
 color:#999;font-size:14px;letter-spacing:0.08em;font-family:'Roboto';}
@@ -298,8 +299,8 @@ color:#999;font-size:14px;letter-spacing:0.08em;font-family:'Roboto'; background
 .bootstrap-select .dropdown-menu{border:1px solid #eeecec;}
 .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn){width:100%;}
 .bootstrap-select .dropdown-toggle:focus {outline:none !important;outline:0 !important;outline-offset:0;}
-.color-btn{border:2px solid #f26f6f;color:#f26f6f;padding:8px 8px 6px;min-width:100px;display:inline-block;vertical-align:middle;line-height:20px;font-family:'Roboto';text-transform:uppercase;letter-spacing:0.04em;background:transparent;margin:0 10px;}
-.color-btn:hover{background:#f26f6f;color:#fff;}
+.color-btn{border:2px solid #f26f6f;color:#f26f6f;padding:8px 8px 6px;min-width:100px;display:inline-block;vertical-align:middle;line-height:20px;font-family:'Roboto';text-transform:uppercase;letter-spacing:0.04em;background:transparent;margin:0 10px;text-decoration:none;}
+.color-btn:hover{background:#f26f6f;color:#fff;text-decoration:none;}
 .dark-btn{border:2px solid #231f20;color:#231f20;padding:8px 8px 6px;min-width:100px;display:inline-block;vertical-align:middle;line-height:20px;font-family:'Roboto';
 text-transform:uppercase;letter-spacing:0.04em;background:transparent;margin:0 10px;}
 .dark-btn:hover{background:#231f20;color:#fff;}
@@ -328,3 +329,4 @@ input:checked + .slider:before { -webkit-transform: translateX(56px); -ms-transf
 ._timestamp{padding:4px;background:#fff;opacity:0.7;color:#000;position:absolute;top:15px;right:15px;border-radius:5px;font-size:10px;z-index:10;}
 .level2 .my-picture-box > a:first-child{overflow:hidden;height:250px;width:250px;}
 .level2 .my-picture-box img{position: absolute;left:-99999px;top:-99999px;right:-99999px;bottom:-99999px;margin:auto;}
+.my-profile .bootstrap-select{width:100% !important;}
