@@ -46,6 +46,15 @@ else
                                                 <img alt="User Pic" src="<?php echo $user_media['media_name']; ?>" class="img-circle img-responsive"/>
                                             <?php } ?>
                                         </span>
+                                        <span class="user-pic">                                                        
+                                            <?php if ($user_media['media_type'] == '1' || $user_media['media_type'] == '2' || $user_media['media_type'] == '3' || $user_media['media_type'] == '4') { ?>
+                                                <img src="<?php echo base_url() . 'bio/show_img/' . $user_media['media_thumb'] . '/1'; ?>" alt="<?php echo $username; ?>" 
+                                                     title="<?php echo $username; ?>" 
+                                                     onerror="this.src='<?php echo base_url(); ?>assets/images/default_avatar.jpg'"/>
+                                                 <?php } else { ?>
+                                                <img alt="User Pic" src="<?php echo base_url(); ?>assets/images/default_avatar.jpg" class="img-circle img-responsive"/>
+                                            <?php } ?>                                             
+                                        </span>
                                         <big><?php echo $username; ?></big>
                                         <?php
                                         if (!empty($user_data['country_short_code'])) {
