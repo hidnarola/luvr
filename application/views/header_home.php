@@ -3,6 +3,10 @@ if (!empty($meta_title) && $meta_title != null)
     $site_title = $meta_title;
 else
     $site_title = "Welcome to Luvr";
+$user_data = $this->session->userdata('user');
+if (!empty($user_data) && uri_string() != "home") {
+    redirect("match/nearby");
+}
 ?>
 <html lang="en">
     <head>
@@ -27,10 +31,9 @@ else
                     <div class="header">
                         <div class="col-md-12 col-sm-12">
                             <div class="logo">
-                                <a href="<?php echo base_url(); ?>"><img src="<?php echo base_url(); ?>assets/images/luvr-logo.png" alt="Luvr" title="Luvr"/></a>
+                                <a href="<?php echo base_url('home'); ?>"><img src="<?php echo base_url(); ?>assets/images/luvr-logo.png" alt="Luvr" title="Luvr"/></a>
                             </div>
                             <?php
-                            $user_data = $this->session->userdata('user');
                             if (!empty($user_data)) {
                                 $user_media = $this->Users_model->getUserMediaByCol('id', $user_data['profile_media_id']);
                                 $username = (!empty($user_data['user_name'])) ? $user_data['user_name'] : $user_data['instagram_username'];

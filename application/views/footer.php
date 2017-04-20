@@ -93,7 +93,7 @@
     <div class="footer-bottom">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 col-sm-6 col-xs-12"><p>© 2017 <a href="<?php echo base_url(); ?>">LUVR</a>. All Rights Reserved.</p></div>
+                <div class="col-md-6 col-sm-6 col-xs-12"><p>© 2017 <a href="<?php echo base_url('home'); ?>">LUVR</a>. All Rights Reserved.</p></div>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="policy-link">
                         <a href="https://www.luvr.us/privacy-policy">Privacy</a>

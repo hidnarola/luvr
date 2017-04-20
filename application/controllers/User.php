@@ -186,7 +186,7 @@ class User extends CI_Controller {
     // END of function validate_zipcode
 
     public function login_callback() {
-        $this->session->set_userdata('login_callback', base_url() . '#packages');
+        $this->session->set_userdata('login_callback', base_url('home/#packages'));
         redirect("https://api.instagram.com/oauth/authorize/?client_id=" . INSTA_CLIENT_ID . "&redirect_uri=" . base_url() . "register/return_url&response_type=code&scope=likes+comments+follower_list+relationships+public_content");
     }
 
