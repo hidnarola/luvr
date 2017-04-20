@@ -1,3 +1,7 @@
+<?php
+$user_data = $this->session->userdata('user');
+$error = $this->session->flashdata('error');
+?>
 <section id="hero-section" class="hero-section">
     <ul class="bxslider">
         <li>
@@ -181,7 +185,39 @@
                     <tr>
                         <td></td>
                         <td></td>
-                        <td class="package-buy"><a href="#">Buy Now</a></td>
+                        <td class='package-buy'>
+                            <?php if (!empty($user_data)) { ?>
+                                <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post">
+                                    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                            data-key="<?php echo PK_TEST; ?>"
+                                            data-description="Luvr Premium (1 Month)"
+                                            data-amount="499"
+                                            data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
+                                    data-locale="auto"></script>
+                                    <input name="subplan" value="monthly" type="hidden"/>
+                                </form>
+                                <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post">
+                                    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                            data-key="<?php echo PK_TEST; ?>"
+                                            data-description="Luvr Premium (6 Months)"
+                                            data-amount="2500"
+                                            data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
+                                    data-locale="auto"></script>
+                                    <input name="subplan" value="6monthly" type="hidden"/>
+                                </form>
+                                <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post">
+                                    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                            data-key="<?php echo PK_TEST; ?>"
+                                            data-description="Luvr Premium (1 Year)"
+                                            data-amount="4000"
+                                            data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
+                                    data-locale="auto"></script>
+                                    <input name="subplan" value="yearly" type="hidden"/>
+                                </form>
+                            <?php } else { ?>
+                                <a href="<?php echo base_url() . 'user/login_callback'; ?>">Buy Now</a>
+                            <?php } ?>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -190,6 +226,13 @@
 </section>
 <script src="<?php echo base_url(); ?>assets/js/jquery.bxslider.min.js"></script>
 <script type="text/javascript">
+<?php if (!empty($error)) { ?>
+        alert("<?php echo $error; ?>");
+<?php } ?>
+    $(function () {
+        $(".stripe-button-el").html('BUY NOW');
+        $(".stripe-button-el").removeClass('stripe-button-el');
+    });
     $('.bxslider').bxSlider({
         mode: 'fade',
         captions: true,

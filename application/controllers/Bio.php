@@ -40,7 +40,7 @@ class Bio extends CI_Controller {
             $config['encrypt_name'] = TRUE;
             $config['detect_mime'] = TRUE;
             $config['file_ext_tolower'] = TRUE;
-            
+
             $this->upload->initialize($config);
 
             if (!$this->upload->do_upload('profile_picture')) {
@@ -294,6 +294,13 @@ class Bio extends CI_Controller {
             $path = UPLOADPATH_IMAGE . '/' . $file;
         }
         header('Content-type: image/jpeg');
+        readfile($path);
+    }
+
+    public function show_video($file) {
+        $path = UPLOADPATH_VIDEO . '/' . $file;
+        header("Content-Type: video/mp4");
+        header("Content-Length: " . filesize($path));
         readfile($path);
     }
 

@@ -9,15 +9,14 @@ class Register extends CI_Controller {
         $this->load->library(['unirest']);
         $this->load->model(['Users_model', 'Bio_model']);
     }
-    
-	public function index(){
-		$data['sub_view'] = 'register/register_view';
-    	$data['meta_title'] = "Setup User Profile";
-    	$this->load->view('main', $data);
-	}	
+
+    public function index() {
+        $data['sub_view'] = 'register/register_view';
+        $data['meta_title'] = "Setup User Profile";
+        $this->load->view('main', $data);
+    }
 
     public function return_url() {
-
         $code = $this->input->get('code');
 
         if (!empty($code)) {
@@ -49,27 +48,33 @@ class Register extends CI_Controller {
                     $u_data['access_token'] = $response_arr['access_token'];
                     $u_data['country_short_code'] = '';
 
-                    $address = $u_data['address'];                        
-                    if($address != ''){
+                    $address = $u_data['address'];
+                    if ($address != '') {
                         $str = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $address . '&key=' . GOOGLE_MAP_API;
                         $res = $this->unirest->get($str);
                         $res_arr = json_decode($res->raw_body, true);
 
                         $all_address = $res_arr['results'][0]['address_components'];
-                        if(!empty($all_address)){
-                            foreach($all_address as $a_address){
-                                $map_type = $a_address['types'][0]; echo "<br/>";                                
-                                if($map_type == 'country'){
+                        if (!empty($all_address)) {
+                            foreach ($all_address as $a_address) {
+                                $map_type = $a_address['types'][0];
+                                echo "<br/>";
+                                if ($map_type == 'country') {
                                     $u_data['country_short_code'] = $a_address['short_name'];
                                 }
                             }
-                        }                        
+                        }
                     }
 
                     $this->session->set_userdata('user', $u_data);
 
                     $upd_data = ['lastseen_date' => date('Y-m-d H:i:s'), 'id' => $u_data['id']];
                     $this->Users_model->manageUser($upd_data);
+                    if ($this->session->userdata('login_callback')) {
+                        $custom_callback = $this->session->userdata('login_callback');
+                        $this->session->unset_userdata('login_callback');
+                        redirect($custom_callback);
+                    }
                     if (empty($u_data['email']))
                         redirect('user/setup_userprofile');
                     else
@@ -106,11 +111,16 @@ class Register extends CI_Controller {
                     $ins_data['country_short_code'] = '';
 
                     $this->session->set_userdata('user', $ins_data);
+                    if ($this->session->userdata('login_callback')) {
+                        $custom_callback = $this->session->userdata('login_callback');
+                        $this->session->unset_userdata('login_callback');
+                        redirect($custom_callback);
+                    }
                     redirect('user/setup_userprofile');
                 }
             } // END of IF condition for ACCESS TOKEN
         }
-    }   
+    }
 
 }
 
