@@ -170,7 +170,7 @@ a:hover, a:focus{outline:none;outline:0;outline-offset:0;}
 .user-list-pic > a{border:6px solid rgba(255,255,255,.6);display:block; box-shadow:0 0 26px 0 rgba(0,0,0,.2);}
 .user-list-pic > a > img{width:100%;}
 .user-list-pic-close{position:absolute;top:-17px;right:-17px;}
-.user-list-pic-close > a{display:block;width:34px;height:34px;background:#fff;border-radius:0;text-align:center;line-height:36px;box-shadow:0 0 14px 0 rgba(0,0,0,.1);padding:11px 0 0 1px;border-radius:100%;}
+.user-list-pic-close > a{display:block;width:34px;height:34px;background:#fff;border-radius:0;text-align:center;line-height:34px;box-shadow:0 0 14px 0 rgba(0,0,0,.1);/*padding:11px 0 0 1px;*/border-radius:100%;}
 .user-list-pic-close > a:hover{background:#f26f6f;}
 .user-list-pic-close > a svg{width:12px;height:12px;fill-opacity:.5;}
 .user-list-pic-close > a:hover svg{fill:#fff;fill-opacity:1;}
