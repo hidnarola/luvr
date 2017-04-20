@@ -69,6 +69,9 @@ class Register extends CI_Controller {
                     $this->session->set_userdata('user', $u_data);
 
                     $upd_data = ['lastseen_date' => date('Y-m-d H:i:s'), 'id' => $u_data['id']];
+                    if ($u_data['latlong'] == null || empty($u_data['latlong'])) {
+                        $upd_data['latlong'] = implode(',', $res_arr['results'][0]['geometry']['location']);
+                    }
                     $this->Users_model->manageUser($upd_data);
                     if ($this->session->userdata('login_callback')) {
                         $custom_callback = $this->session->userdata('login_callback');
