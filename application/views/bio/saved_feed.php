@@ -53,14 +53,17 @@
                                         <div class="picture-action-inr">
 
                                             <a data-type="<?php echo $type; ?>" data-insta-id="<?= $image['id'] ?>" data-insta-time="<?= strtotime($image['insta_datetime']) ?>"
-                                               data-val="<?= $link ?>" class="for_pointer icon-picture" data-thumb="<?= $thumb ?>" onclick="ajax_set_profile(this)">
+                                               data-val="<?= $link ?>" class="for_pointer icon-picture js-mytooltip type-inline-block style-block style-block-one" data-thumb="<?= $thumb ?>" onclick="ajax_set_profile(this)"
+                                               data-mytooltip-custom-class="align-center" data-mytooltip-content="Set as a profile pic" >
                                             </a>
 
-                                            <a data-fancybox="gallery" href="<?php echo $image_link; ?>" class="icon-full-screen image-link"></a>
+                                            <a data-fancybox="gallery" href="<?php echo $image_link; ?>" class="for_pointer icon-full-screen image-link js-mytooltip type-inline-block style-block style-block-one"
+                                                data-mytooltip-custom-class="align-center" data-mytooltip-content="Full screen"></a>
 
                                             <a data-type="<?php echo $type; ?>" data-insta-id="<?= $image['media_id'] ?>" data-insta-time="<?= strtotime($image['insta_datetime']) ?>"
-                                               data-val="<?= $link ?>" class="for_pointer icon-cancel" data-thumb="<?= $thumb ?>" 
-                                               onclick="ajax_save_bio(this)" data-is-delete="<?= $is_delete ?>" data-dynamic-id="<?php echo $dynamic_id; ?>">
+                                               data-val="<?= $link ?>" class="for_pointer icon-cancel js-mytooltip type-inline-block style-block style-block-one" data-thumb="<?= $thumb ?>" 
+                                               onclick="ajax_save_bio(this)" data-is-delete="<?= $is_delete ?>" data-dynamic-id="<?php echo $dynamic_id; ?>"
+                                               data-mytooltip-custom-class="align-center" data-mytooltip-content="Delete from Bio">
                                             </a>
 
                                         </div>
@@ -103,6 +106,9 @@
             data: {img_name: img_name, type: type, insta_id: insta_id, insta_time: insta_time, thumb: thumb, is_delete: is_delete},
             dataType: "JSON",
             success: function (data) {
+                show_notification('<strong> Success </strong>',
+                            'Your feed has been removed from Bio.',
+                            'success');                    
                 $('#' + dynamic_id).fadeOut();
             }
         });
@@ -119,4 +125,10 @@
         var new_str = "?img_name=" + img_name + "&type=" + type + "&insta_id=" + insta_id + "&insta_time=" + insta_time + "&thumb=" + thumb + "&is_delete=" + is_delete;
         window.location.href = "<?php echo base_url() . 'bio/ajax_picture_set_profile'; ?>" + new_str;
     }
+
+    $(document).ready(function() {        
+        if($('.js-mytooltip').length != 0){
+            $('.js-mytooltip').myTooltip();
+        }
+    });
 </script>

@@ -527,3 +527,19 @@ $config['rewrite_short_tags'] = FALSE;
   | Array:		array('10.0.1.200', '192.168.5.0/24')
  */
 $config['proxy_ips'] = '';
+
+/**
+ * Facebook Login Configuration
+ * Account use for FB -  test.narolainfotech@gmail.com / Password123#
+ */
+$config['facebook']['api_id'] = '1903298893274417';
+$config['facebook']['app_secret'] = 'b2e2d7d89eb6864158ffdeca515a7d3c';
+$config['facebook']['redirect_url'] = $config['base_url'] . '/register/return_url_fb';
+$config['facebook']['permissions'] = array(
+    'email',
+    'user_location',
+    'user_birthday',
+    'user_friends',
+    'public_profile'
+);
+

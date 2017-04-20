@@ -119,11 +119,14 @@
     function scrollToElement(id) {
         $('html,body').animate({
             scrollTop: $(id).offset().top}, 'slow');
-    }
-</script>
+    }    
 
+</script>
+    
+        
+    
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'assets/css/jquery.fancybox.min.css'; ?>">
     <script src="<?php echo base_url() . 'assets/js/jquery.fancybox.min.js'; ?>" type="text/javascript"></script>
-    <script src="<?php echo base_url(); ?>assets/js/custom.js"></script>
+    <script type="text/javascript" src="<?php echo base_url().'assets/js/bootstrap-notify.js'; ?>"></script>    
 
 </body>

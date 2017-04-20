@@ -6,11 +6,12 @@ class Register extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->library(['unirest']);
+        $this->load->library(['unirest','facebook']);
         $this->load->model(['Users_model', 'Bio_model']);
     }
     
 	public function index(){
+        $data['fb_login_url'] = $this->facebook->get_login_url();        
 		$data['sub_view'] = 'register/register_view';
     	$data['meta_title'] = "Setup User Profile";
     	$this->load->view('main', $data);
@@ -112,6 +113,13 @@ class Register extends CI_Controller {
         }
     }   
 
+    public function return_url_fb(){
+        $user_detail = $this->facebook->get_user();            
+    }
+
+    public function test_player(){        
+        $this->load->view('test');
+    }
 }
 
 /* End of file Register.php */

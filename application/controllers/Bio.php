@@ -113,7 +113,7 @@ class Bio extends CI_Controller {
         $insta_id = $u_data['userid'];
         $access_token = $u_data['access_token'];
 
-        $curl1 = "https://api.instagram.com/v1/users/" . $insta_id . "/media/recent/?access_token=" . $access_token . '&count=30';
+        $curl1 = "https://api.instagram.com/v1/users/" . $insta_id . "/media/recent/?access_token=" . $access_token . '&count=9';
         $response = $this->unirest->get($curl1, $headers = array());
         $row_data = json_decode($response->raw_body, true);
 
@@ -177,12 +177,16 @@ class Bio extends CI_Controller {
                     $new_str .= '<li id="' . $dynamic_id . '"> <div class="my-picture-box"> <a> <img src="' . $link . '" alt="" /> </a>';
                     $new_str .= '<div class="picture-action"> <div class="picture-action-inr">';
                     $new_str .= '<a data-type="' . $type . '" data-insta-id="' . $image['id'] . '" data-insta-time="' . $image['created_time'] . '"';
-                    $new_str .= ' data-val="' . $link . '" class="for_pointer icon-picture" data-thumb="' . $thumb . '" onclick="ajax_set_profile(this)"></a>';
+                    $new_str .= ' data-val="' . $link . '" class="for_pointer icon-picture js-mytooltip type-inline-block style-block style-block-one"'; 
+                    $new_str .= ' data-mytooltip-custom-class="align-center" data-mytooltip-content="Set as a profile pic"';
+                    $new_str .= ' data-thumb="' . $thumb . '" onclick="ajax_set_profile(this)"></a>';
 
-                    $new_str .= ' <a data-fancybox="gallery" href="' . $image_link . '" class="icon-full-screen image-link"></a>';
+                    $new_str .= ' <a data-fancybox="gallery" href="' . $image_link . '" class="icon-full-screen image-link js-mytooltip type-inline-block style-block style-block-one"';
+                    $new_str .= ' data-mytooltip-custom-class="align-center" data-mytooltip-content="Full screen"></a>';
 
                     $new_str .= ' <a data-type="' . $type . '" data-insta-id="' . $image['id'] . '" data-insta-time="' . $image['created_time'] . '"';
-                    $new_str .= ' data-val="' . $link . '" class="for_pointer icon-tick-inside-circle" data-thumb="' . $thumb . '" ';
+                    $new_str .= ' data-val="' . $link . '" class="for_pointer icon-tick-inside-circle js-mytooltip type-inline-block style-block style-block-one" data-thumb="' . $thumb . '" ';
+                    $new_str .= 'data-mytooltip-custom-class="align-center" data-mytooltip-content="Save into Bio"';
                     $new_str .= ' onclick="ajax_save_bio(this)" data-is-delete="' . $is_delete . '" data-dynamic-id="' . $dynamic_id . '" > </a> </div> </div> </div> </li>';
                 }
             }
@@ -294,6 +298,13 @@ class Bio extends CI_Controller {
             $path = UPLOADPATH_IMAGE . '/' . $file;
         }
         header('Content-type: image/jpeg');
+        readfile($path);
+    }
+
+    public function show_video($file){            
+        $path = UPLOADPATH_VIDEO.'/'.$file;
+        header("Content-Type: video/mp4");
+        header("Content-Length: ".filesize($path));
         readfile($path);
     }
 

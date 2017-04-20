@@ -1,6 +1,3 @@
-
-<link rel="stylesheet" href="<?php echo base_url().'assets/css/asTooltip.min.css'; ?>"> <!-- Css for the tooltip -->
-
 <div class="my-account">
 
     <?php
@@ -14,7 +11,7 @@
     <div class="col-md-8 col-sm-8 col-xs-12 account-r">
 
 
-        <div class="account-r-head">
+        <div class="account-r-head">                        
             <h2>
                 <big>
                     <?php 
@@ -34,7 +31,7 @@
                 <ul class="my-picture-ul" id="insta_img_list">
                     <?php
                     if (!empty($all_images)) {
-                        $i = 30;
+                        $i = 0;
 
                         foreach ($all_images as $image) {
 
@@ -65,14 +62,20 @@
                                             <div class="picture-action-inr">
 
                                                 <a data-type="<?php echo $type; ?>" data-insta-id="<?= $image['id'] ?>" data-insta-time="<?= $image['created_time'] ?>"
-                                                   data-val="<?= $link ?>" class="for_pointer icon-picture" data-thumb="<?= $thumb ?>" onclick="ajax_set_profile(this)">
-                                                </a>
+                                                   data-val="<?= $link ?>" class="for_pointer icon-picture js-mytooltip type-inline-block style-block style-block-one" 
+                                                   data-thumb="<?= $thumb ?>" onclick="ajax_set_profile(this)"
+                                                   data-mytooltip-custom-class="align-center" data-mytooltip-content="Set as a profile pic">
+                                                </a>        
 
-                                                <a data-fancybox="gallery" href="<?php echo $image_link; ?>" class="icon-full-screen image-link"></a>
+                                                <a data-fancybox="gallery" href="<?php echo $image_link; ?>" 
+                                                    class="icon-full-screen image-link js-mytooltip type-inline-block style-block style-block-one"
+                                                    data-mytooltip-custom-class="align-center" data-mytooltip-content="Full screen"></a>
 
                                                 <a data-type="<?php echo $type; ?>" data-insta-id="<?= $image['id'] ?>" data-insta-time="<?= $image['created_time'] ?>"
-                                                   data-val="<?= $link ?>" class="for_pointer icon-tick-inside-circle" data-thumb="<?= $thumb ?>" 
-                                                   onclick="ajax_save_bio(this)" data-is-delete="<?= $is_delete ?>" data-dynamic-id="<?php echo $dynamic_id; ?>">
+                                                   data-val="<?= $link ?>" data-thumb="<?= $thumb ?>" 
+                                                   class="for_pointer icon-tick-inside-circle js-mytooltip type-inline-block style-block style-block-one"                                                   
+                                                   onclick="ajax_save_bio(this)" data-is-delete="<?= $is_delete ?>" data-dynamic-id="<?php echo $dynamic_id; ?>"
+                                                   data-mytooltip-custom-class="align-center" data-mytooltip-content="Save into Bio">
                                                 </a>
 
                                             </div>
@@ -80,7 +83,7 @@
                                     </div>
                                 </li>
                                 <?php
-                                $i--;
+                                $i++;
                             }
                             ?>
                         <?php } ?>
@@ -90,15 +93,14 @@
 
                     <div class="alert alert-danger">No Feed found</div>    
 
-                <?php } ?>
+                <?php } ?>               
 
-                <?php if (!empty($next_link)) { ?>                    
+            </div>
+             <?php if (!empty($next_link)) { ?>                    
                     <div class="load-more">
                         <a data-val="<?php echo $next_link; ?>" class="for_pointer" id="load_more_id" onclick="load_more(this)"> Load More </a>
                     </div>                                            
                 <?php } ?>
-
-            </div>
         </div>
     </div>
 </div>
@@ -118,6 +120,8 @@
                 if (data['all_images'] != '') {
 
                     $('#insta_img_list').append(data['all_images']);
+                    $('.js-mytooltip').myTooltip();                 
+
                     if (data['next_link'] != '') {
                         $('#load_more_id').data('val', data['next_link']);
                     } else {
@@ -149,7 +153,11 @@
             dataType: "JSON",
             success: function (data) {
                 if (data['status'] != 'error') {
+                    
                     $('#' + dynamic_id).fadeOut();
+                    show_notification('<strong> Success </strong>',
+                            'Your feed has been saved into Bio.',
+                            'success');                    
                 } else {
                     alert('ERROR:CAN NOT SAVE MORE THAN 50 IMAGES');
                 }
@@ -169,12 +177,16 @@
         var new_str = "?img_name=" + img_name + "&type=" + type + "&insta_id=" + insta_id + "&insta_time=" + insta_time + "&thumb=" + thumb + "&is_delete=" + is_delete;
 
         window.location.href = "<?php echo base_url() . 'bio/ajax_picture_set_profile'; ?>" + new_str;
-
     }
 
-<?php if ($i == 30 || ($i >= 15 && $i <= 30)) { ?>
+    <?php if (($i >= 1 && $i <= 3)) { ?>
         $('#load_more_id').click();
-<?php } ?>
-</script>
+    <?php } ?>
 
-<script type="text/javascript" href="<?php echo base_url().'assets/js/jquery-asTooltip.min.js'; ?>"></script>
+     $(document).ready(function() {        
+        if($('.js-mytooltip').length != 0){
+            $('.js-mytooltip').myTooltip();
+        }
+    });
+
+</script>

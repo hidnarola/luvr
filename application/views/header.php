@@ -1,3 +1,4 @@
+ <!DOCTYPE html>
 <?php
 if (!empty($meta_title) && $meta_title != null)
     $site_title = $meta_title;
@@ -10,7 +11,7 @@ else
         <title><?php echo $site_title; ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0"/>
         <link rel="icon" href="<?php echo base_url('/favicon.png'); ?>" type="image/x-icon" />
-        <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:400,500" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:400,500" rel="stylesheet"/>    
         <?php
         /* Load css files */
         $css = array('bootstrap.min.css', 'style.css', 'responsive.css', 'icomoon.css', 'jquery.bxslider.css');
@@ -21,7 +22,14 @@ else
         /* Load js files */
         $this->minify->js($js);
         echo $this->minify->deploy_js(FALSE, 'combined.min.js');
-        ?>
+        ?> 
+        
+        <link rel="stylesheet" href="<?php echo base_url().'assets/css/myTooltip.css'; ?>"> <!-- CSS for the for Tool-tip  -->
+        <link rel="stylesheet" href="<?php echo base_url().'assets/css/bootstrap-notify.css'; ?>"> <!-- Css for bootstrap notify show/hide effect -->
+        <link rel="stylesheet" href="<?php echo base_url().'assets/css/animate.min.css'; ?>"> <!-- Css for bootstrap notify show/hide effect -->        
+        <script type="text/javascript" src="<?php echo base_url().'assets/js/myTooltip.js'; ?>"></script> <!-- Script for the Tool-tip  -->
+        <script src="<?php echo base_url(); ?>assets/js/custom.js"></script>
+        
     </head>
     <body class="with-login">
         <header id="header">
