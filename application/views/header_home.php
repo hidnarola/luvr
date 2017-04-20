@@ -68,7 +68,7 @@ else
                                 </div>
                             <?php } else { ?>
                                 <div class="login-instagram">
-                                    <a href="https://api.instagram.com/oauth/authorize/?client_id=<?php echo INSTA_CLIENT_ID; ?>&redirect_uri=<?php echo base_url() . 'register/return_url'; ?>&response_type=code&scope=likes+comments+follower_list+relationships+public_content">
+                                    <a id='login_insta' href="https://api.instagram.com/oauth/authorize/?client_id=<?php echo INSTA_CLIENT_ID; ?>&redirect_uri=<?php echo base_url() . 'register/return_url'; ?>&response_type=code&scope=likes+comments+follower_list+relationships+public_content">
                                         <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                              viewBox="0 0 512.001 512.001" style="enable-background:new 0 0 512.001 512.001;" xml:space="preserve">
                                             <g>

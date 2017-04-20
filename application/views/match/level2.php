@@ -52,10 +52,18 @@ else if ($mode == 2)
                                         $path = $up['media_thumb'];
                                         $href = $up['media_name'];
                                     } else if ($up['media_type'] == 1 || $up['media_type'] == 2) {
-                                        $path = base_url() . "assets/images/users/" . $up['media_thumb'];
-                                        if (!file_exists(PHYSICALUPLOADPATH . "/images/users/" . $up['media_thumb']))
-                                            $path = base_url() . "assets/images/big_avatar.jpg";
-                                        $href = base_url() . "assets/images/users/" . $up['media_name'];
+                                        /* $path = base_url() . "assets/images/users/" . $up['media_thumb'];
+                                          if (!file_exists(PHYSICALUPLOADPATH . "/images/users/" . $up['media_thumb']))
+                                          $path = base_url() . "assets/images/big_avatar.jpg";
+                                          $href = base_url() . "assets/images/users/" . $up['media_name']; */
+                                        if ($up['media_type'] == 1) {
+                                            $path = base_url() . 'bio/show_img/' . $up['media_thumb'];
+                                            $href = base_url() . "bio/show_img/" . $up['media_name'];
+                                        }
+                                        if ($up['media_type'] == 2) {
+                                            $path = base_url() . 'bio/show_img/' . $up['media_thumb'];
+                                            $href = base_url() . "bio/show_video/" . $up['media_name'];
+                                        }
                                     } else if ($up['media_type'] == 3 || $up['media_type'] == 4) {
                                         $path = $up['media_thumb'];
                                         $href = $up['media_name'];
@@ -137,10 +145,14 @@ else if ($mode == 2)
                             $path = $up['media_thumb'];
                             $href = $up['media_name'];
                         } else if ($up['media_type'] == 1 || $up['media_type'] == 2) {
-                            $path = base_url() . "assets/images/users/" . $up['media_thumb'];
-                            if (!file_exists(PHYSICALUPLOADPATH . "/images/users/" . $up['media_thumb']))
-                                $path = base_url() . "assets/images/big_avatar.jpg";
-                            $href = base_url() . "assets/images/users/" . $up['media_name'];
+                            if ($up['media_type'] == 1) {
+                                $path = base_url() . 'bio/show_img/' . $up['media_thumb'];
+                                $href = base_url() . "bio/show_img/" . $up['media_name'];
+                            }
+                            if ($up['media_type'] == 2) {
+                                $path = base_url() . 'bio/show_img/' . $up['media_thumb'];
+                                $href = base_url() . "bio/show_video/" . $up['media_name'];
+                            }
                         } else if ($up['media_type'] == 3 || $up['media_type'] == 4) {
                             $path = $up['media_thumb'];
                             $href = $up['media_name'];
@@ -148,14 +160,16 @@ else if ($mode == 2)
                         ?>
                         <li>
                             <div class="my-picture-box">
-                                <a><img src="<?php echo $path; ?>"/></a>
+                                <a><img src="<?php echo $path; ?>" onerror="this.src='<?php echo base_url() . "assets/images/big_avatar.jpg"; ?>'"/></a>
                                 <?php if ($is_user_premium_member == 1) { ?>
                                     <span class="_timestamp"><?php echo date("m/d/y", strtotime($up['insta_datetime'])); ?><br/><?php echo date("h:s a", strtotime($up['insta_datetime'])); ?></span>
                                 <?php } ?>
                                 <div class="picture-action">
                                     <div class="picture-action-inr">
-                                        <?php if ($up['media_type'] == 2 || $up['media_type'] == 4) { ?>
+                                        <?php if ($up['media_type'] == 4) { ?>
                                             <a class='icon-play-button' data-fancybox="gallery" href="<?php echo $href; ?>"></a>
+                                        <?php } else if ($up['media_type'] == 2) { ?>
+                                            <a class='icon-play-button' data-fancybox="iframe" data-src='<?php echo base_url() . "bio/show_video/" . $up['media_name']; ?>' data-type='iframe' href="javascript:;"></a>
                                         <?php } else { ?>
                                             <a class="icon-full-screen image-link" data-fancybox="gallery" href="<?php echo $href; ?>"></a>
                                         <?php } ?>
@@ -177,79 +191,79 @@ else if ($mode == 2)
 <script src="<?php echo base_url() . 'assets/js/jquery.transform2d.js'; ?>" type="text/javascript"></script>
 <script src="<?php echo base_url() . 'assets/js/jquery.jTinder.js'; ?>" type="text/javascript"></script>
 <script type="text/javascript">
-                                                    /*$(document).ready(function () {
-                                                     $(".image-link").fancybox({
-                                                     beforeShow: function () {
-                                                     log($(this.element).attr('fancybox-ts'));
-                                                     this.title = $(this.element).attr('fancybox-ts');
-                                                     }
-                                                     });
-                                                     });*/
-                                                    var likedislikecounts = 0;
-                                                    $(window).on('load', function () {
-                                                        setTimeout(function () {
-                                                            /*$("#radar").hide();*/
-                                                            $("#loader").fadeOut();
-                                                            $("#tinderslide").removeAttr('style');
-                                                        }, Math.floor((Math.random() * 1000) + 1000));
-                                                    });
-                                                    var likesreached = powerluvsreached = 0;
-                                                    registerjTinder();
-                                                    function registerjTinder() {
-                                                        $("#tinderslide").jTinder({
-                                                            onLike: function (item) {
+                                        /*$(document).ready(function () {
+                                         $(".image-link").fancybox({
+                                         beforeShow: function () {
+                                         log($(this.element).attr('fancybox-ts'));
+                                         this.title = $(this.element).attr('fancybox-ts');
+                                         }
+                                         });
+                                         });*/
+                                        var likedislikecounts = 0;
+                                        $(window).on('load', function () {
+                                            setTimeout(function () {
+                                                /*$("#radar").hide();*/
+                                                $("#loader").fadeOut();
+                                                $("#tinderslide").removeAttr('style');
+                                            }, Math.floor((Math.random() * 1000) + 1000));
+                                        });
+                                        var likesreached = powerluvsreached = 0;
+                                        registerjTinder();
+                                        function registerjTinder() {
+                                            $("#tinderslide").jTinder({
+                                                onLike: function (item) {
 <?php if ($user_swipes_per_day < MAX_SWIPES_PER_DAY) { ?>
-                                                                    likedislikeuser($(item).data("id"), '<?php echo $md; ?>');
+                                                        likedislikeuser($(item).data("id"), '<?php echo $md; ?>');
 <?php } ?>
-                                                            },
-                                                            onDislike: function (item) {
-                                                                likedislikeuser($(item).data("id"), 'dislike');
-                                                            },
-                                                            animationRevertSpeed: 200,
-                                                            animationSpeed: 500,
-                                                            threshold: 4,
-                                                            likeSelector: '.like',
-                                                            dislikeSelector: '.dislike'
-                                                        });
+                                                },
+                                                onDislike: function (item) {
+                                                    likedislikeuser($(item).data("id"), 'dislike');
+                                                },
+                                                animationRevertSpeed: 200,
+                                                animationSpeed: 500,
+                                                threshold: 4,
+                                                likeSelector: '.like',
+                                                dislikeSelector: '.dislike'
+                                            });
+                                        }
+                                        function likedislikeuser(user_id, mode, li_index) {
+                                            $.ajax({
+                                                url: "<?php echo base_url(); ?>match/likedislike",
+                                                type: 'POST',
+                                                dataType: 'json',
+                                                data: "user_id=" + user_id + "&status=" + mode + "&totallikesreached=" + likesreached,
+                                                success: function (data) {
+                                                    likedislikecounts++;
+                                                    if (data.success == true) {
+                                                        location.href = "<?php echo base_url('/match/nearby'); ?>";
                                                     }
-                                                    function likedislikeuser(user_id, mode, li_index) {
-                                                        $.ajax({
-                                                            url: "<?php echo base_url(); ?>match/likedislike",
-                                                            type: 'POST',
-                                                            dataType: 'json',
-                                                            data: "user_id=" + user_id + "&status=" + mode + "&totallikesreached=" + likesreached,
-                                                            success: function (data) {
-                                                                likedislikecounts++;
-                                                                if (data.success == true) {
-                                                                    location.href = "<?php echo base_url('/match/nearby'); ?>";
-                                                                }
-                                                                if ((data.user_swipes_per_day == <?php echo MAX_SWIPES_PER_DAY; ?>) && mode == "like")
-                                                                {
-                                                                    likesreached = 1;
-                                                                    showMsg("Your likes quota per day has been reached! Therefore, right swipes for cards will not be considered.", "alert alert-danger");
-                                                                    scrollToElement("#msg_txt");
-                                                                }
+                                                    if ((data.user_swipes_per_day == <?php echo MAX_SWIPES_PER_DAY; ?>) && mode == "like")
+                                                    {
+                                                        likesreached = 1;
+                                                        showMsg("Your likes quota per day has been reached! Therefore, right swipes for cards will not be considered.", "alert alert-danger");
+                                                        scrollToElement("#msg_txt");
+                                                    }
 <?php if ($is_user_premium_member == 1) { ?>
-                                                                    if ((data.user_powerluvs_per_day == <?php echo MAX_POWERLUVS_PER_DAY_P; ?>) && mode == "powerluv")
-                                                                    {
-                                                                        powerluvsreached = 1;
-                                                                        reflectUserInfo(li_index);
-                                                                        showMsg("Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.", "alert alert-danger");
-                                                                        scrollToElement("#msg_txt");
-                                                                    }
+                                                        if ((data.user_powerluvs_per_day == <?php echo MAX_POWERLUVS_PER_DAY_P; ?>) && mode == "powerluv")
+                                                        {
+                                                            powerluvsreached = 1;
+                                                            reflectUserInfo(li_index);
+                                                            showMsg("Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.", "alert alert-danger");
+                                                            scrollToElement("#msg_txt");
+                                                        }
 <?php } else { ?>
-                                                                    if ((data.user_powerluvs_per_day == <?php echo MAX_POWERLUVS_PER_DAY; ?>) && mode == "powerluv")
-                                                                    {
-                                                                        powerluvsreached = 1;
-                                                                        reflectUserInfo(li_index);
-                                                                        showMsg("Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.", "alert alert-danger");
-                                                                        scrollToElement("#msg_txt");
-                                                                    }
+                                                        if ((data.user_powerluvs_per_day == <?php echo MAX_POWERLUVS_PER_DAY; ?>) && mode == "powerluv")
+                                                        {
+                                                            powerluvsreached = 1;
+                                                            reflectUserInfo(li_index);
+                                                            showMsg("Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.", "alert alert-danger");
+                                                            scrollToElement("#msg_txt");
+                                                        }
 <?php } ?>
-                                                            }, error: function () {
-                                                                showMsg("Something went wrong!", "alert alert-danger", true);
-                                                                scrollToElement("#msg_txt");
-                                                            }
-                                                        });
-                                                    }
+                                                }, error: function () {
+                                                    showMsg("Something went wrong!", "alert alert-danger", true);
+                                                    scrollToElement("#msg_txt");
+                                                }
+                                            });
+                                        }
 </script>

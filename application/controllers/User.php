@@ -10,7 +10,7 @@ class User extends CI_Controller {
         $this->load->model(array('Users_model', 'Filters_model', 'Matches_model', 'Bio_model'));
         $this->load->library('unirest');
         $u_data = $this->session->userdata('user');
-        if (empty($u_data)) {
+        if (empty($u_data) && uri_string() != 'user/manage_subscription' && uri_string() != "user/login_callback") {
             redirect('register');
         }
     }
@@ -185,7 +185,13 @@ class User extends CI_Controller {
 
     // END of function validate_zipcode
 
+    public function login_callback() {
+        $this->session->set_userdata('login_callback', base_url() . '#packages');
+        redirect("https://api.instagram.com/oauth/authorize/?client_id=" . INSTA_CLIENT_ID . "&redirect_uri=" . base_url() . "register/return_url&response_type=code&scope=likes+comments+follower_list+relationships+public_content");
+    }
+
     /* This function will logout user. */
+
     public function logout() {
         $this->session->unset_userdata('user');
         $this->load->view('user/logout');
@@ -368,6 +374,107 @@ class User extends CI_Controller {
         $this->pagination->initialize($config);
         $data['pagination'] = $this->pagination->create_links();
         $this->load->view('main', $data);
+    }
+
+    public function manage_subscription() {
+        require APPPATH . 'third_party/stripe/Stripe.php';
+        $u_data = $this->session->userdata('user');
+        $user_id = $u_data['id'];
+        $params = array(
+            "testmode" => "on",
+            "private_live_key" => SK_LIVE,
+            "public_live_key" => PK_LIVE,
+            "private_test_key" => SK_TEST,
+            "public_test_key" => PK_TEST
+        );
+
+        if ($params['testmode'] == "on") {
+            Stripe::setApiKey($params['private_test_key']);
+            $pubkey = $params['public_test_key'];
+        } else {
+            Stripe::setApiKey($params['private_live_key']);
+            $pubkey = $params['public_live_key'];
+        }
+
+        if (isset($_POST['stripeToken'])) {
+            $amount_cents = str_replace(".", "", "10.52");  // Chargeble amount
+            $invoiceid = "14526321";                      // Invoice ID
+            $description = "Invoice #" . $invoiceid . " - " . $invoiceid;
+            $subscription_plan = $_POST['subplan'];
+
+            try {
+                $charge = Stripe_Charge::create(array(
+                            "amount" => $amount_cents,
+                            "currency" => "usd",
+                            "source" => $_POST['stripeToken'],
+                            "description" => $description)
+                );
+
+                if (@$charge->card->address_zip_check == "fail") {
+                    throw new Exception("zip_check_invalid");
+                } else if (@$charge->card->address_line1_check == "fail") {
+                    throw new Exception("address_check_invalid");
+                } else if (@$charge->card->cvc_check == "fail") {
+                    throw new Exception("cvc_check_invalid");
+                }
+                // Payment has succeeded, no exceptions were thrown or otherwise caught				
+
+                $result = "success";
+            } catch (Stripe_CardError $e) {
+                $error = $e->getMessage();
+                $result = "declined";
+            } catch (Stripe_InvalidRequestError $e) {
+                $error = $e->getMessage();
+                $result = "declined";
+            } catch (Stripe_AuthenticationError $e) {
+                $error = $e->getMessage();
+                $result = "declined";
+            } catch (Stripe_ApiConnectionError $e) {
+                $error = $e->getMessage();
+                $result = "declined";
+            } catch (Stripe_Error $e) {
+                $error = $e->getMessage();
+                $result = "declined";
+            } catch (Exception $e) {
+                $error = $e->getMessage();
+                if ($e->getMessage() == "zip_check_invalid") {
+                    $result = "declined";
+                } else if ($e->getMessage() == "address_check_invalid") {
+                    $result = "declined";
+                } else if ($e->getMessage() == "cvc_check_invalid") {
+                    $result = "declined";
+                } else {
+                    $result = "declined";
+                }
+            }
+            /* echo "<BR>Stripe Payment Status : " . $result; */
+            if ($result == "success") {
+                $data['is_premium_member'] = 1;
+                $data['userid'] = $user_id;
+                $data['main_receipe_token'] = $charge->__toJSON();
+                if ($subscription_plan == "monthly") {
+                    $data['premium_expiry_date'] = date("Y-m-d H:i:s", strtotime("+1 month", time()));
+                } else if ($subscription_plan == "6monthly") {
+                    $data['premium_expiry_date'] = date("Y-m-d H:i:s", strtotime("+6 months", time()));
+                } else if ($subscription_plan == "yearly") {
+                    $data['premium_expiry_date'] = date("Y-m-d H:i:s", strtotime("+1 year", time()));
+                }
+                /* $user_settings = $this->db->get_where('user_settings', array('userid' => $user_id))->row_array();
+                  if (!empty($user_settings)) { */
+                $this->Users_model->updateUserSettings($data);
+                /* } else {
+                  $this->Users_model->insertUserSettings($data);
+                  } */
+                redirect('match/nearby');
+            } else {
+                $this->session->set_flashdata('error', 'Error occured while purchase!');
+                redirect('/');
+            }
+            /* if ($result == "declined")
+              echo "<BR>Stripe Payment Error : " . $error;
+              echo "<BR>Stripe Response : ";
+              pr($charge); */
+        }
     }
 
 }

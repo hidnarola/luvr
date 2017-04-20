@@ -1,3 +1,7 @@
+<?php
+$user_data = $this->session->userdata('user');
+$error = $this->session->flashdata('error');
+?>
 <section id="hero-section" class="hero-section">
     <ul class="bxslider">
         <li>
@@ -43,28 +47,28 @@
             <div class="benefits-img"><img src="<?php echo base_url(); ?>assets/images/free-ragistration.jpg" alt="" /></div>
             <div class="benefits-content">
                 <h2>Luvr is Free</h2>
-                <p>Luvr is free to use. If you want to <br/>enjoy all of the features of the app or <br/>website then you pay the low cost <br/>of $4.99! We want luvr affordable to everyone.</p>
+                <p>Luvr is free to use. If you want to enjoy all of the features of the app or website then you pay the low cost of $4.99! We want luvr affordable to everyone.</p>
             </div>	
         </li>
         <li class="matching-partners">
             <div class="benefits-img"><img src="<?php echo base_url(); ?>assets/images/matching-partners.jpg" alt="" /></div>
             <div class="benefits-content">
                 <h2>Dual swipe verification system</h2>
-                <p>Luvr's dual swipe feature ensures that you are matching with the right person. It takes only <br/>an extra 5 seconds to learn up to 3x more <br/>information using our system.</p>
+                <p>Luvr's dual swipe feature ensures that you are matching with the right person. It takes only an extra 5 seconds to learn up to 3x more information using our system.</p>
             </div>	
         </li>
         <li class="share-experiences">
             <div class="benefits-img"><img src="<?php echo base_url(); ?>assets/images/share-experiences.jpg" alt="" /></div>
             <div class="benefits-content">
                 <h2>Timestamps</h2>
-                <p>Using Luvr's timestamp feature you are able to see exactly when a photo or video was created. <br/>This ensures that someone is showing you <br/>the current them, and not then from 5 years ago.</p>
+                <p>Using Luvr's timestamp feature you are able to see exactly when a photo or video was created. This ensures that someone is showing you the current them, and not then from 5 years ago.</p>
             </div>	
         </li>
         <li class="count-people">
             <div class="benefits-img"><img src="<?php echo base_url(); ?>assets/images/count-people.jpg" alt="" /></div>
             <div class="benefits-content">
                 <h2>Advanced filters</h2>
-                <p>Luvr's Advanced Filters allow you to select over 1,000 different combinations that you want in a match. <br/>You can be as picky or as flexible as you want.<br/>&nbsp;</p>
+                <p>Luvr's Advanced Filters allow you to select over 1,000 different combinations that you want in a match. You can be as picky or as flexible as you want.<br/>&nbsp;</p>
             </div>	
         </li>
     </ul>
@@ -181,7 +185,39 @@
                     <tr>
                         <td></td>
                         <td></td>
-                        <td class="package-buy"><a href="#">Buy Now</a></td>
+                        <td class='package-buy'>
+                            <?php if (!empty($user_data)) { ?>
+                                <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post">
+                                    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                            data-key="<?php echo PK_TEST; ?>"
+                                            data-description="Luvr Premium (1 Month)"
+                                            data-amount="499"
+                                            data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
+                                    data-locale="auto"></script>
+                                    <input name="subplan" value="monthly" type="hidden"/>
+                                </form>
+                                <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post">
+                                    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                            data-key="<?php echo PK_TEST; ?>"
+                                            data-description="Luvr Premium (6 Months)"
+                                            data-amount="2500"
+                                            data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
+                                    data-locale="auto"></script>
+                                    <input name="subplan" value="6monthly" type="hidden"/>
+                                </form>
+                                <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post">
+                                    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                            data-key="<?php echo PK_TEST; ?>"
+                                            data-description="Luvr Premium (1 Year)"
+                                            data-amount="4000"
+                                            data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
+                                    data-locale="auto"></script>
+                                    <input name="subplan" value="yearly" type="hidden"/>
+                                </form>
+                            <?php } else { ?>
+                                <a href="<?php echo base_url() . 'user/login_callback'; ?>">Buy Now</a>
+                            <?php } ?>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -190,6 +226,13 @@
 </section>
 <script src="<?php echo base_url(); ?>assets/js/jquery.bxslider.min.js"></script>
 <script type="text/javascript">
+<?php if (!empty($error)) { ?>
+        alert("<?php echo $error; ?>");
+<?php } ?>
+    $(function () {
+        $(".stripe-button-el").html('BUY NOW');
+        $(".stripe-button-el").removeClass('stripe-button-el');
+    });
     $('.bxslider').bxSlider({
         mode: 'fade',
         captions: true,

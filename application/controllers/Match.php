@@ -63,6 +63,11 @@ class Match extends CI_Controller {
         $data['latlong'] = $user_info['latlong'];
         $data['radius'] = $user_info['radius'];
         $data['is_user_premium_member'] = $user_settings['is_premium_member'];
+        if ((strtotime($user_settings['premium_expiry_date']) > strtotime(date("Y-m-d H:i:s", time()))) && $user_settings['is_premium_member'] == 1) {
+            $data['is_user_premium_member'] = 1;
+        } else {
+            $data['is_user_premium_member'] = 0;
+        }
         $this->load->view('main', $data);
     }
 
@@ -94,6 +99,11 @@ class Match extends CI_Controller {
         $data['latlong'] = $user_info['latlong'];
         $data['radius'] = $user_info['radius'];
         $data['is_user_premium_member'] = $user_settings['is_premium_member'];
+        if ((strtotime($user_settings['premium_expiry_date']) > strtotime(date("Y-m-d H:i:s"))) && $user_settings['is_premium_member'] == 1) {
+            $data['is_user_premium_member'] = 1;
+        } else {
+            $data['is_user_premium_member'] = 0;
+        }
         $data['view_card'] = $view_card;
         $data['mode'] = $mode;
         $this->load->view('main', $data);
@@ -151,6 +161,11 @@ class Match extends CI_Controller {
         $u_data['user_filters'] = $user_filters;
         $near_by = $this->Matches_model->getUserNearBy($user_id, $u_data);
         $html = "";
+        if ((strtotime($user_settings['premium_expiry_date']) > strtotime(date("Y-m-d H:i:s"))) && $user_settings['is_premium_member'] == 1) {
+            $is_user_premium_member = 1;
+        } else {
+            $is_user_premium_member = 0;
+        }
         if (!empty($near_by['result']) && $near_by['result'] != null) {
             $response = true;
             $i = 0;
@@ -175,16 +190,24 @@ class Match extends CI_Controller {
                     $path = $user['media_thumb'];
                     $href = $user['user_profile'];
                 } else if ($user['media_type'] == 1 || $user['media_type'] == 2) {
-                    $path = base_url() . "assets/images/users/" . $user['media_thumb'];
-                    if (!file_exists(PHYSICALUPLOADPATH . "/images/users/" . $user['media_thumb']))
-                        $path = base_url() . "assets/images/big_avatar.jpg";
-                    $href = base_url() . "assets/images/users/" . $user['user_profile'];
+                    /* $path = base_url() . "assets/images/users/" . $user['media_thumb'];
+                      if (!file_exists(PHYSICALUPLOADPATH . "/images/users/" . $user['media_thumb']))
+                      $path = base_url() . "assets/images/big_avatar.jpg";
+                      $href = base_url() . "assets/images/users/" . $user['user_profile']; */
+                    if ($user['media_type'] == 1) {
+                        $path = base_url() . 'bio/show_img/' . $user['media_thumb'];
+                        $href = base_url() . "bio/show_img/" . $user['user_profile'];
+                    }
+                    if ($user['media_type'] == 2) {
+                        $path = base_url() . 'bio/show_img/' . $user['media_thumb'];
+                        $href = base_url() . "bio/show_video/" . $user['user_profile'];
+                    }
                 } else if ($user['media_type'] == 3 || $user['media_type'] == 4) {
                     $path = $user['media_thumb'];
                     $href = $user['user_profile'];
                 }
                 $timestamp_html = "";
-                if ($user_settings['is_premium_member'] == 1) {
+                if ($is_user_premium_member == 1) {
                     $timestamp_html = '<span class="_timestamp">' . date("m/d/y", strtotime($user['insta_datetime'])) . '<br/>' . date("h:s a", strtotime($user['insta_datetime'])) . '</span>';
                 }
                 $html .= '<li class="panel" data-id="' . $user['id'] . '">

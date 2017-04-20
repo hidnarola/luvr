@@ -68,6 +68,16 @@ class Users_model extends CI_Model {
         return false;
     }
 
+    /* This function will insert user's settings. */
+
+    public function insertUserSettings($data) {
+        if (!empty($data['userid'])) {
+            $this->db->insert('user_settings', $data);
+            return $this->db->insert_id();
+        }
+        return false;
+    }
+
     /* This function will update user's settings. */
 
     public function updateUserSettings($data) {
