@@ -392,7 +392,7 @@ class User extends CI_Controller {
         if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
             $params['testmode'] = "on";
         }
-
+        
         if ($params['testmode'] == "on") {
             Stripe::setApiKey($params['private_test_key']);
             $pubkey = $params['public_test_key'];
@@ -470,6 +470,7 @@ class User extends CI_Controller {
                 /* } else {
                   $this->Users_model->insertUserSettings($data);
                   } */
+                $this->session->set_flashdata('success', 'Your purchase was successful.');
                 redirect('match/nearby');
             } else {
                 $this->session->set_flashdata('error', 'Error occured while purchase!');

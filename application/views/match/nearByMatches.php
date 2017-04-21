@@ -1,6 +1,7 @@
 <link href='<?php echo base_url('/assets/css/jTinder.css'); ?>' rel='stylesheet'/>
 <?php
 $user_data = $this->session->userdata('user');
+$success = $this->session->flashdata('success');
 if ($user_swipes_per_day >= MAX_SWIPES_PER_DAY) {
     echo '<div class="alert alert-danger alert-dismissable">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -64,11 +65,12 @@ if (!empty($nearByUsers)) {
                                           $path = base_url() . "assets/images/big_avatar.jpg";
                                           $href = base_url() . "assets/images/users/" . $user['user_profile']; */
                                         if ($user['media_type'] == 1) {
-                                            $path = base_url() . 'bio/show_img/' . $user['media_thumb'];
+                                            $path = base_url() . 'bio/show_img/' . $user['media_thumb'] . "/1";
                                             $href = base_url() . "bio/show_img/" . $user['user_profile'];
                                         }
                                         if ($user['media_type'] == 2) {
-                                            $path = base_url() . 'bio/show_img/' . $user['media_thumb'];
+                                            $fname = replace_extension($user['media_thumb'], "png");
+                                            $path = base_url() . 'bio/show_img/' . $fname . "/1";
                                             $href = base_url() . "bio/show_video/" . $user['user_profile'];
                                         }
                                     } else if ($user['media_type'] == 3 || $user['media_type'] == 4) {
@@ -265,6 +267,11 @@ if (!empty($nearByUsers)) {
 <script src="<?php echo base_url() . 'assets/js/jquery.transform2d.js'; ?>" type="text/javascript"></script>
 <script src="<?php echo base_url() . 'assets/js/jquery.jTinder.js'; ?>" type="text/javascript"></script>
 <script type="text/javascript">
+<?php if (!empty($success)) { ?>
+                        $(document).ready(function () {
+                            showMsg("<?php echo $success; ?>", "success", true);
+                        });
+<?php } ?>
                     $(window).on('load', function () {
                         setTimeout(function () {
                             /*$("#radar").hide();*/
@@ -330,7 +337,7 @@ if (!empty($nearByUsers)) {
                                     $("#power_luv_user").attr("onclick", "powerLuv();");
                                 } else
                                 {
-                                    $("#rewind_user,#pass_user,#luv_user,#power_luv_user").attr("onclick", "showMsg('Something went wrong!','alert alert-danger',true);");
+                                    $("#rewind_user,#pass_user,#luv_user,#power_luv_user").attr("onclick", "showMsg('Something went wrong!','error',true);");
                                 }
                             }
                         }
@@ -347,8 +354,8 @@ if (!empty($nearByUsers)) {
                             if ($("#tinderslide ul li[data-id='" + id + "']").attr("data-nav") != 1)
                                 $('#tinderslide').jTinder('prev');
 <?php } else { ?>
-                            showMsg("You need to be Luvr premium member to swipe back! <a href='<?php echo base_url() ?>#packages'>Click here to join</a>", "alert alert-danger", true);
-                            scrollToElement("#msg_txt");
+                            showMsg("You need to be Luvr premium member to swipe back! <a href='<?php echo base_url() ?>#packages'>Click here to join</a>", "error", true);
+                            scrollToElement("#header");
 <?php } ?>
                     }
                     function likedislikeuser(user_id, mode, li_index) {
@@ -367,24 +374,24 @@ if (!empty($nearByUsers)) {
                                      $("#tinderslide").unbind('touchmove mousemove');
                                      $("#tinderslide").unbind('touchend mouseup');*/
                                     likesreached = 1;
-                                    showMsg("Your likes quota per day has been reached! Therefore, right swipes for cards will not be considered.", "alert alert-danger");
-                                    scrollToElement("#msg_txt");
+                                    showMsg("Your likes quota per day has been reached!<br/>Therefore, right swipes for cards will not be considered.", "error");
+                                    scrollToElement("#header");
                                 }
 <?php if ($is_user_premium_member == 1) { ?>
                                     if ((data.user_powerluvs_per_day == <?php echo MAX_POWERLUVS_PER_DAY_P; ?>) && mode == "powerluv")
                                     {
                                         powerluvsreached = 1;
                                         reflectUserInfo(li_index);
-                                        showMsg("Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.", "alert alert-danger");
-                                        scrollToElement("#msg_txt");
+                                        showMsg("Your power luvs quota per day has been reached!<br/>Therefore, further power luvs will not be considered.", "error");
+                                        scrollToElement("#header");
                                     }
 <?php } else { ?>
                                     if ((data.user_powerluvs_per_day == <?php echo MAX_POWERLUVS_PER_DAY; ?>) && mode == "powerluv")
                                     {
                                         powerluvsreached = 1;
                                         reflectUserInfo(li_index);
-                                        showMsg("Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.", "alert alert-danger");
-                                        scrollToElement("#msg_txt");
+                                        showMsg("Your power luvs quota per day has been reached!<br/>Therefore, further power luvs will not be considered.", "error");
+                                        scrollToElement("#header");
                                     }
 <?php } ?>
                                 if (likedislikecounts == $("#tinderslide ul li.panel").length)
@@ -392,8 +399,8 @@ if (!empty($nearByUsers)) {
                                     loadMoreNearBys();
                                 }
                             }, error: function () {
-                                showMsg("Something went wrong!", "alert alert-danger", true);
-                                scrollToElement("#msg_txt");
+                                showMsg("Something went wrong!", "error", true);
+                                scrollToElement("#header");
                             }
                         });
                     }

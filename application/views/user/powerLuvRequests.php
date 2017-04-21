@@ -110,31 +110,3 @@
         </div>
     </div>
 </div>
-<script type='text/javascript'>
-    function unblockUser(user_id) {
-        if (confirm("Are you sure you want to unblock this user?"))
-        {
-            $.ajax({
-                url: "<?php echo base_url(); ?>user/unblockUser",
-                type: 'POST',
-                dataType: 'json',
-                data: "user_id=" + user_id,
-                success: function (data) {
-                    if (data.success == true) {
-                        $("#user_" + user_id).fadeOut(function () {
-                            $(this).remove();
-                            showMsg("User unblocked successfully.", "alert alert-success", true);
-                            scrollToElement("#msg_txt");
-                        });
-                    } else {
-                        showMsg("Something went wrong!", "alert alert-danger", true);
-                        scrollToElement("#msg_txt");
-                    }
-                }, error: function () {
-                    showMsg("Something went wrong!", "alert alert-danger", true);
-                    scrollToElement("#msg_txt");
-                }
-            });
-        }
-    }
-</script>

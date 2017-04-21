@@ -24,7 +24,6 @@ class Bio extends CI_Controller {
         $u_data = $this->session->userdata('user');
 
         if ($_POST) {
-
             $path = $_FILES['profile_picture']['name'];
             $ext = pathinfo($path, PATHINFO_EXTENSION);
 
@@ -35,8 +34,8 @@ class Bio extends CI_Controller {
             }
 
             $config['upload_path'] = $upload_path;
-            $config['allowed_types'] = 'jpg|png|jpeg|mp4';
-            $config['max_size'] = '100000000000';
+            $config['allowed_types'] = 'jpg|png|jpeg|mp4|JPG|JPEG|PNG|MP4|jpe|jpeg';
+            $config['max_size'] = '30000';
             $config['encrypt_name'] = TRUE;
             $config['detect_mime'] = TRUE;
             $config['file_ext_tolower'] = TRUE;
@@ -48,17 +47,21 @@ class Bio extends CI_Controller {
                 $this->session->set_flashdata('message', ['message' => $error['error'], 'class' => 'alert alert-danger']);
                 redirect($_POST['sub_view']);
             } else {
-
                 $data = array('upload_data' => $this->upload->data());
                 $profile_media_id = $u_data['profile_media_id'];
 
-                $user_media = $this->Bio_model->fetch_mediadata(['id' => $profile_media_id], true);
+                /* $user_media = $this->Bio_model->fetch_mediadata(['id' => $profile_media_id], true); */
 
                 $full_path = $data['upload_data']['full_path'];
                 $file_name = $data['upload_data']['file_name'];
+                $file_name = replace_extension($file_name, "png");
+                $new_name = $data['upload_data']['file_path'] . $file_name;
+                rename($full_path, $new_name);
+                $full_path = $new_name;
+                $data['upload_data']['file_name'] = $file_name;
                 $raw_name = $data['upload_data']['raw_name'];
 
-                $thumb_name = 'thumb_' . $raw_name . '.jpg';
+                $thumb_name = 'thumb_' . $raw_name . '.png';
 
                 $thumb_path = UPLOADPATH_THUMB . '/' . $thumb_name;
 
@@ -176,7 +179,7 @@ class Bio extends CI_Controller {
                     $new_str .= '<li id="' . $dynamic_id . '"> <div class="my-picture-box"> <a> <img src="' . $link . '" alt="" /> </a>';
                     $new_str .= '<div class="picture-action"> <div class="picture-action-inr">';
                     $new_str .= '<a data-type="' . $type . '" data-insta-id="' . $image['id'] . '" data-insta-time="' . $image['created_time'] . '"';
-                    $new_str .= ' data-val="' . $link . '" class="for_pointer icon-picture js-mytooltip type-inline-block style-block style-block-one"'; 
+                    $new_str .= ' data-val="' . $link . '" class="for_pointer icon-picture js-mytooltip type-inline-block style-block style-block-one"';
                     $new_str .= ' data-mytooltip-custom-class="align-center" data-mytooltip-content="Set as a profile pic"';
                     $new_str .= ' data-thumb="' . $thumb . '" onclick="ajax_set_profile(this)"></a>';
 
@@ -300,10 +303,10 @@ class Bio extends CI_Controller {
         readfile($path);
     }
 
-    public function show_video($file){
-        $path = UPLOADPATH_VIDEO.'/'.$file;
+    public function show_video($file) {
+        $path = UPLOADPATH_VIDEO . '/' . $file;
         header("Content-Type: video/mp4");
-        header("Content-Length: ".filesize($path));
+        header("Content-Length: " . filesize($path));
         readfile($path);
     }
 
