@@ -76,7 +76,6 @@ class Bio extends CI_Controller {
                     exec(FFMPEG_PATH . ' -i ' . $full_path . ' -ss 00:00:01.000 -vframes 1 ' . $thumb_path);
                     $upd_data['media_type'] = '2';
                 }
-                die;
                 $upd_data['media_name'] = $file_name;
                 $upd_data['media_thumb'] = $thumb_name;
                 $upd_data['insta_datetime'] = '0000-00-00 00:00:00';
