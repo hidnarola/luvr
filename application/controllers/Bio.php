@@ -49,15 +49,16 @@ class Bio extends CI_Controller {
             } else {
                 $data = array('upload_data' => $this->upload->data());
                 $profile_media_id = $u_data['profile_media_id'];
-
                 /* $user_media = $this->Bio_model->fetch_mediadata(['id' => $profile_media_id], true); */
-
+                
                 $full_path = $data['upload_data']['full_path'];
                 $file_name = $data['upload_data']['file_name'];
-                $file_name = replace_extension($file_name, "png");
-                $new_name = $data['upload_data']['file_path'] . $file_name;
-                rename($full_path, $new_name);
-                $full_path = $new_name;
+                if ($data['upload_data']['is_image'] == '1') {
+                    $file_name = replace_extension($file_name, "png");
+                    $new_name = $data['upload_data']['file_path'] . $file_name;
+                    rename($full_path, $new_name);
+                    $full_path = $new_name;
+                }
                 $data['upload_data']['file_name'] = $file_name;
                 $raw_name = $data['upload_data']['raw_name'];
 
@@ -75,7 +76,7 @@ class Bio extends CI_Controller {
                     exec(FFMPEG_PATH . ' -i ' . $full_path . ' -ss 00:00:01.000 -vframes 1 ' . $thumb_path);
                     $upd_data['media_type'] = '2';
                 }
-
+                die;
                 $upd_data['media_name'] = $file_name;
                 $upd_data['media_thumb'] = $thumb_name;
                 $upd_data['insta_datetime'] = '0000-00-00 00:00:00';
