@@ -8,18 +8,20 @@ function qry($is_die = false) {
     }
 }
 
-function _createThumbnail($img_path,$thumb_path) {
-    $CI =& get_instance();
+function _createThumbnail($img_path, $thumb_path) {
+    $CI = & get_instance();
 
     $config['image_library'] = 'gd2';
     $config['source_image'] = $img_path;
-    $config['new_image'] = $thumb_path;    
+    $config['new_image'] = $thumb_path;
     $config['maintain_ratio'] = TRUE;
     $config['width'] = 500;
     $config['height'] = 500;
 
     $CI->load->library('image_lib', $config);
-    if(!$CI->image_lib->resize()) { echo $CI->image_lib->display_errors(); }
+    if (!$CI->image_lib->resize()) {
+        echo $CI->image_lib->display_errors();
+    }
 }
 
 if (!function_exists('pr')) {
@@ -107,6 +109,14 @@ if (!function_exists('distance')) {
         } else {
             return $miles;
         }
+    }
+
+}
+if (!function_exists('replace_extension')) {
+
+    function replace_extension($filename, $new_extension) {
+        $info = pathinfo($filename);
+        return $info['filename'] . '.' . $new_extension;
     }
 
 }

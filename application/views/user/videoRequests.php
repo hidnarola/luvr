@@ -145,16 +145,16 @@
                 data: "mode=" + mode + "&request_id=" + request_id,
                 success: function (data) {
                     if (data.success == true) {
-                        showMsg("Request " + mode_txted + " successfully.", "alert alert-success", true);
+                        showMsg("Request " + mode_txted + " successfully.", "success", true);
                         $("#request_" + request_id + " #status_txt span").attr("class", (mode == 2) ? "label label-success" : "label label-danger");
                         $("#request_" + request_id + " #status_txt span").html((mode == 2) ? "Request Approved" : "Request Rejected");
                     } else {
-                        showMsg("Something went wrong!", "alert alert-danger", true);
-                        scrollToElement("#msg_txt");
+                        showMsg("Something went wrong!", "error", true);
+                        scrollToElement("#header");
                     }
                 }, error: function () {
-                    showMsg("Something went wrong!", "alert alert-danger", true);
-                    scrollToElement("#msg_txt");
+                    showMsg("Something went wrong!", "error", true);
+                    scrollToElement("#header");
                 }
             });
         }

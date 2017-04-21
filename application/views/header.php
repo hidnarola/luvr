@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <?php
 if (!empty($meta_title) && $meta_title != null)
     $site_title = $meta_title;
@@ -23,12 +23,11 @@ else
         $this->minify->js($js);
         echo $this->minify->deploy_js(FALSE, 'combined.min.js');
         ?> 
-        
-        <link rel="stylesheet" href="<?php echo base_url().'assets/css/myTooltip.css'; ?>"> <!-- CSS for the for Tool-tip  -->        
-        <link rel="stylesheet" href="<?php echo base_url().'assets/css/animate.min.css'; ?>"> <!-- Css for bootstrap notify show/hide effect -->
-        <script type="text/javascript" src="<?php echo base_url().'assets/js/myTooltip.js'; ?>"></script> <!-- Script for the Tool-tip  -->
+
+        <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/myTooltip.css'; ?>"> <!-- CSS for the for Tool-tip  -->        
+        <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/animate.min.css'; ?>"> <!-- Css for bootstrap notify show/hide effect -->
+        <script type="text/javascript" src="<?php echo base_url() . 'assets/js/myTooltip.js'; ?>"></script> <!-- Script for the Tool-tip  -->
         <script src="<?php echo base_url(); ?>assets/js/custom.js"></script>
-        
     </head>
     <body class="with-login">
         <header id="header">
@@ -64,9 +63,9 @@ else
                                         ?>
                                         <span class="down-caret">
                                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 129 129" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 129 129">
-                                                <g>
-                                                    <path d="m121.3,34.6c-1.6-1.6-4.2-1.6-5.8,0l-51,51.1-51.1-51.1c-1.6-1.6-4.2-1.6-5.8,0-1.6,1.6-1.6,4.2 0,5.8l53.9,53.9c0.8,0.8 1.8,1.2 2.9,1.2 1,0 2.1-0.4 2.9-1.2l53.9-53.9c1.7-1.6 1.7-4.2 0.1-5.8z"/>
-                                                </g>
+                                            <g>
+                                            <path d="m121.3,34.6c-1.6-1.6-4.2-1.6-5.8,0l-51,51.1-51.1-51.1c-1.6-1.6-4.2-1.6-5.8,0-1.6,1.6-1.6,4.2 0,5.8l53.9,53.9c0.8,0.8 1.8,1.2 2.9,1.2 1,0 2.1-0.4 2.9-1.2l53.9-53.9c1.7-1.6 1.7-4.2 0.1-5.8z"/>
+                                            </g>
                                             </svg>
                                         </span>
                                     </a>

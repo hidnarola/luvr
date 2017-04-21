@@ -137,16 +137,16 @@
                     if (data.success == true) {
                         $("#user_" + user_id).fadeOut(function () {
                             $(this).remove();
-                            showMsg("User unblocked successfully.", "alert alert-success", true);
-                            scrollToElement("#msg_txt");
+                            showMsg("User unblocked successfully.", "success", true);
+                            scrollToElement("#header");
                         });
                     } else {
-                        showMsg("Something went wrong!", "alert alert-danger", true);
-                        scrollToElement("#msg_txt");
+                        showMsg("Something went wrong!", "error", true);
+                        scrollToElement("#header");
                     }
                 }, error: function () {
-                    showMsg("Something went wrong!", "alert alert-danger", true);
-                    scrollToElement("#msg_txt");
+                    showMsg("Something went wrong!", "error", true);
+                    scrollToElement("#header");
                 }
             });
         }

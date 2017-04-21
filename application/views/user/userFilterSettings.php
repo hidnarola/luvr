@@ -70,17 +70,17 @@
                             location.href = '<?php echo base_url() . $redirect; ?>';
                         }
                     } else {
-                        showMsg("Something went wrong!", "alert alert-danger", true);
-                        scrollToElement("#msg_txt");
+                        showMsg("Something went wrong!", "error", true);
+                        scrollToElement("#header");
                     }
                 }, error: function () {
-                    showMsg("Something went wrong!", "alert alert-danger", true);
-                    scrollToElement("#msg_txt");
+                    showMsg("Something went wrong!", "error", true);
+                    scrollToElement("#header");
                 }
             });
         } else {
-            showMsg("Please select atleast one of the below choices!", "alert alert-danger", true);
-            scrollToElement("#msg_txt");
+            showMsg("Please select atleast one of the below choices!", "error", true);
+            scrollToElement("#header");
         }
     }
     function ignoreOther() {

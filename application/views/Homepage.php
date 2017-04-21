@@ -227,7 +227,9 @@ $error = $this->session->flashdata('error');
 <script src="<?php echo base_url(); ?>assets/js/jquery.bxslider.min.js"></script>
 <script type="text/javascript">
 <?php if (!empty($error)) { ?>
-        alert("<?php echo $error; ?>");
+        $(document).ready(function () {
+            showMsg("<?php echo $error; ?>", "error", true);
+        });
 <?php } ?>
     $(function () {
         $("#frm_monthly .stripe-button-el").html('1 Month');
