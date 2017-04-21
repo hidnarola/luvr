@@ -199,7 +199,8 @@ class Match extends CI_Controller {
                         $href = base_url() . "bio/show_img/" . $user['user_profile'];
                     }
                     if ($user['media_type'] == 2) {
-                        $path = base_url() . 'bio/show_img/' . $user['media_thumb'] . "/1";
+                        $fname = replace_extension($user['media_thumb'], "png");
+                        $path = base_url() . 'bio/show_img/' . $fname . "/1";
                         $href = base_url() . "bio/show_video/" . $user['user_profile'];
                     }
                 } else if ($user['media_type'] == 3 || $user['media_type'] == 4) {

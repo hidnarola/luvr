@@ -160,7 +160,8 @@ else if ($mode == 2)
                                 $href = base_url() . "bio/show_img/" . $up['media_name'];
                             }
                             if ($up['media_type'] == 2) {
-                                $path = base_url() . 'bio/show_img/' . $up['media_thumb'] . "/1";
+                                $fname = replace_extension($up['media_thumb'], "png");
+                                $path = base_url() . 'bio/show_img/' . $fname . "/1";
                                 $href = base_url() . "bio/show_video/" . $up['media_name'];
                             }
                         } else if ($up['media_type'] == 3 || $up['media_type'] == 4) {
