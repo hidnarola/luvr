@@ -312,11 +312,7 @@ class Bio extends CI_Controller {
     }
 
     public function play_video($fname){
-        
-        echo $fname;
-
         if(empty($fname)){ show_404(); }
-
         $data['sub_view'] = 'bio/jwplayer_video';
         $data['meta_title'] = "Play Video";
         $data['userData'] = [];
