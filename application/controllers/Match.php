@@ -229,25 +229,6 @@ class Match extends CI_Controller {
                                             </svg>
                                         </a>
                                     </div>
-                                    <div class="user-next-prev">
-                                        <a class="for_pointer" onclick="prevMatch(' . $user['id'] . ')">
-                                            <svg version="1.0" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
-                                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="27.08px"
-                                                 height="17.699px" viewBox="0 0 27.08 17.699" enable-background="new 0 0 27.08 17.699" xml:space="preserve">
-                                            <switch>
-                                            <foreignObject requiredExtensions="&ns_ai;" x="0" y="0" width="1" height="1">
-                                            <i:pgfRef  xlink:href="#adobe_illustrator_pgf">
-                                            </i:pgfRef>
-                                            </foreignObject>
-                                            <g i:extraneous="self">
-                                            <path d="M26.54,9.917H10.858v5.865c0,0.391-0.225,0.75-0.586,0.938s-0.802,0.172-1.148-0.04L1.056,9.747
-                                                  C0.734,9.551,0.54,9.212,0.54,8.85c0-0.363,0.194-0.701,0.516-0.898l8.068-6.933c0.346-0.212,0.787-0.227,1.148-0.04
-                                                  c0.361,0.188,0.586,0.547,0.586,0.938v5.865h15.67 M3.743,8.85l4.865,4.975V3.875L3.743,8.85z"/>
-                                            </g>
-                                            </switch>
-                                            </svg>
-                                        </a>
-                                    </div>
                                     </div>
                                     </li>';
 

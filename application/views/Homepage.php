@@ -187,7 +187,7 @@ $error = $this->session->flashdata('error');
                         <td></td>
                         <td class='package-buy'>
                             <?php if (!empty($user_data)) { ?>
-                                <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post">
+                                <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post" id='frm_monthly'>
                                     <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                                             data-key="<?php echo PK_TEST; ?>"
                                             data-description="Luvr Premium (1 Month)"
@@ -196,7 +196,7 @@ $error = $this->session->flashdata('error');
                                     data-locale="auto"></script>
                                     <input name="subplan" value="monthly" type="hidden"/>
                                 </form>
-                                <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post">
+                                <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post" id='frm_6monthly'>
                                     <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                                             data-key="<?php echo PK_TEST; ?>"
                                             data-description="Luvr Premium (6 Months)"
@@ -205,7 +205,7 @@ $error = $this->session->flashdata('error');
                                     data-locale="auto"></script>
                                     <input name="subplan" value="6monthly" type="hidden"/>
                                 </form>
-                                <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post">
+                                <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post" id='frm_yearly'>
                                     <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                                             data-key="<?php echo PK_TEST; ?>"
                                             data-description="Luvr Premium (1 Year)"
@@ -230,7 +230,9 @@ $error = $this->session->flashdata('error');
         alert("<?php echo $error; ?>");
 <?php } ?>
     $(function () {
-        $(".stripe-button-el").html('BUY NOW');
+        $("#frm_monthly .stripe-button-el").html('1 Month');
+        $("#frm_6monthly .stripe-button-el").html('6 Months');
+        $("#frm_yearly .stripe-button-el").html('1 Year');
         $(".stripe-button-el").removeClass('stripe-button-el');
     });
     $('.bxslider').bxSlider({

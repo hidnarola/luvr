@@ -186,7 +186,7 @@ class User extends CI_Controller {
     // END of function validate_zipcode
 
     public function login_callback() {
-        $this->session->set_userdata('login_callback', base_url() . '#packages');
+        $this->session->set_userdata('login_callback', base_url('home/#packages'));
         redirect("https://api.instagram.com/oauth/authorize/?client_id=" . INSTA_CLIENT_ID . "&redirect_uri=" . base_url() . "register/return_url&response_type=code&scope=likes+comments+follower_list+relationships+public_content");
     }
 
@@ -381,12 +381,16 @@ class User extends CI_Controller {
         $u_data = $this->session->userdata('user');
         $user_id = $u_data['id'];
         $params = array(
-            "testmode" => "on",
+            "testmode" => "off",
             "private_live_key" => SK_LIVE,
             "public_live_key" => PK_LIVE,
             "private_test_key" => SK_TEST,
             "public_test_key" => PK_TEST
         );
+
+        if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
+            $params['testmode'] = "on";
+        }
 
         if ($params['testmode'] == "on") {
             Stripe::setApiKey($params['private_test_key']);

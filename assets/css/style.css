@@ -170,7 +170,7 @@ a:hover, a:focus{outline:none;outline:0;outline-offset:0;}
 .user-list-pic > a{border:6px solid rgba(255,255,255,.6);display:block; box-shadow:0 0 26px 0 rgba(0,0,0,.2);}
 .user-list-pic > a > img{width:100%;}
 .user-list-pic-close{position:absolute;top:-17px;right:-17px;}
-.user-list-pic-close > a{display:block;width:34px;height:34px;background:#fff;border-radius:0;text-align:center;line-height:36px;box-shadow:0 0 14px 0 rgba(0,0,0,.1);padding:11px 0 0 1px;border-radius:100%;}
+.user-list-pic-close > a{display:block;width:34px;height:34px;background:#fff;border-radius:0;text-align:center;line-height:34px;box-shadow:0 0 14px 0 rgba(0,0,0,.1);/*padding:11px 0 0 1px;*/border-radius:100%;}
 .user-list-pic-close > a:hover{background:#f26f6f;}
 .user-list-pic-close > a svg{width:12px;height:12px;fill-opacity:.5;}
 .user-list-pic-close > a:hover svg{fill:#fff;fill-opacity:1;}
@@ -181,14 +181,9 @@ a:hover, a:focus{outline:none;outline:0;outline-offset:0;}
 .user-next-prev a:hover{background:#f26f6f;}
 .user-next-prev a svg{width:26px;height:16px;}
 .user-next-prev a:hover svg{fill:#fff;}
-.user-likes{position:absolute;top:152px;right:-84px;border-bottom:1px solid #ececec;z-index:1;}
-.user-likes a{width:82px;height:82px;text-align:center;display:block;padding:25px 10px;line-height:50px;transition:easy-in-out .5s;border-right:1px solid #ececec;}
-.user-likes a:first-child{border-bottom:1px solid #ececec;fill:#2fad66;fill:#fc735d;}
-.user-likes a:first-child:hover{background:#fc735d;fill:#fff;transition:easy-in-out .5s;border-right:1px solid #fc735d;}
-.user-likes a:last-child{fill:#2fad66;}
-.user-likes a:last-child:hover{background:#2fad66;fill:#fff;transition:easy-in-out .5s;border-right:1px solid #2fad66;}
-.user-likes a svg{width:27px;}
-.user-likes a:first-child svg{top:7px;position:relative;}
+.user-list-l-l{min-height:458px; }
+.user-likes{position:relative;top:0;right:0;border-bottom:0;z-index:1;width:100%;display:inline-block;vertical-align:top;text-align:center;margin:20px 0 0; }
+.user-likes a{width:50px;height:50px;text-align:center;display:inline-block;padding:0;transition:easy-in-out .5s;margin:0 35px;vertical-align:top;}
 
 
 .user-list-r{width:100%;max-width:480px;float:right;padding:86px 0 0;}
