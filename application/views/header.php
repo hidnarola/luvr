@@ -24,9 +24,8 @@ else
         echo $this->minify->deploy_js(FALSE, 'combined.min.js');
         ?> 
         
-        <link rel="stylesheet" href="<?php echo base_url().'assets/css/myTooltip.css'; ?>"> <!-- CSS for the for Tool-tip  -->
-        <link rel="stylesheet" href="<?php echo base_url().'assets/css/bootstrap-notify.css'; ?>"> <!-- Css for bootstrap notify show/hide effect -->
-        <link rel="stylesheet" href="<?php echo base_url().'assets/css/animate.min.css'; ?>"> <!-- Css for bootstrap notify show/hide effect -->        
+        <link rel="stylesheet" href="<?php echo base_url().'assets/css/myTooltip.css'; ?>"> <!-- CSS for the for Tool-tip  -->        
+        <link rel="stylesheet" href="<?php echo base_url().'assets/css/animate.min.css'; ?>"> <!-- Css for bootstrap notify show/hide effect -->
         <script type="text/javascript" src="<?php echo base_url().'assets/js/myTooltip.js'; ?>"></script> <!-- Script for the Tool-tip  -->
         <script src="<?php echo base_url(); ?>assets/js/custom.js"></script>
         
