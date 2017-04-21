@@ -194,6 +194,7 @@ class User extends CI_Controller {
 
     public function logout() {
         $this->session->unset_userdata('user');
+        $this->session->unset_userdata('meta_data');
         $this->load->view('user/logout');
     }
 

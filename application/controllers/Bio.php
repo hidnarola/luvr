@@ -116,8 +116,7 @@ class Bio extends CI_Controller {
         $curl1 = "https://api.instagram.com/v1/users/" . $insta_id . "/media/recent/?access_token=" . $access_token . '&count=9';
         $response = $this->unirest->get($curl1, $headers = array());
         $row_data = json_decode($response->raw_body, true);
-
-        // pr($row_data);
+        
         $user_info = $this->Users_model->getUserByCol('id', $u_data['id']);
         $all_saved_media = $this->Bio_model->fetch_mediadata(['userid' => $u_data['id'], 'is_active' => '1'], false, 'id,media_id');
         $data['all_saved_media'] = array_column($all_saved_media, 'media_id');
@@ -300,12 +299,25 @@ class Bio extends CI_Controller {
         header('Content-type: image/jpeg');
         readfile($path);
     }
-    
-    public function show_video($file){            
+
+    public function show_video($file){
         $path = UPLOADPATH_VIDEO.'/'.$file;
         header("Content-Type: video/mp4");
         header("Content-Length: ".filesize($path));
         readfile($path);
+    }
+
+    public function play_video($fname){
+        
+        echo $fname;
+
+        if(empty($fname)){ show_404(); }
+
+        $data['sub_view'] = 'bio/jwplayer_video';
+        $data['meta_title'] = "Play Video";
+        $data['userData'] = [];
+        $this->load->view('main', $data);
+
     }
 
 }

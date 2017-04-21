@@ -540,6 +540,6 @@ $config['facebook']['permissions'] = array(
     'user_location',
     'user_birthday',
     'user_friends',
-    'public_profile'
+    'public_profile'    
 );
 

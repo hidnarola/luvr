@@ -116,7 +116,7 @@ class FacebookRedirectLoginHelper {
         $params = array(
             'next' => $next,
             'access_token' => $session->getToken()
-        );
+        );        
         return 'https://www.facebook.com/logout.php?' . http_build_query($params);
     }
 

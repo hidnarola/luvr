@@ -48,10 +48,12 @@ else
                                 <div class="user-dropdown dropdown">
                                     <a href="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         <span class="user-pic">                                                        
-                                            <?php if ($user_media['media_type'] == '1' || $user_media['media_type'] == '2' || $user_media['media_type'] == '3' || $user_media['media_type'] == '4') { ?>
+                                            <?php if ($user_media['media_type'] == '1' || $user_media['media_type'] == '2') { ?>
                                                 <img src="<?php echo base_url() . 'bio/show_img/' . $user_media['media_thumb'] . '/1'; ?>" alt="<?php echo $username; ?>" 
                                                      title="<?php echo $username; ?>" 
                                                      onerror="this.src='<?php echo base_url(); ?>assets/images/default_avatar.jpg'"/>
+                                                 <?php } else if($user_media['media_type'] == '3' || $user_media['media_type'] == '4'){ ?>
+                                                <img src="<?php echo $user_media['media_thumb']; ?>" alt="<?php echo $username; ?>" title="<?php echo $username; ?>" />
                                                  <?php } else { ?>
                                                 <img alt="User Pic" src="<?php echo base_url(); ?>assets/images/default_avatar.jpg" class="img-circle img-responsive"/>
                                             <?php } ?>                                             
