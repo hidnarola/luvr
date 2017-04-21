@@ -112,8 +112,8 @@ if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
 }
 
 define('PAYMENTMODE', 'test'); // test or live
-define('SK_TEST', 'sk_test_QWuF33dnNzkkL4cbk1gRFiL7');
-define('PK_TEST', 'pk_test_TmTbXaqFktyxC4nlRDNmVo9C');
-define('SK_LIVE', 'sk_live_tVTpQ61SADZgE8bYIWnL2hrU');
-define('PK_LIVE', 'pk_live_7c7nCl9DXcEX9Ql1vxbD9FFi');
+define('SK_TEST', 'sk_test_OHkOXR3HklSrHZQ7Uf8ojrrN');
+define('PK_TEST', 'pk_test_aBXJTXRxrncegXjGiY838UuZ');
+define('SK_LIVE', 'sk_live_kZurEwe7LancGvaPXHfLVDgZ');
+define('PK_LIVE', 'pk_live_ZWyFqz6HStsWVV4dcOjKbHQY');
 define('PAY_CURRENCY', 'usd');

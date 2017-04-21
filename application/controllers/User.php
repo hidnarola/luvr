@@ -381,12 +381,16 @@ class User extends CI_Controller {
         $u_data = $this->session->userdata('user');
         $user_id = $u_data['id'];
         $params = array(
-            "testmode" => "on",
+            "testmode" => "off",
             "private_live_key" => SK_LIVE,
             "public_live_key" => PK_LIVE,
             "private_test_key" => SK_TEST,
             "public_test_key" => PK_TEST
         );
+
+        if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
+            $params['testmode'] = "on";
+        }
 
         if ($params['testmode'] == "on") {
             Stripe::setApiKey($params['private_test_key']);
