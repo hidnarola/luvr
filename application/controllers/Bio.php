@@ -26,7 +26,7 @@ class Bio extends CI_Controller {
         if ($_POST) {
             $path = $_FILES['profile_picture']['name'];
             $ext = pathinfo($path, PATHINFO_EXTENSION);
-
+            
             if ($ext == 'mp4') {
                 $upload_path = UPLOADPATH_VIDEO;
             } else {
@@ -34,7 +34,7 @@ class Bio extends CI_Controller {
             }
 
             $config['upload_path'] = $upload_path;
-            $config['allowed_types'] = 'jpg|png|jpeg|mp4|JPG|JPEG|PNG|MP4|jpe|jpeg';
+            $config['allowed_types'] = 'jpg|png|jpeg|mp4';
             $config['max_size'] = '30000';
             $config['encrypt_name'] = TRUE;
             $config['detect_mime'] = TRUE;
@@ -44,8 +44,8 @@ class Bio extends CI_Controller {
 
             if (!$this->upload->do_upload('profile_picture')) {
                 $error = array('error' => $this->upload->display_errors());
-                $this->session->set_flashdata('message', ['message' => $error['error'], 'class' => 'alert alert-danger']);
-                redirect($_POST['sub_view']);
+                $this->session->set_flashdata('message', ['message' => $error['error'], 'class' => 'alert alert-danger']);                
+                redirect($_POST['sub_view']);                
             } else {
                 $data = array('upload_data' => $this->upload->data());
                 $profile_media_id = $u_data['profile_media_id'];

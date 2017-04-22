@@ -913,10 +913,24 @@ class CI_Upload {
 			return TRUE;
 		}
 
+		$allowed_mimes =[];
+
+		if(is_array($this->allowed_types) && !empty($this->allowed_types)){
+			foreach($this->allowed_types as $a_type){				
+				if(is_array($this->_mimes[$a_type])){
+					foreach($this->_mimes[$a_type] as $m_type){
+						array_push($allowed_mimes,$m_type);
+					}
+				}else{
+					array_push($allowed_mimes,$this->_mimes[$a_type]);
+				}
+			}
+		}		
+
 		if (isset($this->_mimes[$ext]))
 		{
 			return is_array($this->_mimes[$ext])
-				? in_array($this->file_type, $this->_mimes[$ext], TRUE)
+				? in_array($this->file_type, $allowed_mimes, TRUE)
 				: ($this->_mimes[$ext] === $this->file_type);
 		}
 
