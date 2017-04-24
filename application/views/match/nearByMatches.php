@@ -354,7 +354,7 @@ if (!empty($nearByUsers)) {
                             if ($("#tinderslide ul li[data-id='" + id + "']").attr("data-nav") != 1)
                                 $('#tinderslide').jTinder('prev');
 <?php } else { ?>
-                            showMsg("You need to be Luvr premium member to swipe back! <a href='<?php echo base_url() ?>#packages'>Click here to join</a>", "error", true);
+                            showMsg("You need to be Luvr premium member to swipe back! <a href='<?php echo base_url('home/#packages') ?>'>Click here to join</a>", "error", true);
                             scrollToElement("#header");
 <?php } ?>
                     }

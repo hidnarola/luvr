@@ -42,7 +42,7 @@
                         </table>
                         <?php ?>
                     <?php } else { ?>
-                        <p class="alert alert-danger">There is no subscription tied to this account!</p>
+                        <p class="alert alert-danger">There is no subscription tied to this account! <a href="<?php echo base_url('home/#packages'); ?>">Click here</a> to buy.</p>
                     <?php } ?>
                 </div>
             </div>
