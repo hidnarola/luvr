@@ -303,13 +303,6 @@ class Bio extends CI_Controller {
         readfile($path);
     }
 
-    public function show_video($file) {
-        $path = UPLOADPATH_VIDEO . '/' . $file;
-        header("Content-Type: video/mp4");
-        header("Content-Length: " . filesize($path));
-        readfile($path);
-    }
-
 }
 
 /* End of file Bio.php */

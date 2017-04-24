@@ -15,6 +15,13 @@ class Video extends CI_Controller {
         
     }
 
+    public function show_video($file) {
+        $path = UPLOADPATH_VIDEO . '/' . $file;
+        header("Content-Type: video/mp4");
+        header("Content-Length: " . filesize($path));
+        readfile($path);
+    }
+
     public function play($id = null) {
         /* if (empty($id)) {
           show_404();
