@@ -53,6 +53,7 @@ class Matches_model extends CI_Model {
                     work,
                     school,
                     m.media_id,
+                    m.id as mid,
                     m.media_name AS user_profile,
                     m.media_thumb,
                     ur.requestto_id as test_rto,

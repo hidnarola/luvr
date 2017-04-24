@@ -383,6 +383,30 @@ class User extends CI_Controller {
         $this->load->view('main', $data);
     }
 
+    /* -------------------------------------------------------------------------
+      This function will fetch and display user's subscription information.
+      -------------------------------------------------------------------------- */
+
+    public function subscription() {
+        $u_data = $this->session->userdata('user');
+        $user_id = $u_data['id'];
+        $user_settings = $this->Users_model->getUserSetings('userid', $user_id);
+        $data['sub_view'] = 'user/subscription';
+        $data['meta_title'] = "Subscription";
+        $data['user_settings'] = $user_settings;
+        $data['is_user_premium_member'] = $user_settings['is_premium_member'];
+        if ((strtotime($user_settings['premium_expiry_date']) > strtotime(date("Y-m-d H:i:s", time()))) && $user_settings['is_premium_member'] == 1) {
+            $data['is_user_premium_member'] = 1;
+        } else {
+            $data['is_user_premium_member'] = 0;
+        }
+        $this->load->view('main', $data);
+    }
+
+    /* -------------------------------------------------------------------------
+      This function will catch postback data after purchasing subscription.
+      -------------------------------------------------------------------------- */
+
     public function manage_subscription() {
         require APPPATH . 'third_party/stripe/Stripe.php';
         $u_data = $this->session->userdata('user');
@@ -398,7 +422,7 @@ class User extends CI_Controller {
         if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
             $params['testmode'] = "on";
         }
-        
+
         if ($params['testmode'] == "on") {
             Stripe::setApiKey($params['private_test_key']);
             $pubkey = $params['public_test_key'];
@@ -408,17 +432,13 @@ class User extends CI_Controller {
         }
 
         if (isset($_POST['stripeToken'])) {
-            $amount_cents = str_replace(".", "", "10.52");  // Chargeble amount
-            $invoiceid = "14526321";                      // Invoice ID
-            $description = "Invoice #" . $invoiceid . " - " . $invoiceid;
             $subscription_plan = $_POST['subplan'];
 
             try {
                 $charge = Stripe_Charge::create(array(
-                            "amount" => $amount_cents,
+                            "amount" => $_POST['amt'],
                             "currency" => "usd",
-                            "source" => $_POST['stripeToken'],
-                            "description" => $description)
+                            "source" => $_POST['stripeToken'])
                 );
 
                 if (@$charge->card->address_zip_check == "fail") {
@@ -469,6 +489,10 @@ class User extends CI_Controller {
                     $data['premium_expiry_date'] = date("Y-m-d H:i:s", strtotime("+6 months", time()));
                 } else if ($subscription_plan == "yearly") {
                     $data['premium_expiry_date'] = date("Y-m-d H:i:s", strtotime("+1 year", time()));
+                } else if ($subscription_plan == "2years") {
+                    $data['premium_expiry_date'] = date("Y-m-d H:i:s", strtotime("+2 years", time()));
+                } else if ($subscription_plan == "5years") {
+                    $data['premium_expiry_date'] = date("Y-m-d H:i:s", strtotime("+5 years", time()));
                 }
                 /* $user_settings = $this->db->get_where('user_settings', array('userid' => $user_id))->row_array();
                   if (!empty($user_settings)) { */

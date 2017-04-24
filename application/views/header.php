@@ -51,9 +51,9 @@ else
                                                 <img src="<?php echo base_url() . 'bio/show_img/' . $user_media['media_thumb'] . '/1'; ?>" alt="<?php echo $username; ?>" 
                                                      title="<?php echo $username; ?>" 
                                                      onerror="this.src='<?php echo base_url(); ?>assets/images/default_avatar.jpg'"/>
-                                                 <?php } else if($user_media['media_type'] == '3' || $user_media['media_type'] == '4'){ ?>
+                                                 <?php } else if ($user_media['media_type'] == '3' || $user_media['media_type'] == '4') { ?>
                                                 <img src="<?php echo $user_media['media_thumb']; ?>" alt="<?php echo $username; ?>" title="<?php echo $username; ?>" />
-                                                 <?php } else { ?>
+                                            <?php } else { ?>
                                                 <img alt="User Pic" src="<?php echo base_url(); ?>assets/images/default_avatar.jpg" class="img-circle img-responsive"/>
                                             <?php } ?>                                             
                                         </span>
@@ -84,7 +84,7 @@ else
             </div>
         </header>
 
-        <section id="inner-content" class="inner-content">
+        <section id="inner-content" class="inner-content <?php echo ($sub_view == "bio/video") ? "video" : ""; ?>">
             <div class="container">
                 <div class="row">
                     <div id="msg_txt" style="display:none;"></div>
