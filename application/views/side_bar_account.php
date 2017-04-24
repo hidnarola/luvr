@@ -36,6 +36,7 @@ $user_media = $this->Users_model->getUserMediaByCol('id', $user_data['profile_me
                 <li class="<?php echo ($sub_view == "user/blockedList") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/blocked_list'); ?>">Blocked List </a></li>
                 <li class="<?php echo ($sub_view == "bio/index") ? "active" : ""; ?>"><a href="<?php echo base_url('bio/instagram_feed'); ?>">Instagram Feeds</a></li>
                 <li class="<?php echo ($sub_view == "bio/saved_feed") ? "active" : ""; ?>"><a href="<?php echo base_url('/bio/saved_feed'); ?>">My Media</a></li>
+                <li class="<?php echo ($sub_view == "user/subscription") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/subscription'); ?>">Subscription</a></li>
             </ul>
         </div>
         <div class="left-my-picture">

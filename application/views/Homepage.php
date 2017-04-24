@@ -242,61 +242,74 @@ $error = $this->session->flashdata('error');
                         <td></td>
                         <td></td>
                         <?php if (!empty($user_data)) { ?>
-                            <td class='package-buy'>
-                                <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post" id='frm_monthly'>
-                                    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                            data-key="<?php echo ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') ? PK_TEST : PK_LIVE; ?>"
-                                            data-description="Luvr Premium (1 Month)"
-                                            data-amount="499"
-                                            data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
-                                    data-locale="auto"></script>
-                                    <input name="subplan" value="monthly" type="hidden"/>
-                                </form>
-                            </td>
-                            <td class='package-buy'>
-                                <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post" id='frm_6monthly'>
-                                    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                            data-key="<?php echo ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') ? PK_TEST : PK_LIVE; ?>"
-                                            data-description="Luvr Premium (6 Months)"
-                                            data-amount="2500"
-                                            data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
-                                    data-locale="auto"></script>
-                                    <input name="subplan" value="6monthly" type="hidden"/>
-                                </form>
-                            </td>
-                            <td class='package-buy'>
-                                <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post" id='frm_yearly'>
-                                    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                            data-key="<?php echo ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') ? PK_TEST : PK_LIVE; ?>"
-                                            data-description="Luvr Premium (1 Year)"
-                                            data-amount="4000"
-                                            data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
-                                    data-locale="auto"></script>
-                                    <input name="subplan" value="yearly" type="hidden"/>
-                                </form>
-                            </td>
-                            <td class='package-buy'>
-                                <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post" id='frm_2yearly'>
-                                    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                            data-key="<?php echo ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') ? PK_TEST : PK_LIVE; ?>"
-                                            data-description="Luvr Premium (2 Years)"
-                                            data-amount="7500"
-                                            data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
-                                    data-locale="auto"></script>
-                                    <input name="subplan" value="2years" type="hidden"/>
-                                </form>
-                            </td>
-                            <td class='package-buy'>
-                                <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post" id='frm_5yearly'>
-                                    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                            data-key="<?php echo PK_TEST; ?>"
-                                            data-description="Luvr Premium (5 Years)"
-                                            data-amount="35000"
-                                            data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
-                                    data-locale="auto"></script>
-                                    <input name="subplan" value="5years" type="hidden"/>
-                                </form>
-                            </td>
+                            <?php if ($is_user_premium_member == 0) { ?>
+                                <td class='package-buy'>
+                                    <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post" id='frm_monthly'>
+                                        <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                                data-key="<?php echo ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') ? PK_TEST : PK_LIVE; ?>"
+                                                data-description="Luvr Premium (1 Month)"
+                                                data-amount="499"
+                                                data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
+                                        data-locale="auto"></script>
+                                        <input name="subplan" value="monthly" type="hidden"/>
+                                        <input name="amt" value="499" type="hidden"/>
+                                    </form>
+                                </td>
+                                <td class='package-buy'>
+                                    <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post" id='frm_6monthly'>
+                                        <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                                data-key="<?php echo ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') ? PK_TEST : PK_LIVE; ?>"
+                                                data-description="Luvr Premium (6 Months)"
+                                                data-amount="2500"
+                                                data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
+                                        data-locale="auto"></script>
+                                        <input name="subplan" value="6monthly" type="hidden"/>
+                                        <input name="amt" value="2500" type="hidden"/>
+                                    </form>
+                                </td>
+                                <td class='package-buy'>
+                                    <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post" id='frm_yearly'>
+                                        <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                                data-key="<?php echo ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') ? PK_TEST : PK_LIVE; ?>"
+                                                data-description="Luvr Premium (1 Year)"
+                                                data-amount="4000"
+                                                data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
+                                        data-locale="auto"></script>
+                                        <input name="subplan" value="yearly" type="hidden"/>
+                                        <input name="amt" value="4000" type="hidden"/>
+                                    </form>
+                                </td>
+                                <td class='package-buy'>
+                                    <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post" id='frm_2yearly'>
+                                        <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                                data-key="<?php echo ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') ? PK_TEST : PK_LIVE; ?>"
+                                                data-description="Luvr Premium (2 Years)"
+                                                data-amount="7500"
+                                                data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
+                                        data-locale="auto"></script>
+                                        <input name="subplan" value="2years" type="hidden"/>
+                                        <input name="amt" value="7500" type="hidden"/>
+                                    </form>
+                                </td>
+                                <td class='package-buy'>
+                                    <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post" id='frm_5yearly'>
+                                        <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                                data-key="<?php echo PK_TEST; ?>"
+                                                data-description="Luvr Premium (5 Years)"
+                                                data-amount="35000"
+                                                data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
+                                        data-locale="auto"></script>
+                                        <input name="subplan" value="5years" type="hidden"/>
+                                        <input name="amt" value="35000" type="hidden"/>
+                                    </form>
+                                </td>
+                            <?php } else { ?>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            <?php } ?>
                         <?php } else { ?>
                             <td class='package-buy'>
                                 <a href="<?php echo base_url() . 'user/login_callback'; ?>">Buy Now</a>
