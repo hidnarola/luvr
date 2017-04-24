@@ -30,7 +30,7 @@ class Video extends CI_Controller {
             $user_media = $this->Users_model->getUserMediaByCol('id', $id);
             if (!empty($user_media)) {
                 if ($user_media['media_type'] == 2)
-                    $data['video_url'] = base_url() . "bio/show_video/" . $user_media['media_name'];
+                    $data['video_url'] = base_url() . "video/show_video/" . $user_media['media_name'];
                 else if ($user_media['media_type'] == 4)
                     $data['video_url'] = $user_media['media_name'];
                 else
