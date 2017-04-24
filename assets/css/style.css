@@ -12,11 +12,6 @@ a:hover, a:focus{outline:none;outline:0;outline-offset:0;}
 .header{background:#fff;padding:0 20px;z-index:10;position:relative;margin:60px 0 0;}
 .logo{padding:12px 0;float:left;}
 .logo a{display:block;}
-.login-instagram{float:right;padding:22px 0;}
-.login-instagram a{text-decoration:none;color:#231f20;font-size:13px;line-height:normal;text-transform:uppercase;display:block;}
-.login-instagram a svg{width:32px;height:32px;display:inline-block;vertical-align:middle;margin:0 7px 0 0;}
-.login-instagram a span{display:inline-block;vertical-align:middle;}
-.login-instagram a:hover{color:#b3404a}
 .for_pointer{cursor:pointer;}
 .btn.icn-only{min-width: 14px;}
 .btn.green{background-color: #35aa47;color: #ffffff;text-shadow: none;}

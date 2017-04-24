@@ -98,7 +98,7 @@ class FacebookRedirectLoginHelper {
             'state' => $this->state,
             'sdk' => 'php-sdk-' . FacebookRequest::VERSION,
             'scope' => implode(',', $scope)
-        );
+        );                
         return 'https://www.facebook.com/' . $version . '/dialog/oauth?' .
                 http_build_query($params);
     }

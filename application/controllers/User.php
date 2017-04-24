@@ -34,7 +34,7 @@ class User extends CI_Controller {
         $this->form_validation->set_rules('id', 'UserID', 'required|trim');
         $this->form_validation->set_rules('username', 'Username', 'required|trim');
         $this->form_validation->set_rules('email', 'Email', 'required|valid_email|trim');
-        $this->form_validation->set_rules('age', 'Age', 'min[1]');
+        $this->form_validation->set_rules('age', 'Age', 'greater_than_equal_to[18]');
         $this->form_validation->set_rules('address', 'Location', 'required|callback_validate_zipcode|trim', ['validate_zipcode' => 'Please enter valid address.']);
         $this->form_validation->set_rules('gender', 'Gender', 'required|trim');
         $this->form_validation->set_rules('bio', 'About Me', 'required|trim');
@@ -193,9 +193,15 @@ class User extends CI_Controller {
     /* This function will logout user. */
 
     public function logout() {
-        $this->session->unset_userdata('user');
-        $this->session->unset_userdata('meta_data');
-        $this->load->view('user/logout');
+        
+        $user_data = $this->session->userdata('user');
+        $fb_access_token = $user_data['fb_access_token'];
+
+        $this->session->unset_userdata(['user','fb_token','FBRLH_state']);
+        
+        $data['fb_url'] = 'https://www.facebook.com/logout.php?next=' . base_url() .'&access_token='.$fb_access_token;
+        $data['loginwith'] = $user_data['loginwith'];
+        $this->load->view('user/logout',$data);
     }
 
     /* -----------------------------------------------------------------------------------------

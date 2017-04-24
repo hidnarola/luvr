@@ -108,8 +108,32 @@ class Bio extends CI_Controller {
         $data['all_images'] = $all_images;
 
         $this->load->view('main', $data);
+    }    
+
+    public function facebook_feed(){
+        
+        $u_data = $this->session->userdata('user');
+        $user_info = $this->Users_model->getUserByCol('id', $u_data['id']);
+        $fb_id = $user_info['facebook_id'];
+        $fb_access_token = $u_data['fb_access_token'];
+
+        $fb_feed = 'https://graph.facebook.com/'.$fb_id.'/feed?fields=full_picture,type,source,created_time&limit=100&access_token='.$fb_access_token;
+        $response = $this->unirest->get($fb_feed, $headers = array());
+        $raw_data = json_decode($response->raw_body, true);
+
+        pr($raw_data,1);
+
+        $data['sub_view'] = 'bio/facebook_feed';
+        $data['meta_title'] = "Save facebook into bio";
+        $data['userData'] = $user_info;
+        $data['all_images'] = $row_data['data'];
+        $data['next_link'] = $next_link;
+        $this->load->view('main', $data);
     }
 
+    // ------------------------------------------------------------------------
+    // Fetch instagram feed landing page and next page on AJAX
+    // ------------------------------------------------------------------------
     public function instagram_feed() {
 
         $u_data = $this->session->userdata('user');
@@ -129,14 +153,15 @@ class Bio extends CI_Controller {
             $next_link = $row_data['pagination']['next_url'];
         }
 
-        $data['sub_view'] = 'bio/index';
+        $data['sub_view'] = 'bio/instagram_feed';
         $data['meta_title'] = "Save instagram bio";
         $data['userData'] = $user_info;
         $data['all_images'] = $row_data['data'];
         $data['next_link'] = $next_link;
         $this->load->view('main', $data);
     }
-
+    
+    // AJAX call for this function to get next page data 
     public function fetch_insta_bio() {
 
         $next_url = $this->input->post('next_url');
@@ -205,7 +230,6 @@ class Bio extends CI_Controller {
     // ------------------------------------------------------------------------
     // Save Insta Feed into BIO MAximum upto 50 only
     // ------------------------------------------------------------------------
-
     public function ajax_save_bio() {
 
         $u_data = $this->session->userdata('user');
@@ -260,7 +284,6 @@ class Bio extends CI_Controller {
     // ------------------------------------------------------------------------
     // Save insta feed picture as profile picture
     // ------------------------------------------------------------------------
-
     public function ajax_picture_set_profile() {
 
         $u_data = $this->session->userdata('user');
@@ -290,7 +313,7 @@ class Bio extends CI_Controller {
         redirect('user/view_profile');
     }
 
-    // ------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------------------------------------------------
 
     public function show_img($file, $is_thumb = '0') {
 

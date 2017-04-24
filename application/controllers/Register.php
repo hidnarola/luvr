@@ -11,7 +11,9 @@ class Register extends CI_Controller {
     }
 
     public function index() {
-
+        
+        pr($this->session->all_userdata());
+        
         $data['fb_login_url'] = $this->facebook->get_login_url();
         $data['sub_view'] = 'register/register_view';
         $data['meta_title'] = "Setup User Profile";
@@ -51,13 +53,12 @@ class Register extends CI_Controller {
                     $google_map_data = $this->get_google_map_data($u_data['address']);
 
                     $u_sess_data = (array)$u_data;
-                    $u_sess_data['access_token'] = $response_arr['access_token'];                                        
+                    $u_sess_data['access_token'] = $response_arr['access_token'];
                     $u_sess_data['country_short_code'] = $google_map_data['country_short_code'];
-
+                    $u_sess_data['loginwith'] = 'instagram';
+                    $u_sess_data['fb_access_token'] = '';
+                    
                     $this->session->set_userdata('user', $u_sess_data); // Set session key - "user" for all userdata
-
-                    $meta_data = ['login'=>'instagram','access_token'=>$response_arr['access_token']]; 
-                    $this->session->set_userdata('meta_data', $meta_data); // Set session key "meta_data" for whether it's login with insta or fb
 
                     $upd_data = ['lastseen_date' => date('Y-m-d H:i:s'), 'id' => $u_data['id']];
                     if ($u_data['latlong'] == null || empty($u_data['latlong'])) { $upd_data['latlong'] = implode(',', $google_map_data['location']); }
@@ -65,10 +66,13 @@ class Register extends CI_Controller {
 
                     $this->login_callback(); // If login_callback session var set then redirect to that page
 
-                    if (empty($u_data['email']))
+                    // If profile not saved by user then redirect to set user profile page otherwise redirect to set filters
+                    if (empty($u_data['email'])){
                         redirect('user/setup_userprofile');
-                    else
+                    }else {
                         redirect('user/setup_userfilters');
+                    }
+
                 } else {
 
                     // If User login with instagram for the firsttime
@@ -80,16 +84,15 @@ class Register extends CI_Controller {
                     $ins_data = array('userid' => $insta_id, 'instagram_username' => $insta_username, 'full_name' => $insta_full_name,'profile_media_id' => $last_media_id, 
                                      'created_date' => date('Y-m-d H:i:s'), 'gender' => 'male', 'radius' => 100,'lastseen_date' => date('Y-m-d H:i:s') );
 
-                    $last_id = $this->Users_model->insert_record($ins_data);                    
+                    $last_id = $this->Users_model->insert_record($ins_data);
                     
                     $u_sess_data = (array)$this->Users_model->fetch_userdata(['id' => $last_id], true);
                     $u_sess_data['access_token'] = $response_arr['access_token'];
                     $u_sess_data['country_short_code'] = '';
+                    $u_sess_data['loginwith'] = 'instagram';
+                    $u_sess_data['fb_access_token'] = '';
 
                     $this->session->set_userdata('user', $u_sess_data); // Set session key - "user" for all userdata
-
-                    $meta_data = ['login'=>'instagram','access_token'=>$response_arr['access_token']]; 
-                    $this->session->set_userdata('meta_data', $meta_data); // Set session key "meta_data" for whether it's login with insta or fb
 
                     $this->login_callback(); // If login_callback session var set then redirect to that page
 
@@ -100,29 +103,74 @@ class Register extends CI_Controller {
     }
 
     public function return_url_fb(){
-        $user_detail = $this->facebook->get_user();
         
+        $user_detail = $this->facebook->get_user();        
+
         if(empty($user_detail)){ show_404(); }
         
-        $fb_id = $user_detail['id'];
+        $fb_access_token = $this->session->userdata('fb_token'); // Access token of facebook
+
+        $fb_id = $user_detail['id']; // Facebook ID
         $fb_name = $user_detail['name'];
         $fb_email = $user_detail['email'];
-        
         $fb_first_name = $user_detail['first_name'];
         $fb_last_name = $user_detail['last_name'];
+        $fb_full_name = $fb_first_name.' '.$fb_last_name;
         $fb_birthday = $user_detail['birthday'];
         $fb_gender = $user_detail['gender'];        
-        
-        pr($user_detail,1);
+                        
+        $fb_profile_pic = 'https://graph.facebook.com/'.$fb_id.'/picture?type=large';
 
-        $u_data = $this->Users_model->fetch_userdata(['facebook_id' => $fb_id], true);
-
-        pr($u_data);
+        $u_data = $this->Users_model->fetch_userdata(['facebook_id' => $fb_id], true);        
 
         if(!empty($u_data)){
 
+            $google_map_data = $this->get_google_map_data($u_data['address']);
+
+            $u_sess_data = (array)$u_data;
+            $u_sess_data['access_token'] = '';
+            $u_sess_data['country_short_code'] = $google_map_data['country_short_code'];
+            $u_sess_data['loginwith'] = 'facebook';
+            $u_sess_data['fb_access_token'] = $fb_access_token;
+            
+            $this->session->set_userdata('user', $u_sess_data); // Set session key - "user" for all userdata
+
+            $upd_data = ['lastseen_date' => date('Y-m-d H:i:s'), 'id' => $u_data['id']];
+            if ($u_data['latlong'] == null || empty($u_data['latlong'])) { $upd_data['latlong'] = implode(',', $google_map_data['location']); }
+            $this->Users_model->manageUser($upd_data); // Update the user's last seen and latlong if empty
+
+            $this->login_callback(); // If login_callback session var set then redirect to that page
+
+            // If profile not saved by user then redirect to set user profile page otherwise redirect to set filters
+            if (empty($u_data['email'])){
+                redirect('user/setup_userprofile');
+            }else {
+                redirect('user/setup_userfilters');
+            }
+
         }else{
 
+            // If user login with facebook for the first time
+            $media_data = array('userid' => '0', 'media_id' => '', 'media_name' => $fb_profile_pic, 'media_thumb' => $fb_profile_pic,
+                                'media_type' => '3', 'created_date' => date('Y-m-d H:i:s'), 'is_bios' => '0', 'is_active' => '1');
+            $last_media_id = $this->Bio_model->insert_media($media_data);
+
+            $ins_data = array('facebook_id'=>$fb_id,'userid' => '', 'facebook_username' => $fb_name, 'full_name' => $fb_full_name,
+                             'profile_media_id' => $last_media_id,'created_date' => date('Y-m-d H:i:s'), 'gender' => 'male', 'radius' => 100,
+                             'lastseen_date' => date('Y-m-d H:i:s'));
+            $last_id = $this->Users_model->insert_record($ins_data);
+
+            $u_sess_data = (array)$this->Users_model->fetch_userdata(['id' => $last_id], true);
+            $u_sess_data['access_token'] = '';
+            $u_sess_data['country_short_code'] = '';
+            $u_sess_data['loginwith'] = 'facebook';
+            $u_sess_data['fb_access_token'] = $fb_access_token;
+
+            $this->session->set_userdata('user', $u_sess_data); // Set session key - "user" for all userdata            
+
+            $this->login_callback(); // If login_callback session var set then redirect to that page
+
+            redirect('user/setup_userprofile');
         }
     }
 

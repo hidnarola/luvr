@@ -925,7 +925,7 @@ class CI_Upload {
 					array_push($allowed_mimes,$this->_mimes[$a_type]);
 				}
 			}
-		}		
+		}
 
 		if (isset($this->_mimes[$ext]))
 		{

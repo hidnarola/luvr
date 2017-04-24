@@ -12,7 +12,7 @@ class Home extends CI_Controller {
           if (empty($u_data)) {
           redirect('register');
           } */
-        $this->load->library('unirest');
+        $this->load->library(['unirest','facebook']);
     }
 
     public function index() {
