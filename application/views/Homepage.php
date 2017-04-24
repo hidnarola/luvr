@@ -283,7 +283,7 @@ $error = $this->session->flashdata('error');
                                             data-amount="7500"
                                             data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
                                     data-locale="auto"></script>
-                                    <input name="subplan" value="2yearly" type="hidden"/>
+                                    <input name="subplan" value="2years" type="hidden"/>
                                 </form>
                             </td>
                             <td class='package-buy'>
@@ -294,7 +294,7 @@ $error = $this->session->flashdata('error');
                                             data-amount="35000"
                                             data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
                                     data-locale="auto"></script>
-                                    <input name="subplan" value="5yearly" type="hidden"/>
+                                    <input name="subplan" value="5years" type="hidden"/>
                                 </form>
                             </td>
                         <?php } else { ?>
