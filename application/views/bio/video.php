@@ -1,4 +1,3 @@
-
 <div class="container">
     <div class="row">
         <?php if (!empty($video_url)) { ?>

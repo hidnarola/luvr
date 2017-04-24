@@ -9,11 +9,6 @@ class Video extends CI_Controller {
 
         $this->load->library('unirest');
         $this->load->model(array('Users_model', 'Filters_model', 'Bio_model'));
-
-        $u_data = $this->session->userdata('user');
-        if (empty($u_data)) {
-            redirect('');
-        }
     }
 
     public function index() {
