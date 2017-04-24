@@ -50,7 +50,7 @@ class Bio extends CI_Controller {
                 $data = array('upload_data' => $this->upload->data());
                 $profile_media_id = $u_data['profile_media_id'];
                 /* $user_media = $this->Bio_model->fetch_mediadata(['id' => $profile_media_id], true); */
-                
+
                 $full_path = $data['upload_data']['full_path'];
                 $file_name = $data['upload_data']['file_name'];
                 if ($data['upload_data']['is_image'] == '1') {
@@ -58,8 +58,8 @@ class Bio extends CI_Controller {
                     $new_name = $data['upload_data']['file_path'] . $file_name;
                     rename($full_path, $new_name);
                     $full_path = $new_name;
+                    $data['upload_data']['file_name'] = $file_name;
                 }
-                $data['upload_data']['file_name'] = $file_name;
                 $raw_name = $data['upload_data']['raw_name'];
 
                 $thumb_name = 'thumb_' . $raw_name . '.png';
@@ -119,7 +119,7 @@ class Bio extends CI_Controller {
         $curl1 = "https://api.instagram.com/v1/users/" . $insta_id . "/media/recent/?access_token=" . $access_token . '&count=9';
         $response = $this->unirest->get($curl1, $headers = array());
         $row_data = json_decode($response->raw_body, true);
-        
+
         $user_info = $this->Users_model->getUserByCol('id', $u_data['id']);
         $all_saved_media = $this->Bio_model->fetch_mediadata(['userid' => $u_data['id'], 'is_active' => '1'], false, 'id,media_id');
         $data['all_saved_media'] = array_column($all_saved_media, 'media_id');
@@ -310,13 +310,14 @@ class Bio extends CI_Controller {
         readfile($path);
     }
 
-    public function play_video($fname){
-        if(empty($fname)){ show_404(); }
+    public function play_video($fname) {
+        if (empty($fname)) {
+            show_404();
+        }
         $data['sub_view'] = 'bio/jwplayer_video';
         $data['meta_title'] = "Play Video";
         $data['userData'] = [];
         $this->load->view('main', $data);
-
     }
 
 }

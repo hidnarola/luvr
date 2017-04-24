@@ -99,24 +99,32 @@ $error = $this->session->flashdata('error');
                             <h4>Luvr</h4>
                             <h3>Free</h3>
                         </th>
-                        <th>
+                        <th colspan="5">
                             <h4>Luvr premium</h4>
                             <h3>
                                 <span>$</span>
                                 <big>4.99</big>
                                 <small>Per Month</small>
                             </h3>
-                            <span> / </span>
                             <h3>
                                 <span>$</span>
                                 <big>25</big>
                                 <small>6 Months</small>
                             </h3>
-                            <span> / </span>
                             <h3>
                                 <span>$</span>
                                 <big>40</big>
                                 <small>Per year</small>
+                            </h3>
+                            <h3>
+                                <span>$</span>
+                                <big>75</big>
+                                <small>2 years</small>
+                            </h3>
+                            <h3>
+                                <span>$</span>
+                                <big>350</big>
+                                <small>5 years</small>
                             </h3>
                         </th>
                     </tr>
@@ -126,34 +134,62 @@ $error = $this->session->flashdata('error');
                         <td>Likes/Swipe Right <span>(Per day)</span></td>
                         <td>100</td>
                         <td>Unlimited</td>
+                        <td>Unlimited</td>
+                        <td>Unlimited</td>
+                        <td>Unlimited</td>
+                        <td>Unlimited</td>
                     </tr>
                     <tr>
                         <td>Power Luv's <span>(Per day)</span></td>
                         <td>5</td>
+                        <td>25</td>
+                        <td>25</td>
+                        <td>25</td>
+                        <td>25</td>
                         <td>25</td>
                     </tr>
                     <tr>
                         <td>Timestamps <span>(Can you see them?)</span></td>
                         <td>No</td>
                         <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
                     </tr>
                     <tr>
                         <td>Ads <span>(Do You See Them?)</span></td>
                         <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
                         <td>No</td>
                     </tr>
                     <tr>
                         <td>Location <span>(How many cities can you search?)</span></td>
                         <td>1</td>
                         <td>5</td>
+                        <td>5</td>
+                        <td>5</td>
+                        <td>5</td>
+                        <td>5</td>
                     </tr>
                     <tr>
                         <td>Rewind last swipe</td>
                         <td>No</td>
                         <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
                     </tr>
                     <tr>
                         <td>Upload IG Videos</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
                         <td>Yes</td>
                         <td>Yes</td>
                     </tr>
@@ -161,9 +197,17 @@ $error = $this->session->flashdata('error');
                         <td>Upload All Outside Videos</td>
                         <td>No</td>
                         <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
                     </tr>
                     <tr>
                         <td>Video Snaps</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
                         <td>Yes</td>
                         <td>Yes</td>
                     </tr>
@@ -171,53 +215,105 @@ $error = $this->session->flashdata('error');
                         <td>Video Chat</td>
                         <td>No</td>
                         <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
                     </tr>
                     <tr>
                         <td>Video Length</td>
                         <td>15 Seconds</td>
+                        <td>60 Seconds</td>
+                        <td>60 Seconds</td>
+                        <td>60 Seconds</td>
+                        <td>60 Seconds</td>
                         <td>60 Seconds</td>
                     </tr>
                     <tr>
                         <td>Text</td>
                         <td>Yes</td>
                         <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
                     </tr>
                     <tr>
                         <td></td>
                         <td></td>
-                        <td class='package-buy'>
-                            <?php if (!empty($user_data)) { ?>
+                        <?php if (!empty($user_data)) { ?>
+                            <td class='package-buy'>
                                 <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post" id='frm_monthly'>
                                     <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                            data-key="<?php echo PK_TEST; ?>"
+                                            data-key="<?php echo ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') ? PK_TEST : PK_LIVE; ?>"
                                             data-description="Luvr Premium (1 Month)"
                                             data-amount="499"
                                             data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
                                     data-locale="auto"></script>
                                     <input name="subplan" value="monthly" type="hidden"/>
                                 </form>
+                            </td>
+                            <td class='package-buy'>
                                 <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post" id='frm_6monthly'>
                                     <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                            data-key="<?php echo PK_TEST; ?>"
+                                            data-key="<?php echo ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') ? PK_TEST : PK_LIVE; ?>"
                                             data-description="Luvr Premium (6 Months)"
                                             data-amount="2500"
                                             data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
                                     data-locale="auto"></script>
                                     <input name="subplan" value="6monthly" type="hidden"/>
                                 </form>
+                            </td>
+                            <td class='package-buy'>
                                 <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post" id='frm_yearly'>
                                     <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                            data-key="<?php echo PK_TEST; ?>"
+                                            data-key="<?php echo ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') ? PK_TEST : PK_LIVE; ?>"
                                             data-description="Luvr Premium (1 Year)"
                                             data-amount="4000"
                                             data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
                                     data-locale="auto"></script>
                                     <input name="subplan" value="yearly" type="hidden"/>
                                 </form>
-                            <?php } else { ?>
+                            </td>
+                            <td class='package-buy'>
+                                <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post" id='frm_2yearly'>
+                                    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                            data-key="<?php echo ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') ? PK_TEST : PK_LIVE; ?>"
+                                            data-description="Luvr Premium (2 Years)"
+                                            data-amount="7500"
+                                            data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
+                                    data-locale="auto"></script>
+                                    <input name="subplan" value="2yearly" type="hidden"/>
+                                </form>
+                            </td>
+                            <td class='package-buy'>
+                                <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post" id='frm_5yearly'>
+                                    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                            data-key="<?php echo PK_TEST; ?>"
+                                            data-description="Luvr Premium (5 Years)"
+                                            data-amount="35000"
+                                            data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
+                                    data-locale="auto"></script>
+                                    <input name="subplan" value="5yearly" type="hidden"/>
+                                </form>
+                            </td>
+                        <?php } else { ?>
+                            <td class='package-buy'>
                                 <a href="<?php echo base_url() . 'user/login_callback'; ?>">Buy Now</a>
-                            <?php } ?>
-                        </td>
+                            </td>
+                            <td class='package-buy'>
+                                <a href="<?php echo base_url() . 'user/login_callback'; ?>">Buy Now</a>
+                            </td>
+                            <td class='package-buy'>
+                                <a href="<?php echo base_url() . 'user/login_callback'; ?>">Buy Now</a>
+                            </td>
+                            <td class='package-buy'>
+                                <a href="<?php echo base_url() . 'user/login_callback'; ?>">Buy Now</a>
+                            </td>
+                            <td class='package-buy'>
+                                <a href="<?php echo base_url() . 'user/login_callback'; ?>">Buy Now</a>
+                            </td>
+                        <?php } ?>
                     </tr>
                 </tbody>
             </table>
@@ -235,6 +331,8 @@ $error = $this->session->flashdata('error');
         $("#frm_monthly .stripe-button-el").html('1 Month');
         $("#frm_6monthly .stripe-button-el").html('6 Months');
         $("#frm_yearly .stripe-button-el").html('1 Year');
+        $("#frm_2yearly .stripe-button-el").html('2 Years');
+        $("#frm_5yearly .stripe-button-el").html('5 Years');
         $(".stripe-button-el").removeClass('stripe-button-el');
     });
     $('.bxslider').bxSlider({

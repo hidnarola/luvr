@@ -392,7 +392,7 @@ class User extends CI_Controller {
         if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
             $params['testmode'] = "on";
         }
-        
+
         if ($params['testmode'] == "on") {
             Stripe::setApiKey($params['private_test_key']);
             $pubkey = $params['public_test_key'];
@@ -463,6 +463,10 @@ class User extends CI_Controller {
                     $data['premium_expiry_date'] = date("Y-m-d H:i:s", strtotime("+6 months", time()));
                 } else if ($subscription_plan == "yearly") {
                     $data['premium_expiry_date'] = date("Y-m-d H:i:s", strtotime("+1 year", time()));
+                } else if ($subscription_plan == "2years") {
+                    $data['premium_expiry_date'] = date("Y-m-d H:i:s", strtotime("+2 years", time()));
+                } else if ($subscription_plan == "5years") {
+                    $data['premium_expiry_date'] = date("Y-m-d H:i:s", strtotime("+5 years", time()));
                 }
                 /* $user_settings = $this->db->get_where('user_settings', array('userid' => $user_id))->row_array();
                   if (!empty($user_settings)) { */
