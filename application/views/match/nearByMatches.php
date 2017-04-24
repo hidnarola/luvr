@@ -71,11 +71,14 @@ if (!empty($nearByUsers)) {
                                         if ($user['media_type'] == 2) {
                                             $fname = replace_extension($user['media_thumb'], "png");
                                             $path = base_url() . 'bio/show_img/' . $fname . "/1";
-                                            $href = base_url() . "bio/show_video/" . $user['user_profile'];
+                                            $href = base_url() . "video/play/" . $user['mid'];
                                         }
                                     } else if ($user['media_type'] == 3 || $user['media_type'] == 4) {
                                         $path = $user['media_thumb'];
                                         $href = $user['user_profile'];
+                                        if ($user['media_type'] == 4) {
+                                            $href = base_url() . "video/play/" . $user['mid'];
+                                        }
                                     }
                                     $timestamp_html = "";
                                     if ($is_user_premium_member == 1) {
@@ -87,7 +90,7 @@ if (!empty($nearByUsers)) {
                                                 <div class="user-list-pic-bg">
                                                     <a style="background:url(\'' . $path . '\') no-repeat scroll center center;" class="img"></a>';
                                     if ($user['media_type'] == 2 || $user['media_type'] == 4) {
-                                        echo '<a class="play-btn-large icon-play-button" data-fancybox href="' . $href . '"></a>';
+                                        echo '<a class="play-btn-large icon-play-button" target="_blank" href="' . $href . '"></a>';
                                     }
                                     echo '</div>
                                             <div class="user-list-pic-close">

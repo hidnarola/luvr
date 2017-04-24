@@ -310,16 +310,6 @@ class Bio extends CI_Controller {
         readfile($path);
     }
 
-    public function play_video($fname) {
-        if (empty($fname)) {
-            show_404();
-        }
-        $data['sub_view'] = 'bio/jwplayer_video';
-        $data['meta_title'] = "Play Video";
-        $data['userData'] = [];
-        $this->load->view('main', $data);
-    }
-
 }
 
 /* End of file Bio.php */
