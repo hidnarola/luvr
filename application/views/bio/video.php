@@ -14,11 +14,10 @@
         jwplayer("myDiv").setup({
         "file": "<?php echo $video_url; ?>",
     <?php if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me') { ?>
-            primary: 'flash',
-                    advertising: {
-                    client: 'vast',
-                            tag: '<?php echo $ad_url; ?>',
-                    },
+            advertising: {
+            client: 'vast',
+                    tag: '<?php echo $ad_url; ?>',
+            },
     <?php } ?>
         });
     </script>
