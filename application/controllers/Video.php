@@ -43,7 +43,7 @@ class Video extends CI_Controller {
         }
         if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me') {
             $ads = array(
-                "http://mob.optimatic.com/webservice/?partnerID=s2smobq145a541&pageURL=" . base_url(uri_string()) . "&cb=" . uniqid() . "&zone=default&output=vast&ss=1&userIP=" . $_SERVER['REMOTE_ADDR'] . "&useragent=" . $_SERVER['HTTP_USER_AGENT'] . "&page_host=dev.luvr.me",
+                /*"http://mob.optimatic.com/webservice/?partnerID=s2smobq145a541&pageURL=" . base_url(uri_string()) . "&cb=" . uniqid() . "&zone=default&output=vast&ss=1&userIP=" . $_SERVER['REMOTE_ADDR'] . "&useragent=" . $_SERVER['HTTP_USER_AGENT'] . "&page_host=dev.luvr.me",*/
                 "http://my.mobfox.com/request.php?rt=" . MOBFOX_APIKEY . "&r_type=video&r_resp=vast30&s=" . MOBFOX_INVHASH . "&i=" . $_SERVER['REMOTE_ADDR'] . "&u=" . urlencode($_SERVER['HTTP_USER_AGENT']) . "",
                 "http://soma.smaato.net/oapi/reqAd.jsp?adspace=130268026&apiver=502&format=video&formatstrict=true&height=768&pub=1100031417&response=XML&vastver=2&videotype=interstitial&width=1024",
                 "http://ads.nexage.com/adServe?dcn=2c9d2b4f015b5b87d1dea3a7a1ae016f&pos=interstitial&ua=" . urlencode($_SERVER['HTTP_USER_AGENT']) . "&ip=" . $_SERVER['REMOTE_ADDR'] . "&u(id)=" . uniqid() . "&req(url)=" . base_url(uri_string()) . ""
@@ -54,6 +54,25 @@ class Video extends CI_Controller {
         $data['meta_title'] = "Play Video";
         $data['is_video'] = true;
         $this->load->view('main', $data);
+    }
+
+    function testSmaato() {
+        require APPPATH . 'third_party/SmaatoSnippet.php';
+        $snippet = new SmaatoSnippet();
+        try {
+            $snippet->setPublisherId(1100031417)
+                    ->setAdspaceId(130268026)
+                    ->setDimension("full_1024x768")
+                    ->setResponseFormat("html");
+            $snippet->requestAd();
+            if ($snippet->isAdAvailable()) {
+                $banner = $snippet->getAd();
+            } else {
+                echo "Currently no ad is available.";
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
     }
 
 }
