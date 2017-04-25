@@ -12,7 +12,14 @@
     <script type="text/javascript" src="https://content.jwplatform.com/libraries/Xcqi8yCH.js"></script>
     <script type="text/javascript">
         jwplayer("myDiv").setup({
-            "file": "<?php echo $video_url; ?>",
+        "file": "<?php echo $video_url; ?>",
+    <?php if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me') { ?>
+            primary: 'flash',
+                    advertising: {
+                    client: 'vast',
+                            tag: '<?php echo $ad_url; ?>',
+                    },
+    <?php } ?>
         });
     </script>
 <?php } ?>
