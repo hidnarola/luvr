@@ -9,7 +9,9 @@
 </div>
 
 <?php if (!empty($video_url)) { ?>
-    <script type="text/javascript" src="https://content.jwplatform.com/libraries/Xcqi8yCH.js"></script>
+                <!--<script type="text/javascript" src="https://content.jwplatform.com/libraries/IZbDCxfW.js"></script>-->
+    <script type="text/javascript" src="<?php echo base_url('assets/js/jwplayer.js'); ?>"></script>
+    <script>jwplayer.key = "+NBpDYuEp+FQ1VZ4YR8hbrcC1s9O/eD5ul+RdSAMR04=";</script>
     <script type="text/javascript">
         jwplayer("playerObject").setup({
         "file": "<?php echo $video_url; ?>",
