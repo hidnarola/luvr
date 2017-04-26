@@ -20,7 +20,6 @@
                 autostart: true,
                 aspectratio:"16:9",
                 width: "100%",
-                preload:"metadata",
     <?php if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me') { ?>
             advertising: {
             client: 'vast',
