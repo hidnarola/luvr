@@ -40,7 +40,7 @@ if (!empty($user_data)) {
                     },
     <?php } ?>
         });
-    <?php if (!empty($ad_url)) { ?>
+    <?php if (!empty($ad_url) && $show_ad == true) { ?>
             console.log('<?php echo $ad_url; ?>');
     <?php } ?>
     </script>
