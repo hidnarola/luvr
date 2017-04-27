@@ -29,9 +29,9 @@
                     tag: '<?php echo $ad_url; ?>',
             },
     <?php } ?>
+        });
     <?php if (!empty($ad_url)) { ?>
             console.log('<?php echo $ad_url; ?>');
     <?php } ?>
-        });
     </script>
 <?php } ?>
