@@ -530,16 +530,22 @@ $config['proxy_ips'] = '';
 
 /**
  * Facebook Login Configuration
- * Account use for FB -  test.narolainfotech@gmail.com / Password123#
+ * Account use for FB -  demo.narolainfotech@gmail.com  Narola21
  */
-$config['facebook']['api_id'] = '1903298893274417';
-$config['facebook']['app_secret'] = 'b2e2d7d89eb6864158ffdeca515a7d3c';
+$config['facebook']['api_id'] = '809877565827716';
+$config['facebook']['app_secret'] = 'c504ee8278441c649f0f32e901cc47ed';
 $config['facebook']['redirect_url'] = $config['base_url'] . '/register/return_url_fb';
 $config['facebook']['permissions'] = array(
     'email',
     'user_location',
     'user_birthday',
     'user_friends',
-    'public_profile'    
+    'public_profile',
+    'user_posts',
+    'user_work_history',
+    'user_education_history',
+    'user_activities',
+    'user_about_me'
+
 );
 

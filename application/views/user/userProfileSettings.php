@@ -1,6 +1,3 @@
-<?php
-//pr($this->session->userdata('user'));
-?>
 <link href="<?php echo base_url(); ?>assets/css/bootstrap-select.min.css" rel="stylesheet" />
 
 <div class="my-account">

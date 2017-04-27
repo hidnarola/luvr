@@ -8,7 +8,7 @@ class User extends CI_Controller {
         // Call the Model constructor
         parent::__construct();
         $this->load->model(array('Users_model', 'Filters_model', 'Matches_model', 'Bio_model'));
-        $this->load->library('unirest');
+        $this->load->library(['unirest','facebook']);
         $u_data = $this->session->userdata('user');
         if (empty($u_data) && uri_string() != 'user/manage_subscription' && uri_string() != "user/login_callback") {
             redirect('register');
@@ -26,6 +26,7 @@ class User extends CI_Controller {
       -------------------------------------------------------------------------------------- */
 
     public function setup_userprofile($mode = null) {
+
         $u_data = $this->session->userdata('user');
 
         $user_id = $u_data['id'];
@@ -58,20 +59,43 @@ class User extends CI_Controller {
             $user_data['bio'] = $this->input->post('bio');
 
             $res_address = $this->validate_zipcode($user_data['address'], true); // fetch latlong using google api
+            // pr($res_address,1);
             $user_data['latlong'] = implode(',', $res_address['results'][0]['geometry']['location']); // implode into single string
 
             $success = $this->Users_model->manageUser($user_data);
+
+            $country_short_code = '';
+            $all_address = $res_address['results'][0]['address_components'];
+            if (!empty($all_address)) {
+                foreach ($all_address as $a_address) {
+                    $map_type = $a_address['types'][0];                                
+                    if ($map_type == 'country') {
+                        $country_short_code = $a_address['short_name'];
+                    }
+                }
+            }
+            $session_u_data = (array)$this->Users_model->fetch_userdata(['id' => $user_data['id']], true);            
+            $session_u_data['access_token'] = $u_data['access_token'];
+            $session_u_data['country_short_code'] = $country_short_code;
+            $session_u_data['loginwith'] = $u_data['loginwith'];
+            $session_u_data['fb_access_token'] = $u_data['fb_access_token'];
+
+            $this->session->set_userdata('user', $session_u_data); // Set session key - "user" for all userdata
+
             if ($success == true) {
+
                 if ($mode != null && $mode == "edit") {
                     $this->session->set_flashdata('success', 'User profile updated successfully.');
                     redirect('user/setup_userprofile');
                 } else {
                     $result = $this->Users_model->checkUserPreferencesSet($user_id);
-                    if (empty($result) || $result == false)
+                    if (empty($result) || $result == false){                        
                         redirect('user/setup_userfilters');
-                    else
+                    }else{                        
                         redirect('match/nearby');
+                    }
                 }
+
             } else {
                 $this->session->set_flashdata('error', 'Something went wrong!');
                 redirect('user/setup_userprofile');
@@ -268,6 +292,10 @@ class User extends CI_Controller {
         $this->form_validation->set_rules('address', 'Location', 'required|callback_validate_zipcode|trim', ['validate_zipcode' => 'Please enter valid location.']);
 
         if ($this->form_validation->run() == FALSE) {
+            
+            $data['fb_login_url'] = $this->facebook->get_login_url();
+            $data['insta_login_url'] = 'https://api.instagram.com/oauth/authorize/?client_id='.INSTA_CLIENT_ID.'&redirect_uri='.base_url() . 'register/return_url'.'&response_type=code&scope=likes+comments+follower_list+relationships+public_content';
+
             $data['sub_view'] = 'user/settings';
             $data['meta_title'] = "Edit User Settings";
             $notification_settings = $this->Users_model->getUserSetings('userid', $user_id);
@@ -275,6 +303,7 @@ class User extends CI_Controller {
             $data['notificationSettings'] = $notification_settings;
             $data['userInfo'] = $user_info;
             $this->load->view('main', $data);
+
         } else {
             $user_data['id'] = $settings['userid'] = $user_id;
             $settings['is_universal_profile'] = (int) $this->input->post('is_universal_profile');
@@ -513,4 +542,31 @@ class User extends CI_Controller {
         }
     }
 
+    public function unlink_account($account){        
+        $sess_u_data = $this->session->userdata('user');
+        
+        
+        if($account == 'facebook'){
+            $upd_data = ['facebook_id' => '', 'id' => $sess_u_data['id']];
+            $this->Users_model->manageUser($upd_data); // Update the user's updated instagram ID            
+        }else{
+            $upd_data = ['userid' => '', 'id' => $sess_u_data['id']];
+            $this->Users_model->manageUser($upd_data); // Update the user's updated instagram ID        
+        }
+
+        $session_u_data = (array)$this->Users_model->fetch_userdata(['id' => $sess_u_data['id']], true);
+
+        if($account == 'facebook'){
+            $session_u_data['fb_access_token'] = '';
+            $session_u_data['access_token'] = $response_arr['access_token'];
+        }else{
+            $session_u_data['fb_access_token'] = $sess_u_data['fb_access_token'];
+            $session_u_data['access_token'] = '';
+        }
+        $session_u_data['country_short_code'] = $sess_u_data['country_short_code'];
+        $session_u_data['loginwith'] = $sess_u_data['loginwith'];
+        
+        $this->session->set_userdata('user', $session_u_data); // Set session key - "user" for all userdata
+        redirect('user/user_settings');
+    }
 }

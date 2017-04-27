@@ -1,6 +1,7 @@
 <?php
-$user_data = $this->session->userdata('user');
-$user_media = $this->Users_model->getUserMediaByCol('id', $user_data['profile_media_id']);
+    $user_data = $this->session->userdata('user');
+    $user_media = $this->Users_model->getUserMediaByCol('id', $user_data['profile_media_id']);
+    $all_side_medias = $this->Bio_model->fetch_media_for_sidebar($user_data['id']);    
 ?>
 <div class="col-md-4 col-sm-4 col-xs-12 account-l">
     <div class="account-l-head">
@@ -8,7 +9,7 @@ $user_media = $this->Users_model->getUserMediaByCol('id', $user_data['profile_me
             <?php if ($user_media['media_type'] == '1' || $user_media['media_type'] == '2') { ?>
                 <img alt="User Pic" src="<?php echo base_url() . 'bio/show_img/' . $user_media['media_thumb'] . '/1'; ?>" onerror="this.src='<?php echo base_url(); ?>assets/images/default_avatar.jpg'" class="img-responsive"/>
             <?php } else { ?>
-                <img alt="User Pic" src="<?php echo $user_media['media_name']; ?>" class="img-circle img-responsive" onerror="this.src='<?php echo base_url(); ?>assets/images/default_avatar.jpg'"/>
+                <img alt="User Pic" src="<?php echo $user_media['media_thumb']; ?>" class="img-circle img-responsive" onerror="this.src='<?php echo base_url(); ?>assets/images/default_avatar.jpg'"/>
             <?php } ?>
         </span>
         <a class="white-btn user-edit for_pointer" onclick="$('#profile_picture').click();">
@@ -34,7 +35,48 @@ $user_media = $this->Users_model->getUserMediaByCol('id', $user_data['profile_me
                 <li class="<?php echo ($sub_view == "user/userFilterSettings") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/edit_filters'); ?>">Edit Filters </a></li>
                 <li class="<?php echo ($sub_view == "user/videoRequests") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/video_requests'); ?>">Video Requests </a></li>
                 <li class="<?php echo ($sub_view == "user/blockedList") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/blocked_list'); ?>">Blocked List </a></li>
-                <li class="<?php echo ($sub_view == "bio/index") ? "active" : ""; ?>"><a href="<?php echo base_url('bio/instagram_feed'); ?>">Instagram Feeds</a></li>
+                
+                <?php
+                    $CI =& get_instance();
+                    $CI->load->library('facebook');
+                    $fb_login_url = $CI->facebook->get_login_url();
+                    $insta_login_url = 'https://api.instagram.com/oauth/authorize/?client_id='.INSTA_CLIENT_ID.'&redirect_uri='.base_url() . 'register/return_url'.'&response_type=code&scope=likes+comments+follower_list+relationships+public_content';
+
+                    $anchor_href_fb = base_url('bio/facebook_feed');
+                    $anchor_href_insta = base_url('bio/instagram_feed');
+
+                    if(!empty($user_data['facebook_id']) && !empty($user_data['userid'])){
+
+                        $fb_token = $user_data['fb_access_token'];
+                        $insta_token = $user_data['access_token'];
+
+                        if(empty($fb_token)){
+                            $anchor_href_fb = $fb_login_url;
+                        }
+
+                        if(empty($insta_token)){
+                            $anchor_href_insta = $insta_login_url;
+                        }                        
+                    }
+
+                ?>
+
+                <?php if(!empty($user_data['facebook_id'])) { ?>
+                    <li class="<?php echo ($sub_view == "bio/facebook_feed") ? "active" : ""; ?>">
+                        <a href="<?php echo $anchor_href_fb; ?>">
+                            Facebook Feeds
+                        </a>
+                    </li>
+                <?php } ?>
+
+                <?php if(!empty($user_data['userid'])) { ?>
+                    <li class="<?php echo ($sub_view == "bio/instagram_feed") ? "active" : ""; ?>">
+                        <a href="<?php echo $anchor_href_insta; ?>">
+                            Instagram Feeds
+                        </a>
+                    </li>
+                <?php } ?>
+
                 <li class="<?php echo ($sub_view == "bio/saved_feed") ? "active" : ""; ?>"><a href="<?php echo base_url('/bio/saved_feed'); ?>">My Media</a></li>
                 <li class="<?php echo ($sub_view == "user/subscription") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/subscription'); ?>">Subscription</a></li>
             </ul>
@@ -47,7 +89,35 @@ $user_media = $this->Users_model->getUserMediaByCol('id', $user_data['profile_me
                 <big>My Images</big>
             </h3>
             <ul>
-                <li><a class="image-link" href="<?php echo base_url(); ?>assets/images/popup-img01.jpg"><img src="<?php echo base_url(); ?>assets/images/thumb-01.jpg" alt="" /></a></li>                    
+                <?php 
+                    if(!empty($all_side_medias)) { 
+                        foreach($all_side_medias as $a_img){
+                            $m_type = $a_img['media_type'];
+                            
+                            $fancybox_str = 'data-fancybox="gallery"';
+                            $anchor_target = '';
+
+                            if($m_type == '3'){
+                                $img_link = $link = $a_img['media_name'];
+                            }
+
+                            if($m_type == '4'){
+                                $anchor_target = '_blank';
+                                $fancybox_str = '';
+                                $img_link = $a_img['media_thumb'];
+                                $link = base_url() . "video/play/".$a_img['id'];
+                            }
+
+                            if($m_type == '2'){
+
+                            }
+                ?>
+                <li>
+                    <a <?php echo $fancybox_str; ?> class="image-link" href="<?php echo $link; ?>"  target="<?php echo $anchor_target; ?>">
+                        <img src="<?php echo $img_link; ?>" alt="" />
+                    </a>
+                </li>
+                <?php } } ?>
             </ul>
         </div>
     </div>

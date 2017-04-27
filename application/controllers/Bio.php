@@ -110,25 +110,105 @@ class Bio extends CI_Controller {
         $this->load->view('main', $data);
     }    
 
+    // ------------------------------------------------------------------------
+    // Fetch facebook feed landing page and next page on AJAX
+    // ------------------------------------------------------------------------    
     public function facebook_feed(){
         
         $u_data = $this->session->userdata('user');
         $user_info = $this->Users_model->getUserByCol('id', $u_data['id']);
-        $fb_id = $user_info['facebook_id'];
-        $fb_access_token = $u_data['fb_access_token'];
 
-        $fb_feed = 'https://graph.facebook.com/'.$fb_id.'/feed?fields=full_picture,type,source,created_time&limit=100&access_token='.$fb_access_token;
+        $fb_id = $user_info['facebook_id'];        
+        $fb_access_token = $u_data['fb_access_token'];
+        
+        $fb_feed = 'https://graph.facebook.com/'.$fb_id.'/feed?fields=full_picture,source,type,created_time&limit=100&access_token='.$fb_access_token;
+        $response = $this->unirest->get($fb_feed, $headers = array());
+        $raw_data = json_decode($response->raw_body, true);
+        $next_link = $raw_data['paging']['next'];
+
+        // pr($response,1);
+
+        $all_saved_media = $this->Bio_model->fetch_mediadata(['userid' => $u_data['id'], 'is_active' => '1'], false, 'id,media_id');
+        $data['all_saved_media'] = array_column($all_saved_media, 'media_id');
+        $data['sub_view'] = 'bio/facebook_feed';
+        $data['meta_title'] = "Save facebook feed into bio";
+        $data['userData'] = $user_info;
+        $data['all_images'] = $raw_data['data'];
+        $data['next_link'] = $next_link;
+        // echo $data['next_link'];
+        $this->load->view('main', $data);
+    }
+
+    public function fetch_facebook_bio(){
+        $u_data = $this->session->userdata('user');
+        $user_info = $this->Users_model->getUserByCol('id', $u_data['id']);
+
+        $next_url = $this->input->post('next_url');
+        $all_saved_media = $this->input->post('all_saved_media');
+
+        if (!empty($all_saved_media)) {
+            $all_saved_media = explode(',', $all_saved_media);
+        } else {
+            $all_saved_media = [];
+        }
+
+        $fb_feed = $next_url;
         $response = $this->unirest->get($fb_feed, $headers = array());
         $raw_data = json_decode($response->raw_body, true);
 
-        pr($raw_data,1);
+        $all_images = $raw_data['data'];
+        
+        $next_link = '';
+        $new_str = '';
 
-        $data['sub_view'] = 'bio/facebook_feed';
-        $data['meta_title'] = "Save facebook into bio";
-        $data['userData'] = $user_info;
-        $data['all_images'] = $row_data['data'];
-        $data['next_link'] = $next_link;
-        $this->load->view('main', $data);
+        if(!empty($raw_data['data'])){
+            $next_link = $raw_data['paging']['next'];
+        }
+        //pr($all_images);
+        if (!empty($all_images)) {
+            foreach ($all_images as $image) {
+                $type = $image['type'];
+                if($type == 'video' || $type == 'photo'){
+
+                    if ($type == 'video') {
+                        if(strpos($image['source'],"video.xx.fbcdn.net") == FALSE){ continue; }
+                        $fancybox_str = '';
+                        $anchor_target = '_blank';
+                        $image_link = base_url() . "video/play?url=".urlencode($image['source']);
+                        $data_val =  $image['source'];
+                    }
+                                        
+                    $thumb = $image['full_picture'];
+                    $image_link = $link = $data_val = $image['full_picture'];
+                    $fancybox_str = 'data-fancybox="gallery"';
+                    $anchor_target = '';
+                    $dynamic_id = random_string();
+
+                    
+                    $is_delete = 'no';
+                    if (in_array($image['id'], $all_saved_media)) { continue; }
+
+                    $new_str .= '<li id="'.$dynamic_id.'"> <div class="my-picture-box"> <a> <img src="'.$link.'" alt="" /> </a>';
+                    $new_str .= '<div class="picture-action"> <div class="picture-action-inr">';
+                    $new_str .= '<a data-type="'.$type.'" data-insta-id="'.$image['id'].'" data-insta-time="'.$image['created_time'].'"';
+                    $new_str .= ' data-val="'.urlencode($link).'" class="for_pointer icon-picture js-mytooltip type-inline-block style-block style-block-one"';
+                    $new_str .= ' data-thumb="'.urlencode($thumb).'" onclick="ajax_set_profile(this)" data-is-delete="<?= $is_delete ?>"';
+                    $new_str .= ' data-mytooltip-custom-class="align-center" data-mytooltip-content="Set as a profile pic"> </a>';
+                    
+                    $new_str .= '<a '.$fancybox_str.' href="'.$image_link.'" target="'.$anchor_target.'"';
+                    $new_str .= ' class="icon-full-screen image-link js-mytooltip type-inline-block style-block style-block-one"';
+                    $new_str .= ' data-mytooltip-custom-class="align-center" data-mytooltip-content="Full screen"></a>';
+                    $new_str .= '<a data-type="'.$type.'" data-insta-id="'.$image['id'].'" data-insta-time="'.$image['created_time'].'"';
+                    $new_str .= ' data-val="'.$data_val.'" data-thumb="'.$thumb.'" class="for_pointer icon-tick-inside-circle js-mytooltip type-inline-block style-block style-block-one"';
+                    $new_str .= ' onclick="ajax_save_bio(this)" data-is-delete="'.$is_delete.'" data-dynamic-id="'.$dynamic_id.'"';
+                    $new_str .= ' data-mytooltip-custom-class="align-center" data-mytooltip-content="Save into Bio"> </a> </div> </div> </div> </li>';
+                }                
+            }
+        }
+
+        $ret_data['all_images'] = $new_str;
+        $ret_data['next_link'] = $next_link;
+        echo json_encode($ret_data);
     }
 
     // ------------------------------------------------------------------------
@@ -143,6 +223,8 @@ class Bio extends CI_Controller {
         $curl1 = "https://api.instagram.com/v1/users/" . $insta_id . "/media/recent/?access_token=" . $access_token . '&count=9';
         $response = $this->unirest->get($curl1, $headers = array());
         $row_data = json_decode($response->raw_body, true);
+
+        // pr($row_data,1);
 
         $user_info = $this->Users_model->getUserByCol('id', $u_data['id']);
         $all_saved_media = $this->Bio_model->fetch_mediadata(['userid' => $u_data['id'], 'is_active' => '1'], false, 'id,media_id');
@@ -188,11 +270,17 @@ class Bio extends CI_Controller {
                 $type = $image['type'];
                 $link = $image['images']['standard_resolution']['url'];
                 $thumb = $image['images']['thumbnail']['url'];
-                $image_link = $link = $image['images']['standard_resolution']['url'];
+                $image_link = $link = $data_val =  $image['images']['standard_resolution']['url'];
+                $fancybox_str = 'data-fancybox="gallery"';
+                $anchor_target = '';
                 $dynamic_id = random_string();
 
                 if ($type == 'video') {
-                    $image_link = $image['videos']['standard_resolution']['url'];
+                    $fancybox_str = '';
+                    $anchor_target = '_blank';
+                    $vid_url = urlencode($image['videos']['standard_resolution']['url']);
+                    $image_link = base_url() . "video/play?url=".$vid_url;                    
+                    $data_val = $image['videos']['standard_resolution']['url'];
                 }
 
                 $is_delete = 'no';
@@ -204,15 +292,15 @@ class Bio extends CI_Controller {
                     $new_str .= '<li id="' . $dynamic_id . '"> <div class="my-picture-box"> <a> <img src="' . $link . '" alt="" /> </a>';
                     $new_str .= '<div class="picture-action"> <div class="picture-action-inr">';
                     $new_str .= '<a data-type="' . $type . '" data-insta-id="' . $image['id'] . '" data-insta-time="' . $image['created_time'] . '"';
-                    $new_str .= ' data-val="' . $link . '" class="for_pointer icon-picture js-mytooltip type-inline-block style-block style-block-one"';
+                    $new_str .= ' data-val="' . urlencode($link) . '" class="for_pointer icon-picture js-mytooltip type-inline-block style-block style-block-one"';
                     $new_str .= ' data-mytooltip-custom-class="align-center" data-mytooltip-content="Set as a profile pic"';
-                    $new_str .= ' data-thumb="' . $thumb . '" onclick="ajax_set_profile(this)"></a>';
+                    $new_str .= ' data-thumb="' . urlencode($thumb) . '" onclick="ajax_set_profile(this)"></a>';
 
-                    $new_str .= ' <a data-fancybox="gallery" href="' . $image_link . '" class="icon-full-screen image-link js-mytooltip type-inline-block style-block style-block-one"';
+                    $new_str .= ' <a '.$fancybox_str.' href="' . $image_link . '" target="'.$anchor_target.'" class="icon-full-screen image-link js-mytooltip type-inline-block style-block style-block-one"';
                     $new_str .= ' data-mytooltip-custom-class="align-center" data-mytooltip-content="Full screen"></a>';
 
                     $new_str .= ' <a data-type="' . $type . '" data-insta-id="' . $image['id'] . '" data-insta-time="' . $image['created_time'] . '"';
-                    $new_str .= ' data-val="' . $link . '" class="for_pointer icon-tick-inside-circle js-mytooltip type-inline-block style-block style-block-one" data-thumb="' . $thumb . '" ';
+                    $new_str .= ' data-val="' . $data_val . '" class="for_pointer icon-tick-inside-circle js-mytooltip type-inline-block style-block style-block-one" data-thumb="' . $thumb . '" ';
                     $new_str .= 'data-mytooltip-custom-class="align-center" data-mytooltip-content="Save into Bio"';
                     $new_str .= ' onclick="ajax_save_bio(this)" data-is-delete="' . $is_delete . '" data-dynamic-id="' . $dynamic_id . '" > </a> </div> </div> </div> </li>';
                 }
@@ -221,15 +309,10 @@ class Bio extends CI_Controller {
 
         $ret_data['all_images'] = $new_str;
         $ret_data['next_link'] = $next_link;
-        $ret_data['return_data'] = $row_data;
-        $ret_data['curl1'] = $curl1;
-
         echo json_encode($ret_data);
     }
-
-    // ------------------------------------------------------------------------
-    // Save Insta Feed into BIO MAximum upto 50 only
-    // ------------------------------------------------------------------------
+    
+    // Save Insta Feed into BIO Maximum upto 50 only
     public function ajax_save_bio() {
 
         $u_data = $this->session->userdata('user');
@@ -238,11 +321,13 @@ class Bio extends CI_Controller {
         $img_name = $this->input->post('img_name');
         $type = $this->input->post('type');
         $thumb = $this->input->post('thumb');
-        $media_type = ($type == 'image') ? '3' : '4';
+
+        $media_type = ($type == 'video') ? '4' : '3';
+
         $insta_id = $this->input->post('insta_id');
         $is_delete = $this->input->post('is_delete');
 
-        $insta_time = date('Y-m-d H:i:s', $this->input->post('insta_time'));
+        $insta_time = date('Y-m-d H:i:s');
 
         $ret['total_feeds_cnt'] = $this->Bio_model->fetch_total_feed_cnt();
 
@@ -267,7 +352,7 @@ class Bio extends CI_Controller {
             $this->Bio_model->update_media(['media_id' => $insta_id], ['is_active' => '0']);
         } else {
 
-            $media_data = $this->Bio_model->fetch_mediadata(['media_id' => $insta_id], true);
+            $media_data = $this->Bio_model->fetch_mediadata(['media_id' => $insta_id,'userid !='=>'0'], true);
 
             if (!empty($media_data)) {
                 $ret['query'] = 'update_to_1';
@@ -280,23 +365,21 @@ class Bio extends CI_Controller {
         $ret['status'] = 'success';
         echo json_encode($ret);
     }
-
-    // ------------------------------------------------------------------------
+    
     // Save insta feed picture as profile picture
-    // ------------------------------------------------------------------------
     public function ajax_picture_set_profile() {
 
         $u_data = $this->session->userdata('user');
         $profile_media_id = $u_data['profile_media_id'];
         $access_token = $u_data['access_token'];
 
-        $img_name = $this->input->get('img_name');
         $type = $this->input->get('type');
-        $thumb = $this->input->get('thumb');
+        $img_name = urldecode($this->input->get('img_name'));
+        $thumb = urldecode($this->input->get('thumb'));
         $media_type = ($type == 'image') ? '3' : '4';
         $insta_id = $this->input->get('insta_id');
         $is_delete = $this->input->get('is_delete');
-        $insta_time = date('Y-m-d H:i:s', $this->input->get('insta_time'));
+        $insta_time = date('Y-m-d H:i:s');
 
         $upd_data = array(
             'userid' => '0',
@@ -309,7 +392,7 @@ class Bio extends CI_Controller {
         );
 
         // Update new data into media with userid - 0 which indiacte it's for profile
-        $this->Bio_model->update_media(['id' => $profile_media_id], $upd_data);
+        $this->Bio_model->update_media(['id' => $profile_media_id], $upd_data);        
         redirect('user/view_profile');
     }
 

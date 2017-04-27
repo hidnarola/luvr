@@ -37,12 +37,17 @@
 
                             $type = $image['type'];
                             $thumb = $image['images']['thumbnail']['url'];
-                            $image_link = $link = $image['images']['standard_resolution']['url'];
-
+                            $image_link = $link = $data_val =  $image['images']['standard_resolution']['url'];
+                            $fancybox_str = 'data-fancybox="gallery"';
+                            $anchor_target = '';
                             $dynamic_id = random_string();
 
                             if ($type == 'video') {
-                                $image_link = $image['videos']['standard_resolution']['url'];
+                                $fancybox_str = '';
+                                $anchor_target = '_blank';
+                                $vid_url = urlencode($image['videos']['standard_resolution']['url']);
+                                $image_link = base_url() . "video/play?url=".$vid_url;
+                                $data_val = $image['videos']['standard_resolution']['url'];
                             }
 
                             $is_delete = 'no';
@@ -62,17 +67,17 @@
                                             <div class="picture-action-inr">
 
                                                 <a data-type="<?php echo $type; ?>" data-insta-id="<?= $image['id'] ?>" data-insta-time="<?= $image['created_time'] ?>"
-                                                   data-val="<?= $link ?>" class="for_pointer icon-picture js-mytooltip type-inline-block style-block style-block-one" 
-                                                   data-thumb="<?= $thumb ?>" onclick="ajax_set_profile(this)"
+                                                   data-val="<?= urlencode($link) ?>" class="for_pointer icon-picture js-mytooltip type-inline-block style-block style-block-one" 
+                                                   data-thumb="<?= urlencode($thumb) ?>" onclick="ajax_set_profile(this)"
                                                    data-mytooltip-custom-class="align-center" data-mytooltip-content="Set as a profile pic">
                                                 </a>        
 
-                                                <a data-fancybox="gallery" href="<?php echo $image_link; ?>" 
+                                                <a <?php echo $fancybox_str; ?> href="<?php echo $image_link; ?>" target="<?php echo $anchor_target; ?>"
                                                     class="icon-full-screen image-link js-mytooltip type-inline-block style-block style-block-one"
                                                     data-mytooltip-custom-class="align-center" data-mytooltip-content="Full screen"></a>
 
                                                 <a data-type="<?php echo $type; ?>" data-insta-id="<?= $image['id'] ?>" data-insta-time="<?= $image['created_time'] ?>"
-                                                   data-val="<?= $link ?>" data-thumb="<?= $thumb ?>" 
+                                                   data-val="<?= $data_val ?>" data-thumb="<?= $thumb ?>" 
                                                    class="for_pointer icon-tick-inside-circle js-mytooltip type-inline-block style-block style-block-one"                                                   
                                                    onclick="ajax_save_bio(this)" data-is-delete="<?= $is_delete ?>" data-dynamic-id="<?php echo $dynamic_id; ?>"
                                                    data-mytooltip-custom-class="align-center" data-mytooltip-content="Save into Bio">
@@ -179,7 +184,7 @@
         window.location.href = "<?php echo base_url() . 'bio/ajax_picture_set_profile'; ?>" + new_str;
     }
 
-    <?php if (($i >= 1 && $i <= 3)) { ?>
+    <?php if (($i >= 0 && $i <= 3)) { ?>
         $('#load_more_id').click();
     <?php } ?>
 

@@ -11,9 +11,7 @@ class Register extends CI_Controller {
     }
 
     public function index() {
-        
-        pr($this->session->all_userdata());
-        
+                
         $data['fb_login_url'] = $this->facebook->get_login_url();
         $data['sub_view'] = 'register/register_view';
         $data['meta_title'] = "Setup User Profile";
@@ -25,6 +23,7 @@ class Register extends CI_Controller {
 
         if (!empty($code)) {
 
+            $sess_u_data = $this->session->userdata('user');
             $insta_params = array('client_id' => INSTA_CLIENT_ID, 'client_secret' => INSTA_CLIENT_SECRET, 'grant_type' => "authorization_code",
                 'redirect_uri' => base_url() . 'register/return_url', 'code' => $code);
             $curl1 = "https://api.instagram.com/oauth/access_token";
@@ -42,10 +41,45 @@ class Register extends CI_Controller {
                     $insta_id = $row_data['data']['id'];
                     $insta_username = $row_data['data']['username'];
                     $insta_full_name = $row_data['data']['full_name'];
-                    $insta_profile = $row_data['data']['profile_picture'];
+                    $insta_profile = $row_data['data']['profile_picture'];                                    
                 }
 
                 $u_data = $this->Users_model->fetch_userdata(['userid' => $insta_id], true);
+
+                // If session is already logged in when visit this page
+                if(!empty($sess_u_data)){
+                    if(!empty($u_data)){
+
+                        if($u_data['id'] == $sess_u_data['id']){
+
+                            $session_u_data = (array)$this->Users_model->fetch_userdata(['id' => $sess_u_data['id']], true);                        
+                            $session_u_data['access_token'] = $response_arr['access_token'];
+                            $session_u_data['country_short_code'] = $sess_u_data['country_short_code'];
+                            $session_u_data['loginwith'] = $sess_u_data['loginwith'];
+                            $session_u_data['fb_access_token'] = $sess_u_data['fb_access_token'];
+                            
+                            $this->session->set_userdata('user', $session_u_data); // Set session key - "user" for all userdata
+                            redirect('bio/instagram_feed');
+
+                        }else{                            
+                            $this->session->set_flashdata('error', 'This account is already connected with other user.');
+                            redirect('user/user_settings');
+                        }
+
+                    }else{
+                        $upd_data = ['userid' => $insta_id, 'id' => $sess_u_data['id']];
+                        $this->Users_model->manageUser($upd_data); // Update the user's updated instagram ID
+
+                        $session_u_data = (array)$this->Users_model->fetch_userdata(['id' => $sess_u_data['id']], true);                        
+                        $session_u_data['access_token'] = $response_arr['access_token'];
+                        $session_u_data['country_short_code'] = $sess_u_data['country_short_code'];
+                        $session_u_data['loginwith'] = $sess_u_data['loginwith'];
+                        $session_u_data['fb_access_token'] = $sess_u_data['fb_access_token'];
+                        
+                        $this->session->set_userdata('user', $session_u_data); // Set session key - "user" for all userdata
+                        redirect('user/user_settings');
+                    }
+                }
 
                 // If User is already registered with instagram.
                 if (!empty($u_data)) {
@@ -104,6 +138,11 @@ class Register extends CI_Controller {
 
     public function return_url_fb(){
         
+        $sess_u_data = $this->session->userdata('user');
+
+        $error =  $this->input->get('error');
+        if($error == 'access_denied'){ redirect(''); }
+
         $user_detail = $this->facebook->get_user();        
 
         if(empty($user_detail)){ show_404(); }
@@ -122,6 +161,40 @@ class Register extends CI_Controller {
         $fb_profile_pic = 'https://graph.facebook.com/'.$fb_id.'/picture?type=large';
 
         $u_data = $this->Users_model->fetch_userdata(['facebook_id' => $fb_id], true);        
+
+        // If session is already logged in when visit this page
+        if(!empty($sess_u_data)){
+            if(!empty($u_data)){
+
+                if($u_data['id'] == $sess_u_data['id']){
+                    $session_u_data = (array)$this->Users_model->fetch_userdata(['id' => $sess_u_data['id']], true);
+                    $session_u_data['access_token'] = $sess_u_data['access_token'];
+                    $session_u_data['country_short_code'] = $sess_u_data['country_short_code'];
+                    $session_u_data['loginwith'] = $sess_u_data['loginwith'];
+                    $session_u_data['fb_access_token'] = $fb_access_token;
+                    
+                    $this->session->set_userdata('user', $session_u_data); // Set session key - "user" for all userdata
+                    redirect('bio/facebook_feed');
+                }else{                            
+                    $this->session->set_flashdata('error', 'This account is already connected with other user.');
+                    redirect('user/user_settings');
+                }
+            }else{
+
+                $upd_data = ['facebook_id' => $fb_id, 'id' => $sess_u_data['id']];
+                $this->Users_model->manageUser($upd_data); // Update the user's updated instagram ID
+
+                $session_u_data = (array)$this->Users_model->fetch_userdata(['id' => $sess_u_data['id']], true);                        
+                $session_u_data['access_token'] = $sess_u_data['access_token'];
+                $session_u_data['country_short_code'] = $sess_u_data['country_short_code'];
+                $session_u_data['loginwith'] = $sess_u_data['loginwith'];
+                $session_u_data['fb_access_token'] = $fb_access_token;
+                
+                $this->session->set_userdata('user', $session_u_data); // Set session key - "user" for all userdata
+                redirect('user/user_settings');
+            }
+        }
+
 
         if(!empty($u_data)){
 
@@ -155,7 +228,7 @@ class Register extends CI_Controller {
                                 'media_type' => '3', 'created_date' => date('Y-m-d H:i:s'), 'is_bios' => '0', 'is_active' => '1');
             $last_media_id = $this->Bio_model->insert_media($media_data);
 
-            $ins_data = array('facebook_id'=>$fb_id,'userid' => '', 'facebook_username' => $fb_name, 'full_name' => $fb_full_name,
+            $ins_data = array('facebook_id'=>$fb_id,'userid' => '','user_name'=>$fb_name,'facebook_username' => $fb_name, 'full_name' => $fb_full_name,
                              'profile_media_id' => $last_media_id,'created_date' => date('Y-m-d H:i:s'), 'gender' => 'male', 'radius' => 100,
                              'lastseen_date' => date('Y-m-d H:i:s'));
             $last_id = $this->Users_model->insert_record($ins_data);

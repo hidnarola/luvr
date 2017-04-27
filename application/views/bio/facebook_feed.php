@@ -24,68 +24,68 @@
         </div>
         <div class="account-r-body">
             <div class="account-body-head">
-                <h2 class="account-title">My Instagram Feeds</h2>
+                <h2 class="account-title">My Facebook Feeds</h2>
                 <p> &nbsp; </p>
             </div>  
             <div class="account-body-body">
-                <ul class="my-picture-ul" id="insta_img_list">
+                <ul class="my-picture-ul" id="fb_img_list">
                     <?php
                     if (!empty($all_images)) {
-                        $i = 0;
 
                         foreach ($all_images as $image) {
 
                             $type = $image['type'];
-                            $thumb = $image['images']['thumbnail']['url'];
-                            $image_link = $link = $image['images']['standard_resolution']['url'];
+                            if($type == 'video' || $type == 'photo'){
 
-                            $dynamic_id = random_string();
+                                $thumb = $image['full_picture'];
+                                $image_link = $link = $data_val = $image['full_picture'];
+                                $fancybox_str = 'data-fancybox="gallery"';
+                                $anchor_target = '';
+                                $dynamic_id = random_string();
+                                
+                                if ($type == 'video') {
+                                    if(strpos($image['source'],"video.xx.fbcdn.net") == FALSE){ continue; }
+                                    $fancybox_str = '';
+                                    $anchor_target = '_blank';
+                                    $image_link = base_url() . "video/play?url=".urlencode($image['source']);
+                                    $data_val =  $image['source'];
+                                }
 
-                            if ($type == 'video') {
-                                $image_link = $image['videos']['standard_resolution']['url'];
-                            }
+                                $is_delete = 'no';
+                                if (in_array($image['id'], $all_saved_media)) { continue; }
 
-                            $is_delete = 'no';
+                                    ?>
+                                    <li id="<?php echo $dynamic_id; ?>">
+                                        <div class="my-picture-box">
+                                            <a>
+                                                <img src="<?php echo $link; ?>" alt="" />
+                                            </a>
+                                            <div class="picture-action">
+                                                <div class="picture-action-inr">
 
-                            if (in_array($image['id'], $all_saved_media)) {
-                                $is_delete = 'yes';
-                            }
+                                                    <a data-type="<?php echo $type; ?>" data-insta-id="<?= $image['id'] ?>" data-insta-time="<?= $image['created_time'] ?>"
+                                                       data-val="<?= urlencode($link) ?>" class="for_pointer icon-picture js-mytooltip type-inline-block style-block style-block-one" 
+                                                       data-thumb="<?= urlencode($thumb) ?>" onclick="ajax_set_profile(this)" data-is-delete="<?= $is_delete ?>"
+                                                       data-mytooltip-custom-class="align-center" data-mytooltip-content="Set as a profile pic">
+                                                    </a>
 
-                            if ($is_delete == 'no') {
-                                ?>
-                                <li id="<?php echo $dynamic_id; ?>">
-                                    <div class="my-picture-box">
-                                        <a>
-                                            <img src="<?php echo $link; ?>" alt="" />
-                                        </a>
-                                        <div class="picture-action">
-                                            <div class="picture-action-inr">
+                                                    <a <?php echo $fancybox_str; ?> href="<?php echo $image_link; ?>" target="<?php echo $anchor_target; ?>"
+                                                        class="icon-full-screen image-link js-mytooltip type-inline-block style-block style-block-one"
+                                                        data-mytooltip-custom-class="align-center" data-mytooltip-content="Full screen">
+                                                    </a>
 
-                                                <a data-type="<?php echo $type; ?>" data-insta-id="<?= $image['id'] ?>" data-insta-time="<?= $image['created_time'] ?>"
-                                                   data-val="<?= $link ?>" class="for_pointer icon-picture js-mytooltip type-inline-block style-block style-block-one" 
-                                                   data-thumb="<?= $thumb ?>" onclick="ajax_set_profile(this)"
-                                                   data-mytooltip-custom-class="align-center" data-mytooltip-content="Set as a profile pic">
-                                                </a>        
+                                                    <a data-type="<?php echo $type; ?>" data-insta-id="<?= $image['id'] ?>" data-insta-time="<?= $image['created_time'] ?>"
+                                                       data-val="<?= $data_val ?>" data-thumb="<?= $thumb ?>" 
+                                                       class="for_pointer icon-tick-inside-circle js-mytooltip type-inline-block style-block style-block-one"
+                                                       onclick="ajax_save_bio(this)" data-is-delete="<?= $is_delete ?>" data-dynamic-id="<?php echo $dynamic_id; ?>"
+                                                       data-mytooltip-custom-class="align-center" data-mytooltip-content="Save into Bio">
+                                                    </a>
 
-                                                <a data-fancybox="gallery" href="<?php echo $image_link; ?>" 
-                                                    class="icon-full-screen image-link js-mytooltip type-inline-block style-block style-block-one"
-                                                    data-mytooltip-custom-class="align-center" data-mytooltip-content="Full screen"></a>
-
-                                                <a data-type="<?php echo $type; ?>" data-insta-id="<?= $image['id'] ?>" data-insta-time="<?= $image['created_time'] ?>"
-                                                   data-val="<?= $link ?>" data-thumb="<?= $thumb ?>" 
-                                                   class="for_pointer icon-tick-inside-circle js-mytooltip type-inline-block style-block style-block-one"                                                   
-                                                   onclick="ajax_save_bio(this)" data-is-delete="<?= $is_delete ?>" data-dynamic-id="<?php echo $dynamic_id; ?>"
-                                                   data-mytooltip-custom-class="align-center" data-mytooltip-content="Save into Bio">
-                                                </a>
-
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </li>
-                                <?php
-                                $i++;
-                            }
-                            ?>
+                                    </li>
+                            <?php } ?>
                         <?php } ?>
                     <?php } else { ?>
 
@@ -112,23 +112,24 @@
     function load_more(obj) {
         var all_saved_media = $('#all_saved_media').val();
         $.ajax({
-            url: "<?php echo base_url() . 'bio/fetch_insta_bio'; ?>",
+            url: "<?php echo base_url() . 'bio/fetch_facebook_bio'; ?>",
             method: "POST",
             data: {next_url: $(obj).data('val'), all_saved_media: all_saved_media},
             dataType: "JSON",
             success: function (data) {
-                if (data['all_images'] != '') {
 
-                    $('#insta_img_list').append(data['all_images']);
-                    $('.js-mytooltip').myTooltip();                 
+                $('#fb_img_list').append(data['all_images']);
+                $('.js-mytooltip').myTooltip();                 
 
-                    if (data['next_link'] != '') {
-                        $('#load_more_id').data('val', data['next_link']);
-                    } else {
-                        $('#load_more_id').data('val', '');
-                        $('#load_more_id').hide();
-                    }
+                if (data['next_link'] != '') {                    
+                    $('#load_more_id').data('val', data['next_link']);
+                } else {
+                    
+                    $('#load_more_id').data('val', '');
+                    $('#load_more_id').hide();
+                    show_notification('<strong> Error </strong>','No Feed available','error');
                 }
+
             }
         });
     }
@@ -157,7 +158,7 @@
                     $('#' + dynamic_id).fadeOut();
                     show_notification('<strong> Success </strong>',
                             'Your feed has been saved into Bio.',
-                            'success');                    
+                            'success');
                 } else {
                     alert('ERROR:CAN NOT SAVE MORE THAN 50 IMAGES');
                 }
@@ -172,18 +173,14 @@
         var insta_id = $(obj).data('insta-id');
         var insta_time = $(obj).data('insta-time');
         var thumb = $(obj).data('thumb');
-        var is_delete = $(obj).data('is-delete');
+        var is_delete = $(obj).data('is-delete');        
 
         var new_str = "?img_name=" + img_name + "&type=" + type + "&insta_id=" + insta_id + "&insta_time=" + insta_time + "&thumb=" + thumb + "&is_delete=" + is_delete;
 
         window.location.href = "<?php echo base_url() . 'bio/ajax_picture_set_profile'; ?>" + new_str;
-    }
+    }    
 
-    <?php if (($i >= 1 && $i <= 3)) { ?>
-        $('#load_more_id').click();
-    <?php } ?>
-
-     $(document).ready(function() {        
+    $(document).ready(function() {
         if($('.js-mytooltip').length != 0){
             $('.js-mytooltip').myTooltip();
         }

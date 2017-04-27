@@ -29,19 +29,24 @@
                     <?php
                     if (!empty($all_images)) {
 
-                        foreach ($all_images as $image) {
+                        foreach ($all_images as $image) {                            
 
                             $is_delete = 'yes';
                             $dynamic_id = random_string();
-
-                            $type = $image['media_type'];
+                            
+                            $type = $image['media_type'];                            
                             $thumb = $image['media_thumb'];
                             $link = $image['media_name'];
-
-                            $image_link = $image['media_thumb'];
-
-                            if ($type == 'video') {
-                                $image_link = $image['media_name'];
+                            $fancybox_str = 'data-fancybox="gallery"';
+                            $anchor_target = '';
+                            $image_link = $image['media_name'];
+                                                        
+                            // If type is uploaded video or video URL from instagram or facebook
+                            if ($type == '4' || $type == '2') {
+                                $fancybox_str = '';
+                                $anchor_target = '_blank';                                
+                                $link = $image['media_thumb'];
+                                $image_link = base_url() . "video/play/" . $image['id'];
                             }
                             ?>
                             <li id="<?php echo $dynamic_id; ?>">
@@ -53,12 +58,15 @@
                                         <div class="picture-action-inr">
 
                                             <a data-type="<?php echo $type; ?>" data-insta-id="<?= $image['id'] ?>" data-insta-time="<?= strtotime($image['insta_datetime']) ?>"
-                                               data-val="<?= $link ?>" class="for_pointer icon-picture js-mytooltip type-inline-block style-block style-block-one" data-thumb="<?= $thumb ?>" onclick="ajax_set_profile(this)"
+                                               data-val="<?= urlencode($link) ?>" class="for_pointer icon-picture js-mytooltip type-inline-block style-block style-block-one" 
+                                               data-thumb="<?= urlencode($thumb) ?>" onclick="ajax_set_profile(this)"
                                                data-mytooltip-custom-class="align-center" data-mytooltip-content="Set as a profile pic" >
                                             </a>
 
-                                            <a data-fancybox="gallery" href="<?php echo $image_link; ?>" class="for_pointer icon-full-screen image-link js-mytooltip type-inline-block style-block style-block-one"
-                                                data-mytooltip-custom-class="align-center" data-mytooltip-content="Full screen"></a>
+                                            <a <?php echo $fancybox_str; ?> href="<?php echo $image_link; ?>" target="<?php echo $anchor_target; ?>"
+                                                class="for_pointer icon-full-screen image-link js-mytooltip type-inline-block style-block style-block-one"
+                                                data-mytooltip-custom-class="align-center" data-mytooltip-content="Full screen">
+                                            </a>
 
                                             <a data-type="<?php echo $type; ?>" data-insta-id="<?= $image['media_id'] ?>" data-insta-time="<?= strtotime($image['insta_datetime']) ?>"
                                                data-val="<?= $link ?>" class="for_pointer icon-cancel js-mytooltip type-inline-block style-block style-block-one" data-thumb="<?= $thumb ?>" 

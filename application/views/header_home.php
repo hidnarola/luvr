@@ -12,7 +12,6 @@
     if(empty($user_data)){
         $fb_login_url = $this->facebook->get_login_url();
     }
-
 ?>
 <html lang="en">
     <head>
