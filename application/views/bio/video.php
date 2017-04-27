@@ -12,7 +12,7 @@
     .jw-button-color:focus, :not(.jw-flag-touch) .jw-button-color:hover{color:#f26f6f;}
 </style>
 <?php if (!empty($video_url)) { ?>
-    <?php if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me') { ?>
+    <?php if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me' || $_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
         <script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1572461"></script>
     <?php } ?>
     <script type="text/javascript" src="<?php echo base_url('assets/js/jwplayer.js'); ?>"></script>
@@ -23,7 +23,7 @@
                 autostart: true,
                 aspectratio:"16:9",
                 width: "100%",
-    <?php if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me') { ?>
+    <?php if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me' || $_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
             advertising: {
             client: 'vast',
                     tag: '<?php echo $ad_url; ?>',
