@@ -120,6 +120,24 @@ if (!function_exists('replace_extension')) {
     }
 
 }
+if (!function_exists('isUserActiveSubscriber')) {
+
+    function isUserActiveSubscriber($user_id) {
+        if (!empty($user_id)) {
+            $CI = & get_instance();
+            $user_settings = $CI->Users_model->getUserSetings('userid', $user_id);
+            $active = $user_settings['is_premium_member'];
+            if ((strtotime($user_settings['premium_expiry_date']) > strtotime(date("Y-m-d H:i:s"))) && $user_settings['is_premium_member'] == 1) {
+                $active = 1;
+            } else {
+                $active = 0;
+            }
+            return $active;
+        }
+        return 0;
+    }
+
+}
 
 if (!function_exists('getUserIP')) {
 

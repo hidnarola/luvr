@@ -1,3 +1,12 @@
+<?php
+$user_data = $this->session->userdata('user');
+$show_ad = true;
+if (!empty($user_data)) {
+    if (isUserActiveSubscriber($user_data['id']) == 1) {
+        $show_ad = false;
+    }
+}
+?>
 <div class="container">
     <div class="row">
         <?php if (!empty($video_url)) { ?>
@@ -23,11 +32,12 @@
                 autostart: true,
                 aspectratio:"16:9",
                 width: "100%",
-    <?php if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me' || $_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
-            advertising: {
-            client: 'vast',
-                    tag: '<?php echo $ad_url; ?>',
-            },
+    <?php if (($_SERVER['HTTP_HOST'] == 'dev.luvr.me' || $_SERVER['HTTP_HOST'] == 'luvr.me') && $show_ad == true) { ?>
+            primary: 'flash',
+                    advertising: {
+                    client: 'vast',
+                            tag: '<?php echo $ad_url; ?>',
+                    },
     <?php } ?>
         });
     <?php if (!empty($ad_url)) { ?>
