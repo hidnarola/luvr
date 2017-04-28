@@ -33,11 +33,10 @@ if (!empty($user_data)) {
                 aspectratio:"16:9",
                 width: "100%",
     <?php if (($_SERVER['HTTP_HOST'] == 'dev.luvr.me' || $_SERVER['HTTP_HOST'] == 'luvr.me') && $show_ad == true) { ?>
-            primary: 'flash',
-                    advertising: {
-                    client: 'vast',
-                            tag: '<?php echo $ad_url; ?>',
-                    },
+            advertising: {
+            client: 'vast',
+                    tag: '<?php echo $ad_url; ?>',
+            },
     <?php } ?>
         });
     <?php if (!empty($ad_url) && $show_ad == true) { ?>
