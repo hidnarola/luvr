@@ -341,16 +341,20 @@ $error = $this->session->flashdata('error');
         });
 <?php } ?>
     $(function () {
+        
         $("#frm_monthly .stripe-button-el").html('1 Month');
         $("#frm_6monthly .stripe-button-el").html('6 Months');
         $("#frm_yearly .stripe-button-el").html('1 Year');
         $("#frm_2yearly .stripe-button-el").html('2 Years');
         $("#frm_5yearly .stripe-button-el").html('5 Years');
         $(".stripe-button-el").removeClass('stripe-button-el');
-    });
-    $('.bxslider').bxSlider({
-        mode: 'fade',
-        captions: true,
-        auto: true
+        
+        $('.bxslider').bxSlider({
+            mode: 'fade',
+            captions: true,
+            auto: true,
+            pager:false,
+            responsive:true
+        });
     });
 </script>

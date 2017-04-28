@@ -97,20 +97,29 @@
                             $fancybox_str = 'data-fancybox="gallery"';
                             $anchor_target = '';
 
-                            if($m_type == '3'){
-                                $img_link = $link = $a_img['media_name'];
-                            }
-
                             if($m_type == '4'){
                                 $anchor_target = '_blank';
                                 $fancybox_str = '';
                                 $img_link = $a_img['media_thumb'];
                                 $link = base_url() . "video/play/".$a_img['id'];
                             }
+                            
+                            if($m_type == '3'){
+                                $img_link = $link = $a_img['media_name'];
+                            }
 
                             if($m_type == '2'){
-
+                                $anchor_target = '_blank';
+                                $fancybox_str = '';
+                                $a_img['media_name'] = str_replace('.mp4','.png', $a_img['media_name']);
+                                $img_link = base_url().'bio/show_img/'.$a_img['media_name'].'/1';
+                                $link = base_url() . "video/play/".$a_img['id'];
                             }
+                            
+                            if($m_type == '1'){
+                                $img_link = $link = base_url().'bio/show_img/'.$a_img['media_name'];
+                            }
+
                 ?>
                 <li>
                     <a <?php echo $fancybox_str; ?> class="image-link" href="<?php echo $link; ?>"  target="<?php echo $anchor_target; ?>">

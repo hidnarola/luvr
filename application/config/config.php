@@ -27,7 +27,7 @@ date_default_timezone_set('UTC');
 $config['base_url'] = 'http://my.luvr.com';
 
 if ($_SERVER['SERVER_ADDR'] == '172.31.26.85')
-    $config['base_url'] = 'http://dev.luvr.me';
+    $config['base_url'] = 'http://dev.luvr.com';
 else if ($_SERVER['SERVER_ADDR'] == '127.0.0.1')
     $config['base_url'] = 'http://my.luvr.com';
 

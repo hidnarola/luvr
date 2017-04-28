@@ -140,8 +140,8 @@ class Register extends CI_Controller {
         
         $sess_u_data = $this->session->userdata('user');
 
-        $error =  $this->input->get('error');
-        if($error == 'access_denied'){ redirect(''); }
+        $error =  $this->input->get('error_code');
+        if(!empty($error)){ redirect(''); }
 
         $user_detail = $this->facebook->get_user();        
 

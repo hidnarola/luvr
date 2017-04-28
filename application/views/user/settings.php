@@ -24,8 +24,19 @@
         #slider-range2 .ui-widget-header{background:#51ca94;}
     </style>
     <div class="col-md-8 col-sm-8 col-xs-12 account-r">
+
+
         <div class="account-r-head"><h2><big><?php echo $username; ?></big></h2></div>
         <div class="account-r-body">
+            <?php
+                if ($this->session->flashdata('error')) {
+                    echo '<div class="alert alert-danger">' . $this->session->flashdata('error') . '</div>';
+                }
+                
+                if ($this->session->flashdata('success')) {
+                    echo '<div class="alert alert-success">' . $this->session->flashdata('success') . '</div>';
+                }
+            ?>
             <div class="account-body-head">
                 <h2 class="account-title">Settings</h2>
                 <p>&nbsp;</p>

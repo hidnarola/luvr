@@ -29,26 +29,46 @@
                     <?php
                     if (!empty($all_images)) {
 
-                        foreach ($all_images as $image) {                            
+                        foreach ($all_images as $image) {
 
                             $is_delete = 'yes';
                             $dynamic_id = random_string();
+
+                            $type = $image['media_type'];
                             
-                            $type = $image['media_type'];                            
-                            $thumb = $image['media_thumb'];
-                            $link = $image['media_name'];
-                            $fancybox_str = 'data-fancybox="gallery"';
-                            $anchor_target = '';
+                            
                             $image_link = $image['media_name'];
                                                         
                             // If type is uploaded video or video URL from instagram or facebook
-                            if ($type == '4' || $type == '2') {
+                            if ($type == '4') {
                                 $fancybox_str = '';
                                 $anchor_target = '_blank';                                
                                 $link = $image['media_thumb'];
                                 $image_link = base_url() . "video/play/" . $image['id'];
                             }
-                            ?>
+
+                            if($type == '3'){
+                                $fancybox_str = 'data-fancybox="gallery"';
+                                $anchor_target = '';
+                                $thumb = $image['media_thumb'];
+                                $link = $image['media_name'];
+                            }
+
+                            if($type == '2'){
+                                $fancybox_str = '';
+                                $anchor_target = '_blank';
+                                $image['media_name'] = str_replace('.mp4','.png', $image['media_name']);
+                                $img_link = base_url().'bio/show_img/'.$image['media_name'].'/1';
+                                $link = base_url() . "video/play/".$image['id'];
+                            }
+
+                            if($type == '1'){
+                                $fancybox_str = 'data-fancybox="gallery"';
+                                $anchor_target = '';
+                                $img_link = $link = base_url().'bio/show_img/'.$image['media_name'];
+                            }
+                            
+                        ?>
                             <li id="<?php echo $dynamic_id; ?>">
                                 <div class="my-picture-box">
                                     <a>
