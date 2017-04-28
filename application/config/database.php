@@ -77,14 +77,14 @@ $query_builder = TRUE;
 if ($_SERVER['HTTP_HOST'] == 'my.luvr.com' || $_SERVER['HTTP_HOST'] == 'localhost') {
     $db['default'] = array(
         'dsn' => '',
-        // 'hostname' => '192.168.1.201',
-        // 'username' => 'luvr',
-        // 'password' => 'OOlk0nwzo07w01P',
-        // 'database' => 'luvr',
-       'hostname' => 'localhost',
-       'username' => 'root',
-       'password' => '',
-       'database' => 'luvr',
+        'hostname' => '192.168.1.201',
+        'username' => 'luvr',
+        'password' => 'OOlk0nwzo07w01P',
+        'database' => 'luvr',
+//       'hostname' => 'localhost',
+//       'username' => 'root',
+//       'password' => '',
+//       'database' => 'luvr',
         'dbdriver' => 'mysqli',
         'dbprefix' => '',
         'pconnect' => FALSE,
@@ -100,7 +100,7 @@ if ($_SERVER['HTTP_HOST'] == 'my.luvr.com' || $_SERVER['HTTP_HOST'] == 'localhos
         'failover' => array(),
         'save_queries' => TRUE
     );
-} else if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me') {
+} else if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me' || $_SERVER['HTTP_HOST'] == 'luvr.me') {
     $db['default'] = array(
         'dsn' => '',
         'hostname' => 'localhost',

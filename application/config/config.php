@@ -28,6 +28,8 @@ $config['base_url'] = 'http://my.luvr.com';
 
 if ($_SERVER['SERVER_ADDR'] == '172.31.26.85')
     $config['base_url'] = 'http://dev.luvr.me';
+else if ($_SERVER['SERVER_ADDR'] == '172.31.15.171')
+    $config['base_url'] = 'http://luvr.me';
 else if ($_SERVER['SERVER_ADDR'] == '127.0.0.1')
     $config['base_url'] = 'http://my.luvr.com';
 
@@ -546,6 +548,5 @@ $config['facebook']['permissions'] = array(
     'user_education_history',
     'user_activities',
     'user_about_me'
-
 );
 

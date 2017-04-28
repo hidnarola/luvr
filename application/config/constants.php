@@ -94,11 +94,6 @@ define('MAX_SWIPES_PER_DAY', 100);
 define('MAX_POWERLUVS_PER_DAY', 5);
 define('MAX_POWERLUVS_PER_DAY_P', 25);
 
-if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1')
-    define('PHYSICALUPLOADPATH', $_SERVER['DOCUMENT_ROOT'] . '/assets');
-else
-    define('PHYSICALUPLOADPATH', '');
-
 if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
     define('UPLOADPATH_VIDEO', $_SERVER['DOCUMENT_ROOT'] . '/assets/uploads/Video');
     define('UPLOADPATH_IMAGE', $_SERVER['DOCUMENT_ROOT'] . '/assets/uploads/Image');
