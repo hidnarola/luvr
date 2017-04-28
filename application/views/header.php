@@ -69,7 +69,7 @@ else
                                                      title="<?php echo $username; ?>" 
                                                      onerror="this.src='<?php echo base_url(); ?>assets/images/default_avatar.jpg'"/>
                                                  <?php } else if ($user_media['media_type'] == '3' || $user_media['media_type'] == '4') { ?>
-                                                <img src="<?php echo $user_media['media_thumb']; ?>" alt="<?php echo $username; ?>" title="<?php echo $username; ?>" />
+                                                <img src="<?php echo $user_media['media_thumb']; ?>" alt="<?php echo $username; ?>" title="<?php echo $username; ?>" onerror="this.src='<?php echo base_url(); ?>assets/images/default_avatar.jpg'"/>
                                             <?php } else { ?>
                                                 <img alt="User Pic" src="<?php echo base_url(); ?>assets/images/default_avatar.jpg" class="img-circle img-responsive"/>
                                             <?php } ?>                                             

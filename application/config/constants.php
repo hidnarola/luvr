@@ -94,11 +94,6 @@ define('MAX_SWIPES_PER_DAY', 100);
 define('MAX_POWERLUVS_PER_DAY', 5);
 define('MAX_POWERLUVS_PER_DAY_P', 25);
 
-if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1')
-    define('PHYSICALUPLOADPATH', $_SERVER['DOCUMENT_ROOT'] . '/assets');
-else
-    define('PHYSICALUPLOADPATH', '');
-
 if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
     define('UPLOADPATH_VIDEO', $_SERVER['DOCUMENT_ROOT'] . '/assets/uploads/Video');
     define('UPLOADPATH_IMAGE', $_SERVER['DOCUMENT_ROOT'] . '/assets/uploads/Image');
@@ -119,4 +114,5 @@ define('PK_LIVE', 'pk_live_pPrWC34t8fIoB4pmCUQZeuPa');
 define('PAY_CURRENCY', 'usd');
 define('MOBFOX_ACCID', '70867');
 define('MOBFOX_APIKEY', 'd760574985b121451bac270681299360');
-define('MOBFOX_INVHASH', '42a2d1ef33dff37f3cc611e90d1c7105');
+define('MOBFOX_INVHASH_DEV', '42a2d1ef33dff37f3cc611e90d1c7105');
+define('MOBFOX_INVHASH_LIVE', '0a8d0704acb5f06d5f6b3ece7310fe43');

@@ -458,7 +458,7 @@ letter-spacing:0.05em;font-family:'Poppins';font-weight:300;}
 .social-connect span{float:left;margin:0 10px 0 0;height:30px;}
 .social-connect span svg{width:30px;height:30px;fill:#fff;}
 .social-connect p{float:left;font-family:'poppins';font-weight:500;color:#fff;text-transform:uppercase;letter-spacing:0.03em;margin:1px 20px 0 0;font-size:12px;text-align:left;line-height:15px;}
-.social-connect a{background:#fff;border-radius:4px;padding:6px 5px 4px;line-height:16px;text-transform:uppercase;font-family::'poppins';font-weight:500;letter-spacing:.03em;display:inline-block;vertical-align:top;border:2px solid #fff;text-decoration:none;font-size:14px;min-width:100px;}
+.social-connect a{background:#fff;border-radius:4px;padding:6px 5px 4px;line-height:16px;text-transform:uppercase;font-family:'poppins';font-weight:500;letter-spacing:.03em;display:inline-block;vertical-align:top;border:2px solid #fff;text-decoration:none;font-size:14px;min-width:100px;}
 .social-connect a:hover{background:transparent;color:#fff;}
 
 .facebook-connet{background:#2b527b;}
