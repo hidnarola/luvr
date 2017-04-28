@@ -114,4 +114,5 @@ define('PK_LIVE', 'pk_live_pPrWC34t8fIoB4pmCUQZeuPa');
 define('PAY_CURRENCY', 'usd');
 define('MOBFOX_ACCID', '70867');
 define('MOBFOX_APIKEY', 'd760574985b121451bac270681299360');
-define('MOBFOX_INVHASH', '42a2d1ef33dff37f3cc611e90d1c7105');
+define('MOBFOX_INVHASH_DEV', '42a2d1ef33dff37f3cc611e90d1c7105');
+define('MOBFOX_INVHASH_LIVE', '0a8d0704acb5f06d5f6b3ece7310fe43');
