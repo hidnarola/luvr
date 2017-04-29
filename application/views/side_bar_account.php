@@ -111,7 +111,7 @@
                             if($m_type == '2'){
                                 $anchor_target = '_blank';
                                 $fancybox_str = '';
-                                $a_img['media_name'] = str_replace('.mp4','.png', $a_img['media_name']);
+                                $a_img['media_thumb'] = str_replace('.mp4','.png', $a_img['media_thumb']);
                                 $img_link = base_url().'bio/show_img/'.$a_img['media_thumb'].'/1';
                                 $link = base_url() . "video/play/".$a_img['id'];
                             }
