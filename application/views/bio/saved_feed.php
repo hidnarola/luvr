@@ -25,6 +25,12 @@
                 <p> &nbsp; </p>
             </div>  
             <div class="account-body-body">
+                
+                <form action="<?php echo base_url().'bio/upload_feed'; ?>" enctype="multipart/form-data" method="post">
+                    <input type="file" name="feed" >                    
+                    <input type="submit" value="Submit" class="btn btn-primary">
+                </form>
+
                 <ul class="my-picture-ul" id="insta_img_list">
                     <?php
                     if (!empty($all_images)) {
@@ -35,44 +41,43 @@
                             $dynamic_id = random_string();
 
                             $type = $image['media_type'];
-                            
-                            
+
+                            $thumb = $image['media_thumb'];
                             $image_link = $image['media_name'];
                                                         
                             // If type is uploaded video or video URL from instagram or facebook
                             if ($type == '4') {
                                 $fancybox_str = '';
                                 $anchor_target = '_blank';                                
-                                $link = $image['media_thumb'];
+                                $img_thumb = $link = $image['media_thumb'];
                                 $image_link = base_url() . "video/play/" . $image['id'];
                             }
 
                             if($type == '3'){
                                 $fancybox_str = 'data-fancybox="gallery"';
                                 $anchor_target = '';
-                                $thumb = $image['media_thumb'];
-                                $link = $image['media_name'];
+                                $img_thumb = $link = $image['media_name'];
                             }
 
                             if($type == '2'){
                                 $fancybox_str = '';
                                 $anchor_target = '_blank';
                                 $image['media_name'] = str_replace('.mp4','.png', $image['media_name']);
-                                $img_link = base_url().'bio/show_img/'.$image['media_name'].'/1';
-                                $link = base_url() . "video/play/".$image['id'];
+                                $img_thumb = base_url().'bio/show_img/'.$image['media_thumb'].'/1';
+                                $image_link = $link = base_url() . "video/play/".$image['id'];
                             }
 
                             if($type == '1'){
                                 $fancybox_str = 'data-fancybox="gallery"';
                                 $anchor_target = '';
-                                $img_link = $link = base_url().'bio/show_img/'.$image['media_name'];
+                                $image_link = $img_thumb = $link = base_url().'bio/show_img/'.$image['media_name'];
                             }
-                            
+
                         ?>
                             <li id="<?php echo $dynamic_id; ?>">
                                 <div class="my-picture-box">
                                     <a>
-                                        <img src="<?php echo $link; ?>" alt="" />
+                                        <img src="<?php echo $img_thumb; ?>" alt="" />
                                     </a>
                                     <div class="picture-action">
                                         <div class="picture-action-inr">
@@ -98,7 +103,9 @@
                                     </div>
                                 </div>
                             </li>                                                          
-                        <?php } ?>
+                        <?php 
+                            //if($type == '2'){ pr($image,1); } 
+                        } ?>
                     <?php } ?>
                 </ul>
 

@@ -90,7 +90,7 @@
             </h3>
             <ul>
                 <?php 
-                    if(!empty($all_side_medias)) { 
+                    if(!empty($all_side_medias)) {
                         foreach($all_side_medias as $a_img){
                             $m_type = $a_img['media_type'];
                             
@@ -112,7 +112,7 @@
                                 $anchor_target = '_blank';
                                 $fancybox_str = '';
                                 $a_img['media_name'] = str_replace('.mp4','.png', $a_img['media_name']);
-                                $img_link = base_url().'bio/show_img/'.$a_img['media_name'].'/1';
+                                $img_link = base_url().'bio/show_img/'.$a_img['media_thumb'].'/1';
                                 $link = base_url() . "video/play/".$a_img['id'];
                             }
                             

@@ -18,7 +18,7 @@ class Bio extends CI_Controller {
 
     public function index() {
         
-    }
+    }    
 
     public function change_profile() {
         $u_data = $this->session->userdata('user');
@@ -47,9 +47,27 @@ class Bio extends CI_Controller {
                 $this->session->set_flashdata('message', ['message' => $error['error'], 'class' => 'alert alert-danger']);                
                 redirect($_POST['sub_view']);                
             } else {
+                
                 $data = array('upload_data' => $this->upload->data());
                 $profile_media_id = $u_data['profile_media_id'];
-                /* $user_media = $this->Bio_model->fetch_mediadata(['id' => $profile_media_id], true); */
+                $user_media = $this->Bio_model->fetch_mediadata(['id' => $profile_media_id], true);
+
+                // Unlink existing file
+                if($user_media['media_type'] == '1'){
+                    $path_image = UPLOADPATH_IMAGE.'/'.$user_media['media_name'];                    
+                    $path_image_thumb = UPLOADPATH_THUMB.'/'.$user_media['media_thumb'];
+                    if(file_exists($path_image)){ unlink($path_image); }
+                    if(file_exists($path_image_thumb)){ unlink($path_image_thumb); }
+                }                
+
+                // Unlink existing file
+                if($user_media['media_type'] == '2'){
+                    $path_video = UPLOADPATH_VIDEO.'/'.$user_media['media_name'];
+                    $user_media['media_thumb'] = str_replace('.mp4', '.png', $user_media['media_thumb']);
+                    $path_image_thumb = UPLOADPATH_THUMB.'/'.$user_media['media_thumb'];
+                    if(file_exists($path_video)){ unlink($path_video); }
+                    if(file_exists($path_image_thumb)){ unlink($path_image_thumb); }
+                }
 
                 $full_path = $data['upload_data']['full_path'];
                 $file_name = $data['upload_data']['file_name'];
@@ -60,12 +78,10 @@ class Bio extends CI_Controller {
                     $full_path = $new_name;
                     $data['upload_data']['file_name'] = $file_name;
                 }
+
                 $raw_name = $data['upload_data']['raw_name'];
-
                 $thumb_name = 'thumb_' . $raw_name . '.png';
-
                 $thumb_path = UPLOADPATH_THUMB . '/' . $thumb_name;
-
                 $upd_data = [];
 
                 // IF image then create thumb using GD library otherwise use ffmpeg for create image
@@ -76,6 +92,7 @@ class Bio extends CI_Controller {
                     exec(FFMPEG_PATH . ' -i ' . $full_path . ' -ss 00:00:01.000 -vframes 1 ' . $thumb_path);
                     $upd_data['media_type'] = '2';
                 }
+
                 $upd_data['media_name'] = $file_name;
                 $upd_data['media_thumb'] = $thumb_name;
                 $upd_data['insta_datetime'] = '0000-00-00 00:00:00';
@@ -108,6 +125,75 @@ class Bio extends CI_Controller {
         $data['all_images'] = $all_images;
 
         $this->load->view('main', $data);
+    }
+
+    public function upload_feed(){
+        $u_data = $this->session->userdata('user');
+        $path = $_FILES['feed']['name'];
+        $ext = pathinfo($path, PATHINFO_EXTENSION);
+        
+        if ($ext == 'mp4') {
+            $upload_path = UPLOADPATH_VIDEO;
+        } else {
+            $upload_path = UPLOADPATH_IMAGE;
+        }
+
+        $config['upload_path'] = $upload_path;
+        $config['allowed_types'] = 'jpg|png|jpeg|mp4';
+        $config['max_size']  = '1000000000';                
+        $config['encrypt_name'] = TRUE;
+        $config['detect_mime'] = TRUE;
+        $config['file_ext_tolower'] = TRUE;
+        
+        $this->upload->initialize($config);
+
+        if ( ! $this->upload->do_upload('feed')){
+            $error = array('error' => $this->upload->display_errors());
+            pr($error,1);
+        } else {
+            $data = array('upload_data' => $this->upload->data());
+
+            $full_path = $data['upload_data']['full_path'];
+            $file_name = $data['upload_data']['file_name'];
+            $raw_name  = $data['upload_data']['raw_name'];
+
+            if ($data['upload_data']['is_image'] == '1') {
+                $file_name = replace_extension($file_name, "png");
+                $new_name = $data['upload_data']['file_path'] . $file_name;
+                rename($full_path, $new_name);
+                $full_path = $new_name;                
+            }
+
+            $ins_data = [];
+
+            $thumb_name = 'thumb_' . $raw_name . '.png';
+            $thumb_path = UPLOADPATH_THUMB . '/' . $thumb_name;
+
+            // IF image then create thumb using GD library otherwise use ffmpeg for create image
+            if ($data['upload_data']['is_image'] == '1') {
+                _createThumbnail($full_path, $thumb_path);
+                $media_type = '1';
+            } else {
+                exec(FFMPEG_PATH . ' -i ' . $full_path . ' -ss 00:00:01.000 -vframes 1 ' . $thumb_path);
+                $media_type = '2';
+            }
+
+            echo 'File name ==> '.$file_name;
+            echo "<br/>";
+            echo 'Thumb Name ==> '.$thumb_name;
+
+            $ins_data = array(
+                                'userid'=>$u_data['id'],
+                                'media_name'=>$file_name,
+                                'media_thumb'=>$thumb_name,
+                                'media_type'=>$media_type,
+                                'created_date'=>date('Y-m-d H:i:s'),
+                                'is_bios'=>'1'
+                            );
+            $this->Bio_model->insert_media($ins_data);
+            pr($data);
+        }
+
     }    
 
     // ------------------------------------------------------------------------
