@@ -11,7 +11,7 @@ class Videos_model extends CI_Model {
         $result = $this->db->get_where('user_agents', array('user_agent' => $_SERVER['HTTP_USER_AGENT']))->row_array();
         if (empty($result) || $result == null) {
             $data = array(
-                'ip' => getUserIP(),
+                'ip' => $this->input->ip_address(),
                 'user_agent' => $_SERVER['HTTP_USER_AGENT']
             );
             $this->db->insert('user_agents', $data);
