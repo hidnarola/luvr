@@ -56,13 +56,11 @@
                             if($type == '3'){
                                 $fancybox_str = 'data-fancybox="gallery"';
                                 $anchor_target = '';
-                                $img_thumb = $link = $image['media_name'];
+                                $link = $image['media_name'];
+                                $img_thumb = $image['media_thumb'];
                             }
 
-                            if($type == '2'){
-                                
-                                //pr($image['media_name']);
-
+                            if($type == '2'){                                
                                 $fancybox_str = '';
                                 $anchor_target = '_blank';
                                 $image['media_thumb'] = str_replace('.mp4','.png', $image['media_thumb']);
@@ -73,7 +71,8 @@
                             if($type == '1'){
                                 $fancybox_str = 'data-fancybox="gallery"';
                                 $anchor_target = '';
-                                $image_link = $img_thumb = $link = base_url().'bio/show_img/'.$image['media_name'];
+                                $image_link =  $link = base_url().'bio/show_img/'.$image['media_name'];
+                                $img_thumb = base_url().'bio/show_img/'.$image['media_thumb'].'/1';
                             }
 
                         ?>

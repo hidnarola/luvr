@@ -94,7 +94,7 @@
                         foreach($all_side_medias as $a_img){
                             $m_type = $a_img['media_type'];
                             
-                            $fancybox_str = 'data-fancybox="gallery"';
+                            $fancybox_str = 'data-fancybox="gallerynew"';
                             $anchor_target = '';
 
                             if($m_type == '4'){
@@ -105,7 +105,8 @@
                             }
                             
                             if($m_type == '3'){
-                                $img_link = $link = $a_img['media_name'];
+                                $img_link = $a_img['media_thumb'];
+                                $link = $a_img['media_name'];
                             }
 
                             if($m_type == '2'){
@@ -116,8 +117,9 @@
                                 $link = base_url() . "video/play/".$a_img['id'];
                             }
                             
-                            if($m_type == '1'){
-                                $img_link = $link = base_url().'bio/show_img/'.$a_img['media_name'];
+                            if($m_type == '1'){                                
+                                $link = base_url().'bio/show_img/'.$a_img['media_name'];
+                                $img_link = base_url().'bio/show_img/'.$a_img['media_thumb'].'/1';
                             }
 
                 ?>
