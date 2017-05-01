@@ -60,9 +60,12 @@
                             }
 
                             if($type == '2'){
+                                
+                                //pr($image['media_name']);
+
                                 $fancybox_str = '';
                                 $anchor_target = '_blank';
-                                $image['media_name'] = str_replace('.mp4','.png', $image['media_name']);
+                                $image['media_thumb'] = str_replace('.mp4','.png', $image['media_thumb']);
                                 $img_thumb = base_url().'bio/show_img/'.$image['media_thumb'].'/1';
                                 $image_link = $link = base_url() . "video/play/".$image['id'];
                             }
