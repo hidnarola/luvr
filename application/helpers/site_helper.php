@@ -158,4 +158,19 @@ if (!function_exists('getUserIP')) {
     }
 
 }
+
+if (!function_exists('detect_browser')) {
+
+    function detect_browser() {
+        $CI = & get_instance();
+        $CI->load->library('user_agent');
+        $agent = $CI->agent->mobile();
+        if ($agent != '') {
+            return 'mobile';
+        } else {
+            return false;
+        }
+    }
+
+}
 ?>
