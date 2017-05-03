@@ -77,10 +77,17 @@ class Video extends CI_Controller {
         require APPPATH . 'third_party/SmaatoSnippet.php';
         $snippet = new SmaatoSnippet();
         try {
-            $snippet->setPublisherId(1100031417)
-                    ->setAdspaceId(130268026)
-                    ->setDimension("full_1024x768")
-                    ->setResponseFormat("html");
+            if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me') {
+                $snippet->setPublisherId(1100031417)
+                        ->setAdspaceId(130268026)
+                        ->setDimension("full_1024x768")
+                        ->setResponseFormat("html");
+            } else if ($_SERVER['HTTP_HOST'] == 'luvr.me') {
+                $snippet->setPublisherId(1100031417)
+                        ->setAdspaceId(130269290)
+                        ->setDimension("full_1024x768")
+                        ->setResponseFormat("html");
+            }
             $snippet->requestAd();
             if ($snippet->isAdAvailable()) {
                 $banner = $snippet->getAd();
