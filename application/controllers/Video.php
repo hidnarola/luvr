@@ -39,7 +39,12 @@ class Video extends CI_Controller {
                 show_404();
             }
         } else {
-            $data['video_url'] = urldecode($_GET['url']);
+            if (!empty($_GET['url']) && isset($_GET['url']))
+                $data['video_url'] = urldecode($_GET['url']);
+            else {
+                $random_video = $this->Videos_model->getRandomVideo();
+                $data['video_url'] = $random_video['media_name'];
+            }
         }
         if (detect_browser() == 'mobile') {
             $mob_user_agent = $_SERVER['HTTP_USER_AGENT'];

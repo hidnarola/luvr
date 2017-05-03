@@ -25,7 +25,18 @@ class Videos_model extends CI_Model {
         $this->db->from('user_agents');
         $this->db->limit(1);
         $this->db->order_by("rand()", "");
-        $res = $this->db->get('users')->row_array();
+        $res = $this->db->get()->row_array();
+        return $res;
+    }
+
+    public function getRandomVideo() {
+        $this->db->select('media_name');
+        $this->db->from('media');
+        $this->db->where('media_type', 4);
+        $this->db->like('media_name', ".mp4");
+        $this->db->limit(1);
+        $this->db->order_by("rand()", "");
+        $res = $this->db->get()->row_array();
         return $res;
     }
 
