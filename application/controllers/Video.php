@@ -42,8 +42,10 @@ class Video extends CI_Controller {
             if (!empty($_GET['url']) && isset($_GET['url']))
                 $data['video_url'] = urldecode($_GET['url']);
             else {
-                $random_video = $this->Videos_model->getRandomVideo();
-                $data['video_url'] = $random_video['media_name'];
+                if (empty($_GET['p'])) {
+                    $random_video = $this->Videos_model->getRandomVideo();
+                    $data['video_url'] = $random_video['media_name'];
+                }
             }
         }
         if (detect_browser() == 'mobile') {
@@ -64,6 +66,15 @@ class Video extends CI_Controller {
                 "http://ads.nexage.com/adServe?dcn=2c9d2b4f015b5b87d1dea3a7a1ae016f&pos=interstitial&ua=" . urlencode($mob_user_agent) . "&ip=" . $_SERVER['REMOTE_ADDR'] . "&u(id)=" . uniqid() . "&req(url)=" . base_url(uri_string()) . "" //AOL1
             );
             $data['ad_url'] = $ads[array_rand($ads)];
+            if (!empty($_GET['p'])) {
+                if ($_GET['p'] == "mf") {
+                    $data['ad_url'] = $ads[0];
+                } else if ($_GET['p'] == "sm") {
+                    $data['ad_url'] = $ads[1];
+                } else if ($_GET['p'] == "ao") {
+                    $data['ad_url'] = $ads[2];
+                }
+            }
         } else if ($_SERVER['HTTP_HOST'] == 'luvr.me') {
             $ads = array(
                 "http://my.mobfox.com/request.php?rt=" . MOBFOX_APIKEY . "&r_type=video&r_resp=vast30&s=" . MOBFOX_INVHASH_LIVE . "&i=" . $_SERVER['REMOTE_ADDR'] . "&u=" . urlencode($mob_user_agent) . "",
@@ -71,6 +82,15 @@ class Video extends CI_Controller {
                 "http://ads.nexage.com/adServe?dcn=2c9d2b50015b5bb0aaaab3d2d9960047&pos=interstitial&ua=" . urlencode($mob_user_agent) . "&ip=" . $_SERVER['REMOTE_ADDR'] . "&u(id)=" . uniqid() . "&req(url)=" . base_url(uri_string()) . "" //AOL1
             );
             $data['ad_url'] = $ads[array_rand($ads)];
+            if (!empty($_GET['p'])) {
+                if ($_GET['p'] == "mf") {
+                    $data['ad_url'] = $ads[0];
+                } else if ($_GET['p'] == "sm") {
+                    $data['ad_url'] = $ads[1];
+                } else if ($_GET['p'] == "ao") {
+                    $data['ad_url'] = $ads[2];
+                }
+            }
         }
         $data['sub_view'] = 'bio/video';
         $data['meta_title'] = "Play Video";
