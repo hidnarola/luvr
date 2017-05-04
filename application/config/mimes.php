@@ -139,7 +139,7 @@ return array(
 	'm4a'   =>	'audio/x-m4a',
 	'f4v'   =>	array('video/mp4', 'video/x-f4v'),
 	'flv'	=>	'video/x-flv',
-	'webm'	=>	'video/webm',
+	'webm'	=>	array('video/webm','video/x-webm'),
 	'aac'   =>	'audio/x-acc',
 	'm4u'   =>	'application/vnd.mpegurl',
 	'm3u'   =>	'text/plain',
