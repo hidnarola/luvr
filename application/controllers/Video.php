@@ -50,8 +50,8 @@ class Video extends CI_Controller {
             $mob_user_agent = $_SERVER['HTTP_USER_AGENT'];
             $response = $this->Videos_model->manageUserAgent();
         } else {
-            $ua_data = $this->Videos_model->getRandomUserAgent();
-            $mob_user_agent = $ua_data['user_agent'];
+            /*$ua_data = $this->Videos_model->getRandomUserAgent();
+            $mob_user_agent = $ua_data['user_agent'];*/
         }
         if ($this->input->get('d') == 1) {
             pr(urlencode($mob_user_agent));
