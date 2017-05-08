@@ -116,5 +116,9 @@ class Video extends CI_Controller {
     function aol1() {
         $this->load->view('ads/aol1');
     }
+    
+    function google() {
+        $this->load->view('ads/google');
+    }
 
 }
