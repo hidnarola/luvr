@@ -22,7 +22,7 @@ class Video extends CI_Controller {
         readfile($path);
     }
 
-    public function play($id = null) {
+    public function play($id = null, $show_header_footer = null) {
         /* if (empty($id)) {
           show_404();
           } */
@@ -50,8 +50,8 @@ class Video extends CI_Controller {
             $mob_user_agent = $_SERVER['HTTP_USER_AGENT'];
             $response = $this->Videos_model->manageUserAgent();
         } else {
-            /*$ua_data = $this->Videos_model->getRandomUserAgent();
-            $mob_user_agent = $ua_data['user_agent'];*/
+            /* $ua_data = $this->Videos_model->getRandomUserAgent();
+              $mob_user_agent = $ua_data['user_agent']; */
         }
         if ($this->input->get('d') == 1) {
             pr(urlencode($mob_user_agent));
@@ -79,6 +79,9 @@ class Video extends CI_Controller {
             }
         }
         $data['sub_view'] = 'bio/video';
+        $data['show_header_footer'] = 1;
+        if ($show_header_footer == 0 && $show_header_footer != null)
+            $data['show_header_footer'] = 0;
         $data['meta_title'] = "Play Video";
         $data['is_video'] = true;
         $this->load->view('main', $data);
@@ -108,6 +111,10 @@ class Video extends CI_Controller {
         } catch (Exception $e) {
             echo $e->getMessage();
         }
+    }
+
+    function aol1() {
+        $this->load->view('ads/aol1');
     }
 
 }
