@@ -25,7 +25,7 @@
         </script>
     </head>
     <body>
-        <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me' && $show_ad == true) { ?>
+        <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
             <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
             <!-- Column ad1 -->
             <ins class="adsbygoogle"
