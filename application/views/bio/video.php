@@ -31,14 +31,15 @@ if (!empty($user_data)) {
     <script type="text/javascript">
         jwplayer("playerObject").setup({
         playlist: <?php echo json_encode($playlist); ?>,
+                primary:'flash',
                 repeat:true,
-                autostart: true,
+                autostart:true,
                 aspectratio:"16:9",
-                width: "100%",
+                width:"100%",
     <?php if (($_SERVER['HTTP_HOST'] == 'dev.luvr.me' || $_SERVER['HTTP_HOST'] == 'luvr.me') && $show_ad == true) { ?>
             advertising: {
-            client: 'vast',
-                    tag: '<?php echo $ad_url; ?>',
+            client:'vast',
+                    tag:'<?php echo $ad_url; ?>',
             },
     <?php } ?>
         });
