@@ -1,8 +1,16 @@
 <html>
-    <head></head>
-    <body>
+    <head>
         <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
             <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <script>
+                [].forEach.call(document.querySelectorAll('.adsbygoogle'), function () {
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                });
+            </script>
+        <?php } ?>
+    </head>
+    <body>
+        <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
             <!-- Column ad1 -->
             <ins class="adsbygoogle"
                  style="display:inline-block;width:250px;height:600px"
@@ -23,11 +31,6 @@
                  style="display:inline-block;width:250px;height:600px"
                  data-ad-client="ca-pub-8931925329892531"
                  data-ad-slot="5750998606"></ins>
-            <script>
-                [].forEach.call(document.querySelectorAll('.adsbygoogle'), function () {
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                });
-            </script>
-        <?php } ?>
+             <?php } ?>
     </body>
 </html>
