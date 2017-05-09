@@ -471,7 +471,7 @@ ul.my-picture-ul > li > .my-picture-box > a.video-tag:after{content:'\e917';posi
 ul.my-picture-ul > li:hover .my-picture-box > a.video-tag:after{display:none; }
 
 /*ac-style*/
-.nbmatches .adv{margin:30px;border:1px solid red;}
+.nbmatches .adv{margin:20px;}
 .nbmatches .user-list-pic-wrapper{width:400px;}
 .nbmatches .user-list-pic-bg{height:400px;}
 .nbmatches .user-list-pic:before{top:70px;right:30px;width:20%;}
