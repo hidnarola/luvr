@@ -29,7 +29,8 @@ if (!empty($user_data)) {
     <script type="text/javascript" src="<?php echo base_url('assets/js/jwplayer.js'); ?>"></script>
     <script>jwplayer.key = "+NBpDYuEp+FQ1VZ4YR8hbrcC1s9O/eD5ul+RdSAMR04=";</script>
     <script type="text/javascript">
-        jwplayer("playerObject").setup({
+        var player = jwplayer('playerObject');
+        player.setup({
         playlist: <?php echo json_encode($playlist); ?>,
                 primary:'flash',
                 repeat:true,
@@ -40,8 +41,20 @@ if (!empty($user_data)) {
             advertising: {
             client:'vast',
                     tag:'<?php echo $ad_url; ?>',
-            },
+            }
+            ,
     <?php } ?>
+        });
+                player.on('error', function () {
+                    var next = parseInt(player.getPlaylistIndex()) + 1;
+                    if (next <= <?php echo count($playlist); ?>) {
+                        player.playlistItem(next);
+                    } else {
+                        player.playlistItem(0);
+                    }
+                });
+        player.on('onPlaylistComplete', function () {
+            window.location = window.location.href;
         });
     <?php if (!empty($ad_url) && $show_ad == true) { ?>
             console.log('<?php echo $ad_url; ?>');
