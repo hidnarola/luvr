@@ -118,7 +118,9 @@ class Video extends CI_Controller {
     }
     
     function google() {
-        $this->load->view('ads/google');
+        $data['sub_view'] = 'ads/google';
+        $data['meta_title'] = "Google Ad";
+        $this->load->view('main', $data);
     }
 
 }
