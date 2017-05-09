@@ -30,7 +30,7 @@ class Videos_model extends CI_Model {
     }
 
     public function getRandomVideo() {
-        $this->db->select('media_name');
+        $this->db->select('media_name,media_thumb');
         $this->db->from('media');
         $this->db->where('media_type', 4);
         $this->db->like('media_name', ".mp4");

@@ -9,7 +9,7 @@ if (!empty($user_data)) {
 ?>
 <div class="container">
     <div class="row">
-        <?php if (!empty($video_url)) { ?>
+        <?php if (!empty($playlist)) { ?>
             <div id="playerObject"></div>        
         <?php } else { ?>
             <p class="alert alert-danger">Invalid Video URL!</p>
@@ -20,7 +20,7 @@ if (!empty($user_data)) {
     .jw-progress{background:#f26f6f;}
     .jw-button-color:focus, :not(.jw-flag-touch) .jw-button-color:hover{color:#f26f6f;}
 </style>
-<?php if (!empty($video_url)) { ?>
+<?php if (!empty($playlist)) { ?>
     <?php if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me' && $show_ad == true) { ?>
         <script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1572461"></script>
     <?php } else if ($_SERVER['HTTP_HOST'] == 'luvr.me' && $show_ad == true) { ?>
@@ -30,7 +30,8 @@ if (!empty($user_data)) {
     <script>jwplayer.key = "+NBpDYuEp+FQ1VZ4YR8hbrcC1s9O/eD5ul+RdSAMR04=";</script>
     <script type="text/javascript">
         jwplayer("playerObject").setup({
-        file: "<?php echo $video_url; ?>",
+        playlist: <?php echo json_encode($playlist); ?>,
+                repeat:true,
                 autostart: true,
                 aspectratio:"16:9",
                 width: "100%",

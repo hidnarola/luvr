@@ -104,6 +104,6 @@ else
         </header>
 
         <section id="inner-content" class="inner-content <?php echo ($sub_view == "bio/video") ? "video" : ""; ?>">
-            <div class="container">
+            <div class="<?php echo ($sub_view == "match/nearByMatches") ? "nbmatches" : "container"; ?>">
                 <div class="row">
                     <div id="msg_txt" style="display:none;"></div>

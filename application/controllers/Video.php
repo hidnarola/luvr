@@ -22,28 +22,48 @@ class Video extends CI_Controller {
         readfile($path);
     }
 
-    public function play($id = null, $show_header_footer = null) {
+    public function play($id = null, $param2 = null) {
         /* if (empty($id)) {
           show_404();
           } */
         if (is_numeric($id)) {
-            $user_media = $this->Users_model->getUserMediaByCol('id', $id);
-            if (!empty($user_media)) {
-                if ($user_media['media_type'] == 2)
-                    $data['video_url'] = base_url() . "video/show_video/" . $user_media['media_name'];
-                else if ($user_media['media_type'] == 4)
-                    $data['video_url'] = $user_media['media_name'];
-                else
+            if ($param2 == 2) {
+                $this->db->select('*');
+                $this->db->where('userid', $id);
+                $this->db->where_in('media_type', array(2, 4));
+                $user_media = $this->db->get('media')->result_array();
+                if (!empty($user_media)) {
+                    $i = 0;
+                    $playlist = array();
+                    foreach ($user_media as $value) {
+                        $playlist[$i]['file'] = $value['media_name'];
+                        $playlist[$i]['image'] = $value['media_thumb'];
+                        $i++;
+                    }
+                    $data['playlist'] = $playlist;
+                } else {
+                    $random_video = $this->Videos_model->getRandomVideo();
+                    $data['playlist'][0]['file'] = $random_video['media_name'];
+                }
+            } else {
+                $user_media = $this->Users_model->getUserMediaByCol('id', $id);
+                if (!empty($user_media)) {
+                    if ($user_media['media_type'] == 2) {
+                        $data['playlist'][0]['file'] = base_url() . "video/show_video/" . $user_media['media_name'];
+                    } else if ($user_media['media_type'] == 4) {
+                        $data['playlist'][0]['file'] = $user_media['media_name'];
+                    } else
+                        show_404();
+                }else {
                     show_404();
-            }else {
-                show_404();
+                }
             }
         } else {
-            if (!empty($_GET['url']) && isset($_GET['url']))
-                $data['video_url'] = urldecode($_GET['url']);
-            else {
+            if (!empty($_GET['url']) && isset($_GET['url'])) {
+                $data['playlist'][0]['file'] = urldecode($_GET['url']);
+            } else {
                 $random_video = $this->Videos_model->getRandomVideo();
-                $data['video_url'] = $random_video['media_name'];
+                $data['playlist'][0]['file'] = $random_video['media_name'];
             }
         }
         if (detect_browser() == 'mobile') {
@@ -80,7 +100,7 @@ class Video extends CI_Controller {
         }
         $data['sub_view'] = 'bio/video';
         $data['show_header_footer'] = 1;
-        if ($show_header_footer == 0 && $show_header_footer != null)
+        if ($param2 == 0 && $param2 != null)
             $data['show_header_footer'] = 0;
         $data['meta_title'] = "Play Video";
         $data['is_video'] = true;
@@ -116,7 +136,7 @@ class Video extends CI_Controller {
     function aol1() {
         $this->load->view('ads/aol1');
     }
-    
+
     function google() {
         $data['sub_view'] = 'ads/google';
         $data['meta_title'] = "Google Ad";
