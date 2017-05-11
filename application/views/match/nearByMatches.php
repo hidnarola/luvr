@@ -363,6 +363,12 @@ if (!empty($nearByUsers)) {
                                         $("#adpopup").modal('show');
                                         $("#hdn_tmp_id").val($(item).data("id"));
                                         $("#sneak_peak_frame").attr('src', '<?php echo base_url('video/adcash'); ?>');
+                                        $("#sneak_peak_frame").on('load', function () {
+                                            showSneakPeak();
+                                        });
+                                        $("#sneak_peak_frame").on('error', function () {
+                                            location.href = "<?php echo base_url('match/level2/'); ?>" + $(item).data("id") + "/1/2";
+                                        });
     <?php } ?>
 <?php } ?>
                                 reflectUserInfo(item.index() - 1);
@@ -515,14 +521,14 @@ if (!empty($nearByUsers)) {
                      $('.secondSwiper ul li,panel').removeAttr('style');
                      $('.secondSwiper ul li,panel').show();
                      }*/
-                    $("#adpopup").on("shown.bs.modal", function () {
+                    /*$("#adpopup").on("shown.bs.modal", function () {
                         showSneakPeak();
-                    });
+                    });*/
                     function showSneakPeak() {
                         popup_seconds = popup_seconds + 1;
-                        if (popup_seconds == 4)
+                        if (popup_seconds == 5)
                         {
-                            location.href = "<?php echo base_url('match/level2/'); ?>" + $("#hdn_tmp_id").val() + "/1/1";
+                            location.href = "<?php echo base_url('match/level2/'); ?>" + $("#hdn_tmp_id").val() + "/1/2";
                         } else
                         {
                             setTimeout(showSneakPeak, 1000);

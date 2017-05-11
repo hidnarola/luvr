@@ -1,4 +1,9 @@
 <link href='<?php echo base_url('/assets/css/jTinder.css'); ?>' rel='stylesheet'/>
+<?php if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me' && $show_ad == true) { ?>
+    <script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1572461"></script>
+<?php } else if ($_SERVER['HTTP_HOST'] == 'luvr.me' && $show_ad == true) { ?>
+    <script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1575965"></script>
+<?php } ?>
 <?php
 $user_data = $this->session->userdata('user');
 if ($user_swipes_per_day >= MAX_SWIPES_PER_DAY) {
