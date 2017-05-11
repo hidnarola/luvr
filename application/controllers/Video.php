@@ -136,6 +136,10 @@ class Video extends CI_Controller {
     function aol1() {
         $this->load->view('ads/aol1');
     }
+    
+    function adcash() {
+        $this->load->view('ads/adcash');
+    }
 
     function checkad() {
         $data['sub_view'] = 'ads/testad';
