@@ -49,6 +49,26 @@ if (!empty($nearByUsers)) {
 <script type="text/javascript">
     var nearby_matches = <?php echo json_encode($nearByUsers); ?>
 </script>
+<?php if ($this->uri->segment(3) == "c") { ?>
+    <script>
+        $(window).load(function () {
+            //$(".addvertise-img1 iframe").attr("sandbox","allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-pointer-lock");
+
+
+            //$(".addvertise-img1 iframe").contents().find("a:first").trigger('click');
+            var ur = $(".addvertise-img1 iframe").contents().find("a:first").attr('href');
+            log(ur);
+            location.href = ur;
+            //window.open(ur, '_blank');
+
+
+
+            //$(".addvertise-img1 iframe").contents().find("a:first").click();
+            /*var $iframe = $(".addvertise-img1 iframe").contents();
+             $("body", $iframe).trigger("click");*/
+        });
+    </script>
+<?php } ?>
 <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me' && $show_ad == true) { ?>
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <?php } ?>
@@ -302,7 +322,7 @@ if (!empty($nearByUsers)) {
                 <h4 class="modal-title">Sneak Peak</h4>
             </div>
             <div class="modal-body">
-                <iframe src="" id="sneak_peak_frame" frameborder="0" scrolling="no" style="overflow:hidden;height:100%;width:100%;"></iframe>
+                <iframe src="" id="sneak_peak_frame" frameborder="0" scrolling="no" style="overflow:hidden;height:300px;width:100%;"></iframe>
             </div>
         </div>
     </div>
@@ -342,7 +362,7 @@ if (!empty($nearByUsers)) {
     <?php } else { ?>
                                         $("#adpopup").modal('show');
                                         $("#hdn_tmp_id").val($(item).data("id"));
-                                        $("#sneak_peak_frame").attr('src', '<?php echo base_url('video/aol1/'); ?>');
+                                        $("#sneak_peak_frame").attr('src', '<?php echo base_url('video/adcash'); ?>');
     <?php } ?>
 <?php } ?>
                                 reflectUserInfo(item.index() - 1);
