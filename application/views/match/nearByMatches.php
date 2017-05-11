@@ -55,10 +55,10 @@ if (!empty($nearByUsers)) {
 <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 ad-div text-center">
     <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me' && $show_ad == true) { ?>
         <div class="addvertise-img1 adv">
-            <script type="text/javascript" src="//ylx-1.com/bnr.php?section=General&pub=849366&format=160x600&ga=g"></script>
+            <script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1582351"></script>
         </div>
         <div class="addvertise-img2 adv">
-            <script type="text/javascript" src="//ylx-1.com/bnr.php?section=General&pub=849366&format=160x600&ga=g"></script>
+            <script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1582355"></script>
         </div>
     <?php } ?>
 </div>
@@ -286,10 +286,10 @@ if (!empty($nearByUsers)) {
 <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 ad-div text-center">
     <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me' && $show_ad == true) { ?>
         <div class="addvertise-img3 adv">
-            <script type="text/javascript" src="//ylx-1.com/bnr.php?section=General&pub=849366&format=160x600&ga=g"></script>
+            <script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1582359"></script>
         </div>
         <div class="addvertise-img4 adv">
-            <script type="text/javascript" src="//ylx-1.com/bnr.php?section=General&pub=849366&format=160x600&ga=g"></script>
+            <script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1582363"></script>
         </div>
     <?php } ?>
 </div>
