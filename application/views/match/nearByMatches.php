@@ -338,7 +338,7 @@ if (!empty($nearByUsers)) {
 <?php if ($user_swipes_per_day < MAX_SWIPES_PER_DAY) { ?>
                                     /*loadLevel2(item, 'like');*/
     <?php if ($is_user_premium_member == 1) { ?>
-                                        location.href = "<?php echo base_url('/match/level2/'); ?>" + $(item).data("id") + "/1/1";
+                                        location.href = "<?php echo base_url('/match/level2/'); ?>" + $(item).data("id") + "/1/2";
     <?php } else { ?>
                                         $("#adpopup").modal('show');
                                         $("#hdn_tmp_id").val($(item).data("id"));
