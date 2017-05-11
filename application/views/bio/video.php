@@ -6,6 +6,9 @@ if (!empty($user_data)) {
         $show_ad = false;
     }
 }
+if (!empty($next_random)) {
+    $next_random_url = base_url() . "video/play/" . $next_random . "/2";
+}
 ?>
 <div class="container">
     <div class="row">
@@ -41,8 +44,7 @@ if (!empty($user_data)) {
             advertising: {
             client:'vast',
                     tag:'<?php echo $ad_url; ?>',
-            }
-            ,
+            },
     <?php } ?>
         });
                 player.on('error', function () {
@@ -50,11 +52,13 @@ if (!empty($user_data)) {
                     if (next <= <?php echo count($playlist); ?>) {
                         player.playlistItem(next);
                     } else {
-                        player.playlistItem(0);
+                        location.href = '<?php echo $next_random_url; ?>';
+                        /*player.playlistItem(0);*/
                     }
                 });
         player.on('onPlaylistComplete', function () {
-            window.location = window.location.href;
+            /*window.location = window.location.href;*/
+            location.href = '<?php echo $next_random_url; ?>';
         });
     <?php if (!empty($ad_url) && $show_ad == true) { ?>
             console.log('<?php echo $ad_url; ?>');

@@ -40,6 +40,20 @@ class Videos_model extends CI_Model {
         return $res;
     }
 
+    public function getRandomVideoOwner($id) {
+        $this->db->select('userid,media_name,media_thumb');
+        $this->db->from('media');
+        $this->db->where('media_type', 4);
+        if ($id != null && is_numeric($id)) {
+            $this->db->where_not_in('userid', array($id));
+        }
+        $this->db->like('media_name', ".mp4");
+        $this->db->limit(1);
+        $this->db->order_by("rand()", "");
+        $res = $this->db->get()->row_array();
+        return $res;
+    }
+
 }
 
 ?>

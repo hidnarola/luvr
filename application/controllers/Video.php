@@ -100,6 +100,8 @@ class Video extends CI_Controller {
         }
         $data['sub_view'] = 'bio/video';
         $data['show_header_footer'] = 1;
+        $next_random = $this->Videos_model->getRandomVideoOwner($id);
+        $data['next_random'] = $next_random['userid'];
         if ($param2 == 0 && $param2 != null)
             $data['show_header_footer'] = 0;
         $data['meta_title'] = "Play Video";
@@ -136,7 +138,7 @@ class Video extends CI_Controller {
     function aol1() {
         $this->load->view('ads/aol1');
     }
-    
+
     function adcash() {
         $this->load->view('ads/adcash');
     }
