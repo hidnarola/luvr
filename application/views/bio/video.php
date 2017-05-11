@@ -47,17 +47,16 @@ if (!empty($next_random)) {
             },
     <?php } ?>
         });
-                player.on('error', function () {
-                    var next = parseInt(player.getPlaylistIndex()) + 1;
-                    if (next <= <?php echo count($playlist); ?>) {
-                        player.playlistItem(next);
-                    } else {
-                        location.href = '<?php echo $next_random_url; ?>';
-                        /*player.playlistItem(0);*/
-                    }
-                });
-        player.on('onPlaylistComplete', function () {
-            /*window.location = window.location.href;*/
+                jwplayer().onError(function () {
+            var next = parseInt(jwplayer().getPlaylistIndex()) + 1;
+            if (next <= <?php echo count($playlist); ?>) {
+                jwplayer().playlistItem(next);
+            } else {
+                location.href = '<?php echo $next_random_url; ?>';
+                /*player.playlistItem(0);*/
+            }
+        });
+        jwplayer().onPlaylistComplete(function () {
             location.href = '<?php echo $next_random_url; ?>';
         });
     <?php if (!empty($ad_url) && $show_ad == true) { ?>
