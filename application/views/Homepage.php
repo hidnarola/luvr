@@ -37,7 +37,7 @@ $error = $this->session->flashdata('error');
             <span><img src="<?php echo base_url(); ?>assets/images/welcome-icon.png" alt="" /></span>
             <big>Welcome to luvr</big>
         </h2>
-        <p>Luvr's patent pending technology makes it easier for you to connect with the person of your dreams or find a new hookup if thats your thing!<br/> Utilizing video as opposed to photos will ensure you never get catfished again! <br/> Remember, if a picture is worth a thousand words, than a video is worth a million!</p>
+        <p>Luvr's patent pending technology makes it easier for you to connect with the person of your dreams or find a new hookup if thats your thing!<br/> Utilizing video as opposed to photos will ensure you never get catfished again! <br/> Remember, if a picture is worth a thousand words, then a video is worth a million!</p>
     </div>
 </section>
 

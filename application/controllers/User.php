@@ -10,9 +10,8 @@ class User extends CI_Controller {
         $this->load->model(array('Users_model', 'Filters_model', 'Matches_model', 'Bio_model'));
         $this->load->library(['unirest', 'facebook']);
         $u_data = $this->session->userdata('user');
-        // $this->session->unset_userdata('FBRLH_state');
-        // pr($_SESSION);
-        if (empty($u_data) && uri_string() != 'user/manage_subscription' && uri_string() != "user/login_callback") {
+         
+        if (empty($u_data) && uri_string() != 'user/manage_subscription' && uri_string() != "user/login_callback" && uri_string() != "user/webcam" && uri_string() != "user/saverecordedvideo") {
             redirect('register');
         }
     }
@@ -567,6 +566,61 @@ class User extends CI_Controller {
 
         $this->session->set_userdata('user', $session_u_data); // Set session key - "user" for all userdata
         redirect('user/user_settings');
+    }
+
+    public function webcam() {
+        $data['sub_view'] = 'user/webcam';
+        $data['meta_title'] = "Webcam";
+        $this->load->view('main', $data);
+    }
+
+    public function saverecordedvideo() {
+        $success = false;
+        $data = array();
+        $path = "";
+        if (isset($_FILES['file']) && !$_FILES['file']['error']) {
+            if ($_FILES['file']['type'] == "video/webm") {
+                $random = random_string('alnum', 9);
+                $fname = $random . ".webm";
+                $fpathw = UPLOADPATH_VIDEO . '/' . $fname;
+            }
+            if (move_uploaded_file($_FILES['file']['tmp_name'], $fpathw)) {
+                $mp4name = $random . ".mp4";
+                $fpath = UPLOADPATH_VIDEO . '/' . $mp4name;
+                if ($_FILES['file']['type'] == "video/webm") {
+                    exec('C:\wamp\www\ffmpeg\bin\ffmpeg.exe -i ' . $fpathw . ' ' . $fpath);
+                    @unlink($fpathw);
+                }
+                $thumb_name = $random . '.png';
+                $thumb_path = UPLOADPATH_THUMB . '/' . $thumb_name;
+                exec(FFMPEG_PATH . ' -i ' . $fpath . ' -ss 00:00:01.000 -vframes 1 ' . $thumb_path);
+                /* $upd_data['media_type'] = '2'; */
+                $success = true;
+                $data['message'] = "";
+                $path = $fpath;
+            } else {
+                $success = false;
+                $data['message'] = "Could not move file to destination folder!";
+            }
+        } else {
+            $success = false;
+            if ($_FILES['file']['error'] == 1) {
+                $data['message'] = "The uploaded file exceeds the upload_max_filesize directive in php.ini.";
+            } else if ($_FILES['file']['error'] == 2) {
+                $data['message'] = "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.";
+            } else if ($_FILES['file']['error'] == 3) {
+                $data['message'] = "The uploaded file was only partially uploaded.";
+            } else if ($_FILES['file']['error'] == 4) {
+                $data['message'] = "No file was uploaded.";
+            } else if ($_FILES['file']['error'] == 6) {
+                $data['message'] = "Missing /tmp folder.";
+            } else if ($_FILES['file']['error'] == 7) {
+                $data['message'] = "Failed to write file to disk.";
+            } else if ($_FILES['file']['error'] == 8) {
+                $data['message'] = "A PHP extension stopped the file upload.";
+            }
+        }
+        echo json_encode(array("success" => $success, "message" => $data['message'], "path" => $path));
     }
 
 }

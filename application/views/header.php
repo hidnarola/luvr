@@ -11,17 +11,16 @@ else
         <title><?php echo $site_title; ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0"/>
         <link rel="icon" href="<?php echo base_url('/favicon.png'); ?>" type="image/x-icon" />
-        <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:400,500" rel="stylesheet"/>    
+        <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:400,500" rel="stylesheet"/>
+        <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/bootstrap.min.css'; ?>"/>
+        <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/icomoon.css'; ?>"/>
+        <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/style.css'; ?>"/>
+        <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/responsive.css'; ?>"/>
         <?php
-        /* Load css files */
-        $css = array('bootstrap.min.css', 'style.css', 'responsive.css', 'icomoon.css', 'jquery.bxslider.css');
-        $js = array('jquery.min.js', 'bootstrap.min.js');
-        $this->minify->css($css);
-        echo $this->minify->deploy_css();
-
-        // /* Load js files */
-        $this->minify->js($js);
-        echo $this->minify->deploy_js(FALSE, 'combined.min.js');
+            /* Load js files */
+            $js = array('jquery.min.js', 'bootstrap.min.js');
+            $this->minify->js($js);
+            echo $this->minify->deploy_js(FALSE, 'combined.min.js');
         ?>        
         <script src="<?php echo base_url('node_modules/socket.io/node_modules/socket.io-client/socket.io.js');?>"></script>
         
@@ -103,6 +102,6 @@ else
         </header>
 
         <section id="inner-content" class="inner-content <?php echo ($sub_view == "bio/video") ? "video" : ""; ?>">
-            <div class="container">
+            <div class="<?php echo ($sub_view == "match/nearByMatches") ? "nbmatches" : "container"; ?>">
                 <div class="row">
                     <div id="msg_txt" style="display:none;"></div>

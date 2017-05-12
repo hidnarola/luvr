@@ -7,6 +7,12 @@ if ($user_swipes_per_day >= MAX_SWIPES_PER_DAY) {
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         Your likes quota per day has been reached! Therefore, right swipes for cards will not be considered.</div>';
 }
+$show_ad = true;
+if (!empty($user_data)) {
+    if (isUserActiveSubscriber($user_data['id']) == 1) {
+        $show_ad = false;
+    }
+}
 $max_powerluvs = MAX_POWERLUVS_PER_DAY;
 $pl_onclick = "onclick=powerLuv();";
 if ($is_user_premium_member == 1) {
@@ -43,7 +49,40 @@ if (!empty($nearByUsers)) {
 <script type="text/javascript">
     var nearby_matches = <?php echo json_encode($nearByUsers); ?>
 </script>
-<div class="col-md-12 col-sm-12 col-xs-12">
+<?php if ($this->uri->segment(3) == "c") { ?>
+    <script>
+        $(window).load(function () {
+            //$(".addvertise-img1 iframe").attr("sandbox","allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-pointer-lock");
+
+
+            //$(".addvertise-img1 iframe").contents().find("a:first").trigger('click');
+            var ur = $(".addvertise-img1 iframe").contents().find("a:first").attr('href');
+            log(ur);
+            location.href = ur;
+            //window.open(ur, '_blank');
+
+
+
+            //$(".addvertise-img1 iframe").contents().find("a:first").click();
+            /*var $iframe = $(".addvertise-img1 iframe").contents();
+             $("body", $iframe).trigger("click");*/
+        });
+    </script>
+<?php } ?>
+<?php if ($_SERVER['HTTP_HOST'] == 'luvr.me' && $show_ad == true) { ?>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<?php } ?>
+<div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 ad-div text-center">
+    <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me' && $show_ad == true) { ?>
+        <div class="addvertise-img1 adv">
+            <script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1582351"></script>
+        </div>
+        <div class="addvertise-img2 adv">
+            <script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1582355"></script>
+        </div>
+    <?php } ?>
+</div>
+<div class="col-lg-8 col-md-6 col-sm-6 col-xs-12 content-div">
     <div class="user-list">
         <div class="bg-name">luvr</div>
         <?php if (!empty($nearByUsers)) { ?>
@@ -264,12 +303,37 @@ if (!empty($nearByUsers)) {
         <?php } ?>
     </div>
 </div>
+<div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 ad-div text-center">
+    <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me' && $show_ad == true) { ?>
+        <div class="addvertise-img3 adv">
+            <script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1582359"></script>
+        </div>
+        <div class="addvertise-img4 adv">
+            <script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1582363"></script>
+        </div>
+    <?php } ?>
+</div>
+<div class="modal fade" id="adpopup" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="hdn_tmp_id"/>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Sneak Peak</h4>
+            </div>
+            <div class="modal-body">
+                <iframe src="" id="sneak_peak_frame" frameborder="0" scrolling="no" style="overflow:hidden;height:300px;width:100%;"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
 <style type="text/css">
     .inner-content{position:relative;}
 </style>
 <script src="<?php echo base_url() . 'assets/js/jquery.transform2d.js'; ?>" type="text/javascript"></script>
 <script src="<?php echo base_url() . 'assets/js/jquery.jTinder.js'; ?>" type="text/javascript"></script>
 <script type="text/javascript">
+                    var popup_seconds = 0;
 <?php if (!empty($success)) { ?>
                         $(document).ready(function () {
                             showMsg("<?php echo $success; ?>", "success", true);
@@ -293,7 +357,19 @@ if (!empty($nearByUsers)) {
                             onLike: function (item) {
 <?php if ($user_swipes_per_day < MAX_SWIPES_PER_DAY) { ?>
                                     /*loadLevel2(item, 'like');*/
-                                    location.href = "<?php echo base_url('/match/level2/'); ?>" + $(item).data("id") + "/1/1";
+    <?php if ($is_user_premium_member == 1) { ?>
+                                        location.href = "<?php echo base_url('/match/level2/'); ?>" + $(item).data("id") + "/1/2";
+    <?php } else { ?>
+                                        $("#adpopup").modal('show');
+                                        $("#hdn_tmp_id").val($(item).data("id"));
+                                        $("#sneak_peak_frame").attr('src', '<?php echo base_url('video/adcash'); ?>');
+                                        $("#sneak_peak_frame").on('load', function () {
+                                            showSneakPeak();
+                                        });
+                                        $("#sneak_peak_frame").on('error', function () {
+                                            location.href = "<?php echo base_url('match/level2/'); ?>" + $(item).data("id") + "/1/2";
+                                        });
+    <?php } ?>
 <?php } ?>
                                 reflectUserInfo(item.index() - 1);
                             },
@@ -445,4 +521,17 @@ if (!empty($nearByUsers)) {
                      $('.secondSwiper ul li,panel').removeAttr('style');
                      $('.secondSwiper ul li,panel').show();
                      }*/
+                    /*$("#adpopup").on("shown.bs.modal", function () {
+                        showSneakPeak();
+                    });*/
+                    function showSneakPeak() {
+                        popup_seconds = popup_seconds + 1;
+                        if (popup_seconds == 5)
+                        {
+                            location.href = "<?php echo base_url('match/level2/'); ?>" + $("#hdn_tmp_id").val() + "/1/2";
+                        } else
+                        {
+                            setTimeout(showSneakPeak, 1000);
+                        }
+                    }
 </script>

@@ -8,7 +8,7 @@ class Video extends CI_Controller {
         parent::__construct();
 
         $this->load->library('unirest');
-        $this->load->model(array('Users_model', 'Filters_model', 'Bio_model'));
+        $this->load->model(array('Users_model', 'Filters_model', 'Bio_model', 'Videos_model'));
     }
 
     public function index() {
@@ -22,41 +22,88 @@ class Video extends CI_Controller {
         readfile($path);
     }
 
-    public function play($id = null) {
+    public function play($id = null, $param2 = null) {
         /* if (empty($id)) {
           show_404();
           } */
         if (is_numeric($id)) {
-            $user_media = $this->Users_model->getUserMediaByCol('id', $id);
-            if (!empty($user_media)) {
-                if ($user_media['media_type'] == 2)
-                    $data['video_url'] = base_url() . "video/show_video/" . $user_media['media_name'];
-                else if ($user_media['media_type'] == 4)
-                    $data['video_url'] = $user_media['media_name'];
-                else
+            if ($param2 == 2) {
+                $this->db->select('*');
+                $this->db->where('userid', $id);
+                $this->db->where_in('media_type', array(2, 4));
+                $user_media = $this->db->get('media')->result_array();
+                if (!empty($user_media)) {
+                    $i = 0;
+                    $playlist = array();
+                    foreach ($user_media as $value) {
+                        $playlist[$i]['file'] = $value['media_name'];
+                        $playlist[$i]['image'] = $value['media_thumb'];
+                        $i++;
+                    }
+                    $data['playlist'] = $playlist;
+                } else {
+                    $random_video = $this->Videos_model->getRandomVideo();
+                    $data['playlist'][0]['file'] = $random_video['media_name'];
+                }
+            } else {
+                $user_media = $this->Users_model->getUserMediaByCol('id', $id);
+                if (!empty($user_media)) {
+                    if ($user_media['media_type'] == 2) {
+                        $data['playlist'][0]['file'] = base_url() . "video/show_video/" . $user_media['media_name'];
+                    } else if ($user_media['media_type'] == 4) {
+                        $data['playlist'][0]['file'] = $user_media['media_name'];
+                    } else
+                        show_404();
+                }else {
                     show_404();
-            }else {
-                show_404();
+                }
             }
         } else {
-            $data['video_url'] = urldecode($_GET['url']);
+            if (!empty($_GET['url']) && isset($_GET['url'])) {
+                $data['playlist'][0]['file'] = urldecode($_GET['url']);
+            } else {
+                $random_video = $this->Videos_model->getRandomVideo();
+                $data['playlist'][0]['file'] = $random_video['media_name'];
+            }
+        }
+        if (detect_browser() == 'mobile') {
+            $mob_user_agent = $_SERVER['HTTP_USER_AGENT'];
+            $response = $this->Videos_model->manageUserAgent();
+        } else {
+            /* $ua_data = $this->Videos_model->getRandomUserAgent();
+              $mob_user_agent = $ua_data['user_agent']; */
+        }
+        if ($this->input->get('d') == 1) {
+            pr(urlencode($mob_user_agent));
+            pr($_SERVER['HTTP_USER_AGENT']);
         }
         if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me') {
             $ads = array(
-                "http://my.mobfox.com/request.php?rt=" . MOBFOX_APIKEY . "&r_type=video&r_resp=vast30&s=" . MOBFOX_INVHASH_DEV . "&i=" . $_SERVER['REMOTE_ADDR'] . "&u=" . urlencode($_SERVER['HTTP_USER_AGENT']) . "",
-                "http://soma.smaato.net/oapi/reqAd.jsp?adspace=130268026&apiver=502&format=video&formatstrict=true&height=768&pub=1100031417&response=XML&vastver=2&videotype=interstitial&width=1024",
                 "http://ads.nexage.com/adServe?dcn=2c9d2b4f015b5b87d1dea3a7a1ae016f&pos=interstitial&ua=" . urlencode($_SERVER['HTTP_USER_AGENT']) . "&ip=" . $_SERVER['REMOTE_ADDR'] . "&u(id)=" . uniqid() . "&req(url)=" . base_url(uri_string()) . "" //AOL1
             );
             $data['ad_url'] = $ads[array_rand($ads)];
+            if (!empty($_GET['p'])) {
+                if ($_GET['p'] == "ao") {
+                    $data['ad_url'] = $ads[0];
+                }
+            }
         } else if ($_SERVER['HTTP_HOST'] == 'luvr.me') {
             $ads = array(
-                "http://my.mobfox.com/request.php?rt=" . MOBFOX_APIKEY . "&r_type=video&r_resp=vast30&s=" . MOBFOX_INVHASH_LIVE . "&i=" . $_SERVER['REMOTE_ADDR'] . "&u=" . urlencode($_SERVER['HTTP_USER_AGENT']) . "",
-                "http://soma.smaato.net/oapi/reqAd.jsp?adspace=130269290&apiver=502&format=video&formatstrict=true&height=768&pub=1100031417&response=XML&vastver=2&videotype=interstitial&width=1024",
                 "http://ads.nexage.com/adServe?dcn=2c9d2b50015b5bb0aaaab3d2d9960047&pos=interstitial&ua=" . urlencode($_SERVER['HTTP_USER_AGENT']) . "&ip=" . $_SERVER['REMOTE_ADDR'] . "&u(id)=" . uniqid() . "&req(url)=" . base_url(uri_string()) . "" //AOL1
             );
             $data['ad_url'] = $ads[array_rand($ads)];
+            if (!empty($_GET['p'])) {
+                if ($_GET['p'] == "ao") {
+                    $data['ad_url'] = $ads[0];
+                }
+            }
         }
         $data['sub_view'] = 'bio/video';
+        $data['show_header_footer'] = 1;
+        $next_random = $this->Videos_model->getRandomVideoOwner($id);
+        $data['next_random'] = $next_random['userid'];
+        if ($param2 == 0 && $param2 != null)
+            $data['show_header_footer'] = 0;
         $data['meta_title'] = "Play Video";
         $data['is_video'] = true;
         $this->load->view('main', $data);
@@ -66,10 +113,17 @@ class Video extends CI_Controller {
         require APPPATH . 'third_party/SmaatoSnippet.php';
         $snippet = new SmaatoSnippet();
         try {
-            $snippet->setPublisherId(1100031417)
-                    ->setAdspaceId(130268026)
-                    ->setDimension("full_1024x768")
-                    ->setResponseFormat("html");
+            if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me') {
+                $snippet->setPublisherId(1100031417)
+                        ->setAdspaceId(130268026)
+                        ->setDimension("full_1024x768")
+                        ->setResponseFormat("html");
+            } else if ($_SERVER['HTTP_HOST'] == 'luvr.me') {
+                $snippet->setPublisherId(1100031417)
+                        ->setAdspaceId(130269290)
+                        ->setDimension("full_1024x768")
+                        ->setResponseFormat("html");
+            }
             $snippet->requestAd();
             if ($snippet->isAdAvailable()) {
                 $banner = $snippet->getAd();
@@ -79,6 +133,20 @@ class Video extends CI_Controller {
         } catch (Exception $e) {
             echo $e->getMessage();
         }
+    }
+
+    function aol1() {
+        $this->load->view('ads/aol1');
+    }
+
+    function adcash() {
+        $this->load->view('ads/adcash');
+    }
+
+    function checkad() {
+        $data['sub_view'] = 'ads/testad';
+        $data['meta_title'] = "Ad Checkup";
+        $this->load->view('main', $data);
     }
 
 }

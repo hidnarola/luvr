@@ -99,6 +99,11 @@ if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
     define('UPLOADPATH_IMAGE', $_SERVER['DOCUMENT_ROOT'] . '/assets/uploads/Image');
     define('UPLOADPATH_THUMB', $_SERVER['DOCUMENT_ROOT'] . '/assets/uploads/thumb');
     define('FFMPEG_PATH', 'C:\wamp64\www\ffmpeg\bin\ffmpeg.exe');
+} else if ($_SERVER['REMOTE_ADDR'] == "::1") {
+    define('UPLOADPATH_VIDEO', $_SERVER['DOCUMENT_ROOT'] . '/Luvr/assets/uploads/Video');
+    define('UPLOADPATH_IMAGE', $_SERVER['DOCUMENT_ROOT'] . '/Luvr/assets/uploads/Image');
+    define('UPLOADPATH_THUMB', $_SERVER['DOCUMENT_ROOT'] . '/Luvr/assets/uploads/thumb');
+    define('FFMPEG_PATH', 'C:\wamp\www\ffmpeg\bin\ffmpeg.exe');
 } else {
     define('UPLOADPATH_VIDEO', '/var/www/html/Luvr/Webservices/upload/Video');
     define('UPLOADPATH_IMAGE', '/var/www/html/Luvr/Webservices/upload/Image');
