@@ -19,11 +19,12 @@ else
         $this->minify->css($css);
         echo $this->minify->deploy_css();
 
-        /* Load js files */
+        // /* Load js files */
         $this->minify->js($js);
         echo $this->minify->deploy_js(FALSE, 'combined.min.js');
-        ?> 
-
+        ?>        
+        <script src="<?php echo base_url('node_modules/socket.io/node_modules/socket.io-client/socket.io.js');?>"></script>
+        
         <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/myTooltip.css'; ?>"> <!-- CSS for the for Tool-tip  -->        
         <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/animate.min.css'; ?>"> <!-- Css for bootstrap notify show/hide effect -->
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/myTooltip.js'; ?>"></script> <!-- Script for the Tool-tip  -->

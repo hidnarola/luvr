@@ -8,6 +8,22 @@ function qry($is_die = false) {
     }
 }
 
+function my_img_url($img_type, $img_url){
+    if($img_type == '1'){
+        return base_url().'bio/show_img/'.$img_url.'/1';
+    }
+    if($img_type == '2'){
+        $img_url = str_replace('.mp4','.png',$img_url);
+        return base_url().'bio/show_img/'.$img_url.'/1';
+    }
+    if($img_type == '3'){
+        return $img_url;
+    }
+    if($img_type == '4'){
+        return $img_url;
+    }
+}
+
 function _createThumbnail($img_path, $thumb_path) {
     $CI = & get_instance();
 

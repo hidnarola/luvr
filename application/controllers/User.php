@@ -10,6 +10,8 @@ class User extends CI_Controller {
         $this->load->model(array('Users_model', 'Filters_model', 'Matches_model', 'Bio_model'));
         $this->load->library(['unirest', 'facebook']);
         $u_data = $this->session->userdata('user');
+        // $this->session->unset_userdata('FBRLH_state');
+        // pr($_SESSION);
         if (empty($u_data) && uri_string() != 'user/manage_subscription' && uri_string() != "user/login_callback") {
             redirect('register');
         }

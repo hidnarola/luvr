@@ -1,12 +1,12 @@
 <?php
     $user_data = $this->session->userdata('user');
     $user_media = $this->Users_model->getUserMediaByCol('id', $user_data['profile_media_id']);
-    $all_side_medias = $this->Bio_model->fetch_media_for_sidebar($user_data['id']);    
+    $all_side_medias = $this->Bio_model->fetch_media_for_sidebar($user_data['id']);
 ?>
 <div class="col-md-4 col-sm-4 col-xs-12 account-l">
     <div class="account-l-head">
         <span class="user-pic">
-            <?php if ($user_media['media_type'] == '1' || $user_media['media_type'] == '2') { ?>
+            <?php if ($user_media['media_type'] == '1' || $user_media['media_type'] == '2') {   ?>
                 <img alt="User Pic" src="<?php echo base_url() . 'bio/show_img/' . $user_media['media_thumb'] . '/1'; ?>" onerror="this.src='<?php echo base_url(); ?>assets/images/default_avatar.jpg'" class="img-responsive"/>
             <?php } else { ?>
                 <img alt="User Pic" src="<?php echo $user_media['media_thumb']; ?>" class="img-circle img-responsive" onerror="this.src='<?php echo base_url(); ?>assets/images/default_avatar.jpg'"/>
@@ -123,11 +123,11 @@
                             }
 
                 ?>
-                <li>
+                <!-- <li>
                     <a <?php echo $fancybox_str; ?> class="image-link" href="<?php echo $link; ?>"  target="<?php echo $anchor_target; ?>">
                         <img src="<?php echo $img_link; ?>" alt="" />
                     </a>
-                </li>
+                </li> -->
                 <?php } } ?>
             </ul>
         </div>

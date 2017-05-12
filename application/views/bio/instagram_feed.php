@@ -35,14 +35,15 @@
 
                         foreach ($all_images as $image) {
 
-                            $type = $image['type'];
+                            $type = '3';
                             $thumb = $image['images']['thumbnail']['url'];
                             $image_link = $link = $data_val =  $image['images']['standard_resolution']['url'];
                             $fancybox_str = 'data-fancybox="gallery"';
                             $anchor_target = '';
                             $dynamic_id = random_string();
 
-                            if ($type == 'video') {
+                            if ($image['type'] == 'video') {
+                                $type = '4';
                                 $fancybox_str = '';
                                 $anchor_target = '_blank';
                                 $vid_url = urlencode($image['videos']['standard_resolution']['url']);

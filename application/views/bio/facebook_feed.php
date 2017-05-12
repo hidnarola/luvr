@@ -34,16 +34,17 @@
 
                         foreach ($all_images as $image) {
 
-                            $type = $image['type'];
-                            if($type == 'video' || $type == 'photo'){
+                            if($image['type'] == 'video' || $image['type'] == 'photo'){
 
+                                $type = '3'; // For online image link
                                 $thumb = $image['full_picture'];
                                 $image_link = $link = $data_val = $image['full_picture'];
                                 $fancybox_str = 'data-fancybox="gallery"';
                                 $anchor_target = '';
                                 $dynamic_id = random_string();
                                 
-                                if ($type == 'video') {
+                                if ($image['type'] == 'video') {
+                                    $type = '4'; // For the online video link
                                     if(strpos($image['source'],"video.xx.fbcdn.net") == FALSE){ continue; }
                                     $fancybox_str = '';
                                     $anchor_target = '_blank';

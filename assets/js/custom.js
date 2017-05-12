@@ -53,3 +53,41 @@ function show_notification(noti_title,noti_message,noti_alert_type) {
         template: template_str
     });
 }
+
+$(function() {
+    // We can attach the `fileselect` event to all file inputs on the page
+    $(document).on('change', ':file', function() {
+        var input = $(this),
+            numFiles = input.get(0).files ? input.get(0).files.length : 1,
+            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.trigger('fileselect', [numFiles, label]);
+    });
+    // We can watch for our custom `fileselect` event like this
+    $(document).ready( function() {
+        $(':file').on('fileselect', function(event, numFiles, label) {
+            var input = $(this).parents('.input-group').find(':text'),
+            log = numFiles > 1 ? numFiles + ' files selected' : label;
+            if( input.length ) {
+                input.val(log);
+            } else {
+                if( log ) alert(log);
+            }
+        });
+    });
+});
+
+function my_img_url_js(img_type, img_url){
+    if(img_type == '1'){
+        return '<?php echo base_url()."bio/show_img/"; ?>'+img_url+'/1';
+    }
+    if(img_type == '2'){
+        img_url = img_url.replace(".mp4", ".png");
+        return '<?php echo base_url()."bio/show_img/"; ?>'+img_url+'/1';
+    }
+    if(img_type == '3'){
+        return img_url;
+    }
+    if(img_type == '4'){
+        return img_url;
+    }
+}

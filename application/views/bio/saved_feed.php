@@ -40,7 +40,7 @@
                             $is_delete = 'yes';
                             $dynamic_id = random_string();
 
-                            $type = $image['media_type'];
+                            $type = $image['media_type'];                            
 
                             $thumb = $image['media_thumb'];
                             $image_link = $image['media_name'];
@@ -63,15 +63,18 @@
                             if($type == '2'){                                
                                 $fancybox_str = '';
                                 $anchor_target = '_blank';
+                                $link = $image['media_name'];
                                 $image['media_thumb'] = str_replace('.mp4','.png', $image['media_thumb']);
                                 $img_thumb = base_url().'bio/show_img/'.$image['media_thumb'].'/1';
-                                $image_link = $link = base_url() . "video/play/".$image['id'];
+
+                                $image_link = base_url() . "video/play/".$image['id'];
                             }
 
                             if($type == '1'){
                                 $fancybox_str = 'data-fancybox="gallery"';
                                 $anchor_target = '';
-                                $image_link =  $link = base_url().'bio/show_img/'.$image['media_name'];
+                                $link = $image['media_name'];
+                                $image_link = base_url().'bio/show_img/'.$image['media_name'];
                                 $img_thumb = base_url().'bio/show_img/'.$image['media_thumb'].'/1';
                             }
 

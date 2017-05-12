@@ -95,7 +95,7 @@ if ( ! function_exists('character_limiter'))
 	 * @return	string
 	 */
 	function character_limiter($str, $n = 500, $end_char = '&#8230;')
-	{
+	{		
 		if (mb_strlen($str) < $n)
 		{
 			return $str;

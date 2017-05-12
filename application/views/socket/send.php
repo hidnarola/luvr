@@ -93,9 +93,9 @@
 <footer class="text-center">Simple Realtime Message &copy 2015</footer>
 <hr>
 
-  <script src="<?php echo base_url('assets_socket/js/jquery-1.11.2.min.js');?>"></script>
-  <script src="<?php echo base_url('assets_socket/js/bootstrap.min.js');?>"></script>
-	<script src="<?php echo base_url('node_modules/socket.io/node_modules/socket.io-client/socket.io.js');?>"></script>
+<script src="<?php echo base_url('assets_socket/js/jquery-1.11.2.min.js');?>"></script>
+<script src="<?php echo base_url('assets_socket/js/bootstrap.min.js');?>"></script>
+<script src="<?php echo base_url('node_modules/socket.io/node_modules/socket.io-client/socket.io.js');?>"></script>
 	<script>
   $(document).ready(function(){
 
@@ -114,7 +114,7 @@
 
         $.ajax({
             type: "POST",
-            url: "<?php echo base_url('socket/send/submit');?>",
+            url: "<?php echo base_url('socket/send/submit_2');?>",
             data: dataString,
             dataType: "json",
             cache : false,
@@ -128,21 +128,19 @@
 
               if(data.success == true){
 
-                $("#notif").html(data.notif);
-
                 var socket = io.connect( 'http://'+window.location.hostname+':3000' );
 
                 socket.emit('new_count_message', { 
-                  new_count_message: data.new_count_message
+                  new_count_message: data.socket_snt
                 });
 
-                socket.emit('new_message', { 
-                  name: data.name,
-                  email: data.email,
-                  subject: data.subject,
-                  created_at: data.created_at,
-                  id: data.id
-                });
+                // socket.emit('new_message', { 
+                //   name: data.name,
+                //   email: data.email,
+                //   subject: data.subject,
+                //   created_at: data.created_at,
+                //   id: data.id
+                // });
 
               } else if(data.success == false){
 
@@ -163,6 +161,12 @@
     });
 
   });
+
+    var socket = io.connect( 'http://'+window.location.hostname+':3000' );
+    socket.on( 'new_count_message', function( data ) {
+        console.log(data);  
+        $( "#new_count_message" ).html( data.new_count_message );
+    });
 	</script>
   </body>
 </html>

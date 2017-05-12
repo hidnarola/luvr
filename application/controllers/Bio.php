@@ -9,7 +9,7 @@ class Bio extends CI_Controller {
 
         $this->load->library('unirest');
         $this->load->model(array('Users_model', 'Filters_model', 'Bio_model'));
-
+        
         $u_data = $this->session->userdata('user');
         if (empty($u_data)) {
             redirect('');
@@ -80,7 +80,7 @@ class Bio extends CI_Controller {
                 }
 
                 $raw_name = $data['upload_data']['raw_name'];
-                $thumb_name = 'thumb_' . $raw_name . '.png';
+                $thumb_name = $raw_name . '.png';
                 $thumb_path = UPLOADPATH_THUMB . '/' . $thumb_name;
                 $upd_data = [];
 
@@ -166,7 +166,7 @@ class Bio extends CI_Controller {
 
             $ins_data = [];
 
-            $thumb_name = 'thumb_' . $raw_name . '.png';
+            $thumb_name = $raw_name . '.png';
             $thumb_path = UPLOADPATH_THUMB . '/' . $thumb_name;
 
             // IF image then create thumb using GD library otherwise use ffmpeg for create image
@@ -207,6 +207,7 @@ class Bio extends CI_Controller {
         $fb_id = $user_info['facebook_id'];        
         $fb_access_token = $u_data['fb_access_token'];
         
+        // pr($_SESSION,1);
         $fb_feed = 'https://graph.facebook.com/'.$fb_id.'/feed?fields=full_picture,source,type,created_time&limit=100&access_token='.$fb_access_token;
         $response = $this->unirest->get($fb_feed, $headers = array());
         $raw_data = json_decode($response->raw_body, true);
@@ -253,22 +254,24 @@ class Bio extends CI_Controller {
         //pr($all_images);
         if (!empty($all_images)) {
             foreach ($all_images as $image) {
-                $type = $image['type'];
-                if($type == 'video' || $type == 'photo'){
+                
+                if($image['type'] == 'video' || $image['type'] == 'photo'){
 
-                    if ($type == 'video') {
+                    $type = '3';  // Online Image link
+                    $thumb = $image['full_picture'];
+                    $image_link = $link = $data_val = $image['full_picture'];
+                    $fancybox_str = 'data-fancybox="gallery"';
+                    $anchor_target = '';
+                    $dynamic_id = random_string();
+                    
+                    if ($image['type'] == 'video') {
+                        $type = '4'; // Online Video link
                         if(strpos($image['source'],"video.xx.fbcdn.net") == FALSE){ continue; }
                         $fancybox_str = '';
                         $anchor_target = '_blank';
                         $image_link = base_url() . "video/play?url=".urlencode($image['source']);
                         $data_val =  $image['source'];
                     }
-                                        
-                    $thumb = $image['full_picture'];
-                    $image_link = $link = $data_val = $image['full_picture'];
-                    $fancybox_str = 'data-fancybox="gallery"';
-                    $anchor_target = '';
-                    $dynamic_id = random_string();
 
                     
                     $is_delete = 'no';
@@ -353,7 +356,7 @@ class Bio extends CI_Controller {
         if (!empty($all_images)) {
             foreach ($all_images as $image) {
 
-                $type = $image['type'];
+                $type = '3'; // For online image link
                 $link = $image['images']['standard_resolution']['url'];
                 $thumb = $image['images']['thumbnail']['url'];
                 $image_link = $link = $data_val =  $image['images']['standard_resolution']['url'];
@@ -361,7 +364,8 @@ class Bio extends CI_Controller {
                 $anchor_target = '';
                 $dynamic_id = random_string();
 
-                if ($type == 'video') {
+                if ($image['type'] == 'video') {
+                    $type = '4'; // For online video link
                     $fancybox_str = '';
                     $anchor_target = '_blank';
                     $vid_url = urlencode($image['videos']['standard_resolution']['url']);
@@ -408,7 +412,7 @@ class Bio extends CI_Controller {
         $type = $this->input->post('type');
         $thumb = $this->input->post('thumb');
 
-        $media_type = ($type == 'video') ? '4' : '3';
+        //$media_type = ($type == 'video') ? '4' : '3';
 
         $insta_id = $this->input->post('insta_id');
         $is_delete = $this->input->post('is_delete');
@@ -427,7 +431,7 @@ class Bio extends CI_Controller {
             'media_id' => $insta_id,
             'media_name' => $img_name,
             'media_thumb' => $thumb,
-            'media_type' => $media_type,
+            'media_type' => $type,
             'insta_datetime' => $insta_time,
             'created_date' => date('Y-m-d H:i:s'),
             'is_bios' => '1'
@@ -461,8 +465,8 @@ class Bio extends CI_Controller {
 
         $type = $this->input->get('type');
         $img_name = urldecode($this->input->get('img_name'));
-        $thumb = urldecode($this->input->get('thumb'));
-        $media_type = ($type == 'image') ? '3' : '4';
+        $thumb = urldecode($this->input->get('thumb'));        
+
         $insta_id = $this->input->get('insta_id');
         $is_delete = $this->input->get('is_delete');
         $insta_time = date('Y-m-d H:i:s');
@@ -472,10 +476,10 @@ class Bio extends CI_Controller {
             'media_id' => $insta_id,
             'media_name' => $img_name,
             'media_thumb' => $thumb,
-            'media_type' => $media_type,
+            'media_type' => $type,
             'insta_datetime' => $insta_time,
             'updated_date' => date('Y-m-d H:i:s')
-        );
+        );        
 
         // Update new data into media with userid - 0 which indiacte it's for profile
         $this->Bio_model->update_media(['id' => $profile_media_id], $upd_data);        

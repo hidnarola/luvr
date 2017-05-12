@@ -28,8 +28,7 @@
   
   </style>
   <body>
-    <div id="load">Please wait ...</div>
-    <audio id="notif_audio"><source src="<?php echo base_url('sounds/notify.ogg');?>" type="audio/ogg"><source src="<?php echo base_url('sounds/notify.mp3');?>" type="audio/mpeg"><source src="<?php echo base_url('sounds/notify.wav');?>" type="audio/wav"></audio>
+    <div id="load">Please wait ...</div>    
 
 <nav class="navbar navbar-default navbar-fixed-top " role="navigation">
   <div class="container">
@@ -119,6 +118,15 @@
   <script src="<?php echo base_url('assets_socket/js/bootstrap.min.js');?>"></script>
 	<script src="<?php echo base_url('node_modules/socket.io/node_modules/socket.io-client/socket.io.js');?>"></script>
 	<script>
+
+    var socket = io.connect( 'http://'+window.location.hostname+':3000' );                
+
+    socket.emit('test_socket', { test_socket: 'helllo'});  
+    
+    socket.emit('update_count_message', {
+        update_count_message: 3011
+    });
+
   $(document).ready(function(){
 
 		$("#load").hide();
@@ -148,10 +156,9 @@
                 $("#show_subject").html(data.subject);
                 $("#show_message").html(data.message);
 
-                var socket = io.connect( 'http://'+window.location.hostname+':3000' );
-                
-                socket.emit('update_count_message', { 
-                  update_count_message: data.update_count_message
+                var socket = io.connect( 'http://'+window.location.hostname+':3000' );                
+                socket.emit('update_count_message', {
+                    update_count_message: data.update_count_message
                 });
 
               } 
@@ -167,17 +174,13 @@
   });
 
   var socket = io.connect( 'http://'+window.location.hostname+':3000' );
-
-  socket.on( 'new_count_message', function( data ) {
-  
-      $( "#new_count_message" ).html( data.new_count_message );
-      $('#notif_audio')[0].play();
-
+  socket.on( 'new_count_message', function( data ) {  
+      console.log(socket);
+      $( "#new_count_message" ).html( data.new_count_message );      
   });
 
   socket.on( 'update_count_message', function( data ) {
-
-      $( "#new_count_message" ).html( data.update_count_message );
+      //$( "#new_count_message" ).html( data.update_count_message );
     
   });
 
@@ -187,6 +190,11 @@
       $( "#no-message-notif" ).html('');
       $( "#new-message-notif" ).html('<div class="alert alert-success" role="alert"> <i class="fa fa-check"></i><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>New message ...</div>');
   });
+
+    socket.on( 'test_socket', function( data ) {
+        $( "#new_count_message" ).html( data.test_socket );
+        console.log('OVER HHHH');
+    }); 
 
 </script>
   </body>

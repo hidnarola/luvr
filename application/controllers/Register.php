@@ -60,8 +60,7 @@ class Register extends CI_Controller {
                             
                             $this->session->set_userdata('user', $session_u_data); // Set session key - "user" for all userdata
                             redirect('bio/instagram_feed');
-
-                        }else{                            
+                        }else{
                             $this->session->set_flashdata('error', 'This account is already connected with other user.');
                             redirect('user/user_settings');
                         }
@@ -98,6 +97,10 @@ class Register extends CI_Controller {
                     if ($u_data['latlong'] == null || empty($u_data['latlong'])) { $upd_data['latlong'] = implode(',', $google_map_data['location']); }
                     $this->Users_model->manageUser($upd_data); // Update the user's last seen and latlong if empty
 
+                    $socket_data['u_data'] = $u_data;
+                    
+                    $this->load->view('message/start_socket',$socket_data); // make connection with socket
+
                     $this->login_callback(); // If login_callback session var set then redirect to that page
 
                     // If profile not saved by user then redirect to set user profile page otherwise redirect to set filters
@@ -128,6 +131,10 @@ class Register extends CI_Controller {
 
                     $this->session->set_userdata('user', $u_sess_data); // Set session key - "user" for all userdata
 
+                    $socket_data['u_data'] = $u_sess_data;
+
+                    $this->load->view('message/start_socket',$socket_data); // make connection with socket
+
                     $this->login_callback(); // If login_callback session var set then redirect to that page
 
                     redirect('user/setup_userprofile');
@@ -145,7 +152,7 @@ class Register extends CI_Controller {
 
         $user_detail = $this->facebook->get_user();        
 
-        if(empty($user_detail)){ show_404(); }
+        if(empty($user_detail)){ redirect(''); }
         
         $fb_access_token = $this->session->userdata('fb_token'); // Access token of facebook
 
