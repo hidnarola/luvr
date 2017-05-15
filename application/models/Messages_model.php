@@ -11,10 +11,7 @@ class Messages_model extends CI_Model {
 	public function fetch_all_messages_from_user($other_user_id){
 
 		$u_data = $this->session->userdata('user');		
-		$user_id = $u_data['id'];
-
-		// $user_id = '99';
-		// $other_user_id = '120';
+		$user_id = $u_data['id'];		
 
 		$this->db->select('msg.*,usr1.profile_media_id as meedia1,usr2.profile_media_id as meedia2,
 						   med1.media_thumb as med1_name,med1.media_type as med1_type,

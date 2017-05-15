@@ -20,6 +20,8 @@ class Message extends CI_Controller {
 		$sender_id = $this->input->post('session_id');
 		$receiver_id = $this->input->post('chat_user_id');
 
+		$unique_id = $sender_id.'_'.random_string('alnum',8);
+
 		$db_user_img = $this->input->post('db_user_img');
 		$chat_user_img = $this->input->post('chat_user_img');		
 
@@ -30,14 +32,18 @@ class Message extends CI_Controller {
 		}
 
 		$arr = array(
-						'success'=>true,
-						'sender_id'=>$sender_id,
-						'sender_media_img'=>$db_user_img,
-						'receiver_id'=>$receiver_id,
-						'receiver_media_img'=>$db_user_img,
+						'message_type'=>'1',
 						'message'=>$message,
-						'encode_message'=>$encode_message,
-						'message_type'=>'1'
+						'status'=>'0',
+						'media_name'=>'',
+						'unique_id'=>$unique_id,
+						'sender_id'=>$sender_id,
+						'receiver_id'=>$receiver_id,
+						'is_delete'=>'0',
+						'created_date'=>date('Y-m-d H:i:s'),
+						'updated_date'=>date('Y-m-d H:i:s'),
+						'is_encrypted'=>'1',
+						'encrypted_message'=>$encode_message
 					);
 
 		echo json_encode($arr);
@@ -104,9 +110,7 @@ class Message extends CI_Controller {
             // $this->Bio_model->insert_media($ins_data);
 
 			pr($data);
-		}
-
-		die();
+		}		
 	}
 
 	public function all_chats(){
@@ -128,8 +132,7 @@ class Message extends CI_Controller {
 		$u_data = $this->session->userdata('user');
 		$user_id = $u_data['id'];
 
-		$data['chat_user_id'] = $chat_user_id;
-		
+		$data['chat_user_id'] = $chat_user_id;		
 
         $data['db_user_data'] = $this->Users_model->fetch_userdata(['id' => $user_id], true);
         $data['db_user_media'] = $this->Bio_model->fetch_mediadata(['id'=>$data['db_user_data']['profile_media_id']],true);

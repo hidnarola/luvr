@@ -123,37 +123,44 @@
     socket.emit( 'Get Old Messages', {
         'app_version':'<?php echo $chat_user_data["app_version"]; ?>',
         'chat_user' :'<?php echo $chat_user_id; ?>',
-        'message_id':'<?php echo $last_message_id; ?>'        
+        'message_id':'<?php echo $last_message_id + 1; ?>'
     });
 
     //-------------------------------------------------------------------------------------------------    
-    // Get initial messages limit of 10
+    // Get initial messages limit of 10 and also fetch pagination for next 10 and so on
     socket.on('Get Old Messages',function(data){
-        console.log('Get OLD Messages');        
         if(data.messages.length > 0){
             
             var first_id = data['messages'][0]['id'];
-            
             data.messages = data.messages.reverse();
-
-            var new_str = generate_msg_html(data.messages);
+            var new_str = generate_all_message(data.messages);
             
             if($.trim($('#all_messages_ul').html()).length == 0){
                 $('#all_messages_ul').html(new_str);
                 $(".message-to-owner").scrollTop($('#all_messages_ul').prop("scrollHeight")); // Scroll Bottom of that DIV
             }else{
+                $('.message-to-owner').animate({
+                   scrollTop: $('#'+$('#all_messages_ul li:first').attr('id')).offset().top
+                }, 500);
                 $('#all_messages_ul li:first').before(new_str);
-                
-                // $('.message-to-owner').animate({
-                //    scrollTop: $("#"+first_id).offset().top
-                // }, 1000);
             }            
 
         }
     });
 
+    socket.on('New Message',function(data){
+        console.log('New Message');
+        $('#all_messages_ul li:last').after(generate_new_message(data));
+        $('.message-to-owner').animate({
+           scrollTop: $('#all_messages_ul').prop("scrollHeight")
+        }, 1000);
+    });
+
     socket.on('Get New Messages',function(data){
         console.log('Get New Messages');
+        console.log(data);
+    },function(data){
+        console.log('Ovvv');
         console.log(data);
     });
 
@@ -166,6 +173,7 @@
                 'chat_user' :'<?php echo $chat_user_id; ?>',
                 'message_id':$('#last_msg_id').val()        
             });
+
         }
     });
 
@@ -173,8 +181,7 @@
     
     function submit_message(obj){
         
-        var message = $.trim($('#msg_id').val());
-        //message = $.trim(message);
+        var message = $.trim($('#msg_id').val());        
 
         if(message == ''){
             show_notification('<strong> OOPS </strong>',
@@ -195,15 +202,37 @@
             processData: false,
             data:formData,
             success:function(data){
-                // console.log(data);
-                $('#msg_form')[0].reset(); // Reset Form
-                //var socket = io.connect( 'http://'+window.location.hostname+':8100' );
                 
+                console.log(data);
+                $('#msg_form')[0].reset(); // Reset Form
+
+                var socket = io.connect( 'http://'+window.location.hostname+':8100' );
+
+                socket.emit('New Message',{
+                    'message_type':data['message_type'],
+                    'message':data['message'],
+                    'status':data['status'],
+                    'media_name':data['media_name'],
+                    'unique_id':data['unique_id'],
+                    'sender_id':data['sender_id'],
+                    'receiver_id':data['receiver_id'],
+                    'is_delete':data['is_delete'],
+                    'created_date':data['created_date'],
+                    'updated_date':data['updated_date'],
+                    'is_encrypted':data['is_encrypted'],
+                    'encrypted_message':data['encrypted_message']
+                },function(data){
+                    socket.emit('Get New Messages',{'message_id':data['id'],
+                                                    'userID':'<?php echo $db_user_data["id"]; ?>',
+                                                    'app_version':'<?php echo $db_user_data["app_version"]; ?>'});
+                });
+
             }
         });        
     }
 
-    function generate_msg_html(messages){
+    // Generate HTML string for the old messgaes and also for paginations old messages
+    function generate_all_message(messages){
         var new_str = '';
         var msg = [];
         var sess_user_id = '<?php echo $db_user_data["id"]; ?>';
@@ -212,7 +241,7 @@
 
         for(var i =0; i<messages.length; i++){
 
-            msg = messages[i];
+            msg = messages[i];            
 
             if(msg['sender_id'] == sess_user_id){                
                 cls = 'rider-talk session_user';
@@ -224,15 +253,26 @@
                 img_url = '<?php echo $chat_user_img; ?>';
             }
 
-            new_str += '<li id="'+msg['id']+'" class="'+cls+'"><div class="pic-01">';
+            new_str += '<li id="li_'+msg['id']+'" class="'+cls+'"><div class="pic-01">';
             new_str += '<img src="'+img_url+'" alt="'+alt_1+'" onerror="this.src=<?php echo base_url(); ?>assets/images/default_avatar.jpg" />';
-            new_str += '</div><p>'+msg['message']+'</p></li>';
+            new_str += '</div><p>'+atob(msg['encrypted_message'])+'</p></li>';
 
-            if(i == 0){ $('#last_msg_id').val(msg['id']); }
+            if(i == 0){ $('#last_msg_id').val(msg['id']); }            
         }
         return new_str;
     }
 
-    
+    // Generate HTML for single message
+    function generate_new_message(msg){
+        var new_str = '';                
+        var cls = 'user-talk chat_user'; 
+        var alt_1= 'chat_user';
+        var img_url = '<?php echo $chat_user_img; ?>';
+
+        new_str += '<li id="li_'+msg['id']+'" class="'+cls+'"><div class="pic-01">';
+        new_str += '<img src="'+img_url+'" alt="'+alt_1+'" onerror="this.src=<?php echo base_url(); ?>assets/images/default_avatar.jpg" />';
+        new_str += '</div><p>'+atob(msg['encrypted_message'])+'</p></li>';
+        return new_str;
+    }
 
 </script>

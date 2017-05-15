@@ -21,7 +21,7 @@ else
             $js = array('jquery.min.js', 'bootstrap.min.js');
             $this->minify->js($js);
             echo $this->minify->deploy_js(FALSE, 'combined.min.js');
-        ?>        
+        ?>
         <script src="<?php echo base_url('node_modules/socket.io/node_modules/socket.io-client/socket.io.js');?>"></script>
         
         <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/myTooltip.css'; ?>"> <!-- CSS for the for Tool-tip  -->        
