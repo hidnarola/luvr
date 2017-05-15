@@ -84,23 +84,6 @@ if (!empty($nearByUsers)) {
     <?php } ?>
 </div>
 <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12 content-div">
-    <div class="text-center">
-        <div class="alignleft">
-            <script type="text/javascript">
-    amzn_assoc_ad_type = "banner";
-    amzn_assoc_marketplace = "amazon";
-    amzn_assoc_region = "US";
-    amzn_assoc_placement = "assoc_banner_placement_default";
-    amzn_assoc_campaigns = "gift_certificates";
-    amzn_assoc_banner_type = "category";
-    amzn_assoc_isresponsive = "true";
-    amzn_assoc_banner_id = "1G274HKHXM7QERC7YAG2";
-    amzn_assoc_tracking_id = "luvrweb-20";
-    amzn_assoc_linkid = "aef0dafa0317026c26fbad75ce2082a4";
-            </script>
-            <script src="//z-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&Operation=GetScript&ID=OneJS&WS=1"></script>
-        </div>
-    </div>
     <div class="user-list">
         <div class="bg-name">luvr</div>
         <?php if (!empty($nearByUsers)) { ?>
