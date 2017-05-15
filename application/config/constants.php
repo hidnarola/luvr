@@ -121,3 +121,10 @@ define('MOBFOX_ACCID', '70867');
 define('MOBFOX_APIKEY', 'd760574985b121451bac270681299360');
 define('MOBFOX_INVHASH_DEV', '42a2d1ef33dff37f3cc611e90d1c7105');
 define('MOBFOX_INVHASH_LIVE', '0a8d0704acb5f06d5f6b3ece7310fe43');
+if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
+    define('TWILIO_SID', 'ACb2e5ebf44e6a7261e2c6b80df0a6ec3c');
+    define('TWILIO_TOKEN', 'e826454c36c845e16dc3ebb07bf3e2be');
+} else {
+    define('TWILIO_SID', 'ACc7fb9741b3167e4694bdbc7ac7c3b3ff');
+    define('TWILIO_TOKEN', 'd990daed3f178c683cf5cdd84b67865b');
+}
