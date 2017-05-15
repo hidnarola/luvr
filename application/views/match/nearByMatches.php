@@ -75,7 +75,8 @@ if (!empty($nearByUsers)) {
 <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 ad-div text-center">
     <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me' && $show_ad == true) { ?>
         <div class="addvertise-img1 adv">
-            <script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1582351"></script>
+            <!--<script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1582351"></script>-->
+            <iframe src="//rcm-na.amazon-adsystem.com/e/cm?o=1&p=14&l=ur1&category=gift_certificates&banner=0S32YAVKXXKQGNQSSGG2&f=ifr&linkID=d657de821aa5bba1c26d3a3d5de1e99d&t=luvrweb-20&tracking_id=luvrweb-20" width="160" height="600" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>
         </div>
         <div class="addvertise-img2 adv">
             <script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1582355"></script>
@@ -83,6 +84,23 @@ if (!empty($nearByUsers)) {
     <?php } ?>
 </div>
 <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12 content-div">
+    <div class="text-center">
+        <div class="alignleft">
+            <script type="text/javascript">
+    amzn_assoc_ad_type = "banner";
+    amzn_assoc_marketplace = "amazon";
+    amzn_assoc_region = "US";
+    amzn_assoc_placement = "assoc_banner_placement_default";
+    amzn_assoc_campaigns = "gift_certificates";
+    amzn_assoc_banner_type = "category";
+    amzn_assoc_isresponsive = "true";
+    amzn_assoc_banner_id = "1G274HKHXM7QERC7YAG2";
+    amzn_assoc_tracking_id = "luvrweb-20";
+    amzn_assoc_linkid = "aef0dafa0317026c26fbad75ce2082a4";
+            </script>
+            <script src="//z-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&Operation=GetScript&ID=OneJS&WS=1"></script>
+        </div>
+    </div>
     <div class="user-list">
         <div class="bg-name">luvr</div>
         <?php if (!empty($nearByUsers)) { ?>
@@ -306,7 +324,8 @@ if (!empty($nearByUsers)) {
 <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 ad-div text-center">
     <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me' && $show_ad == true) { ?>
         <div class="addvertise-img3 adv">
-            <script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1582359"></script>
+            <!--<script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1582359"></script>-->
+            <iframe src="//rcm-na.amazon-adsystem.com/e/cm?o=1&p=11&l=ez&f=ifr&linkID=50e379b0a4c5a4f0cbaa6b826d1497c7&t=luvrweb-20&tracking_id=luvrweb-20" width="120" height="600" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>
         </div>
         <div class="addvertise-img4 adv">
             <script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1582363"></script>
@@ -522,8 +541,8 @@ if (!empty($nearByUsers)) {
                      $('.secondSwiper ul li,panel').show();
                      }*/
                     /*$("#adpopup").on("shown.bs.modal", function () {
-                        showSneakPeak();
-                    });*/
+                     showSneakPeak();
+                     });*/
                     function showSneakPeak() {
                         popup_seconds = popup_seconds + 1;
                         if (popup_seconds == 5)
