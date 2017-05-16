@@ -1,83 +1,61 @@
+<?php
+$sess_user_data = $this->session->userdata('user');
+?>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Getting Started with Twilio Video</title>
-        <style type="text/css">
-            #me, #you { display:inline-block; }
-        </style>
+        <title>Twilio Video - Video Quickstart</title>
+        <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/index.css'; ?>"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
     </head>
     <body>
-        <h1>Getting Started with Twilio Video</h1>
-
-        <!-- Begin by specifying a name for your endpoint -->
-        <div id="startDiv">
-            <p>Enter Your Name Here:</p>
-            <input id="my-name" 
-                   placeholder="your name"/>
-            <button id="start">Let's Do This!</button>
-        </div>
-
-        <!-- Here's the call UI -->
-        <div id="callDiv" style="display:none;">
-            <div id="me"></div>
-            <div id="you"></div>
-            <div>
-                <input id="other-name" placeholder="other person's name"/>
-                <button id="call">Video Call This Person</button>
+        <div id="remote-media"></div>
+        <div id="controls">
+            <div id="preview">
+                <p class="instructions">Hello Beautiful</p>
+                <div id="local-media"></div>
+                <button id="button-preview">Preview My Camera</button>
             </div>
+            <div id="room-controls">
+                <p class="instructions">Room Name:</p>
+                <input id="room-name" type="hidden" placeholder="Enter a room name" value="<?php echo random_string('alnum', 10); ?>"/>
+                <button id="button-join">Call this user</button>
+                <button id="button-leave">Disconnect</button>
+            </div>
+            <div id="log"></div>
         </div>
 
-        <!-- Release the JavaScripts -->
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery.min.js'; ?>"></script>
-        <script src="<?php echo base_url() . 'assets/js/twilio-conversations-loader.min.js'; ?>"></script>
+        <script src="<?php echo base_url() . 'assets/js/index.js'; ?>"></script>
         <script>
-            // Initialize endpoint
-            $('#start').on('click', function () {
-                // First, grab the SAT token from the server
-                $.getJSON('<?php echo base_url('Luvr/Webservices/Webservice.php?Service=GetTwillioToken') ?>', {
-                    name: $('#my-name').val()
-                }, function (data) {
-                    console.log('Token response:');
-                    console.log(data);
+            var socket = io.connect('http://' + window.location.hostname + ':8100');
+            /*socket.on('connect', function () {
+             socket.emit('connected', {id: socket.id});
+             console.log("socket:", socket.id);
+             
+             });*/
 
-                    // Create the endpoint, and then initialize the main calling app
-                    var endpoint = new Twilio.Endpoint(data.token);
-                    $('#startDiv').hide();
-                    $('#callDiv').show();
-                    init(endpoint);
-                });
+            socket.emit('join_socket_web', {
+                'userID': '<?php echo $sess_user_data['id']; ?>',
+                'is_login': '1',
+                'app_version': 2
             });
 
-            // Initialize video calling app with my endpoint
-            function init(endpoint) {
-                console.log('Endpoint Created:');
-                console.log(endpoint);
+            socket.emit('CALL Action', {
+                'id': 0,
+                'caller_id': '<?php echo $sess_user_data['id']; ?>',
+                'calling_id': '<?php echo $chat_user_data['id']; ?>',
+                'call_unique_id': Math.random().toString(36).slice(2),
+                'app_version': 2,
+                'call_status': 1
+            }, function (data) {
+                console.log(data);
+            });
 
-                // Automatically accept any incoming calls
-                endpoint.on('invite', function (invitation) {
-                    invitation.accept().then(showConversation);
-                });
-
-                // Start an outbound conversation
-                $('#call').on('click', function () {
-                    endpoint.createConversation($('#other-name').val())
-                            .then(showConversation);
-                });
-
-                // Listen for incoming calls
-                endpoint.listen();
-            }
-
-            // Show a conversation (inbound or outbound)
-            function showConversation(conversation) {
-                // Attach to DOM
-                conversation.localMedia.attach('#me');
-
-                // Listen for participants
-                conversation.on('participantConnected', function (participant) {
-                    participant.media.attach('#you');
-                });
-            }
+            socket.on('CALL Action', function (data) {
+                console.log("Response : " + data);               
+            });
+            
         </script>
     </body>
 </html>
