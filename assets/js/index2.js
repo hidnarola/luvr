@@ -9,20 +9,20 @@ var a = typeof require == "function" && require;
         return i(o, !0);
         var f = new Error("Cannot find module '" + o + "'");
         throw f.code = "MODULE_NOT_FOUND", f
-}
+        }
 var l = n[o] = {exports: {}};
         t[o][0].call(l.exports, function (e) {
 var n = t[o][1][e];
         return s(n ? n : e)
-}, l, l.exports, e, t, n, r)
-}
+        }, l, l.exports, e, t, n, r)
+        }
 return n[o].exports
-}
+        }
 var i = typeof require == "function" && require;
         for (var o = 0; o < r.length; o++)
         s(r[o]);
         return s
-        })({1: [function (require, module, exports) {
+})({1: [function (require, module, exports) {
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -47,7 +47,7 @@ var i = typeof require == "function" && require;
 function EventEmitter() {
 this._events = this._events || {};
         this._maxListeners = this._maxListeners || undefined;
-}
+        }
 module.exports = EventEmitter;
 // Backwards-compat with node 0.10.x
         EventEmitter.EventEmitter = EventEmitter;
@@ -279,15 +279,15 @@ module.exports = EventEmitter;
 
 function isNumber(arg) {
 return typeof arg === 'number';
-}
+        }
 
 function isObject(arg) {
 return typeof arg === 'object' && arg !== null;
-}
+        }
 
 function isUndefined(arg) {
 return arg === void 0;
-}
+        }
 
 }, {}], 2: [function (require, module, exports) {
 // shim for using process in browser
@@ -304,26 +304,26 @@ var process = module.exports = {};
         }
 function defaultClearTimeout() {
 throw new Error('clearTimeout has not been defined');
-}
+        }
 (function () {
 try {
 if (typeof setTimeout === 'function') {
 cachedSetTimeout = setTimeout;
-} else {
+        } else {
 cachedSetTimeout = defaultSetTimout;
-}
+        }
 } catch (e) {
 cachedSetTimeout = defaultSetTimout;
-}
+        }
 try {
 if (typeof clearTimeout === 'function') {
 cachedClearTimeout = clearTimeout;
-} else {
+        } else {
 cachedClearTimeout = defaultClearTimeout;
-}
+        }
 } catch (e) {
 cachedClearTimeout = defaultClearTimeout;
-}
+        }
 }())
         function runTimeout(fun) {
         if (cachedSetTimeout === setTimeout) {
@@ -354,24 +354,24 @@ function runClearTimeout(marker) {
 if (cachedClearTimeout === clearTimeout) {
 //normal enviroments in sane situations
 return clearTimeout(marker);
-}
+        }
 // if clearTimeout wasn't available but was latter defined
 if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
 cachedClearTimeout = clearTimeout;
         return clearTimeout(marker);
-}
+        }
 try {
 // when when somebody has screwed with setTimeout but no I.E. maddness
 return cachedClearTimeout(marker);
-} catch (e) {
+        } catch (e) {
 try {
 // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
 return cachedClearTimeout.call(null, marker);
-} catch (e) {
+        } catch (e) {
 // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
 // Some versions of I.E. have different rules for clearTimeout vs setTimeout
 return cachedClearTimeout.call(this, marker);
-}
+        }
 }
 
 
@@ -399,7 +399,7 @@ var queue = [];
 function drainQueue() {
 if (draining) {
 return;
-}
+        }
 var timeout = runTimeout(cleanUpNextTick);
         draining = true;
         var len = queue.length;
@@ -409,27 +409,27 @@ currentQueue = queue;
         while (++queueIndex < len) {
 if (currentQueue) {
 currentQueue[queueIndex].run();
-}
+        }
 }
 queueIndex = - 1;
         len = queue.length;
-}
+        }
 currentQueue = null;
         draining = false;
         runClearTimeout(timeout);
-}
+        }
 
 process.nextTick = function (fun) {
 var args = new Array(arguments.length - 1);
         if (arguments.length > 1) {
 for (var i = 1; i < arguments.length; i++) {
 args[i - 1] = arguments[i];
-}
+        }
 }
 queue.push(new Item(fun, args));
         if (queue.length === 1 && !draining) {
 runTimeout(drainQueue);
-}
+        }
 };
 // v8 likes predictible objects
         function Item(fun, array) {
@@ -438,7 +438,7 @@ runTimeout(drainQueue);
         }
 Item.prototype.run = function () {
 this.fun.apply(null, this.array);
-};
+        };
         process.title = 'browser';
         process.browser = true;
         process.env = {};
@@ -462,7 +462,7 @@ process.on = noop;
 
 process.binding = function (name) {
 throw new Error('process.binding is not supported');
-};
+        };
         process.cwd = function () {
         return '/'
         };
@@ -472,31 +472,31 @@ throw new Error('process.binding is not supported');
         process.umask = function () {
         return 0;
         };
-}, {}], 3: [function (require, module, exports) {
+        }, {}], 3: [function (require, module, exports) {
 module.exports = {
 "_args": [
-[
-{
-"raw": "sip.js@github:twilio/SIP.js#b884c74892836f70ced6010353852ebd9ce5b199",
-        "scope": null,
-        "escapedName": "sip.js",
-        "name": "sip.js",
-        "rawSpec": "github:twilio/SIP.js#b884c74892836f70ced6010353852ebd9ce5b199",
-        "spec": "github:twilio/SIP.js#b884c74892836f70ced6010353852ebd9ce5b199",
-        "type": "hosted",
-        "hosted": {
-        "type": "github",
-                "ssh": "git@github.com:twilio/SIP.js.git#b884c74892836f70ced6010353852ebd9ce5b199",
-                "sshUrl": "git+ssh://git@github.com/twilio/SIP.js.git#b884c74892836f70ced6010353852ebd9ce5b199",
-                "httpsUrl": "git+https://github.com/twilio/SIP.js.git#b884c74892836f70ced6010353852ebd9ce5b199",
-                "gitUrl": "git://github.com/twilio/SIP.js.git#b884c74892836f70ced6010353852ebd9ce5b199",
-                "shortcut": "github:twilio/SIP.js#b884c74892836f70ced6010353852ebd9ce5b199",
-                "directUrl": "https://raw.githubusercontent.com/twilio/SIP.js/b884c74892836f70ced6010353852ebd9ce5b199/package.json"
-        }
-},
-        "c:\\wamp\\www\\video-quickstart-js-master\\node_modules\\twilio-video"
-]
-],
+        [
+                {
+                "raw": "sip.js@github:twilio/SIP.js#b884c74892836f70ced6010353852ebd9ce5b199",
+                        "scope": null,
+                        "escapedName": "sip.js",
+                        "name": "sip.js",
+                        "rawSpec": "github:twilio/SIP.js#b884c74892836f70ced6010353852ebd9ce5b199",
+                        "spec": "github:twilio/SIP.js#b884c74892836f70ced6010353852ebd9ce5b199",
+                        "type": "hosted",
+                        "hosted": {
+                        "type": "github",
+                                "ssh": "git@github.com:twilio/SIP.js.git#b884c74892836f70ced6010353852ebd9ce5b199",
+                                "sshUrl": "git+ssh://git@github.com/twilio/SIP.js.git#b884c74892836f70ced6010353852ebd9ce5b199",
+                                "httpsUrl": "git+https://github.com/twilio/SIP.js.git#b884c74892836f70ced6010353852ebd9ce5b199",
+                                "gitUrl": "git://github.com/twilio/SIP.js.git#b884c74892836f70ced6010353852ebd9ce5b199",
+                                "shortcut": "github:twilio/SIP.js#b884c74892836f70ced6010353852ebd9ce5b199",
+                                "directUrl": "https://raw.githubusercontent.com/twilio/SIP.js/b884c74892836f70ced6010353852ebd9ce5b199/package.json"
+                        }
+                },
+                "c:\\wamp\\www\\video-quickstart-js-master\\node_modules\\twilio-video"
+                ]
+        ],
         "_from": "twilio/SIP.js#b884c74892836f70ced6010353852ebd9ce5b199",
         "_id": "sip.js@0.7.5",
         "_inCache": true,
@@ -598,7 +598,7 @@ module.exports = {
         },
         "title": "SIP.js",
         "version": "0.7.5"
-}
+        }
 
 }, {}], 4: [function (require, module, exports) {
 "use strict";
@@ -689,7 +689,7 @@ module.exports = {
                 };
                 SIP.ClientContext = ClientContext;
         };
-}, {}], 5: [function (require, module, exports) {
+        }, {}], 5: [function (require, module, exports) {
 "use strict";
         /**
          * @fileoverview SIP Constants
@@ -881,7 +881,7 @@ module.exports = {
                 }
         };
         };
-}, {}], 6: [function (require, module, exports) {
+        }, {}], 6: [function (require, module, exports) {
 "use strict";
         /**
          * @fileoverview In-Dialog Request Sender
@@ -964,7 +964,7 @@ module.exports = {
                 };
                 return RequestSender;
         };
-}, {}], 7: [function (require, module, exports) {
+        }, {}], 7: [function (require, module, exports) {
 "use strict";
         /**
          * @fileoverview SIP Dialog
@@ -1212,7 +1212,7 @@ module.exports = {
                 Dialog.C = C;
                 SIP.Dialog = Dialog;
         };
-}, {"./Dialog/RequestSender": 6}], 8: [function (require, module, exports) {
+        }, {"./Dialog/RequestSender": 6}], 8: [function (require, module, exports) {
 "use strict";
         /**
          * @fileoverview SIP Digest Authentication
@@ -1363,7 +1363,7 @@ module.exports = {
                 };
                 return DigestAuthentication;
         };
-}, {}], 9: [function (require, module, exports) {
+        }, {}], 9: [function (require, module, exports) {
 "use strict";
         var NodeEventEmitter = require('events').EventEmitter;
         module.exports = function (console) {
@@ -1397,7 +1397,7 @@ module.exports = {
                 };
                 return EventEmitter;
         };
-}, {"events": 1}], 10: [function (require, module, exports) {
+        }, {"events": 1}], 10: [function (require, module, exports) {
 "use strict";
         /**
          * @fileoverview Exceptions
@@ -1448,7 +1448,7 @@ module.exports = {
                         return exception;
                 }())
         };
-}, {}], 11: [function (require, module, exports) {
+        }, {}], 11: [function (require, module, exports) {
 "use strict";
         var Grammar = require('./Grammar/dist/Grammar');
         module.exports = function (SIP) {
@@ -1465,7 +1465,7 @@ module.exports = {
         }
         };
         };
-}, {"./Grammar/dist/Grammar": 12}], 12: [function (require, module, exports) {
+        }, {"./Grammar/dist/Grammar": 12}], 12: [function (require, module, exports) {
 module.exports = (function () {
 /*
  * Generated by PEG.js 0.8.0.
@@ -1476,10 +1476,10 @@ module.exports = (function () {
 function peg$subclass(child, parent) {
 function ctor() {
 this.constructor = child;
-}
+        }
 ctor.prototype = parent.prototype;
         child.prototype = new ctor();
-}
+        }
 
 function SyntaxError(message, expected, found, offset, line, column) {
 this.message = message;
@@ -1489,7 +1489,7 @@ this.message = message;
         this.line = line;
         this.column = column;
         this.name = "SyntaxError";
-}
+        }
 
 peg$subclass(SyntaxError, Error);
         function parse(input) {
@@ -2902,9 +2902,9 @@ peg$subclass(SyntaxError, Error);
 return {
 SyntaxError: SyntaxError,
         parse: parse
-};
-})();
-}, {}], 13: [function (require, module, exports) {
+        };
+        })();
+        }, {}], 13: [function (require, module, exports) {
 "use strict";
         /**
          * @fileoverview Hacks - This file contains all of the things we
@@ -3014,7 +3014,7 @@ SyntaxError: SyntaxError,
                 };
                 return Hacks;
         };
-}, {}], 14: [function (require, module, exports) {
+        }, {}], 14: [function (require, module, exports) {
 "use strict";
         var levels = {
         'error': 0,
@@ -3122,7 +3122,7 @@ SyntaxError: SyntaxError,
                 };
                 return LoggerFactory;
         };
-}, {}], 15: [function (require, module, exports) {
+        }, {}], 15: [function (require, module, exports) {
 "use strict";
         /**
          * @fileoverview MediaHandler
@@ -3170,7 +3170,7 @@ SyntaxError: SyntaxError,
                 });
                 return MediaHandler;
         };
-}, {}], 16: [function (require, module, exports) {
+        }, {}], 16: [function (require, module, exports) {
 "use strict";
         /**
          * @fileoverview SIP NameAddrHeader
@@ -3263,7 +3263,7 @@ SyntaxError: SyntaxError,
                 };
                 SIP.NameAddrHeader = NameAddrHeader;
         };
-}, {}], 17: [function (require, module, exports) {
+        }, {}], 17: [function (require, module, exports) {
 "use strict";
         /**
          * @fileoverview SIP Message Parser
@@ -3513,7 +3513,7 @@ SyntaxError: SyntaxError,
                 };
                 SIP.Parser = Parser;
         };
-}, {}], 18: [function (require, module, exports) {
+        }, {}], 18: [function (require, module, exports) {
 var localMinSE = 90;
         module.exports = function (Timers) {
 
@@ -3592,7 +3592,7 @@ var localMinSE = 90;
                 onTransportError: onTransportError
         };
         };
-}, {}], 19: [function (require, module, exports) {
+        }, {}], 19: [function (require, module, exports) {
 "use strict";
         module.exports = function (SIP) {
 
@@ -3838,7 +3838,7 @@ var localMinSE = 90;
                 };
                 SIP.RegisterContext = RegisterContext;
         };
-}, {}], 20: [function (require, module, exports) {
+        }, {}], 20: [function (require, module, exports) {
 "use strict";
         /**
          * @fileoverview Request Sender
@@ -3966,7 +3966,7 @@ var localMinSE = 90;
                 };
                 SIP.RequestSender = RequestSender;
         };
-}, {}], 21: [function (require, module, exports) {
+        }, {}], 21: [function (require, module, exports) {
 /**
  * @name SIP
  * @namespace
@@ -4015,7 +4015,7 @@ var localMinSE = 90;
                 SIP.Grammar = require('./Grammar')(SIP);
                 return SIP;
         };
-}, {"../package.json": 3, "./ClientContext": 4, "./Constants": 5, "./Dialogs": 7, "./DigestAuthentication": 8, "./EventEmitter": 9, "./Exceptions": 10, "./Grammar": 11, "./Hacks": 13, "./LoggerFactory": 14, "./MediaHandler": 15, "./NameAddrHeader": 16, "./Parser": 17, "./RegisterContext": 19, "./RequestSender": 20, "./SIPMessage": 22, "./SanityCheck": 23, "./ServerContext": 24, "./Session": 25, "./Subscription": 27, "./Timers": 28, "./Transactions": 29, "./UA": 31, "./URI": 32, "./Utils": 33, "./WebRTC": 34}], 22: [function (require, module, exports) {
+        }, {"../package.json": 3, "./ClientContext": 4, "./Constants": 5, "./Dialogs": 7, "./DigestAuthentication": 8, "./EventEmitter": 9, "./Exceptions": 10, "./Grammar": 11, "./Hacks": 13, "./LoggerFactory": 14, "./MediaHandler": 15, "./NameAddrHeader": 16, "./Parser": 17, "./RegisterContext": 19, "./RequestSender": 20, "./SIPMessage": 22, "./SanityCheck": 23, "./ServerContext": 24, "./Session": 25, "./Subscription": 27, "./Timers": 28, "./Transactions": 29, "./UA": 31, "./URI": 32, "./Utils": 33, "./WebRTC": 34}], 22: [function (require, module, exports) {
 "use strict";
         /**
          * @fileoverview SIP Message
@@ -4520,7 +4520,7 @@ var localMinSE = 90;
                 SIP.IncomingRequest = IncomingRequest;
                 SIP.IncomingResponse = IncomingResponse;
         };
-}, {}], 23: [function (require, module, exports) {
+        }, {}], 23: [function (require, module, exports) {
 "use strict";
         /**
          * @fileoverview Incoming SIP Message Sanity Check
@@ -4732,7 +4732,7 @@ var localMinSE = 90;
                 };
                 SIP.sanityCheck = sanityCheck;
         };
-}, {}], 24: [function (require, module, exports) {
+        }, {}], 24: [function (require, module, exports) {
 "use strict";
         module.exports = function (SIP) {
         var ServerContext;
@@ -4810,7 +4810,7 @@ var localMinSE = 90;
                 };
                 SIP.ServerContext = ServerContext;
         };
-}, {}], 25: [function (require, module, exports) {
+        }, {}], 25: [function (require, module, exports) {
 "use strict";
         module.exports = function (SIP, environment) {
 
@@ -6866,7 +6866,7 @@ var localMinSE = 90;
                 };
                 SIP.InviteClientContext = InviteClientContext;
         };
-}, {"./RFC4028": 18, "./Session/DTMF": 26}], 26: [function (require, module, exports) {
+        }, {"./RFC4028": 18, "./Session/DTMF": 26}], 26: [function (require, module, exports) {
 "use strict";
         /**
          * @fileoverview DTMF
@@ -7023,7 +7023,7 @@ var localMinSE = 90;
                 DTMF.C = C;
                 return DTMF;
         };
-}, {}], 27: [function (require, module, exports) {
+        }, {}], 27: [function (require, module, exports) {
 "use strict";
         /**
          * @fileoverview SIP Subscriber (SIP-Specific Event Notifications RFC6665)
@@ -7304,7 +7304,7 @@ var localMinSE = 90;
                         }
                 };
         };
-}, {}], 28: [function (require, module, exports) {
+        }, {}], 28: [function (require, module, exports) {
 "use strict";
         /**
          * @fileoverview SIP TIMERS
@@ -7344,7 +7344,7 @@ var localMinSE = 90;
                 });
                 return Timers;
         };
-}, {}], 29: [function (require, module, exports) {
+        }, {}], 29: [function (require, module, exports) {
 "use strict";
         /**
          * @fileoverview SIP Transactions
@@ -7972,7 +7972,7 @@ var localMinSE = 90;
                         InviteServerTransaction: InviteServerTransaction
                 };
         };
-}, {}], 30: [function (require, module, exports) {
+        }, {}], 30: [function (require, module, exports) {
 "use strict";
         /**
          * @fileoverview Transport
@@ -9987,7 +9987,7 @@ var localMinSE = 90;
                 };
                 SIP.URI = URI;
         };
-}, {}], 33: [function (require, module, exports) {
+        }, {}], 33: [function (require, module, exports) {
 "use strict";
         /**
          * @fileoverview Utils
@@ -10441,7 +10441,7 @@ var localMinSE = 90;
                 };
                 SIP.Utils = Utils;
         };
-}, {}], 34: [function (require, module, exports) {
+        }, {}], 34: [function (require, module, exports) {
 "use strict";
         /**
          * @fileoverview WebRTC
@@ -10474,7 +10474,7 @@ var localMinSE = 90;
                 };
                 return WebRTC;
         };
-}, {"./WebRTC/MediaHandler": 35, "./WebRTC/MediaStreamManager": 36}], 35: [function (require, module, exports) {
+        }, {"./WebRTC/MediaHandler": 35, "./WebRTC/MediaStreamManager": 36}], 35: [function (require, module, exports) {
 "use strict";
         /**
          * @fileoverview MediaHandler
@@ -11007,7 +11007,7 @@ var localMinSE = 90;
 // Return since it will be assigned to a variable.
                 return MediaHandler;
         };
-}, {}], 36: [function (require, module, exports) {
+        }, {}], 36: [function (require, module, exports) {
 "use strict";
         /**
          * @fileoverview MediaStreamManager
@@ -11152,7 +11152,7 @@ var localMinSE = 90;
 // Return since it will be assigned to a variable.
                 return MediaStreamManager;
         };
-}, {}], 37: [function (require, module, exports) {
+        }, {}], 37: [function (require, module, exports) {
 'use strict';
         var CancelablePromise = require('./util/cancelablepromise');
         /**
@@ -11725,7 +11725,7 @@ var localMinSE = 90;
 
 EventTarget.prototype.dispatchEvent = function dispatchEvent(event) {
 return this._eventEmitter.emit(event.type, event);
-};
+        };
         EventTarget.prototype.addEventListener = function addEventListener() {
         return this._eventEmitter.addListener.apply(this._eventEmitter, arguments);
         };
@@ -11733,7 +11733,7 @@ return this._eventEmitter.emit(event.type, event);
         return this._eventEmitter.removeListener.apply(this._eventEmitter, arguments);
         };
         module.exports = EventTarget;
-}, {"events": 1}], 43: [function (require, module, exports) {
+        }, {"events": 1}], 43: [function (require, module, exports) {
 'use strict';
         var EventEmitter = require('events').EventEmitter;
         var inherits = require('util').inherits;
@@ -21093,7 +21093,8 @@ return this._eventEmitter.emit(event.type, event);
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         window.addEventListener('beforeunload', leaveRoomIfJoined);
 // Obtain a token from the server in order to connect to the Room.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 $.getJSON('http://localhost/luvr_mobile/Webservices/Webservice.php?Service=GetTwillioToken', function (data) {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                identity = data.identity;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                identity = _randomName();
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        console.log("IDD : " + identity);
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         document.getElementById('room-controls').style.display = 'block';
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         // Bind button to join Room.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         document.getElementById('button-join').onclick = function () {
@@ -21121,7 +21122,7 @@ return this._eventEmitter.emit(event.type, event);
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         $("#button-call").removeAttr("disabled").html("Call");
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         socket.emit('CALL Action Web', {
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         'id': $("#msgid").val(),
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        'caller_id': $("#callerid").val(),
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                'caller_id': $("#callerid").val(),
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 'call_status': 5
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         }, function (data) {
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         });
@@ -21139,7 +21140,7 @@ return this._eventEmitter.emit(event.type, event);
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         log("Joined as '" + identity + "'");
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         socket.emit('CALL Action Web', {
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         'id': $("#msgid").val(),
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        'caller_id': $("#callerid").val(),
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                'caller_id': $("#callerid").val(),
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 'call_status': 2
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         }, function (data) {
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         });

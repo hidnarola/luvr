@@ -34,8 +34,12 @@ class Twilio extends CI_Controller {
     }
 
     function makecall($id = null) {
-        $data['chat_user_data'] = $this->Users_model->fetch_userdata(['id' => $id], true);
-        $this->load->view('twilio', $data);
+        if (is_numeric($id) && $id != null) {
+            $data['chat_user_data'] = $this->Users_model->fetch_userdata(['id' => $id], true);
+            $this->load->view('twilio', $data);
+        } else {
+            show_404();
+        }
     }
 
     function twiliol() {
