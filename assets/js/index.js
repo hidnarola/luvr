@@ -55,6 +55,7 @@ function roomJoined(room) {
         'call_status': 2
     }, function (data) {
     });
+    $("#button-reject").hide();
     document.getElementById('button-join').style.display = 'none';
     document.getElementById('button-leave').style.display = 'inline';
 
