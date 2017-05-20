@@ -7,11 +7,10 @@ $chat_user_data['user_name'] = $chatusername;
 ?>
 <!--<link rel="stylesheet" href="<?php echo base_url() . 'assets/css/index.css'; ?>"/>-->
 <script src="<?php echo base_url() . 'assets/js/socket.io.min.js'; ?>"></script>
-<script>
+<script type="text/javascript">
     var my_id = '<?php echo $sess_user_data['id']; ?>';
     var chatuser = '<?php echo json_encode($chat_user_data); ?>';
-    chatuser = $.parseJSON(chatuser);
-</script>
+    chatuser = $.parseJSON(chatuser);</script>
 <div class="my-account">
     <?php
     $this->load->view('side_bar_account');
@@ -20,9 +19,11 @@ $chat_user_data['user_name'] = $chatusername;
         <div class="account-r-head">
             <h2><big><?php echo $db_user_data['user_name']; ?></big></h2>
         </div>
+        <span id="status"></span>
         <div class="account-r-body ">
             <div class="account-body-head">
-                <h2 class="account-title">Video Call</h2>                
+                <h2 class="account-title">Video Call</h2>
+                <label class="label" id="login_status"></label>
             </div>
             <input id="room-name" type="hidden" value="<?php echo $room_id; ?>"/>
             <input id="msgid" type="hidden"/>
@@ -53,7 +54,6 @@ $chat_user_data['user_name'] = $chatusername;
     <source src="<?php echo base_url(); ?>assets/caller_tune.ogg" type="audio/ogg">
     <source src="<?php echo base_url(); ?>assets/caller_tune.mp3" type="audio/mpeg">
 </audio>
-<script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery.min.js'; ?>"></script>
 <script src="//media.twiliocdn.com/sdk/js/video/v1/twilio-video.min.js"></script>
 <script src="<?php echo base_url() . 'assets/js/index.js'; ?>"></script>
 <!--<script src="<?php echo base_url() . 'assets/js/index2.js'; ?>"></script>-->
@@ -66,6 +66,52 @@ $chat_user_data['user_name'] = $chatusername;
      socket.emit('connected', {id: socket.id});
      console.log("socket:", socket.id);
      });*/
+    socket.emit('join_socket_web', {
+        'userID': '<?php echo $sess_user_data['id']; ?>',
+        'is_login': '1',
+        'app_version': 0
+    });
+    socket.emit('isUserOnline', {
+        'userID': '<?php echo $sess_user_data['id']; ?>',
+        'front_user_id': '<?php echo $chat_user_data['id']; ?>'
+    });
+    socket.on('isUserOnline Callback', function (isOnline) {
+        if (isOnline == 1)
+        {
+            $("#login_status").addClass('label-success').removeClass('label-danger');
+            $("#login_status").html("ONLINE");
+        } else
+        {
+            $("#login_status").addClass('label-danger').removeClass('label-success');
+            $("#login_status").html("OFFLINE");
+        }
+    });
+    $(window).focus(function () {
+        socket.emit('inForeground');
+    })/*.blur(function () {
+     socket.emit('inBackground');
+     });*/
+    $(window).unload(function () {
+        socket.emit('disconnect');
+    });
+    socket.on('user_Connection_changed', function (data) {
+        console.log(data);
+        if (data.isOnline == 1)
+        {
+            $("#login_status").addClass('label-success').removeClass('label-danger');
+            $("#login_status").html("ONLINE");
+        } else
+        {
+            $("#login_status").addClass('label-danger').removeClass('label-success');
+            $("#login_status").html("OFFLINE");
+        }
+    });
+    /* IMPORTANT : Script to check tab status constantly. */
+    /*$(document).one('click', function () {
+     setInterval(function () {
+     $('body').append('has focus? ' + window_focus + '<br>');
+     }, 1000);
+     });*/
     socket.emit('AccessTokenGet', {
         'userID': '<?php echo $sess_user_data['id']; ?>',
     }, function (data) {
@@ -73,7 +119,6 @@ $chat_user_data['user_name'] = $chatusername;
          console.log(data);*/
         identity = data.identity;
         document.getElementById('room-controls').style.display = 'block';
-
 // Bind button to join Room.
         document.getElementById('button-join').onclick = function () {
             roomName = document.getElementById('room-name').value;
@@ -87,7 +132,6 @@ $chat_user_data['user_name'] = $chatusername;
                 name: roomName,
                 logLevel: 'debug'
             };
-
             if (previewTracks) {
                 connectOptions.tracks = previewTracks;
             }
@@ -108,7 +152,6 @@ $chat_user_data['user_name'] = $chatusername;
                 });
             });
         };
-
 // Bind button to leave Room.
         document.getElementById('button-leave').onclick = function () {
             log('Ending Call...');
@@ -119,8 +162,7 @@ $chat_user_data['user_name'] = $chatusername;
             socket.emit('CALL Action Web', {
                 'id': $("#msgid").val(),
                 'caller_id': $("#callerid").val(),
-                'call_status': 2,
-                'call_ended': 1
+                'call_status': 3
             }, function (data) {
                 audioElement.pause();
                 audioElement.currentTime = 0;
@@ -132,13 +174,6 @@ $chat_user_data['user_name'] = $chatusername;
             });
         };
     });
-
-    socket.emit('join_socket_web', {
-        'userID': '<?php echo $sess_user_data['id']; ?>',
-        'is_login': '1',
-        'app_version': 0
-    });
-
     $("#button-call").on("click", function () {
         socket.emit('CALL Action Web', {
             'id': 0,
@@ -162,7 +197,6 @@ $chat_user_data['user_name'] = $chatusername;
             console.log(data);
         });
     });
-
     $("#button-reject").on("click", function () {
         socket.emit('CALL Action Web', {
             'id': $("#msgid").val(),
@@ -179,7 +213,6 @@ $chat_user_data['user_name'] = $chatusername;
             $("#button-call a").html("Video Call " + $("#button-call").attr("data-name"));
         });
     });
-
     socket.on('CALL Action', function (data) {
         console.log("Response : \n");
         console.log(data);
@@ -200,19 +233,10 @@ $chat_user_data['user_name'] = $chatusername;
                 audioElement.play();
             } else if (data.call_status == 2)
             {
-                if (data.call_ended == 1)
-                {
-                    $("#button-call").removeAttr("disabled");
-                    $("#button-call a").html("Video Call " + $("#button-call").attr("data-name"));
-                    $("#button-leave").trigger('click');
-                    $("#button-leave").hide();
-                } else
-                {
-                    $("#button-call").attr("disabled", "disabled");
-                    $("#button-call a").html("Call Connected");
-                    $("#button-join").trigger('click');
-                    $("#button-leave").show();
-                }
+                $("#button-call").attr("disabled", "disabled");
+                $("#button-call a").html("Call Connected");
+                $("#button-join").trigger('click');
+                $("#button-leave").show();
                 $("#button-join,#button-reject").hide();
             } else if (data.call_status == 3)
             {
@@ -220,7 +244,8 @@ $chat_user_data['user_name'] = $chatusername;
                     showMsgCall(chatuser.user_name + ' rejected call!', 'rejected', true);
                 $("#button-call").removeAttr("disabled");
                 $("#button-call a").html("Video Call " + $("#button-call").attr("data-name"));
-                $("#button-join,#button-reject").hide();
+                $("#button-join,#button-reject,#button-leave").hide();
+                $("#button-leave").trigger('click');
             } else if (data.call_status == 4)
             {
                 $("#button-call").removeAttr("disabled");
@@ -240,7 +265,6 @@ $chat_user_data['user_name'] = $chatusername;
             }
         }
     });
-
     function elapseTimer() {
         call_timeout = call_timeout + 1;
         if (call_timeout == 30)
