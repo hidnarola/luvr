@@ -72,8 +72,6 @@
                                 </ul>
                             </div>
                             <form method="post" onsubmit="event.preventDefault(); submit_message(this); " id="msg_form" enctype="multipart/form-data">
-                                <h3>You're writing a message to you like it <a href=""> see details</a></h3>
-
                                 <div class="col-md-6 col-sm-6 col-xs-12 mar-btm-20 choose-file">
                                     <h6>Upload Image or Video</h6>
                                     <div class="input-group">
@@ -88,7 +86,7 @@
 
                                 <div class="message-to-talk">
                                     <textarea name="message" id="msg_id" placeholder="Write here..."></textarea>
-                                    
+                                    <h3>You're writing a message to you like it</h3>
                                     <input type="hidden" name="session_id" id="session_id" value="<?php echo $db_user_data['id']; ?>">
                                     <input type="hidden" name="chat_user_id" id="chat_user_id" value="<?php echo $chat_user_id; ?>">
                                     
@@ -96,7 +94,7 @@
                                     <input type="hidden" name="chat_user_img" id="chat_user_img" value="<?php echo $chat_user_img; ?>">
 
                                     <button type="submit"> Send Message </button>
-                                    <p>Typesetting remaining essentially unchanged and scrambled. <br/> type specimen book has. <a href="#">see guidelines</a></p>
+                                    <button type="button" onclick="location.href='<?php echo base_url('message/videocall/'.$chat_user_data['id']) ?>'"> Video Call </button>
                                 </div>
                             </form>
                         </div>
@@ -129,6 +127,7 @@
     //-------------------------------------------------------------------------------------------------    
     // Get initial messages limit of 10 and also fetch pagination for next 10 and so on
     socket.on('Get Old Messages',function(data){
+        console.log('Get Old Messages');
         if(data.messages.length > 0){
             
             var first_id = data['messages'][0]['id'];
@@ -142,7 +141,12 @@
                 $('.message-to-owner').animate({
                    scrollTop: $('#'+$('#all_messages_ul li:first').attr('id')).offset().top
                 }, 500);
-                $('#all_messages_ul li:first').before(new_str);
+                
+                if($('#all_messages_ul li').length != 0){
+                    $('#all_messages_ul li:first').before(new_str);
+                }else{
+                    $('#all_messages_ul').html(new_str);
+                }
             }            
 
         }
@@ -150,7 +154,13 @@
 
     socket.on('New Message',function(data){
         console.log('New Message');
-        $('#all_messages_ul li:last').after(generate_new_message(data));
+        
+        if($('#all_messages_ul li').length != 0){
+            $('#all_messages_ul li:last').after(generate_new_message(data,'no'));
+        }else{
+            $('#all_messages_ul').html(generate_new_message(data,'no'));
+        }
+
         $('.message-to-owner').animate({
            scrollTop: $('#all_messages_ul').prop("scrollHeight")
         }, 1000);
@@ -206,7 +216,15 @@
                 console.log(data);
                 $('#msg_form')[0].reset(); // Reset Form
 
-                var socket = io.connect( 'http://'+window.location.hostname+':8100' );
+                if($.trim($('#all_messages_ul').html()).length == 0){
+                    $('#all_messages_ul li:last').after(generate_new_message(data,'yes'));
+                }else{
+                    $('#all_messages_ul li:last').html(generate_new_message(data,'yes'));
+                }
+                
+                $('.message-to-owner').animate({
+                   scrollTop: $('#all_messages_ul').prop("scrollHeight")
+                }, 1000);
 
                 socket.emit('New Message',{
                     'message_type':data['message_type'],
@@ -222,13 +240,13 @@
                     'is_encrypted':data['is_encrypted'],
                     'encrypted_message':data['encrypted_message']
                 },function(data){
-                    socket.emit('Get New Messages',{'message_id':data['id'],
-                                                    'userID':'<?php echo $db_user_data["id"]; ?>',
-                                                    'app_version':'<?php echo $db_user_data["app_version"]; ?>'});
+                    // socket.emit('Get New Messages',{'message_id':data['id'],
+                    //                                 'userID':'<?php echo $db_user_data["id"]; ?>',
+                    //                                 'app_version':'<?php echo $db_user_data["app_version"]; ?>'});
                 });
 
             }
-        });        
+        });
     }
 
     // Generate HTML string for the old messgaes and also for paginations old messages
@@ -255,7 +273,7 @@
 
             new_str += '<li id="li_'+msg['id']+'" class="'+cls+'"><div class="pic-01">';
             new_str += '<img src="'+img_url+'" alt="'+alt_1+'" onerror="this.src=<?php echo base_url(); ?>assets/images/default_avatar.jpg" />';
-            new_str += '</div><p>'+atob(msg['encrypted_message'])+'</p></li>';
+            new_str += '</div><p>'+atob(msg['encrypted_message'])+'<span>4:00 pm</span></p></li>';
 
             if(i == 0){ $('#last_msg_id').val(msg['id']); }            
         }
@@ -263,12 +281,22 @@
     }
 
     // Generate HTML for single message
-    function generate_new_message(msg){
-        var new_str = '';                
-        var cls = 'user-talk chat_user'; 
-        var alt_1= 'chat_user';
-        var img_url = '<?php echo $chat_user_img; ?>';
+    function generate_new_message(msg,is_db_user){
+        
+        var new_str = '';
 
+        if(is_db_user == 'yes'){
+            var cls = 'rider-talk'; 
+            var alt_1= 'rider-talk';
+            var img_url = '<?php echo $db_user_img; ?>';
+        }else{
+            var cls = 'user-talk chat_user'; 
+            var alt_1= 'chat_user';
+            var img_url = '<?php echo $chat_user_img; ?>';
+        }
+
+        // Login User
+        
         new_str += '<li id="li_'+msg['id']+'" class="'+cls+'"><div class="pic-01">';
         new_str += '<img src="'+img_url+'" alt="'+alt_1+'" onerror="this.src=<?php echo base_url(); ?>assets/images/default_avatar.jpg" />';
         new_str += '</div><p>'+atob(msg['encrypted_message'])+'</p></li>';
