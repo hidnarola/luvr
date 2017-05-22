@@ -33,7 +33,7 @@
                 <li class="<?php echo ($sub_view == "user/settings") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/user_settings'); ?>">Edit Settings</a></li>
                 <li class="<?php echo ($sub_view == "user/userProfile") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/view_profile'); ?>">View Profile </a></li>
                 <li class="<?php echo ($sub_view == "user/userFilterSettings") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/edit_filters'); ?>">Edit Filters </a></li>
-                <li class="<?php echo ($sub_view == "user/videoRequests") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/video_requests'); ?>">Video Requests </a></li>
+                <li class="<?php echo ($sub_view == "user/videoRequests") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/video_requests'); ?>">Video Snap Requests </a></li>
                 <li class="<?php echo ($sub_view == "user/blockedList") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/blocked_list'); ?>">Blocked List </a></li>
                 
                 <?php

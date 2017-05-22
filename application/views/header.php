@@ -4,6 +4,7 @@ if (!empty($meta_title) && $meta_title != null)
     $site_title = $meta_title;
 else
     $site_title = "Welcome to Luvr";
+$user_data = $this->session->userdata('user');
 ?>
 <html lang="en">
     <head>
@@ -17,17 +18,22 @@ else
         <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/style.css'; ?>"/>
         <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/responsive.css'; ?>"/>
         <?php
-            /* Load js files */
-            $js = array('jquery.min.js', 'bootstrap.min.js');
-            $this->minify->js($js);
-            echo $this->minify->deploy_js(FALSE, 'combined.min.js');
+        /* Load js files */
+        $js = array('jquery.min.js', 'bootstrap.min.js');
+        $this->minify->js($js);
+        echo $this->minify->deploy_js(FALSE, 'combined.min.js');
         ?>
-        <script src="<?php echo base_url('node_modules/socket.io/node_modules/socket.io-client/socket.io.js');?>"></script>
-        
+        <script src="<?php echo base_url('node_modules/socket.io/node_modules/socket.io-client/socket.io.js'); ?>"></script>
+
         <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/myTooltip.css'; ?>"> <!-- CSS for the for Tool-tip  -->        
         <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/animate.min.css'; ?>"> <!-- Css for bootstrap notify show/hide effect -->
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/myTooltip.js'; ?>"></script> <!-- Script for the Tool-tip  -->
         <script src="<?php echo base_url(); ?>assets/js/custom.js"></script>
+        <?php if (!empty($user_data)) { ?>
+            <script type="text/javascript">
+                var socket = io.connect('http://' + window.location.hostname + ':8100');
+            </script>
+        <?php } ?>
         <?php if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me' || $_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
             <script>
                 (function (i, s, o, g, r, a, m) {
@@ -47,7 +53,7 @@ else
         <?php } ?>
     </head>
     <body class="with-login">
-        <header id="header">
+        <header id="header" <?php echo (empty($user_data) || $user_data == null) ? "class='withoutlogin'" : ""; ?>>
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
@@ -56,7 +62,6 @@ else
                                 <a href="<?php echo base_url('home'); ?>"><img src="<?php echo base_url(); ?>assets/images/luvr-logo.png" alt="Luvr" title="Luvr"/></a>
                             </div>
                             <?php
-                            $user_data = $this->session->userdata('user');
                             if (!empty($user_data)) {
                                 $user_media = $this->Users_model->getUserMediaByCol('id', $user_data['profile_media_id']);
                                 $username = (!empty($user_data['user_name'])) ? $user_data['user_name'] : $user_data['instagram_username'];

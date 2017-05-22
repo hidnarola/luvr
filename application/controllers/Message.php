@@ -171,7 +171,8 @@ class Message extends CI_Controller {
         $this->load->view('main', $data);
     }
 
-    public function videocall($id = null) {
+
+    function videocall($id = null, $calling_id = null, $msg_id = null, $room_id = null) {
         if (is_numeric($id) && $id != null) {
             $u_data = $this->session->userdata('user');
             $user_id = $u_data['id'];
@@ -180,10 +181,28 @@ class Message extends CI_Controller {
             $data['chat_user_media'] = $this->Bio_model->fetch_mediadata(['id' => $data['chat_user_data']['profile_media_id']], true);
             $data['sub_view'] = 'message/videocall';
             $data['meta_title'] = "Video Call";
+            $data['direct'] = ($room_id != null && !empty($room_id)) ? false : true;
+            if ($room_id != null && !empty($room_id))
+                $data['room_id'] = $room_id;
+            else
+                $data['room_id'] = random_string('alnum', 10);
+            $data['msg_id'] = $msg_id;
+            $data['caller_id'] = $calling_id;
             $this->load->view('main', $data);
         } else {
             show_404();
         }
+    }
+
+    public function getUserDetail() {
+        $select = $this->input->post('select');
+        $id = $this->input->post('id');
+        $this->db->select($select);
+        $this->db->from('users');
+        $this->db->where('id', $id);
+        $rs = $this->db->get()->row_array();
+        echo json_encode($rs);
+        exit;
     }
 
 }
