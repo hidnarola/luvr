@@ -25,26 +25,32 @@ class Message extends CI_Controller {
 		$db_user_img = $this->input->post('db_user_img');
 		$chat_user_img = $this->input->post('chat_user_img');		
 
-		if($_FILES['msg_file']['error'] != '4'){			
+		if($_FILES['msg_file']['error'] != '4'){
 			$this->upload_message_data($_FILES);
+
+			$arr = array(
+							'message_type'=>'1',
+							'message'=>$message,
+							'media_name'=>'',
+							'unique_id'=>$unique_id,
+							'sender_id'=>$sender_id,
+							'receiver_id'=>$receiver_id,
+							'is_encrypted'=>'1',
+							'encrypted_message'=>$encode_message
+						);
 		}else{
 
+			$arr = array(
+							'message_type'=>'1',
+							'message'=>$message,
+							'media_name'=>'',
+							'unique_id'=>$unique_id,
+							'sender_id'=>$sender_id,
+							'receiver_id'=>$receiver_id,
+							'is_encrypted'=>'1',
+							'encrypted_message'=>$encode_message
+						);
 		}
-
-		$arr = array(
-						'message_type'=>'1',
-						'message'=>$message,
-						'status'=>'0',
-						'media_name'=>'',
-						'unique_id'=>$unique_id,
-						'sender_id'=>$sender_id,
-						'receiver_id'=>$receiver_id,
-						'is_delete'=>'0',
-						'created_date'=>date('Y-m-d H:i:s'),
-						'updated_date'=>date('Y-m-d H:i:s'),
-						'is_encrypted'=>'1',
-						'encrypted_message'=>$encode_message
-					);
 
 		echo json_encode($arr);
 	}
@@ -72,8 +78,7 @@ class Message extends CI_Controller {
 		if ( ! $this->upload->do_upload('msg_file')){
 			$error = array('error' => $this->upload->display_errors());
 			pr($error);
-		}
-		else{
+		} else{
 			$data = array('upload_data' => $this->upload->data());
 
 			$full_path = $data['upload_data']['full_path'];
@@ -100,7 +105,7 @@ class Message extends CI_Controller {
             }
 
             $ins_data = array(
-                                'userid'=>$u_data['id'],
+                               	'userid'=>$u_data['id'],
                                 'media_name'=>$file_name,
                                 'media_thumb'=>$thumb_name,
                                 'media_type'=>$media_type,
