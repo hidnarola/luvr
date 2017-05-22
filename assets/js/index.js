@@ -46,16 +46,20 @@ window.addEventListener('beforeunload', leaveRoomIfJoined);
 function roomJoined(room) {
     activeRoom = room;
 
-    log("Joined as '" + identity + "'");
+    console.log("Joined as '" + identity + "'");
+    log_status("Call connected.");
     window.clearTimeout(tmptout);
     call_timeout = 0;
+    audioElement.pause();
+    audioElement.currentTime = 0;
     socket.emit('CALL Action Web', {
         'id': $("#msgid").val(),
         'caller_id': $("#callerid").val(),
         'call_status': 2
     }, function (data) {
     });
-    $("#button-reject").hide();
+    $("#button-call,#button-reject").hide();
+    $("#local-media").addClass("col-sm-4 col-md-4 col-xs-4").css('position', 'absolute');
     document.getElementById('button-join').style.display = 'none';
     document.getElementById('button-leave').style.display = 'inline';
 
@@ -67,32 +71,32 @@ function roomJoined(room) {
 
     // Attach the Tracks of the Room's Participants.
     room.participants.forEach(function (participant) {
-        log("Already in Room: '" + participant.identity + "'");
+        console.log("Already in Room: '" + participant.identity + "'");
         var previewContainer = document.getElementById('remote-media');
         attachParticipantTracks(participant, previewContainer);
     });
 
     // When a Participant joins the Room, log the event.
     room.on('participantConnected', function (participant) {
-        log("Joining: '" + participant.identity + "'");
+        console.log("Joining: '" + participant.identity + "'");
     });
 
     // When a Participant adds a Track, attach it to the DOM.
     room.on('trackAdded', function (track, participant) {
-        log(participant.identity + " added track: " + track.kind);
+        console.log(participant.identity + " added track: " + track.kind);
         var previewContainer = document.getElementById('remote-media');
         attachTracks([track], previewContainer);
     });
 
     // When a Participant removes a Track, detach it from the DOM.
     room.on('trackRemoved', function (track, participant) {
-        log(participant.identity + " removed track: " + track.kind);
+        console.log(participant.identity + " removed track: " + track.kind);
         detachTracks([track]);
     });
 
     // When a Participant leaves the Room, detach its Tracks.
     room.on('participantDisconnected', function (participant) {
-        log("Participant '" + participant.identity + "' left the room");
+        log_status("Participant '" + participant.identity + "' left the room");
         $("#button-leave").trigger('click');
         detachParticipantTracks(participant);
     });
@@ -100,7 +104,7 @@ function roomJoined(room) {
     // Once the LocalParticipant leaves the room, detach the Tracks
     // of all Participants, including that of the LocalParticipant.
     room.on('disconnected', function () {
-        log('Left');
+        console.log('Left');
         detachParticipantTracks(room.localParticipant);
         room.participants.forEach(detachParticipantTracks);
         activeRoom = null;
@@ -110,7 +114,7 @@ function roomJoined(room) {
 }
 
 // Preview LocalParticipant's Tracks.
-document.getElementById('button-preview').onclick = function () {
+$('document').on('click', '#button-preview', function () {
     var localTracksPromise = previewTracks
             ? Promise.resolve(previewTracks)
             : Twilio.Video.createLocalTracks();
@@ -123,15 +127,16 @@ document.getElementById('button-preview').onclick = function () {
         }
     }, function (error) {
         console.error('Unable to access local media', error);
-        log('Unable to access Camera and Microphone');
+        log_status('Unable to access Camera and Microphone');
     });
-};
+});
 
 // Activity log.
-function log(message) {
-    var logDiv = document.getElementById('log');
-    logDiv.innerHTML += '<p>&gt;&nbsp;' + message + '</p>';
-    logDiv.scrollTop = logDiv.scrollHeight;
+function log_status(message) {
+    /*var logDiv = document.getElementById('log');
+     logDiv.innerHTML += '<p>&gt;&nbsp;' + message + '</p>';
+     logDiv.scrollTop = logDiv.scrollHeight;*/
+    $('#log').html(message);
 }
 
 // Leave Room.

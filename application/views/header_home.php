@@ -30,6 +30,13 @@ if (empty($user_data)) {
         $this->minify->js(array('jquery.min.js', 'bootstrap.min.js'));
         echo $this->minify->deploy_js(FALSE, 'combined.min.js');
         ?>
+        <?php if (!empty($user_data)) {
+            ?>
+            <script src="<?php echo base_url('node_modules/socket.io/node_modules/socket.io-client/socket.io.js'); ?>"></script>
+            <script type="text/javascript">
+                var socket = io.connect('http://' + window.location.hostname + ':8100');
+            </script>
+        <?php } ?>
         <?php if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me' || $_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
             <script>
                 (function (i, s, o, g, r, a, m) {
@@ -49,7 +56,7 @@ if (empty($user_data)) {
         <?php } ?>
     </head> 
     <body>
-        <header id="header">
+        <header id="header" <?php echo (empty($user_data) || $user_data == null) ? "class='withoutlogin'" : ""; ?>>
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 col-sm-12">

@@ -260,6 +260,13 @@ if (!empty($user_profile) && !empty($db_user_data)) {
                                 data: "user_id=" + user_id + "&status=" + mode + "&totallikesreached=" + likesreached,
                                 success: function (data) {
                                     likedislikecounts++;
+                                    if (mode == "luv") {
+                                        socket.emit('New Like Request Web', {
+                                            'requestby_id': '<?php echo $user_data['id'] ?>',
+                                            'requestto_id': user_id,
+                                            'relation_status': 2
+                                        });
+                                    }
                                     if (data.success == true) {
                                         location.href = "<?php echo base_url('/match/nearby'); ?>";
                                     }

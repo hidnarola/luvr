@@ -69,70 +69,58 @@
         <div class="account-r-head"><h2><big><?php echo $username; ?></big></h2></div>
         <div class="account-r-body">
             <div class="account-body-head">
-                <h2 class="account-title">Video Requests</h2>
+                <h2 class="account-title">Video Snap Requests</h2>
                 <p>&nbsp;</p>
             </div>
             <div class="main-box no-header clearfix">
                 <div class="main-box-body clearfix">
-                    <?php if (!empty($videoRequests)) { ?>
-                        <div class="table-responsive">
-                            <table class="table usr-list">
-                                <thead>
-                                    <tr>
-                                        <th><span>User</span></th>
-                                        <th class="text-center"><span>Status</span></th>
-                                        <th><span>Email</span></th>
-                                        <th><span>Request Date</span></th>
-                                        <th><span>Action</span></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    foreach ($videoRequests as $vr) {
-                                        ?>
-                                        <tr id="request_<?php echo $vr['vrid']; ?>">
-                                            <td>
-                                                <img class="pro_pic" src="<?php echo $vr['media_thumb']; ?>" alt="<?php echo $vr['user_name']; ?>" title="<?php echo $vr['user_name']; ?>" onerror='this.src="<?php echo base_url(); ?>assets/images/default_avatar.jpg"'>
-                                                <span class="user-link"><?php echo $vr['user_name']; ?></span>
-                                                <span class="user-subhead">Age : <?php echo $vr['age']; ?></span>
-                                            </td>
-                                            <td class="text-center" id="status_txt">
-                                                <?php
-                                                if ($vr['status'] == 1)
-                                                    echo '<span class="label label-success">New Request';
-                                                else if ($vr['status'] == 2)
-                                                    echo '<span class="label label-success">Request Approved</span>';
-                                                else
-                                                    echo '<span class="label label-danger">Request Rejected</span>';
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <a href="mailto:<?php echo $vr['email']; ?>"><?php echo $vr['email']; ?></a>
-                                            </td>
-                                            <td><?php echo date("Y-m-d H:i:s", strtotime($vr['vs_created_date'])); ?></td>
-                                            <td>
-                                                <a class="btn btn-success" title="Approve" onclick="manageVideoRequest(<?php echo $vr['vrid']; ?>, 2);"><i class="fa fa-check"></i></a>
-                                                <a class="btn btn-danger" title="Reject" onclick="manageVideoRequest(<?php echo $vr['vrid']; ?>, 0);"><i class="fa fa-ban"></i></a>
-                                            </td>
-                                        </tr>
-                                        <?php
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-                        </div>
-                        <?php
-                        echo $pagination;
-                    } else {
-                        echo '<p class="alert alert-info">No video requests available!</p>';
-                    }
-                    ?>
+                    <div class="table-responsive" id="tbl_requests">
+                        <table class="table usr-list">
+                            <thead>
+                                <tr>
+                                    <th><span>User</span></th>
+                                    <th class="text-center"><span>Status</span></th>
+                                    <th><span>Action</span></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <p class="alert alert-info" id="norequests" style="display:none;">No video requests available!</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script type='text/javascript'>
+    var socket = io.connect('http://' + window.location.hostname + ':8100');
+    socket.emit('join_socket_web', {
+        'userID': '<?php echo $user_data['id']; ?>',
+        'is_login': '1',
+        'last_seen_date': '<?php echo $user_data['lastseen_date']; ?>'
+    });
+    socket.on('GetVideosnapRequest', function (data) {
+        console.log(data);
+        if (data)
+        {
+            $("#norequests").hide();
+            var html = '';
+            for (var i = 0; i < data.VideoRequests.length; i++)
+            {
+                var obj = data.VideoRequests[i];
+                html += '<tr id="request_' + obj.vs_id + '">';
+                html += '<td><img class="pro_pic" src="' + obj.media_thumb + '" alt="' + obj.user_name + '" title="' + obj.user_name + '" onerror="this.src=\'<?php echo base_url(); ?>assets/images/default_avatar.jpg\'"><span class="user-link">' + obj.user_name + '</span><span class="user-subhead">Age : ' + obj.age + '</span></td>';
+                html += '<td class="text-center" id="status_txt"><span class="label label-success">New Request</span></td>';
+                html += '<td><a class="btn btn-success" title="Approve" onclick="manageVideoRequest(' + obj.vs_id + ', 2);"><i class="fa fa-check"></i></a><a class="btn btn-danger" title="Reject" onclick="manageVideoRequest(' + obj.vs_id + ', 0);"><i class="fa fa-ban"></i></a></td>';
+                html += '</tr>';
+            }
+            $("#tbl_requests tbody").html(html);
+        } else
+        {
+            $("#tbl_requests").hide();
+            $("#norequests").show();
+        }
+    });
     function manageVideoRequest(request_id, mode) {
         var mode_txt = (mode == 2) ? "approve" : "reject";
         var mode_txted = (mode == 2) ? "approved" : "rejected";
