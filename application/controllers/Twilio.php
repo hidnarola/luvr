@@ -12,6 +12,7 @@ class Twilio extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->load->model(array('Users_model'));
     }
 
     function getallcallsforthismonth() {
@@ -32,8 +33,21 @@ class Twilio extends CI_Controller {
         }
     }
 
-    function makecall() {
-        $this->load->view('twilio');
+    function makecall($id = null) {
+        if (is_numeric($id) && $id != null) {
+            $data['chat_user_data'] = $this->Users_model->fetch_userdata(['id' => $id], true);
+            $this->load->view('twilio', $data);
+        } else {
+            show_404();
+        }
+    }
+
+    function twiliol() {
+        $this->load->view('twilio1');
+    }
+
+    function twilio2() {
+        $this->load->view('remote');
     }
 
 }

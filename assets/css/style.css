@@ -490,3 +490,9 @@ fieldset[disabled] .form-control{background:#fff;}
 .nbmatches .user-list-l-l{min-height:400px;}
 .nbmatches .user-likes a{margin:0 20px;}
 .nbmatches .user-list-l{max-width:400px;}
+
+/* Video Call CSS */
+#preview{position:relative;}
+#preview video{width:100%;display:block;}
+#preview #local-media{position:absolute;bottom:0;right:0;border:2px solid #f26f6f;padding:0;}
+#preview #local-media:empty{border:none;}
