@@ -59,6 +59,11 @@ class User extends CI_Controller {
             $user_data['address'] = $this->input->post('address');
             $user_data['bio'] = $this->input->post('bio');
 
+            $user_data['encrypted_username'] = base64_encode($user_data['user_name']);
+            $user_data['encrypted_one_liner'] = base64_encode($user_data['one_liner']);
+            $user_data['encrypted_bio'] = base64_encode($user_data['bio']);
+
+
             $res_address = $this->validate_zipcode($user_data['address'], true); // fetch latlong using google api
             // pr($res_address,1);
             $user_data['latlong'] = implode(',', $res_address['results'][0]['geometry']['location']); // implode into single string

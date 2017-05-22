@@ -6,51 +6,65 @@ class Message extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model(['Users_model', 'Messages_model']);
+        $this->load->model(['Users_model', 'Messages_model']);        
     }
 
     public function index() {
         
-    }
+    }    
 
     public function insert_data() {
 
-        $message = $this->input->post('message');
+        $message = trim($this->input->post('message'));
         $encode_message = base64_encode($message);
 
         $sender_id = $this->input->post('session_id');
         $receiver_id = $this->input->post('chat_user_id');
 
-        $unique_id = $sender_id . '_' . random_string('alnum', 8);
-
-        $db_user_img = $this->input->post('db_user_img');
-        $chat_user_img = $this->input->post('chat_user_img');
+        
 
         if ($_FILES['msg_file']['error'] != '4') {
-            $this->upload_message_data($_FILES);
+
+            $ret_data = $this->upload_message_data($_FILES);
+            
+            $unique_id = $sender_id . '_' . $ret_data['raw_name'];
+
+            $arr = array(
+                'message_type' => $ret_data['message_type'],
+                'message' => $ret_data['message'],
+                'media_name' => $sender_id.'_'.$ret_data['raw_name'].'.png',
+                'unique_id' => $unique_id,
+                'sender_id' => $sender_id,
+                'receiver_id' => $receiver_id,
+                'created_date' => date('Y-m-d H:i:s'),
+                'is_encrypted' => $ret_data['is_encrypted'], // dynamic
+                'encrypted_message' => $encode_message
+            );
+
         } else {
             
-        }
+            $unique_id = $sender_id . '_' . random_string('alnum', 8);        
 
-        $arr = array(
-            'message_type' => '1',
-            'message' => $message,
-            'status' => '0',
-            'media_name' => '',
-            'unique_id' => $unique_id,
-            'sender_id' => $sender_id,
-            'receiver_id' => $receiver_id,
-            'is_delete' => '0',
-            'created_date' => date('Y-m-d H:i:s'),
-            'updated_date' => date('Y-m-d H:i:s'),
-            'is_encrypted' => '1',
-            'encrypted_message' => $encode_message
-        );
+            $arr = array(
+                'message_type' => '1',
+                'message' => $message,
+                'media_name' => '',
+                'unique_id' => $unique_id,
+                'sender_id' => $sender_id,
+                'receiver_id' => $receiver_id,
+                'created_date' => date('Y-m-d H:i:s'),
+                'is_encrypted' => '1', // dynamic
+                'encrypted_message' => $encode_message
+            );
+        }
 
         echo json_encode($arr);
     }
 
     public function upload_message_data($file_data) {
+        
+        $u_data = $this->session->userdata('user');
+        $user_id = $u_data['id'];
 
         $path = $file_data['msg_file']['name'];
         $ext = pathinfo($path, PATHINFO_EXTENSION);
@@ -87,16 +101,23 @@ class Message extends CI_Controller {
                 $full_path = $new_name;
             }
 
-            $thumb_name = $raw_name . '.png';
+            $thumb_name = $raw_name . '.png';            
+            $ret['raw_name'] = $raw_name; // v! Return data
             $thumb_path = UPLOADPATH_THUMB . '/' . $thumb_name;
 
             // IF image then create thumb using GD library otherwise use ffmpeg for create image
             if ($data['upload_data']['is_image'] == '1') {
                 _createThumbnail($full_path, $thumb_path);
                 $media_type = '1';
+                $ret['message_type'] = '2'; // v! Return data ( 2 is for image )
+                $ret['message'] = 'Image';
+                $ret['is_encrypted'] = '0'; 
             } else {
                 exec(FFMPEG_PATH . ' -i ' . $full_path . ' -ss 00:00:01.000 -vframes 1 ' . $thumb_path);
                 $media_type = '2';
+                $ret['message_type'] = '3'; // v! Return data ( 3 is for video )
+                $ret['message'] = 'Video'; // v! Return data
+                $ret['is_encrypted'] = '1'; 
             }
 
             $ins_data = array(
@@ -105,11 +126,11 @@ class Message extends CI_Controller {
                                 'media_thumb'=>$thumb_name,
                                 'media_type'=>$media_type,
                                 'created_date'=>date('Y-m-d H:i:s'),
-                                'is_bios'=>'1'
-                            );
-            // $this->Bio_model->insert_media($ins_data);
+                                'is_bios'=>'0'
+                            );                    
+            $this->Bio_model->insert_media($ins_data);
 
-            pr($data);
+            return $ret;            
         }
     }
 
@@ -118,8 +139,10 @@ class Message extends CI_Controller {
         $u_data = $this->session->userdata('user');
         $user_id = $u_data['id'];
         $data['db_user_data'] = $this->Users_model->fetch_userdata(['id' => $user_id], true);
-        $data['all_messages'] = $this->Messages_model->all_chat_messages($user_id);
+        
         $data['all_matches'] = $this->Messages_model->get_new_matches($user_id, $data['db_user_data']['lastseen_date']);
+        $data['all_messages'] = $this->Messages_model->all_chat_messages($user_id);        
+        $data['all_messages_user_ids'] = array_column($data['all_messages'],'sender_id');
 
         $data['sub_view'] = 'message/all_messages';
         $data['meta_title'] = "Chat Messages";
@@ -148,7 +171,7 @@ class Message extends CI_Controller {
         $this->load->view('main', $data);
     }
 
-    function videocall($id = null) {
+    public function videocall($id = null) {
         if (is_numeric($id) && $id != null) {
             $u_data = $this->session->userdata('user');
             $user_id = $u_data['id'];

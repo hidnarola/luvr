@@ -27,8 +27,11 @@
                             <?php
                                 if(!empty($all_matches)){
                                     foreach($all_matches as $match){                                        
-                                        $img_user = my_img_url($match['media_type'],$match['media_thumb']);
-                                        $decode_uname = base64_decode($match['encrypted_username']);
+                                        
+                                        if(in_array($match['id'], $all_messages_user_ids) == false) {
+
+                                            $img_user = my_img_url($match['media_type'],$match['media_thumb']);
+                                            $decode_uname = base64_decode($match['encrypted_username']);
                             ?>
                                 <li>
                                     <a href="<?php echo base_url().'message/chat/'.$match['id']; ?>">
@@ -41,6 +44,7 @@
                                     </a>
                                 </li>
                             <?php
+                                        }
                                     }
                                 }
                             ?>
@@ -60,14 +64,16 @@
                             <tbody>
                                 <?php
                                     if(!empty($all_messages)){
-                                        foreach($all_messages as $msg){                                            
+                                        foreach($all_messages as $msg){
+
                                             $fetch_user_id = $msg['sender_id'];
 
                                             if($msg['sender_id'] == $db_user_data['id']){
                                                 $fetch_user_id = $msg['receiver_id'];
                                             }
-                                                
+
                                             $fetch_user_data = $this->Messages_model->get_user_message_data($fetch_user_id);
+
                                             $decode_uname = base64_decode($fetch_user_data['encrypted_username']);
                                             $img_user = my_img_url($fetch_user_data['media_type'],$fetch_user_data['media_thumb']);
                                 ?>

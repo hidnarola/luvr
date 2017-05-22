@@ -4,6 +4,7 @@
     $db_user_img = my_img_url($db_user_media['media_type'],$db_user_media['media_thumb']);
     $chat_user_img = my_img_url($chat_user_media['media_type'],$chat_user_media['media_thumb']);
 
+    $is_active_usr = isUserActiveSubscriber($sess_user_data['id']);
 ?>
 
 <div class="my-account">
@@ -24,8 +25,7 @@
             </div>
             <div class="live-chat-user">
                 <h4>
-                    <?php echo $chat_user_data['user_name']; ?>
-                    
+                    <?php echo $chat_user_data['user_name']; ?>                    
                 </h4>
                 <span>
                     <img src="<?php echo $chat_user_img; ?>" alt="<?php echo $chat_user_data['user_name']; ?>" />
@@ -94,7 +94,11 @@
                                     <input type="hidden" name="chat_user_img" id="chat_user_img" value="<?php echo $chat_user_img; ?>">
 
                                     <button type="submit"> Send Message </button>
-                                    <button type="button" onclick="location.href='<?php echo base_url('message/videocall/'.$chat_user_data['id']) ?>'"> Video Call </button>
+                                    <?php if($is_active_usr == '1') { ?>
+                                        <button type="button" onclick="location.href='<?php echo base_url('message/videocall/'.$chat_user_data['id']) ?>'">
+                                            Video Call
+                                        </button>
+                                    <?php } ?>
                                 </div>
                             </form>
                         </div>
@@ -108,7 +112,20 @@
 <input type="hidden" id="last_msg_id" val="">
 
 <script type="text/javascript">
-    
+
+    function formatAMPM(date) {
+        date = date.replace(' +0000','');
+        date = new Date(date);
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return strTime;
+    }
+
     // Manually call Join_socket     
     var socket = io.connect( 'http://'+window.location.hostname+':8100' );
 
@@ -127,7 +144,7 @@
     //-------------------------------------------------------------------------------------------------    
     // Get initial messages limit of 10 and also fetch pagination for next 10 and so on
     socket.on('Get Old Messages',function(data){
-        console.log('Get Old Messages');
+
         if(data.messages.length > 0){
             
             var first_id = data['messages'][0]['id'];
@@ -147,14 +164,12 @@
                 }else{
                     $('#all_messages_ul').html(new_str);
                 }
-            }            
-
+            }
         }
     });
 
     socket.on('New Message',function(data){
         console.log('New Message');
-        
         if($('#all_messages_ul li').length != 0){
             $('#all_messages_ul li:last').after(generate_new_message(data,'no'));
         }else{
@@ -164,14 +179,6 @@
         $('.message-to-owner').animate({
            scrollTop: $('#all_messages_ul').prop("scrollHeight")
         }, 1000);
-    });
-
-    socket.on('Get New Messages',function(data){
-        console.log('Get New Messages');
-        console.log(data);
-    },function(data){
-        console.log('Ovvv');
-        console.log(data);
     });
 
     $('.message-to-owner').scroll(function() {
@@ -191,14 +198,7 @@
     
     function submit_message(obj){
         
-        var message = $.trim($('#msg_id').val());        
-
-        if(message == ''){
-            show_notification('<strong> OOPS </strong>',
-                            'Please enter message field.',
-                            'error');
-            return false;
-        }
+        var message = $.trim($('#msg_id').val());
 
         var formData = new FormData($(obj)[0]);
 
@@ -212,39 +212,39 @@
             processData: false,
             data:formData,
             success:function(data){
-                
-                console.log(data);
+
+                if(data['message_type'] == '1' &&  data['message'] == ''){
+                    show_notification('<strong> OOPS </strong>',
+                                    'Please enter message field.',
+                                    'error');
+                    return false;
+                }                
+
                 $('#msg_form')[0].reset(); // Reset Form
 
-                if($.trim($('#all_messages_ul').html()).length == 0){
+                if($('#all_messages_ul li').length != 0){                    
                     $('#all_messages_ul li:last').after(generate_new_message(data,'yes'));
-                }else{
-                    $('#all_messages_ul li:last').html(generate_new_message(data,'yes'));
+                }else{                    
+                    $('#all_messages_ul').html(generate_new_message(data,'yes'));
                 }
                 
                 $('.message-to-owner').animate({
                    scrollTop: $('#all_messages_ul').prop("scrollHeight")
-                }, 1000);
+                }, 1000);                
 
                 socket.emit('New Message',{
                     'message_type':data['message_type'],
-                    'message':data['message'],
-                    'status':data['status'],
+                    'message':data['message'],                    
                     'media_name':data['media_name'],
                     'unique_id':data['unique_id'],
                     'sender_id':data['sender_id'],
-                    'receiver_id':data['receiver_id'],
-                    'is_delete':data['is_delete'],
-                    'created_date':data['created_date'],
-                    'updated_date':data['updated_date'],
+                    'receiver_id':data['receiver_id'],                    
+                    'created_date':data['created_date'],                    
                     'is_encrypted':data['is_encrypted'],
                     'encrypted_message':data['encrypted_message']
                 },function(data){
-                    // socket.emit('Get New Messages',{'message_id':data['id'],
-                    //                                 'userID':'<?php echo $db_user_data["id"]; ?>',
-                    //                                 'app_version':'<?php echo $db_user_data["app_version"]; ?>'});
-                });
 
+                });
             }
         });
     }
@@ -256,10 +256,13 @@
         var sess_user_id = '<?php echo $db_user_data["id"]; ?>';
         var cls = ''; var alt_1= '';
         var img_url = '';
+        var img_base_url = '<?php echo base_url()."bio/show_img/"; ?>';        
 
         for(var i =0; i<messages.length; i++){
 
-            msg = messages[i];            
+            msg = messages[i];
+
+            var msg_date = formatAMPM(msg["created_date"]);
 
             if(msg['sender_id'] == sess_user_id){                
                 cls = 'rider-talk session_user';
@@ -273,7 +276,22 @@
 
             new_str += '<li id="li_'+msg['id']+'" class="'+cls+'"><div class="pic-01">';
             new_str += '<img src="'+img_url+'" alt="'+alt_1+'" onerror="this.src=<?php echo base_url(); ?>assets/images/default_avatar.jpg" />';
-            new_str += '</div><p>'+atob(msg['encrypted_message'])+'<span>4:00 pm</span></p></li>';
+            new_str += '</div><p>';
+            
+            if(msg['message_type'] == '1'){
+                new_str += atob(msg['encrypted_message']);
+            }else if(msg['message_type'] == '2'){
+                var media_name_split = msg['media_name'].split('_');                
+                new_str += '<a data-fancybox="" href="'+img_base_url+media_name_split[1]+'">';
+                new_str += '<img width="50px" height="50px" src="'+img_base_url+media_name_split[1]+'/1"/></a>';
+            }else if(msg['message_type'] == '3'){
+                var media_name_split = msg['media_name'].split('_');
+                // media_name_split[1] = media_name_split[1].replace
+                new_str += '<a data-fancybox="" href="'+img_base_url+media_name_split[1]+'">';
+                new_str += '<img width="50px" height="50px" src="'+img_base_url+media_name_split[1]+'/1"/></a>';
+            }
+
+            new_str +='<span>'+msg_date+'</span></p></li>';
 
             if(i == 0){ $('#last_msg_id').val(msg['id']); }            
         }
@@ -284,7 +302,7 @@
     function generate_new_message(msg,is_db_user){
         
         var new_str = '';
-
+        var img_base_url = '<?php echo base_url()."bio/show_img/"; ?>';
         if(is_db_user == 'yes'){
             var cls = 'rider-talk'; 
             var alt_1= 'rider-talk';
@@ -295,11 +313,26 @@
             var img_url = '<?php echo $chat_user_img; ?>';
         }
 
+        var msg_date = formatAMPM(msg["created_date"]);
         // Login User
         
         new_str += '<li id="li_'+msg['id']+'" class="'+cls+'"><div class="pic-01">';
         new_str += '<img src="'+img_url+'" alt="'+alt_1+'" onerror="this.src=<?php echo base_url(); ?>assets/images/default_avatar.jpg" />';
-        new_str += '</div><p>'+atob(msg['encrypted_message'])+'</p></li>';
+        new_str += '</div><p>'
+        
+        if(msg['message_type'] == '1'){
+            new_str += atob(msg['encrypted_message']);
+        }else if(msg['message_type'] == '2'){
+            var media_name_split = msg['media_name'].split('_');                
+            new_str += '<a data-fancybox="" href="'+img_base_url+media_name_split[1]+'">';
+            new_str += '<img width="50px" height="50px" src="'+img_base_url+media_name_split[1]+'/1"/></a>';
+        }else if(msg['message_type'] == '3'){
+            var media_name_split = msg['media_name'].split('_');                
+            new_str += '<a data-fancybox="" href="'+img_base_url+media_name_split[1]+'">';
+            new_str += '<img width="50px" height="50px" src="'+img_base_url+media_name_split[1]+'/1"/></a>';
+        }
+
+        new_str += '<span>'+msg_date+'</span></p></li>';
         return new_str;
     }
 
