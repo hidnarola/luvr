@@ -67,16 +67,16 @@ class Message extends CI_Controller {
         $config['encrypt_name'] = TRUE;
         $config['detect_mime'] = TRUE;
         $config['file_ext_tolower'] = TRUE;
+		
+		$this->upload->initialize($config);
+		
+		if ( ! $this->upload->do_upload('msg_file')){
+			$error = array('error' => $this->upload->display_errors());
+			pr($error);
+		} else{
+			$data = array('upload_data' => $this->upload->data());
 
-        $this->upload->initialize($config);
-
-        if (!$this->upload->do_upload('msg_file')) {
-            $error = array('error' => $this->upload->display_errors());
-            pr($error);
-        } else {
-            $data = array('upload_data' => $this->upload->data());
-
-            $full_path = $data['upload_data']['full_path'];
+			$full_path = $data['upload_data']['full_path'];
             $file_name = $data['upload_data']['file_name'];
             $raw_name = $data['upload_data']['raw_name'];
 
@@ -100,13 +100,13 @@ class Message extends CI_Controller {
             }
 
             $ins_data = array(
-                'userid' => $u_data['id'],
-                'media_name' => $file_name,
-                'media_thumb' => $thumb_name,
-                'media_type' => $media_type,
-                'created_date' => date('Y-m-d H:i:s'),
-                'is_bios' => '1'
-            );
+                               	'userid'=>$u_data['id'],
+                                'media_name'=>$file_name,
+                                'media_thumb'=>$thumb_name,
+                                'media_type'=>$media_type,
+                                'created_date'=>date('Y-m-d H:i:s'),
+                                'is_bios'=>'1'
+                            );
             // $this->Bio_model->insert_media($ins_data);
 
             pr($data);
