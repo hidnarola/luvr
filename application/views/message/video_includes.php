@@ -49,14 +49,14 @@ $sess_user_data = $this->session->userdata('user');
         $("#button-preview").trigger('click');
         identity = data.identity;
         $('#room-controls').css('display', 'table');
-// Bind button to join Room.
+        // Bind button to join Room.
         $('#button-join').on('click', function () {
             join_room(data);
         });
-<?php if ($this->uri->segment(1) != "match" && !empty($this->uri->segment(3)) && !empty($this->uri->segment(4)) && !empty($this->uri->segment(3))) { ?>
+        <?php if ($this->uri->segment(1) != "match" && !empty($this->uri->segment(3)) && !empty($this->uri->segment(4)) && !empty($this->uri->segment(3))) { ?>
             join_room(data);
-<?php } ?>
-// Bind button to leave Room.
+        <?php } ?>
+        // Bind button to leave Room.
         $('#button-leave').on('click', function () {
             log_status('Ending Call...');
             $("#button-call").show();

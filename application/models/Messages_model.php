@@ -8,6 +8,17 @@ class Messages_model extends CI_Model {
 		return $last_id;
 	}
 
+	public function update_message($id,$data){
+		if(is_array($id)){
+			$this->db->where($id);
+		}else{
+			$this->db->where('id',$id);
+		}
+		$this->db->update('messages',$data);
+		$ret = $this->db->affected_rows();
+		return $ret;
+	}
+
 	public function fetch_all_messages_from_user($other_user_id){
 
 		$u_data = $this->session->userdata('user');		

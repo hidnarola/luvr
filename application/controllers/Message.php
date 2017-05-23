@@ -6,7 +6,7 @@ class Message extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model(['Users_model', 'Messages_model']);        
+        $this->load->model(['Users_model', 'Messages_model','Bio_model']);
     }
 
     public function index() {
@@ -171,6 +171,16 @@ class Message extends CI_Controller {
         $this->load->view('main', $data);
     }
 
+    public function get_video_id(){
+        $image_name = $this->input->post('image_name');
+        $res_data = $this->Bio_model->fetch_mediadata(['media_thumb'=>$image_name],true,'id');
+        echo $res_data['id'];
+    }
+
+    public function delete_chat(){
+        $msg_id = $this->input->post('msg_id');
+        $this->Messages_model->update_message($msg_id,['is_delete'=>'1']);        
+    }
 
     function videocall($id = null, $calling_id = null, $msg_id = null, $room_id = null) {
         if (is_numeric($id) && $id != null) {

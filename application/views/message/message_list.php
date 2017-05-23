@@ -22,6 +22,7 @@
         <div class="account-r-body ">
             <div class="account-body-head">
                 <h2 class="account-title">My Chat</h2>                
+                <!-- <span id="login_status"> </span> -->
             </div>
             <div class="live-chat-user">
                 <h4>
@@ -85,7 +86,10 @@
                                 </div>
 
                                 <div class="message-to-talk">
-                                    <textarea name="message" id="msg_id" placeholder="Write here..."></textarea>
+                                    <!--  -->
+                                    <textarea name="message" 
+                                             onkeypress="socket.emit('Typing',{'receiver_id':<?php echo $chat_user_id; ?>});"
+                                             id="msg_id" placeholder="Write here..."></textarea>
                                     <h3>You're writing a message to you like it</h3>
                                     <input type="hidden" name="session_id" id="session_id" value="<?php echo $db_user_data['id']; ?>">
                                     <input type="hidden" name="chat_user_id" id="chat_user_id" value="<?php echo $chat_user_id; ?>">
@@ -126,8 +130,19 @@
         return strTime;
     }
 
+    function set_video_url(){
+        $.each($('.msg_vid'), function(index, val) {            
+            $.post('<?php echo base_url()."message/get_video_id"; ?>',
+                {image_name:$(val).data('url')},
+                function(data){
+                    $(val).attr('href','<?php echo base_url()."video/play/"; ?>'+data);
+                    $(val).removeClass('msg_vid');
+                });            
+        });
+    }
+
     // Manually call Join_socket     
-    var socket = io.connect( 'http://'+window.location.hostname+':8100' );
+    // var socket = io.connect( 'http://'+window.location.hostname+':8100' ); // Load socket connection into header
 
     socket.emit('join_socket_web', {
         'userID':'<?php echo $db_user_data["id"]; ?>',        
@@ -141,9 +156,13 @@
         'message_id':'<?php echo $last_message_id + 1; ?>'
     });
 
+    socket.emit('get_users');   
+
     //-------------------------------------------------------------------------------------------------    
     // Get initial messages limit of 10 and also fetch pagination for next 10 and so on
     socket.on('Get Old Messages',function(data){
+        
+        console.log('Get Old Messages');
 
         if(data.messages.length > 0){
             
@@ -151,7 +170,7 @@
             data.messages = data.messages.reverse();
             var new_str = generate_all_message(data.messages);
             
-            if($.trim($('#all_messages_ul').html()).length == 0){
+            if($.trim($('#all_messages_ul').html()).length == 0){                
                 $('#all_messages_ul').html(new_str);
                 $(".message-to-owner").scrollTop($('#all_messages_ul').prop("scrollHeight")); // Scroll Bottom of that DIV
             }else{
@@ -165,6 +184,8 @@
                     $('#all_messages_ul').html(new_str);
                 }
             }
+
+            set_video_url(); // Set Video URl for the message
         }
     });
 
@@ -175,10 +196,14 @@
         }else{
             $('#all_messages_ul').html(generate_new_message(data,'no'));
         }
-
         $('.message-to-owner').animate({
            scrollTop: $('#all_messages_ul').prop("scrollHeight")
         }, 1000);
+        set_video_url(); // Set Video URl for the message
+    });
+
+    socket.on('Typing',function(data){
+        // console.log(data);
     });
 
     $('.message-to-owner').scroll(function() {
@@ -227,6 +252,8 @@
                 }else{                    
                     $('#all_messages_ul').html(generate_new_message(data,'yes'));
                 }
+
+                set_video_url(); // Set Video URl for the message
                 
                 $('.message-to-owner').animate({
                    scrollTop: $('#all_messages_ul').prop("scrollHeight")
@@ -256,7 +283,8 @@
         var sess_user_id = '<?php echo $db_user_data["id"]; ?>';
         var cls = ''; var alt_1= '';
         var img_url = '';
-        var img_base_url = '<?php echo base_url()."bio/show_img/"; ?>';        
+        var img_base_url = '<?php echo base_url()."bio/show_img/"; ?>';
+        var vid_base_url = '<?php echo base_url()."video/play/"; ?>';
 
         for(var i =0; i<messages.length; i++){
 
@@ -268,6 +296,7 @@
                 cls = 'rider-talk session_user';
                 alt_1 = 'session_user';
                 img_url = '<?php echo $db_user_img; ?>';
+
             }else{                
                 cls = 'user-talk chat_user';
                 alt_1 = 'chat_user';
@@ -278,6 +307,7 @@
             new_str += '<img src="'+img_url+'" alt="'+alt_1+'" onerror="this.src=<?php echo base_url(); ?>assets/images/default_avatar.jpg" />';
             new_str += '</div><p>';
             
+            // 1: text message 2: Image 3: Video
             if(msg['message_type'] == '1'){
                 new_str += atob(msg['encrypted_message']);
             }else if(msg['message_type'] == '2'){
@@ -285,15 +315,15 @@
                 new_str += '<a data-fancybox="" href="'+img_base_url+media_name_split[1]+'">';
                 new_str += '<img width="50px" height="50px" src="'+img_base_url+media_name_split[1]+'/1"/></a>';
             }else if(msg['message_type'] == '3'){
-                var media_name_split = msg['media_name'].split('_');
-                // media_name_split[1] = media_name_split[1].replace
-                new_str += '<a data-fancybox="" href="'+img_base_url+media_name_split[1]+'">';
+                var media_name_split = msg['media_name'].split('_');                
+                new_str += '<a href="" class="msg_vid" data-url="'+media_name_split[1]+'" target="_blank">';
                 new_str += '<img width="50px" height="50px" src="'+img_base_url+media_name_split[1]+'/1"/></a>';
             }
 
-            new_str +='<span>'+msg_date+'</span></p></li>';
+            new_str +='<span>'+msg_date+'</span> <a data-msg-id="'+msg['id']+'" onclick="delete_chat(this)"> X </a></p></li>';
 
-            if(i == 0){ $('#last_msg_id').val(msg['id']); }            
+            if(i == 0){ $('#last_msg_id').val(msg['id']); }
+         
         }
         return new_str;
     }
@@ -328,12 +358,24 @@
             new_str += '<img width="50px" height="50px" src="'+img_base_url+media_name_split[1]+'/1"/></a>';
         }else if(msg['message_type'] == '3'){
             var media_name_split = msg['media_name'].split('_');                
-            new_str += '<a data-fancybox="" href="'+img_base_url+media_name_split[1]+'">';
+            new_str += '<a href="" class="msg_vid" data-url="'+media_name_split[1]+'" target="_blank">';
             new_str += '<img width="50px" height="50px" src="'+img_base_url+media_name_split[1]+'/1"/></a>';
         }
 
         new_str += '<span>'+msg_date+'</span></p></li>';
         return new_str;
+    }
+
+    function delete_chat(obj){
+        var msg_id = $(obj).data('msg-id');
+        $.ajax({
+            url:'<?php echo base_url()."message/delete_chat"; ?>',
+            data:{msg_id:msg_id},
+            method:'POST',
+            success:function(data){
+                $('#li_'+msg_id).fadeOut();
+            }
+        });        
     }
 
 </script>
