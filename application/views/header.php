@@ -15,6 +15,9 @@ $user_data = $this->session->userdata('user');
         <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:400,500" rel="stylesheet"/>
         <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/bootstrap.min.css'; ?>"/>
         <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/icomoon.css'; ?>"/>
+        <?php if ($sub_view == "match/nearByMatches" || $sub_view == "match/level2") { ?>
+            <link href='<?php echo base_url('/assets/css/jTinder.css'); ?>' rel='stylesheet'/>
+        <?php } ?>
         <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/style.css'; ?>"/>
         <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/responsive.css'; ?>"/>
         <?php
@@ -32,6 +35,11 @@ $user_data = $this->session->userdata('user');
         <?php if (!empty($user_data)) { ?>
             <script type="text/javascript">
                 var socket = io.connect('http://' + window.location.hostname + ':8100');
+                socket.emit('join_socket_web', {
+                    'userID': '<?php echo $user_data['id']; ?>',
+                    'is_login': '1',
+                    'app_version': 0
+                });
             </script>
         <?php } ?>
         <?php if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me' || $_SERVER['HTTP_HOST'] == 'luvr.me') { ?>

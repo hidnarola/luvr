@@ -1,4 +1,3 @@
-<link href='<?php echo base_url('/assets/css/jTinder.css'); ?>' rel='stylesheet'/>
 <?php
 $user_data = $this->session->userdata('user');
 $show_ad = true;
@@ -247,7 +246,7 @@ if (!empty($user_profile) && !empty($db_user_data)) {
                                 },
                                 animationRevertSpeed: 200,
                                 animationSpeed: 500,
-                                threshold: 4,
+                                threshold: '<?php echo (detect_browser() == 'mobile') ? 1 : 4; ?>',
                                 likeSelector: '.like',
                                 dislikeSelector: '.dislike'
                             });

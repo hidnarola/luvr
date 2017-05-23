@@ -10,11 +10,6 @@ $sess_user_data = $this->session->userdata('user');
      socket.emit('connected', {id: socket.id});
      console.log("socket:", socket.id);
      });*/
-    socket.emit('join_socket_web', {
-        'userID': '<?php echo $sess_user_data['id']; ?>',
-        'is_login': '1',
-        'app_version': 0
-    });
     socket.on('isUserOnline Callback', function (isOnline) {
         if (isOnline == 1)
         {
