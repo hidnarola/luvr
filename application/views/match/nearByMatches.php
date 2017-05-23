@@ -1,6 +1,4 @@
 <?php
-$test = explode(",",array());
-pr($test,1);
 $user_data = $this->session->userdata('user');
 $success = $this->session->flashdata('success');
 if ($user_swipes_per_day >= MAX_SWIPES_PER_DAY) {
