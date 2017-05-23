@@ -10,7 +10,7 @@ class User extends CI_Controller {
         $this->load->model(array('Users_model', 'Filters_model', 'Matches_model', 'Bio_model'));
         $this->load->library(['unirest', 'facebook']);
         $u_data = $this->session->userdata('user');
-         
+
         if (empty($u_data) && uri_string() != 'user/manage_subscription' && uri_string() != "user/login_callback" && uri_string() != "user/webcam" && uri_string() != "user/saverecordedvideo") {
             redirect('register');
         }
@@ -292,11 +292,17 @@ class User extends CI_Controller {
     public function user_settings() {
         $u_data = $this->session->userdata('user');
         $user_id = $u_data['id'];
-
-        $this->form_validation->set_rules('address', 'Location', 'required|callback_validate_zipcode|trim', ['validate_zipcode' => 'Please enter valid location.']);
-
+        $address = $this->input->post('address');
+        if (!empty($address)) {
+            foreach ($address as $ind => $val) {
+                $this->form_validation->set_rules("address[" . $ind . "]", "Address", 'required|callback_validate_zipcode|trim', ['validate_zipcode' => 'Please enter valid location.']);
+            }
+        }
+        $is_subscriber = false;
+        if (isUserActiveSubscriber($user_id) == 1) {
+            $is_subscriber = true;
+        }
         if ($this->form_validation->run() == FALSE) {
-
             $data['fb_login_url'] = $this->facebook->get_login_url();
             $data['insta_login_url'] = 'https://api.instagram.com/oauth/authorize/?client_id=' . INSTA_CLIENT_ID . '&redirect_uri=' . base_url() . 'register/return_url' . '&response_type=code&scope=likes+comments+follower_list+relationships+public_content';
 
@@ -305,12 +311,40 @@ class User extends CI_Controller {
             $notification_settings = $this->Users_model->getUserSetings('userid', $user_id);
             $user_info = $this->Users_model->getUserByCol('id', $user_id);
             $data['notificationSettings'] = $notification_settings;
+            $data['userAddresses'] = array();
+            if ($is_subscriber == true) {
+                $this->db->select("*");
+                $this->db->from("location");
+                $this->db->where("userid", $user_id);
+                $rs = $this->db->get()->result_array();
+                $data['userAddresses'] = $rs;
+            }
             $data['userInfo'] = $user_info;
+            $data['is_subscriber'] = $is_subscriber;
             $this->load->view('main', $data);
         } else {
             $user_data['id'] = $settings['userid'] = $user_id;
+            $add = $this->input->post('address');
+            if ($is_subscriber == false) {
+                $user_data['address'] = $add[0];
+            } else {
+                $default_address = $this->input->post('hdn_default_address');
+                $i = 0;
+                if (!empty($default_address) && $default_address != null && !empty($add) && $add != null) {
+                    $this->db->delete('location', array('userid' => $user_id));
+                    $default_location_id = null;
+                    foreach ($add as $ad) {
+                        $latlong = $_POST['latlongs'][$i];
+                        $this->db->insert("location", array('userid' => $user_id, "location_name" => $ad, "latlong" => $latlong, "updated_date" => date("Y-m-d H:i:s")));
+                        if ($default_address == $ad) {
+                            $default_location_id = $this->db->insert_id();
+                        }
+                        $i++;
+                    }
+                    $user_data['location_id'] = $default_location_id;
+                }
+            }
             $settings['is_universal_profile'] = (int) $this->input->post('is_universal_profile');
-            $user_data['address'] = $this->input->post('address');
             $res_address = $this->validate_zipcode($user_data['address'], true); // fetch latlong using google api
             $user_data['latlong'] = implode(',', $res_address['results'][0]['geometry']['location']); // implode into single string
             $user_data['radius'] = $this->input->post('hdn_radius');

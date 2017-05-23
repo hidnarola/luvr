@@ -52,7 +52,12 @@ class Match extends CI_Controller {
             $data['user_swipes_per_day'] = 0;
         }
         $data['user_powerluvs_per_day'] = $this->Users_model->getTotalUsersSwipesByCol('requestby_id', $user_id, true, array("relation_status" => 3));
-        $u_data['latlong'] = $user_info['latlong'];
+        if ($user_info['location_id'] > 0) {
+            $rs = $this->db->get_where('location', array('id' => $user_info['location_id']))->row_array();
+            $u_data['latlong'] = $rs['latlong'];
+        } else {
+            $u_data['latlong'] = $user_info['latlong'];
+        }
         $u_data['radius'] = $user_info['radius'];
         $u_data['user_settings'] = $user_settings;
         /* $u_data['user_filters'] = $user_filters; */
@@ -60,7 +65,7 @@ class Match extends CI_Controller {
         $data['sub_view'] = 'match/nearByMatches';
         $data['meta_title'] = "Nearby Matches";
         $data['nearByUsers'] = $near_by['result'];
-        $data['latlong'] = $user_info['latlong'];
+        $data['latlong'] = $u_data['latlong'];
         $data['radius'] = $user_info['radius'];
         $data['is_user_premium_member'] = $user_settings['is_premium_member'];
         if ((strtotime($user_settings['premium_expiry_date']) > strtotime(date("Y-m-d H:i:s", time()))) && $user_settings['is_premium_member'] == 1) {

@@ -516,3 +516,10 @@ fieldset[disabled] .form-control{background:#fff;}
 #room-controls li#button-reject,#room-controls li#button-leave{background-image:url(../images/icon-06.png);background-repeat:no-repeat;height:40px;width:40px;}
 .success-message #call_img{cursor:pointer;}
 span#log{font-style:italic;color:#bbb;margin-left:5px;}
+
+.input-wrapper .locations-wrap input{width:80%;float:left;}
+.input-wrapper .locations-wrap button{float:right;width:18%;height:46px;}
+.input-wrapper .location-block input[type="radio"]{width:10%;float:left;top:11px;position:relative;}
+.input-wrapper .location-block input[type="text"]{width:88%;float:right;}
+.locations-wrap{margin:0;display:inline-block;vertical-align:middle; width:100%;}
+.location-block{margin:0 0 10px;top:16px;position:relative;display:inline-block;vertical-align:middle;width:100%;}
