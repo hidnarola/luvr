@@ -34,7 +34,7 @@ if (empty($user_data)) {
             ?>
             <script src="<?php echo base_url('node_modules/socket.io/node_modules/socket.io-client/socket.io.js'); ?>"></script>
             <script type="text/javascript">
-                var socket = io.connect('https://' + window.location.hostname + ':8100');
+                var socket = io.connect('http://' + window.location.hostname + ':8100');
                 socket.emit('join_socket_web', {
                     'userID': '<?php echo $user_data['id']; ?>',
                     'is_login': '1',
