@@ -16,6 +16,7 @@ if (empty($user_data)) {
 <html lang="en">
     <head>
         <meta charset="utf-8"/>
+        <meta name="trafficjunky-site-verification" content="7yars5u58" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0"/>
         <link rel="icon" href="<?php echo base_url('/favicon.png'); ?>" type="image/x-icon"/>
         <title><?php echo $site_title; ?></title>
@@ -75,6 +76,12 @@ if (empty($user_data)) {
                                 $username = (!empty($user_data['user_name'])) ? $user_data['user_name'] : $user_data['instagram_username'];
                                 ?>
                                 <div class="user-dropdown dropdown">
+                                    <?php
+                                    $unread_counts = GetUserUnreadNotificationCounts($user_data['id']);
+                                    if ($unread_counts > 0) {
+                                        ?>
+                                        <div class="notification-count"><?php echo $unread_counts; ?></div>
+                                    <?php } ?>
                                     <a href="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         <span class="user-pic">
                                             <?php if ($user_media['media_type'] == '1' || $user_media['media_type'] == '2') { ?>

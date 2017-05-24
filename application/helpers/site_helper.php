@@ -40,10 +40,10 @@ function _createThumbnail($img_path, $thumb_path) {
     }
 }
 
-function random_name_generate(){     
-    $all_options = array('alpha','alnum'); 
-    $random_keys=array_rand($all_options,1);    
-    return random_string($all_options[$random_keys],8);    
+function random_name_generate() {
+    $all_options = array('alpha', 'alnum');
+    $random_keys = array_rand($all_options, 1);
+    return random_string($all_options[$random_keys], 8);
 }
 
 if (!function_exists('pr')) {
@@ -221,6 +221,22 @@ if (!function_exists('GetUserPowerLuvsPerDay')) {
         if (!empty($user_id)) {
             $CI = & get_instance();
             return $CI->Users_model->getTotalUsersSwipesByCol('requestby_id', $user_id, true, array("relation_status" => 3));
+        }
+        return false;
+    }
+
+}
+
+if (!function_exists('GetUserUnreadNotificationCounts')) {
+
+    function GetUserUnreadNotificationCounts($user_id) {
+        if (!empty($user_id)) {
+            $CI = & get_instance();
+            $CI->db->from("messages");
+            $CI->db->where("receiver_id", $user_id);
+            $CI->db->where("is_delete", 0);
+            $CI->db->where("status", 0);
+            return $CI->db->count_all_results();
         }
         return false;
     }
