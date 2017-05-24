@@ -543,4 +543,7 @@ if (!empty($nearByUsers)) {
                             setTimeout(showSneakPeak, 1000);
                         }
                     }
+                    socket.on('New Like Request', function (data) {
+                        console.log(data);
+                    });
 </script>

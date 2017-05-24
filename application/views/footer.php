@@ -174,9 +174,6 @@ if (!empty($sess_user_data)) {
 }
 ?>
 <script type="text/javascript">
-    socket.on('New Like Request', function (data) {
-        console.log(data);
-    });
     function log(text) {
         console.log(text);
     }
@@ -235,7 +232,7 @@ if (!empty($sess_user_data)) {
             scrollTop: $(id).offset().top}, 'slow');
     }
 </script>
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'assets/css/jquery.fancybox.min.css'; ?>">
-    <script src="<?php echo base_url() . 'assets/js/jquery.fancybox.min.js'; ?>" type="text/javascript"></script>
-    <script type="text/javascript" src="<?php echo base_url() . 'assets/js/bootstrap-notify.js'; ?>"></script>    
+<link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'assets/css/jquery.fancybox.min.css'; ?>"/>
+<script src="<?php echo base_url() . 'assets/js/jquery.fancybox.min.js'; ?>" type="text/javascript"></script>
+<script type="text/javascript" src="<?php echo base_url() . 'assets/js/bootstrap-notify.js'; ?>"></script>    
 </body>

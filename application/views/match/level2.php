@@ -301,6 +301,9 @@ if (!empty($user_profile) && !empty($db_user_data)) {
     </script>
 <?php } else { ?>
     <script type="text/javascript">
+        socket.on('New Like Request', function (data) {
+            console.log(data);
+        });
         $(window).on('load', function () {
             setTimeout(function () {
                 $("#loader").fadeOut();
