@@ -1,6 +1,7 @@
 <?php
 $user_data = $this->session->userdata('user');
 $show_ad = true;
+$IsPowerLuvsAllowed = IsPowerLuvsAllowed($user_data['id']);
 if (!empty($user_data)) {
     if ($is_user_premium_member == 1) {
         $show_ad = false;
@@ -21,6 +22,9 @@ if ($user_swipes_per_day >= MAX_SWIPES_PER_DAY) {
 $max_powerluvs = MAX_POWERLUVS_PER_DAY;
 if ($is_user_premium_member == 1) {
     $max_powerluvs = MAX_POWERLUVS_PER_DAY_P;
+}
+if ($IsPowerLuvsAllowed == 1) {
+    $max_powerluvs = $max_powerluvs + 5;
 }
 if ($user_powerluvs_per_day >= $max_powerluvs) {
     echo '<div class="alert alert-danger alert-dismissable">
@@ -275,23 +279,13 @@ if (!empty($user_profile) && !empty($db_user_data)) {
                                         showMsg("Your likes quota per day has been reached! Therefore, right swipes for cards will not be considered.", "error");
                                         scrollToElement("#header");
                                     }
-    <?php if ($is_user_premium_member == 1) { ?>
-                                        if ((data.user_powerluvs_per_day == <?php echo MAX_POWERLUVS_PER_DAY_P; ?>) && mode == "powerluv")
-                                        {
-                                            powerluvsreached = 1;
-                                            reflectUserInfo(li_index);
-                                            showMsg("Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.", "error");
-                                            scrollToElement("#header");
-                                        }
-    <?php } else { ?>
-                                        if ((data.user_powerluvs_per_day == <?php echo MAX_POWERLUVS_PER_DAY; ?>) && mode == "powerluv")
-                                        {
-                                            powerluvsreached = 1;
-                                            reflectUserInfo(li_index);
-                                            showMsg("Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.", "error");
-                                            scrollToElement("#header");
-                                        }
-    <?php } ?>
+                                    if ((data.user_powerluvs_per_day == <?php echo $max_powerluvs; ?>) && mode == "powerluv")
+                                    {
+                                        powerluvsreached = 1;
+                                        reflectUserInfo(li_index);
+                                        showMsg("Your power luvs quota per day has been reached! Therefore, further power luvs will not be considered.", "error");
+                                        scrollToElement("#header");
+                                    }
                                 }, error: function () {
                                     showMsg("Something went wrong!", "error", true);
                                     scrollToElement("#header");

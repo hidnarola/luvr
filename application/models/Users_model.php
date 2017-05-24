@@ -192,6 +192,22 @@ class Users_model extends CI_Model {
         return $this->db->get_where('media', array($column => $value))->row_array();
     }
 
+    /* This function will fetch user purchases by id. */
+
+    public function getUserPurchaseById($user_id) {
+        if (!empty($user_id)) {
+            return $this->db->get_where('powerluv_purchases', array('userid' => $user_id, 'DATE(date_created)' => date("Y-m-d")))->row_array();
+        }
+        return false;
+    }
+
+    public function manageUserPowerLuvPackage($data) {
+        if (!empty($data)) {
+            $this->db->insert('powerluv_purchases', $data);
+        }
+        return false;
+    }
+
 }
 
 ?>

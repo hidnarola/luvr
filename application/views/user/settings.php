@@ -175,7 +175,7 @@
                     </div>
 
                     <div class="col-md-6 col-sm-6 col-xs-12 mar-btm-20">
-                        <div class="input-wrapper">
+                        <div class="input-wrapper input-addres-div">
                             <?php echo form_label('Address:', 'address'); ?>
                             <?php if (count($userAddresses) < 5 && !empty($userAddresses)) { ?>
                                 <button type="button" title="Add more locations" class="btn btn-success" onclick="cloneElement(this);">+</button>

@@ -523,3 +523,5 @@ span#log{font-style:italic;color:#bbb;margin-left:5px;}
 .input-wrapper .location-block input[type="text"]{width:88%;float:right;}
 .locations-wrap{margin:0;display:inline-block;vertical-align:middle; width:100%;}
 .location-block{margin:0 0 10px;top:16px;position:relative;display:inline-block;vertical-align:middle;width:100%;}
+.input-addres-div .btn-success{float:right;margin:-33px 0 0;}
+#frm_powerluvs{font-size:14px;font-weight:normal;margin:12px -10px 0 10px;}

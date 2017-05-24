@@ -662,4 +662,99 @@ class User extends CI_Controller {
         echo json_encode(array("success" => $success, "message" => $data['message'], "path" => $path));
     }
 
+    function manage_powerluv_subscription() {
+        require APPPATH . 'third_party/stripe/Stripe.php';
+        $u_data = $this->session->userdata('user');
+        $user_id = $u_data['id'];
+        $params = array(
+            "testmode" => "off",
+            "private_live_key" => SK_LIVE,
+            "public_live_key" => PK_LIVE,
+            "private_test_key" => SK_TEST,
+            "public_test_key" => PK_TEST
+        );
+
+        if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
+            $params['testmode'] = "on";
+        }
+
+        if ($params['testmode'] == "on") {
+            Stripe::setApiKey($params['private_test_key']);
+            $pubkey = $params['public_test_key'];
+        } else {
+            Stripe::setApiKey($params['private_live_key']);
+            $pubkey = $params['public_live_key'];
+        }
+
+        if (isset($_POST['stripeToken'])) {
+            $subscription_plan = $_POST['subplan'];
+
+            try {
+                $charge = Stripe_Charge::create(array(
+                            "amount" => $_POST['amt'],
+                            "currency" => "usd",
+                            "source" => $_POST['stripeToken'])
+                );
+
+                if (@$charge->card->address_zip_check == "fail") {
+                    throw new Exception("zip_check_invalid");
+                } else if (@$charge->card->address_line1_check == "fail") {
+                    throw new Exception("address_check_invalid");
+                } else if (@$charge->card->cvc_check == "fail") {
+                    throw new Exception("cvc_check_invalid");
+                }
+                // Payment has succeeded, no exceptions were thrown or otherwise caught				
+
+                $result = "success";
+            } catch (Stripe_CardError $e) {
+                $error = $e->getMessage();
+                $result = "declined";
+            } catch (Stripe_InvalidRequestError $e) {
+                $error = $e->getMessage();
+                $result = "declined";
+            } catch (Stripe_AuthenticationError $e) {
+                $error = $e->getMessage();
+                $result = "declined";
+            } catch (Stripe_ApiConnectionError $e) {
+                $error = $e->getMessage();
+                $result = "declined";
+            } catch (Stripe_Error $e) {
+                $error = $e->getMessage();
+                $result = "declined";
+            } catch (Exception $e) {
+                $error = $e->getMessage();
+                if ($e->getMessage() == "zip_check_invalid") {
+                    $result = "declined";
+                } else if ($e->getMessage() == "address_check_invalid") {
+                    $result = "declined";
+                } else if ($e->getMessage() == "cvc_check_invalid") {
+                    $result = "declined";
+                } else {
+                    $result = "declined";
+                }
+            }
+            /* echo "<BR>Stripe Payment Status : " . $result; */
+            if ($result == "success") {
+                $data['userid'] = $user_id;
+                $data['ipn_log'] = $charge->__toJSON();
+                $data['price'] = number_format($_POST['amt'] / 100, 2);
+                /* $user_settings = $this->db->get_where('user_settings', array('userid' => $user_id))->row_array();
+                  if (!empty($user_settings)) { */
+                $this->Users_model->manageUserPowerLuvPackage($data);
+                /* } else {
+                  $this->Users_model->insertUserSettings($data);
+                  } */
+                $this->session->set_flashdata('success', 'Your purchase was successful.');
+                redirect('match/nearby');
+            } else {
+                $this->session->set_flashdata('error', 'Error occured while purchase!');
+                redirect('/');
+            }
+            /* if ($result == "declined")
+              echo "<BR>Stripe Payment Error : " . $error;
+              echo "<BR>Stripe Response : ";
+              pr($charge); */
+        }
+    }
+
 }

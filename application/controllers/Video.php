@@ -89,14 +89,14 @@ class Video extends CI_Controller {
             }
         } else if ($_SERVER['HTTP_HOST'] == 'luvr.me') {
             $ads = array(
-                "http://ads.nexage.com/adServe?dcn=2c9d2b50015b5bb0aaaab3d2d9960047&pos=interstitial&ua=" . urlencode($_SERVER['HTTP_USER_AGENT']) . "&ip=" . $_SERVER['REMOTE_ADDR'] . "&u(id)=" . uniqid() . "&req(url)=" . base_url(uri_string()) . "", //AOL1
-                "http://vast.optimatic.com/vast/getVast.aspx?id=q145a541html53&o=3&zone=hybrid&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . ""
+                "http://vast.optimatic.com/vast/getVast.aspx?id=q145a541html53&o=3&zone=hybrid&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . "",
+                "https://ssp.streamrail.net/ssp/vpaid/5715f70d2ed89a0002000242/5924041c932f1a00024b75b9?cb=" . uniqid() . "&width=1024&height=768&dnt=1&sub_id=15836&ip=" . $_SERVER['REMOTE_ADDR'] . "&ua=" . urlencode($_SERVER['HTTP_USER_AGENT']) . "&page_url=" . base_url(uri_string()) . ""
             );
             $data['ad_url'] = $ads[array_rand($ads)];
             if (!empty($_GET['p'])) {
-                if ($_GET['p'] == "ao") {
+                if ($_GET['p'] == "op") {
                     $data['ad_url'] = $ads[0];
-                } else if ($_GET['p'] == "op") {
+                } else if ($_GET['p'] == "ha") {
                     $data['ad_url'] = $ads[1];
                 }
             }
