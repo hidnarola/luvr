@@ -8,18 +8,18 @@ function qry($is_die = false) {
     }
 }
 
-function my_img_url($img_type, $img_url){
-    if($img_type == '1'){
-        return base_url().'bio/show_img/'.$img_url.'/1';
+function my_img_url($img_type, $img_url) {
+    if ($img_type == '1') {
+        return base_url() . 'bio/show_img/' . $img_url . '/1';
     }
-    if($img_type == '2'){
-        $img_url = str_replace('.mp4','.png',$img_url);
-        return base_url().'bio/show_img/'.$img_url.'/1';
+    if ($img_type == '2') {
+        $img_url = str_replace('.mp4', '.png', $img_url);
+        return base_url() . 'bio/show_img/' . $img_url . '/1';
     }
-    if($img_type == '3'){
+    if ($img_type == '3') {
         return $img_url;
     }
-    if($img_type == '4'){
+    if ($img_type == '4') {
         return $img_url;
     }
 }
@@ -186,6 +186,37 @@ if (!function_exists('detect_browser')) {
         } else {
             return false;
         }
+    }
+
+}
+
+if (!function_exists('IsPowerLuvsAllowed')) {
+
+    function IsPowerLuvsAllowed($user_id) {
+        if (!empty($user_id)) {
+            $CI = & get_instance();
+            $user_purchases = $CI->Users_model->getUserPurchaseById($user_id);
+            $pur_date = date("Y-m-d", strtotime($user_purchases['date_created']));
+            if (strtotime($pur_date) == strtotime(date("Y-m-d"))) {
+                $active = 1;
+            } else {
+                $active = 0;
+            }
+            return $active;
+        }
+        return 0;
+    }
+
+}
+
+if (!function_exists('GetUserPowerLuvsPerDay')) {
+
+    function GetUserPowerLuvsPerDay($user_id) {
+        if (!empty($user_id)) {
+            $CI = & get_instance();
+            return $CI->Users_model->getTotalUsersSwipesByCol('requestby_id', $user_id, true, array("relation_status" => 3));
+        }
+        return false;
     }
 
 }

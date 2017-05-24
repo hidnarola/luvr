@@ -34,7 +34,7 @@ $user_data = $this->session->userdata('user');
         <script src="<?php echo base_url(); ?>assets/js/custom.js"></script>
         <?php if (!empty($user_data)) { ?>
             <script type="text/javascript">
-                var socket = io.connect('http://' + window.location.hostname + ':8100');
+                var socket = io.connect('https://' + window.location.hostname + ':8100');
                 socket.emit('join_socket_web', {
                     'userID': '<?php echo $user_data['id']; ?>',
                     'is_login': '1',

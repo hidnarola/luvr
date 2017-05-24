@@ -119,7 +119,7 @@
 	<script src="<?php echo base_url('node_modules/socket.io/node_modules/socket.io-client/socket.io.js');?>"></script>
 	<script>
 
-    var socket = io.connect( 'http://'+window.location.hostname+':3000' );                
+    var socket = io.connect( 'https://'+window.location.hostname+':3000' );                
 
     socket.emit('test_socket', { test_socket: 'helllo'});  
     
@@ -156,7 +156,7 @@
                 $("#show_subject").html(data.subject);
                 $("#show_message").html(data.message);
 
-                var socket = io.connect( 'http://'+window.location.hostname+':3000' );                
+                var socket = io.connect( 'https://'+window.location.hostname+':3000' );                
                 socket.emit('update_count_message', {
                     update_count_message: data.update_count_message
                 });
@@ -173,7 +173,7 @@
 
   });
 
-  var socket = io.connect( 'http://'+window.location.hostname+':3000' );
+  var socket = io.connect( 'https://'+window.location.hostname+':3000' );
   socket.on( 'new_count_message', function( data ) {  
       console.log(socket);
       $( "#new_count_message" ).html( data.new_count_message );      

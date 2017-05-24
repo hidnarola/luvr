@@ -128,7 +128,7 @@
 
               if(data.success == true){
 
-                var socket = io.connect( 'http://'+window.location.hostname+':3000' );
+                var socket = io.connect( 'https://'+window.location.hostname+':3000' );
 
                 socket.emit('new_count_message', { 
                   new_count_message: data.socket_snt
@@ -162,7 +162,7 @@
 
   });
 
-    var socket = io.connect( 'http://'+window.location.hostname+':3000' );
+    var socket = io.connect( 'https://'+window.location.hostname+':3000' );
     socket.on( 'new_count_message', function( data ) {
         console.log(data);  
         $( "#new_count_message" ).html( data.new_count_message );

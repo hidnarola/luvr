@@ -112,7 +112,7 @@
 <script type="text/javascript">
     
     // Manually call Join_socket     
-    var socket = io.connect( 'http://'+window.location.hostname+':8100' );
+    var socket = io.connect( 'https://'+window.location.hostname+':8100' );
  
     
 

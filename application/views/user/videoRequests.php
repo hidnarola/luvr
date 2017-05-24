@@ -93,12 +93,6 @@
     </div>
 </div>
 <script type='text/javascript'>
-    var socket = io.connect('http://' + window.location.hostname + ':8100');
-    socket.emit('join_socket_web', {
-        'userID': '<?php echo $user_data['id']; ?>',
-        'is_login': '1',
-        'last_seen_date': '<?php echo $user_data['lastseen_date']; ?>'
-    });
     socket.on('GetVideosnapRequest', function (data) {
         console.log(data);
         if (data)
