@@ -40,6 +40,12 @@ function _createThumbnail($img_path, $thumb_path) {
     }
 }
 
+function random_name_generate(){     
+    $all_options = array('alpha','alnum'); 
+    $random_keys=array_rand($all_options,1);    
+    return random_string($all_options[$random_keys],8);    
+}
+
 if (!function_exists('pr')) {
 
     function pr($value, $exit = 0) {

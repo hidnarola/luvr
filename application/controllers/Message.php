@@ -25,14 +25,14 @@ class Message extends CI_Controller {
 
         if ($_FILES['msg_file']['error'] != '4') {
 
-            $ret_data = $this->upload_message_data($_FILES);
+            $ret_data = $this->upload_message_data($_FILES,$sender_id);
             
-            $unique_id = $sender_id . '_' . $ret_data['raw_name'];
+            $unique_id = $ret_data['raw_name'];
 
             $arr = array(
                 'message_type' => $ret_data['message_type'],
                 'message' => $ret_data['message'],
-                'media_name' => $sender_id.'_'.$ret_data['raw_name'].'.png',
+                'media_name' => $ret_data['raw_name'].'.png',
                 'unique_id' => $unique_id,
                 'sender_id' => $sender_id,
                 'receiver_id' => $receiver_id,
@@ -61,7 +61,7 @@ class Message extends CI_Controller {
         echo json_encode($arr);
     }
 
-    public function upload_message_data($file_data) {
+    public function upload_message_data($file_data,$sender_id) {
         
         $u_data = $this->session->userdata('user');
         $user_id = $u_data['id'];
@@ -74,11 +74,13 @@ class Message extends CI_Controller {
         } else {
             $upload_path = UPLOADPATH_IMAGE;
         }
+        
+        $new_file_name = $sender_id.'_'.random_name_generate(); // Generate random file name of 8 characters only - Look into Site helper for reference
 
+        $config['file_name'] = $new_file_name;
         $config['upload_path'] = $upload_path;
         $config['allowed_types'] = 'jpg|png|jpeg|mp4';
-        $config['max_size'] = '30000';
-        $config['encrypt_name'] = TRUE;
+        $config['max_size'] = '30000';        
         $config['detect_mime'] = TRUE;
         $config['file_ext_tolower'] = TRUE;
 		
@@ -88,10 +90,11 @@ class Message extends CI_Controller {
 			$error = array('error' => $this->upload->display_errors());
 			pr($error);
 		} else{
-			$data = array('upload_data' => $this->upload->data());
+			
+            $data = array('upload_data' => $this->upload->data());
 
-			$full_path = $data['upload_data']['full_path'];
-            $file_name = $data['upload_data']['file_name'];
+            $full_path = $data['upload_data']['full_path'];            
+            $file_name = $data['upload_data']['file_name'];            
             $raw_name = $data['upload_data']['raw_name'];
 
             if ($data['upload_data']['is_image'] == '1') {

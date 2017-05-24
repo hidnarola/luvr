@@ -156,7 +156,7 @@
         'message_id':'<?php echo $last_message_id + 1; ?>'
     });
 
-    socket.emit('get_users');   
+    //socket.emit('get_users');   
 
     //-------------------------------------------------------------------------------------------------    
     // Get initial messages limit of 10 and also fetch pagination for next 10 and so on
@@ -238,6 +238,9 @@
             data:formData,
             success:function(data){
 
+                // console.log(data);
+                // return false;
+
                 if(data['message_type'] == '1' &&  data['message'] == ''){
                     show_notification('<strong> OOPS </strong>',
                                     'Please enter message field.',
@@ -247,7 +250,7 @@
 
                 $('#msg_form')[0].reset(); // Reset Form
 
-                if($('#all_messages_ul li').length != 0){                    
+                if($('#all_messages_ul li').length != 0){
                     $('#all_messages_ul li:last').after(generate_new_message(data,'yes'));
                 }else{                    
                     $('#all_messages_ul').html(generate_new_message(data,'yes'));
@@ -283,8 +286,8 @@
         var sess_user_id = '<?php echo $db_user_data["id"]; ?>';
         var cls = ''; var alt_1= '';
         var img_url = '';
-        var img_base_url = '<?php echo base_url()."bio/show_img/"; ?>';
-        var vid_base_url = '<?php echo base_url()."video/play/"; ?>';
+        var img_base_url = '<?php echo base_url()."bio/show_img/"; ?>';        
+        var delete_str = '';
 
         for(var i =0; i<messages.length; i++){
 
@@ -296,11 +299,12 @@
                 cls = 'rider-talk session_user';
                 alt_1 = 'session_user';
                 img_url = '<?php echo $db_user_img; ?>';
-
+                delete_str = '<a data-msg-id="'+msg['id']+'" onclick="delete_chat(this)"> X </a>';
             }else{                
                 cls = 'user-talk chat_user';
                 alt_1 = 'chat_user';
                 img_url = '<?php echo $chat_user_img; ?>';
+                delete_str = '';
             }
 
             new_str += '<li id="li_'+msg['id']+'" class="'+cls+'"><div class="pic-01">';
@@ -310,17 +314,15 @@
             // 1: text message 2: Image 3: Video
             if(msg['message_type'] == '1'){
                 new_str += atob(msg['encrypted_message']);
-            }else if(msg['message_type'] == '2'){
-                var media_name_split = msg['media_name'].split('_');                
-                new_str += '<a data-fancybox="" href="'+img_base_url+media_name_split[1]+'">';
-                new_str += '<img width="50px" height="50px" src="'+img_base_url+media_name_split[1]+'/1"/></a>';
-            }else if(msg['message_type'] == '3'){
-                var media_name_split = msg['media_name'].split('_');                
-                new_str += '<a href="" class="msg_vid" data-url="'+media_name_split[1]+'" target="_blank">';
-                new_str += '<img width="50px" height="50px" src="'+img_base_url+media_name_split[1]+'/1"/></a>';
+            }else if(msg['message_type'] == '2'){                
+                new_str += '<a data-fancybox="" href="'+img_base_url+msg['media_name']+'">';
+                new_str += '<img width="50px" height="50px" src="'+img_base_url+msg['media_name']+'/1"/></a>';
+            }else if(msg['message_type'] == '3'){                
+                new_str += '<a href="" class="msg_vid" data-url="'+msg['media_name']+'" target="_blank">';
+                new_str += '<img width="50px" height="50px" src="'+img_base_url+msg['media_name']+'/1"/></a>';
             }
 
-            new_str +='<span>'+msg_date+'</span> <a data-msg-id="'+msg['id']+'" onclick="delete_chat(this)"> X </a></p></li>';
+            new_str +='<span>'+msg_date+'</span>'+delete_str+'</p></li>';
 
             if(i == 0){ $('#last_msg_id').val(msg['id']); }
          
@@ -332,15 +334,19 @@
     function generate_new_message(msg,is_db_user){
         
         var new_str = '';
+        var delete_str = '';
+
         var img_base_url = '<?php echo base_url()."bio/show_img/"; ?>';
         if(is_db_user == 'yes'){
             var cls = 'rider-talk'; 
             var alt_1= 'rider-talk';
             var img_url = '<?php echo $db_user_img; ?>';
+            delete_str = '<a data-msg-id="'+msg['id']+'" onclick="delete_chat(this)"> X </a>';
         }else{
             var cls = 'user-talk chat_user'; 
             var alt_1= 'chat_user';
             var img_url = '<?php echo $chat_user_img; ?>';
+            delete_str = '';
         }
 
         var msg_date = formatAMPM(msg["created_date"]);
@@ -353,16 +359,14 @@
         if(msg['message_type'] == '1'){
             new_str += atob(msg['encrypted_message']);
         }else if(msg['message_type'] == '2'){
-            var media_name_split = msg['media_name'].split('_');                
-            new_str += '<a data-fancybox="" href="'+img_base_url+media_name_split[1]+'">';
-            new_str += '<img width="50px" height="50px" src="'+img_base_url+media_name_split[1]+'/1"/></a>';
+            new_str += '<a data-fancybox="" href="'+img_base_url+msg['media_name']+'">';
+            new_str += '<img width="50px" height="50px" src="'+img_base_url+msg['media_name']+'/1"/></a>';
         }else if(msg['message_type'] == '3'){
-            var media_name_split = msg['media_name'].split('_');                
-            new_str += '<a href="" class="msg_vid" data-url="'+media_name_split[1]+'" target="_blank">';
-            new_str += '<img width="50px" height="50px" src="'+img_base_url+media_name_split[1]+'/1"/></a>';
+            new_str += '<a href="" class="msg_vid" data-url="'+msg['media_name']+'" target="_blank">';
+            new_str += '<img width="50px" height="50px" src="'+img_base_url+msg['media_name']+'/1"/></a>';
         }
 
-        new_str += '<span>'+msg_date+'</span></p></li>';
+        new_str += '<span>'+msg_date+'</span>'+delete_str+'</p></li>';
         return new_str;
     }
 
