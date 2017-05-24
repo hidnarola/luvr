@@ -24,12 +24,12 @@ date_default_timezone_set('UTC');
   | a PHP script and you can easily do that on your own.
   |
  */
-$config['base_url'] = 'http://my.luvr.com';
+$config['base_url'] = 'http://localhost/Luvr';
 
 if ($_SERVER['SERVER_ADDR'] == '172.31.26.85')
     $config['base_url'] = 'http://dev.luvr.me';
 else if ($_SERVER['SERVER_ADDR'] == '172.31.15.171')
-    $config['base_url'] = 'http://luvr.me';
+    $config['base_url'] = 'https://luvr.me';
 else if ($_SERVER['SERVER_ADDR'] == '127.0.0.1')
     $config['base_url'] = 'http://my.luvr.com';
 
