@@ -76,10 +76,12 @@ $chat_user_data['user_name'] = $chatusername;
             if (data.is_connected == true)
             {
                 $("#button-call").attr("disabled", "disabled");
+                log_status('Connecting Call...');
                 /*$("#button-call a").html("Calling...");*/
             } else
             {
                 $("#button-call").removeAttr("disabled");
+                log_status('This user is offline!');
                 /*$("#button-call a").html("Video Call " + $("#button-call").attr("data-name"));*/
                 /*alert("This user is currently offline!");*/
             }

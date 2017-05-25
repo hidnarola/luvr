@@ -11,7 +11,7 @@ if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me' && $show_ad == true) {
     ?>
     <script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1572461"></script>
 <?php } else if ($_SERVER['HTTP_HOST'] == 'luvr.me' && $show_ad == true) { ?>
-    <script data-cfasync="false" type="text/javascript" src="<?php echo $_SERVER['REQUEST_SCHEME']; ?>://www.tradeadexchange.com/a/display.php?r=1575965"></script>
+    <script data-cfasync="false" type="text/javascript" src="<?php echo $_SERVER['REQUEST_SCHEME']; ?>://www.tradeadexchange.com/a/display.php?r=1592351"></script>
 <?php } ?>
 <?php
 if ($user_swipes_per_day >= MAX_SWIPES_PER_DAY) {
