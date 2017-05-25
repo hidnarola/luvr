@@ -170,6 +170,9 @@ $sess_user_data = $this->session->userdata('user');
 </script>
 <script src="//media.twiliocdn.com/sdk/js/video/v1/twilio-video.min.js"></script>
 <?php if (!empty($sess_user_data)) { ?>
+    <input id="room-name" type="hidden" value="<?php echo $room_id; ?>"/>
+    <input id="msgid" type="hidden" value="<?php echo $msg_id; ?>"/>
+    <input id="callerid" type="hidden" value="<?php echo $chat_user_data['id']; ?>"/>
     <script src="<?php echo base_url() . 'assets/js/index.js'; ?>"></script>
     <?php
 }

@@ -21,9 +21,6 @@ $chat_user_data['user_name'] = $chatusername;
                     <span id="log"></span>
                 </div>
             </div>
-            <input id="room-name" type="hidden" value="<?php echo $room_id; ?>"/>
-            <input id="msgid" type="hidden" value="<?php echo $msg_id; ?>"/>
-            <input id="callerid" type="hidden" value="<?php echo $chat_user_data['id']; ?>"/>
             <div class="account-body-body preferences">
                 <div class="dasboard-message">
                     <div id="preview" class="mar-btm-20">
