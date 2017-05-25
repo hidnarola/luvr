@@ -82,7 +82,7 @@ if (!empty($nearByUsers)) {
             <iframe src="//rcm-na.amazon-adsystem.com/e/cm?o=1&p=14&l=ur1&category=gift_certificates&banner=0S32YAVKXXKQGNQSSGG2&f=ifr&linkID=d657de821aa5bba1c26d3a3d5de1e99d&t=luvrweb-20&tracking_id=luvrweb-20" width="160" height="600" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>
         </div>
         <div class="addvertise-img2 adv">
-            <script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1582355"></script>
+            <script data-cfasync="false" type="text/javascript" src="<?php echo $_SERVER['REQUEST_SCHEME']; ?>://www.tradeadexchange.com/a/display.php?r=1582355"></script>
         </div>
     <?php } ?>
 </div>
@@ -314,7 +314,7 @@ if (!empty($nearByUsers)) {
             <iframe src="//rcm-na.amazon-adsystem.com/e/cm?o=1&p=11&l=ez&f=ifr&linkID=50e379b0a4c5a4f0cbaa6b826d1497c7&t=luvrweb-20&tracking_id=luvrweb-20" width="120" height="600" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>
         </div>
         <div class="addvertise-img4 adv">
-            <script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1582363"></script>
+            <script data-cfasync="false" type="text/javascript" src="<?php echo $_SERVER['REQUEST_SCHEME']; ?>://www.tradeadexchange.com/a/display.php?r=1582363"></script>
         </div>
     <?php } ?>
 </div>

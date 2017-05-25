@@ -89,8 +89,8 @@ class Video extends CI_Controller {
             }
         } else if ($_SERVER['HTTP_HOST'] == 'luvr.me') {
             $ads = array(
-                "http://vast.optimatic.com/vast/getVast.aspx?id=q145a541html53&o=3&zone=hybrid&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . "",
-                "https://ssp.streamrail.net/ssp/vpaid/5715f70d2ed89a0002000242/5924041c932f1a00024b75b9?cb=" . uniqid() . "&width=1024&height=768&ip=" . $_SERVER['REMOTE_ADDR'] . "&ua=" . urlencode($_SERVER['HTTP_USER_AGENT']) . "&page_url=" . base_url(uri_string()) . ""
+                "" . $_SERVER['REQUEST_SCHEME'] . "://vast.optimatic.com/vast/getVast.aspx?id=q145a541html53&o=3&zone=hybrid&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . "",
+                "" . $_SERVER['REQUEST_SCHEME'] . "://ssp.streamrail.net/ssp/vpaid/5715f70d2ed89a0002000242/5924041c932f1a00024b75b9?cb=" . uniqid() . "&width=1024&height=768&ip=" . $_SERVER['REMOTE_ADDR'] . "&ua=" . urlencode($_SERVER['HTTP_USER_AGENT']) . "&page_url=" . base_url(uri_string()) . ""
             );
             $data['ad_url'] = $ads[array_rand($ads)];
             if (!empty($_GET['p'])) {
