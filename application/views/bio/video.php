@@ -53,7 +53,7 @@ if (!empty($next_random)) {
                 jwplayer().playlistItem(next);
             } else {
                 location.href = '<?php echo $next_random_url; ?>';
-                /*player.playlistItem(0);*/
+                /*player.playlistItem(0); */
             }
         });
         jwplayer().onPlaylistComplete(function () {
