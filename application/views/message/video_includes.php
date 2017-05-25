@@ -92,6 +92,7 @@ $sess_user_data = $this->session->userdata('user');
         if (data) {
             $("#msgid").val(data.id);
             $("#callerid").val(data.caller_id);
+            $("#callingid").val(data.calling_id);
             if (data.call_status == 1)
             {
                 $("#room-name").val(data.call_unique_id);
@@ -139,12 +140,14 @@ $sess_user_data = $this->session->userdata('user');
             } else if (data.call_status == 4)
             {
                 $("#button-call").removeAttr("disabled");
+                log_status("Call busy!");
                 /*$("#button-call a").html("Video Call " + $("#button-call").attr("data-name"));*/
                 $("#button-join,#button-reject").hide();
                 $("#button-preview").trigger('click');
             } else if (data.call_status == 5)
             {
                 $("#button-call").removeAttr("disabled");
+                log_status("Call timed out!");
                 /*$("#button-call a").html("Video Call " + $("#button-call").attr("data-name"));*/
                 $("#button-join,#button-reject").hide();
                 $("#button-preview").trigger('click');
