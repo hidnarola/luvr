@@ -34,9 +34,9 @@ function detachParticipantTracks(participant) {
 }
 
 // Check for WebRTC
-if (!navigator.webkitGetUserMedia && !navigator.mozGetUserMedia) {
+/*if (!navigator.webkitGetUserMedia && !navigator.mozGetUserMedia) {
     alert('WebRTC is not available in your browser.');
-}
+}*/
 
 // When we are about to transition away from this page, disconnect
 // from the room, if joined.
