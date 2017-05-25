@@ -89,15 +89,18 @@ class Video extends CI_Controller {
             }
         } else if ($_SERVER['HTTP_HOST'] == 'luvr.me') {
             $ads = array(
-                "http://vast.optimatic.com/vast/getVast.aspx?id=q145a541html53&o=3&zone=hybrid&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . "",
+                "http://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . "", // US traffic
+                "http://vast.optimatic.com/vast/getVast.aspx?id=TKEjzowTy68F&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . "", // UK traffic
                 "" . $_SERVER['REQUEST_SCHEME'] . "://ssp.streamrail.net/ssp/vpaid/5715f70d2ed89a0002000242/5924041c932f1a00024b75b9?cb=" . uniqid() . "&width=1024&height=768&ip=" . $_SERVER['REMOTE_ADDR'] . "&ua=" . urlencode($_SERVER['HTTP_USER_AGENT']) . "&page_url=" . base_url(uri_string()) . ""
             );
             $data['ad_url'] = $ads[array_rand($ads)];
             if (!empty($_GET['p'])) {
                 if ($_GET['p'] == "op") {
                     $data['ad_url'] = $ads[0];
-                } else if ($_GET['p'] == "ha") {
+                } else if ($_GET['p'] == "opk") {
                     $data['ad_url'] = $ads[1];
+                } else if ($_GET['p'] == "ha") {
+                    $data['ad_url'] = $ads[2];
                 }
             }
         }
