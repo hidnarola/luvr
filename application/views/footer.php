@@ -1,3 +1,6 @@
+<?php
+$sess_user_data = $this->session->userdata('user');
+?>
 <?php if ($sub_view != "Homepage") { ?>
     </div>
     </div>
@@ -166,9 +169,10 @@
     var audioElement = document.getElementById('caller_tune');
 </script>
 <script src="//media.twiliocdn.com/sdk/js/video/v1/twilio-video.min.js"></script>
-<script src="<?php echo base_url() . 'assets/js/index.js'; ?>"></script>
-<?php
-$sess_user_data = $this->session->userdata('user');
+<?php if (!empty($sess_user_data)) { ?>
+    <script src="<?php echo base_url() . 'assets/js/index.js'; ?>"></script>
+    <?php
+}
 if (!empty($sess_user_data)) {
     $this->load->view('message/video_includes');
 }
