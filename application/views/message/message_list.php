@@ -238,8 +238,7 @@
             data:formData,
             success:function(data){
 
-                // console.log(data);
-                // return false;
+                $('#msg_form')[0].reset(); // Reset Form                                
 
                 if(data['message_type'] == '1' &&  data['message'] == ''){
                     show_notification('<strong> OOPS </strong>',
@@ -247,20 +246,6 @@
                                     'error');
                     return false;
                 }                
-
-                $('#msg_form')[0].reset(); // Reset Form
-
-                if($('#all_messages_ul li').length != 0){
-                    $('#all_messages_ul li:last').after(generate_new_message(data,'yes'));
-                }else{                    
-                    $('#all_messages_ul').html(generate_new_message(data,'yes'));
-                }
-
-                set_video_url(); // Set Video URl for the message
-                
-                $('.message-to-owner').animate({
-                   scrollTop: $('#all_messages_ul').prop("scrollHeight")
-                }, 1000);                
 
                 socket.emit('New Message',{
                     'message_type':data['message_type'],
@@ -275,6 +260,18 @@
                 },function(data){
 
                 });
+
+                if($('#all_messages_ul li').length != 0){
+                    $('#all_messages_ul li:last').after(generate_new_message(data,'yes'));
+                }else{
+                    $('#all_messages_ul').html(generate_new_message(data,'yes'));
+                }
+
+                $('.message-to-owner').animate({
+                   scrollTop: $('#all_messages_ul').prop("scrollHeight")
+                }, 1000);  
+
+                set_video_url(); // Set Video URl for the message
             }
         });
     }
@@ -319,6 +316,7 @@
                 new_str += '<img width="50px" height="50px" src="'+img_base_url+msg['media_name']+'/1"/></a>';
             }else if(msg['message_type'] == '3'){                
                 new_str += '<a href="" class="msg_vid" data-url="'+msg['media_name']+'" target="_blank">';
+                msg['media_name'] = msg['media_name'].replace('.mp4','.png');
                 new_str += '<img width="50px" height="50px" src="'+img_base_url+msg['media_name']+'/1"/></a>';
             }
 
@@ -363,6 +361,7 @@
             new_str += '<img width="50px" height="50px" src="'+img_base_url+msg['media_name']+'/1"/></a>';
         }else if(msg['message_type'] == '3'){
             new_str += '<a href="" class="msg_vid" data-url="'+msg['media_name']+'" target="_blank">';
+            msg['media_name'] = msg['media_name'].replace('.mp4','.png');
             new_str += '<img width="50px" height="50px" src="'+img_base_url+msg['media_name']+'/1"/></a>';
         }
 

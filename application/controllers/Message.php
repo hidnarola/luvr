@@ -19,31 +19,28 @@ class Message extends CI_Controller {
         $encode_message = base64_encode($message);
 
         $sender_id = $this->input->post('session_id');
-        $receiver_id = $this->input->post('chat_user_id');
-
-        
+        $receiver_id = $this->input->post('chat_user_id');        
 
         if ($_FILES['msg_file']['error'] != '4') {
 
             $ret_data = $this->upload_message_data($_FILES,$sender_id);
-            
+
             $unique_id = $ret_data['raw_name'];
 
             $arr = array(
                 'message_type' => $ret_data['message_type'],
                 'message' => $ret_data['message'],
-                'media_name' => $ret_data['raw_name'].'.png',
+                'media_name' => $ret_data['raw_name'].'.'.$ret_data['ext'],
                 'unique_id' => $unique_id,
                 'sender_id' => $sender_id,
                 'receiver_id' => $receiver_id,
                 'created_date' => date('Y-m-d H:i:s'),
                 'is_encrypted' => $ret_data['is_encrypted'], // dynamic
                 'encrypted_message' => $encode_message
-            );
-
+            );                                                            
         } else {
             
-            $unique_id = $sender_id . '_' . random_string('alnum', 8);        
+            $unique_id = $sender_id . '_' . random_string('alnum', 8);
 
             $arr = array(
                 'message_type' => '1',
@@ -70,11 +67,13 @@ class Message extends CI_Controller {
         $ext = pathinfo($path, PATHINFO_EXTENSION);
 
         if ($ext == 'mp4') {
+            $ret['ext'] = 'mp4';
             $upload_path = UPLOADPATH_VIDEO;
         } else {
+            $ret['ext'] = 'png';
             $upload_path = UPLOADPATH_IMAGE;
         }
-        
+
         $new_file_name = $sender_id.'_'.random_name_generate(); // Generate random file name of 8 characters only - Look into Site helper for reference
 
         $config['file_name'] = $new_file_name;
@@ -104,7 +103,7 @@ class Message extends CI_Controller {
                 $full_path = $new_name;
             }
 
-            $thumb_name = $raw_name . '.png';            
+            $thumb_name = $raw_name . '.png';
             $ret['raw_name'] = $raw_name; // v! Return data
             $thumb_path = UPLOADPATH_THUMB . '/' . $thumb_name;
 
@@ -123,6 +122,12 @@ class Message extends CI_Controller {
                 $ret['is_encrypted'] = '1'; 
             }
 
+            if ($ext == 'mp4') {
+                $thumb_name = $raw_name . '.mp4';
+            }else{
+                $thumb_name = $raw_name . '.png';
+            }
+
             $ins_data = array(
                                	'userid'=>$u_data['id'],
                                 'media_name'=>$file_name,
@@ -133,7 +138,7 @@ class Message extends CI_Controller {
                             );                    
             $this->Bio_model->insert_media($ins_data);
 
-            return $ret;            
+            return $ret;
         }
     }
 
