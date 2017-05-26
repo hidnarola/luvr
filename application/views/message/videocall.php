@@ -65,6 +65,7 @@ $chat_user_data['user_name'] = $chatusername;
         $("#button-reject").show();
         socket.emit('CALL Action Web', {
             'id': 0,
+            'user_name': '<?php echo $db_user_data['user_name']; ?>',
             'caller_id': '<?php echo $sess_user_data['id']; ?>',
             'sender_id': '<?php echo $sess_user_data['id']; ?>',
             'calling_id': '<?php echo $chat_user_data['id']; ?>',
