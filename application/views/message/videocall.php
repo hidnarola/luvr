@@ -74,6 +74,7 @@ $chat_user_data['user_name'] = $chatusername;
             'unique_id': '<?php echo $room_id; ?>',
             'app_version': 0,
             'call_status': 1,
+            'created_date': '<?php echo date("Y-m-d H:i:s") . " +0000"; ?>',
             'message': 1
         }, function (data) {
             if (data.is_connected == true)
