@@ -183,7 +183,7 @@ $sess_user_data = $this->session->userdata('user');
         }
     }
     function join_room(data) {
-        roomName = room_id;
+        roomName = document.getElementById('room-name').value;
         if (!roomName) {
             alert('Please enter a room name.');
             return;
