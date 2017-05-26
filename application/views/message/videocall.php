@@ -71,7 +71,8 @@ $chat_user_data['user_name'] = $chatusername;
             'receiver_id': '<?php echo $chat_user_data['id']; ?>',
             'call_unique_id': '<?php echo $room_id; ?>',
             'app_version': 0,
-            'call_status': 1
+            'call_status': 1,
+            'message': 1
         }, function (data) {
             if (data.is_connected == true)
             {
@@ -98,7 +99,8 @@ $chat_user_data['user_name'] = $chatusername;
             'sender_id': $("#callerid").val(),
             'calling_id': $("#callingid").val(),
             'receiver_id': $("#callingid").val(),
-            'call_status': 3
+            'call_status': 3,
+            'message': 3
         }, function (data) {
             audioElement.pause();
             audioElement.currentTime = 0;

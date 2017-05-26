@@ -56,7 +56,8 @@ function roomJoined(room) {
         'id': $("#msgid").val(),
         'caller_id': $("#callerid").val(),
         'sender_id': $("#callerid").val(),
-        'call_status': 2
+        'call_status': 2,
+        'message': 2
     }, function (data) {
     });
     $("#button-call,#button-reject").hide();
