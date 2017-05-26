@@ -70,6 +70,7 @@ $chat_user_data['user_name'] = $chatusername;
             'calling_id': '<?php echo $chat_user_data['id']; ?>',
             'receiver_id': '<?php echo $chat_user_data['id']; ?>',
             'call_unique_id': '<?php echo $room_id; ?>',
+            'unique_id': '<?php echo $room_id; ?>',
             'app_version': 0,
             'call_status': 1,
             'message': 1

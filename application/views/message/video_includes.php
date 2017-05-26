@@ -94,7 +94,7 @@ $sess_user_data = $this->session->userdata('user');
             $("#callingid").val(data.receiver_id);
             if (data.message == 1 || data.message == '1')
             {
-                $("#room-name").val(data.call_unique_id);
+                $("#room-name").val(data.unique_id);
                 $("#button-call").hide();
                 $("#button-join,#button-reject").show();
                 if (data.receiver_id == my_id)
@@ -112,7 +112,7 @@ $sess_user_data = $this->session->userdata('user');
                         $("#button-join").trigger('click');
                     } else
                     {
-                        location.href = '<?php echo base_url('message/videocall/'); ?>' + data.sender_id + '/' + data.receiver_id + '/' + data.id + '/' + data.call_unique_id + '';
+                        location.href = '<?php echo base_url('message/videocall/'); ?>' + data.sender_id + '/' + data.receiver_id + '/' + data.id + '/' + data.unique_id + '';
                     }
                 });
             } else if (data.message == 2 || data.message == '2')
