@@ -53,8 +53,8 @@ function roomJoined(room) {
     audioElement.pause();
     audioElement.currentTime = 0;
     socket.emit('CALL Action Web', {
-        'id': $("#msgid").val(),
-        'caller_id': $("#callerid").val(),
+        'id': msgid,
+        'caller_id': callerid,
         'call_status': 2
     }, function (data) {
     });

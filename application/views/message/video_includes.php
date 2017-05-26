@@ -65,8 +65,8 @@ $sess_user_data = $this->session->userdata('user');
             if (activeRoom)
                 activeRoom.disconnect();
             socket.emit('CALL Action Web', {
-                'id': $("#msgid").val(),
-                'caller_id': $("#callerid").val(),
+                'id': msgid,
+                'caller_id': callerid,
                 'call_status': 3
             }, function (data) {
                 audioElement.pause();
@@ -90,12 +90,12 @@ $sess_user_data = $this->session->userdata('user');
         console.log("Response : \n");
         console.log(data);
         if (data) {
-            $("#msgid").val(data.id);
-            $("#callerid").val(data.caller_id);
-            $("#callingid").val(data.calling_id);
+            msgid = data.id;
+            callerid = data.caller_id;
+            callingid = data.calling_id;
             if (data.call_status == 1)
             {
-                $("#room-name").val(data.call_unique_id);
+                room_id = data.call_unique_id;
                 $("#button-call").hide();
                 $("#button-join,#button-reject").show();
                 if (data.calling_id == my_id)
@@ -172,8 +172,8 @@ $sess_user_data = $this->session->userdata('user');
             $("#button-call").removeAttr("disabled");
             /*$("#button-call a").html("Video Call " + $("#button-call").attr("data-name"));*/
             socket.emit('CALL Action Web', {
-                'id': $("#msgid").val(),
-                'caller_id': $("#callerid").val(),
+                'id': msgid,
+                'caller_id': callerid,
                 'call_status': 5
             }, function (data) {
             });
@@ -183,7 +183,7 @@ $sess_user_data = $this->session->userdata('user');
         }
     }
     function join_room(data) {
-        roomName = document.getElementById('room-name').value;
+        roomName = room_id;
         if (!roomName) {
             alert('Please enter a room name.');
             return;
@@ -207,8 +207,8 @@ $sess_user_data = $this->session->userdata('user');
             $("#button-call").removeAttr("disabled");
             /*$("#button-call a").html("Video Call " + $("#button-call").attr("data-name"));*/
             socket.emit('CALL Action Web', {
-                'id': $("#msgid").val(),
-                'caller_id': $("#callerid").val(),
+                'id': msgid,
+                'caller_id': callerid,
                 'call_status': 5
             }, function (data) {
             });

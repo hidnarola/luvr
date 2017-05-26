@@ -89,8 +89,8 @@ $chat_user_data['user_name'] = $chatusername;
 
     $("#button-reject").on("click", function () {
         socket.emit('CALL Action Web', {
-            'id': $("#msgid").val(),
-            'caller_id': $("#callerid").val(),
+            'id': msgid,
+            'caller_id': callerid,
             'call_status': 3
         }, function (data) {
             audioElement.pause();

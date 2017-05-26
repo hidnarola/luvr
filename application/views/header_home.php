@@ -41,6 +41,10 @@ if (empty($user_data)) {
                     'is_login': '1',
                     'app_version': 0
                 });
+                var room_id = '';
+                var msgid = '';
+                var callerid = '';
+                var callingid = '';
             </script>
         <?php } ?>
         <?php if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me' || $_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
