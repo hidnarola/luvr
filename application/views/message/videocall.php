@@ -62,6 +62,7 @@ $chat_user_data['user_name'] = $chatusername;
      });*/
     
     $("#button-call").on("click", function () {
+        $("#button-reject").show();
         socket.emit('CALL Action Web', {
             'id': 0,
             'caller_id': '<?php echo $sess_user_data['id']; ?>',
