@@ -55,6 +55,7 @@ function roomJoined(room) {
     socket.emit('CALL Action Web', {
         'id': $("#msgid").val(),
         'caller_id': $("#callerid").val(),
+        'sender_id': $("#callerid").val(),
         'call_status': 2
     }, function (data) {
     });
@@ -112,24 +113,6 @@ function roomJoined(room) {
         document.getElementById('button-leave').style.display = 'none';
     });
 }
-
-// Preview LocalParticipant's Tracks.
-$('document').on('click', '#button-preview', function () {
-    var localTracksPromise = previewTracks
-            ? Promise.resolve(previewTracks)
-            : Twilio.Video.createLocalTracks();
-
-    localTracksPromise.then(function (tracks) {
-        previewTracks = tracks;
-        var previewContainer = document.getElementById('local-media');
-        if (!previewContainer.querySelector('video')) {
-            attachTracks(tracks, previewContainer);
-        }
-    }, function (error) {
-        console.error('Unable to access local media', error);
-        log_status('Unable to access Camera and Microphone');
-    });
-});
 
 // Activity log.
 function log_status(message) {

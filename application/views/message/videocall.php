@@ -53,20 +53,22 @@ $chat_user_data['user_name'] = $chatusername;
         'userID': '<?php echo $sess_user_data['id']; ?>',
         'front_user_id': '<?php echo $chat_user_data['id']; ?>'
     });
-    
+
     /* IMPORTANT : Script to check tab status constantly. */
     /*$(document).one('click', function () {
      setInterval(function () {
      $('body').append('has focus? ' + window_focus + '<br>');
      }, 1000);
      });*/
-    
+
     $("#button-call").on("click", function () {
         $("#button-reject").show();
         socket.emit('CALL Action Web', {
             'id': 0,
             'caller_id': '<?php echo $sess_user_data['id']; ?>',
+            'sender_id': '<?php echo $sess_user_data['id']; ?>',
             'calling_id': '<?php echo $chat_user_data['id']; ?>',
+            'receiver_id': '<?php echo $chat_user_data['id']; ?>',
             'call_unique_id': '<?php echo $room_id; ?>',
             'app_version': 0,
             'call_status': 1
@@ -74,6 +76,7 @@ $chat_user_data['user_name'] = $chatusername;
             if (data.is_connected == true)
             {
                 $("#button-call").attr("disabled", "disabled");
+                $("#msgid").val(data.id);
                 log_status('Connecting Call...');
                 /*$("#button-call a").html("Calling...");*/
             } else
@@ -92,6 +95,9 @@ $chat_user_data['user_name'] = $chatusername;
         socket.emit('CALL Action Web', {
             'id': $("#msgid").val(),
             'caller_id': $("#callerid").val(),
+            'sender_id': $("#callerid").val(),
+            'calling_id': $("#callingid").val(),
+            'receiver_id': $("#callingid").val(),
             'call_status': 3
         }, function (data) {
             audioElement.pause();
@@ -105,4 +111,21 @@ $chat_user_data['user_name'] = $chatusername;
             /*$("#button-call a").html("Video Call " + $("#button-call").attr("data-name"));*/
         });
     });
+    // Preview LocalParticipant's Tracks.
+    document.getElementById('button-preview').onclick = function () {
+        var localTracksPromise = previewTracks
+                ? Promise.resolve(previewTracks)
+                : Twilio.Video.createLocalTracks();
+
+        localTracksPromise.then(function (tracks) {
+            previewTracks = tracks;
+            var previewContainer = document.getElementById('local-media');
+            if (!previewContainer.querySelector('video')) {
+                attachTracks(tracks, previewContainer);
+            }
+        }, function (error) {
+            console.error('Unable to access local media', error);
+            log('Unable to access Camera and Microphone');
+        });
+    };
 </script>

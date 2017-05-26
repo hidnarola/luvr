@@ -50,9 +50,9 @@ $sess_user_data = $this->session->userdata('user');
         $('#button-join').on('click', function () {
             join_room(data);
         });
-        <?php if ($this->uri->segment(1) != "match" && !empty($this->uri->segment(3)) && !empty($this->uri->segment(4)) && !empty($this->uri->segment(3))) { ?>
+<?php if ($this->uri->segment(1) != "match" && !empty($this->uri->segment(3)) && !empty($this->uri->segment(4)) && !empty($this->uri->segment(3))) { ?>
             join_room(data);
-        <?php } ?>
+<?php } ?>
         // Bind button to leave Room.
         $('#button-leave').on('click', function () {
             log_status('Ending Call...');
@@ -64,6 +64,7 @@ $sess_user_data = $this->session->userdata('user');
             socket.emit('CALL Action Web', {
                 'id': $("#msgid").val(),
                 'caller_id': $("#callerid").val(),
+                'sender_id': $("#callerid").val(),
                 'call_status': 3
             }, function (data) {
                 audioElement.pause();
@@ -129,6 +130,10 @@ $sess_user_data = $this->session->userdata('user');
                         showMsgCall('Call rejected!', 'rejected', true);
                     });
                 }
+                window.clearTimeout(tmptout);
+                call_timeout = 0;
+                audioElement.pause();
+                audioElement.currentTime = 0;
                 $("#button-call").removeAttr("disabled");
                 /*$("#button-call a").html("Video Call " + $("#button-call").attr("data-name"));*/
                 $("#button-join,#button-reject,#button-leave").hide();
@@ -136,6 +141,10 @@ $sess_user_data = $this->session->userdata('user');
                 $("#button-preview").trigger('click');
             } else if (data.call_status == 4)
             {
+                window.clearTimeout(tmptout);
+                call_timeout = 0;
+                audioElement.pause();
+                audioElement.currentTime = 0;
                 $("#button-call").removeAttr("disabled");
                 log_status("Call busy!");
                 /*$("#button-call a").html("Video Call " + $("#button-call").attr("data-name"));*/
@@ -171,7 +180,9 @@ $sess_user_data = $this->session->userdata('user');
             socket.emit('CALL Action Web', {
                 'id': $("#msgid").val(),
                 'caller_id': $("#callerid").val(),
+                'sender_id': $("#callerid").val(),
                 'calling_id': $("#callingid").val(),
+                'receiver_id': $("#callingid").val(),
                 'call_status': 5
             }, function (data) {
             });
@@ -207,6 +218,7 @@ $sess_user_data = $this->session->userdata('user');
             socket.emit('CALL Action Web', {
                 'id': $("#msgid").val(),
                 'caller_id': $("#callerid").val(),
+                'sender_id': $("#callerid").val(),
                 'call_status': 5
             }, function (data) {
             });
