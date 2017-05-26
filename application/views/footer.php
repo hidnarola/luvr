@@ -165,9 +165,6 @@ $sess_user_data = $this->session->userdata('user');
     <source src="<?php echo base_url(); ?>assets/caller_tune.ogg" type="audio/ogg"/>
     <source src="<?php echo base_url(); ?>assets/caller_tune.mp3" type="audio/mpeg"/>
 </audio>
-<script>
-    var audioElement = document.getElementById('caller_tune');
-</script>
 <script src="//media.twiliocdn.com/sdk/js/video/v1/twilio-video.min.js"></script>
 <?php if (!empty($sess_user_data)) { ?>
     <?php if ($sub_view == "message/videocall") { ?>
