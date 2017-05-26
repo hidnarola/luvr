@@ -90,16 +90,16 @@ $sess_user_data = $this->session->userdata('user');
         console.log(data);
         if (data) {
             $("#msgid").val(data.id);
-            $("#callerid").val(data.caller_id);
-            $("#callingid").val(data.calling_id);
+            $("#callerid").val(data.sender_id);
+            $("#callingid").val(data.receiver_id);
             if (data.message == 1 || data.message == '1')
             {
                 $("#room-name").val(data.call_unique_id);
                 $("#button-call").hide();
                 $("#button-join,#button-reject").show();
-                if (data.calling_id == my_id)
+                if (data.receiver_id == my_id)
                 {
-                    getUserInfo(data.caller_id, function (data) {
+                    getUserInfo(data.sender_id, function (data) {
                         $("#call_img").attr("src", '<?php echo base_url('assets/images/icon-05.png'); ?>').show();
                         showMsgCall(data.user_name + ' is calling you.', 'incoming', true);
                     });
@@ -112,7 +112,7 @@ $sess_user_data = $this->session->userdata('user');
                         $("#button-join").trigger('click');
                     } else
                     {
-                        location.href = '<?php echo base_url('message/videocall/'); ?>' + data.caller_id + '/' + data.calling_id + '/' + data.id + '/' + data.call_unique_id + '';
+                        location.href = '<?php echo base_url('message/videocall/'); ?>' + data.sender_id + '/' + data.receiver_id + '/' + data.id + '/' + data.call_unique_id + '';
                     }
                 });
             } else if (data.message == 2 || data.message == '2')
@@ -124,9 +124,9 @@ $sess_user_data = $this->session->userdata('user');
                 $("#button-preview").trigger('click');
             } else if (data.message == 3 || data.message == '3')
             {
-                if (data.caller_id == my_id)
+                if (data.sender_id == my_id)
                 {
-                    getUserInfo(data.caller_id, function (data) {
+                    getUserInfo(data.sender_id, function (data) {
                         $("#call_img").attr("src", '<?php echo base_url('assets/images/icon-06.png'); ?>').show();
                         showMsgCall('Call rejected!', 'rejected', true);
                     });
