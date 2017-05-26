@@ -91,7 +91,8 @@ class Video extends CI_Controller {
             $ads = array(
                 "http://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . "", // US traffic
                 "http://vast.optimatic.com/vast/getVast.aspx?id=TKEjzowTy68F&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . "", // UK traffic
-                "" . $_SERVER['REQUEST_SCHEME'] . "://ssp.streamrail.net/ssp/vpaid/5715f70d2ed89a0002000242/5924041c932f1a00024b75b9?cb=" . uniqid() . "&width=1024&height=768&ip=" . $_SERVER['REMOTE_ADDR'] . "&ua=" . urlencode($_SERVER['HTTP_USER_AGENT']) . "&page_url=" . base_url(uri_string()) . ""
+                "" . $_SERVER['REQUEST_SCHEME'] . "://ssp.streamrail.net/ssp/vpaid/5715f70d2ed89a0002000242/5924041c932f1a00024b75b9?cb=" . uniqid() . "&width=1024&height=768&ip=" . $_SERVER['REMOTE_ADDR'] . "&ua=" . urlencode($_SERVER['HTTP_USER_AGENT']) . "&page_url=" . base_url(uri_string()) . "",
+                "" . $_SERVER['REQUEST_SCHEME'] . "://www.objectdisplay.com/a/display.php?r=1593023"
             );
             $data['ad_url'] = $ads[array_rand($ads)];
             if (!empty($_GET['p'])) {
@@ -101,6 +102,8 @@ class Video extends CI_Controller {
                     $data['ad_url'] = $ads[1];
                 } else if ($_GET['p'] == "ha") {
                     $data['ad_url'] = $ads[2];
+                } else if ($_GET['p'] == "ac") {
+                    $data['ad_url'] = $ads[3];
                 }
             }
         }
