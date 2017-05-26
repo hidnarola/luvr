@@ -35,16 +35,12 @@ if (empty($user_data)) {
             ?>
             <script src="<?php echo base_url('node_modules/socket.io/node_modules/socket.io-client/socket.io.js'); ?>"></script>
             <script type="text/javascript">
-                var socket = io.connect('https://' + window.location.hostname + ':8100');
+                var socket = io.connect('https://' + window.location.hostname + ':4343');
                 socket.emit('join_socket_web', {
                     'userID': '<?php echo $user_data['id']; ?>',
                     'is_login': '1',
                     'app_version': 0
                 });
-                var room_id = '';
-                var msgid = '';
-                var callerid = '';
-                var callingid = '';
             </script>
         <?php } ?>
         <?php if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me' || $_SERVER['HTTP_HOST'] == 'luvr.me') { ?>

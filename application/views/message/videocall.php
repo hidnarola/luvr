@@ -21,7 +21,6 @@ $chat_user_data['user_name'] = $chatusername;
                     <span id="log"></span>
                 </div>
             </div>
-            <input id="room-name" type="hidden" value="<?php echo $room_id; ?>"/>
             <div class="account-body-body preferences">
                 <div class="dasboard-message">
                     <div id="preview" class="mar-btm-20">
@@ -54,14 +53,14 @@ $chat_user_data['user_name'] = $chatusername;
         'userID': '<?php echo $sess_user_data['id']; ?>',
         'front_user_id': '<?php echo $chat_user_data['id']; ?>'
     });
-
+    
     /* IMPORTANT : Script to check tab status constantly. */
     /*$(document).one('click', function () {
      setInterval(function () {
      $('body').append('has focus? ' + window_focus + '<br>');
      }, 1000);
      });*/
-
+    
     $("#button-call").on("click", function () {
         socket.emit('CALL Action Web', {
             'id': 0,
@@ -90,8 +89,8 @@ $chat_user_data['user_name'] = $chatusername;
 
     $("#button-reject").on("click", function () {
         socket.emit('CALL Action Web', {
-            'id': msgid,
-            'caller_id': callerid,
+            'id': $("#msgid").val(),
+            'caller_id': $("#callerid").val(),
             'call_status': 3
         }, function (data) {
             audioElement.pause();
