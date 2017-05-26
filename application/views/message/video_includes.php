@@ -89,12 +89,12 @@ $sess_user_data = $this->session->userdata('user');
         console.log("Response : \n");
         console.log(data);
         if (data) {
+            $("#room-name").val(data.unique_id);
             $("#msgid").val(data.id);
             $("#callerid").val(data.sender_id);
             $("#callingid").val(data.receiver_id);
             if (data.message == 1 || data.message == '1')
             {
-                $("#room-name").val(data.unique_id);
                 $("#button-call").hide();
                 $("#button-join,#button-reject").show();
                 if (data.receiver_id == my_id)
