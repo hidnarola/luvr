@@ -36,7 +36,7 @@ if (!empty($next_random)) {
         player.setup({
         playlist: <?php echo json_encode($playlist); ?>,
                 primary:'flash',
-                repeat:true,
+                /*repeat:true,*/
                 autostart:true,
                 aspectratio:"16:9",
                 width:"100%",
