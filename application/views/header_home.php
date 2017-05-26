@@ -41,6 +41,9 @@ if (empty($user_data)) {
                     'is_login': '1',
                     'app_version': 0
                 });
+                var audioElement = document.getElementById('caller_tune');
+                var call_timeout = 0;
+                var tmptout;
             </script>
         <?php } ?>
         <?php if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me' || $_SERVER['HTTP_HOST'] == 'luvr.me') { ?>

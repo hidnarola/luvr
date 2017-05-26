@@ -3,9 +3,6 @@ $sess_user_data = $this->session->userdata('user');
 ?>
 <script type="text/javascript">
     var my_id = '<?php echo $sess_user_data['id']; ?>';
-    var audioElement = document.getElementById('caller_tune');
-    var call_timeout = 0;
-    var tmptout;
     /*socket.on('connect', function () {
      socket.emit('connected', {id: socket.id});
      console.log("socket:", socket.id);
