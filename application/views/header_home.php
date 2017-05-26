@@ -41,6 +41,7 @@ if (empty($user_data)) {
                     'is_login': '1',
                     'app_version': 0
                 });
+                var audioElement = '';
                 var call_timeout = 0;
                 var tmptout;
             </script>
