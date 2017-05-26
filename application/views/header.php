@@ -41,7 +41,6 @@ $user_data = $this->session->userdata('user');
                     'is_login': '1',
                     'app_version': 0
                 });
-                var audioElement = document.getElementById('caller_tune');
                 var call_timeout = 0;
                 var tmptout;
             </script>
