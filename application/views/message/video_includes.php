@@ -51,7 +51,6 @@ $sess_user_data = $this->session->userdata('user');
             join_room(data);
         });
 <?php if ($this->uri->segment(1) != "match" && $this->uri->segment(1) != "video" && !empty($this->uri->segment(3)) && !empty($this->uri->segment(4)) && !empty($this->uri->segment(3))) { ?>
-    alert("join_room");
             join_room(data);
 <?php } ?>
         // Bind button to leave Room.
