@@ -9,6 +9,9 @@ if (!empty($user_data)) {
 if (!empty($next_random)) {
     $next_random_url = base_url() . "video/play/" . $next_random . "/2";
 }
+if (strpos($ad_url, 'optimatic') !== false) {
+    $next_random_url = str_replace("https", "http", $next_random_url);
+}
 ?>
 <div class="container">
     <div class="row">

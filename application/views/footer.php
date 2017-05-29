@@ -174,12 +174,13 @@ $sess_user_data = $this->session->userdata('user');
         <input id="room-name" type="hidden" value="<?php echo $room_id; ?>"/>
         <input id="msgid" type="hidden" value="<?php echo $msg_id; ?>"/>
         <input id="callerid" type="hidden" value="<?php echo $chat_user_data['id']; ?>"/>
+        <input id="callingid" type="hidden" value="<?php echo $sess_user_data['id']; ?>"/>
     <?php } else { ?>
         <input id="room-name" type="hidden" value=""/>
         <input id="msgid" type="hidden" value=""/>
         <input id="callerid" type="hidden" value=""/>
+        <input id="callingid" type="hidden"/>
     <?php } ?>
-    <input id="callingid" type="hidden"/>
     <script src="<?php echo base_url() . 'assets/js/index.js'; ?>"></script>
     <?php
 }

@@ -50,9 +50,9 @@ $sess_user_data = $this->session->userdata('user');
         $('#button-join').on('click', function () {
             join_room(data);
         });
-        <?php if ($this->uri->segment(1) != "match" && !empty($this->uri->segment(3)) && !empty($this->uri->segment(4)) && !empty($this->uri->segment(3))) { ?>
+<?php if ($this->uri->segment(1) != "match" && !empty($this->uri->segment(3)) && !empty($this->uri->segment(4)) && !empty($this->uri->segment(3))) { ?>
             join_room(data);
-        <?php } ?>
+<?php } ?>
         // Bind button to leave Room.
         $('#button-leave').on('click', function () {
             log_status('Ending Call...');
@@ -64,7 +64,9 @@ $sess_user_data = $this->session->userdata('user');
             socket.emit('CALL Action Web', {
                 'id': $("#msgid").val(),
                 'caller_id': $("#callerid").val(),
-                'call_status': 3
+                'sender_id': $("#callerid").val(),
+                'call_status': 3,
+                'message': 3
             }, function (data) {
                 audioElement.pause();
                 audioElement.currentTime = 0;
@@ -87,17 +89,17 @@ $sess_user_data = $this->session->userdata('user');
         console.log("Response : \n");
         console.log(data);
         if (data) {
+            $("#room-name").val(data.unique_id);
             $("#msgid").val(data.id);
-            $("#callerid").val(data.caller_id);
-            $("#callingid").val(data.calling_id);
-            if (data.call_status == 1)
+            $("#callerid").val(data.sender_id);
+            $("#callingid").val(data.receiver_id);
+            if (data.message == 1 || data.message == '1')
             {
-                $("#room-name").val(data.call_unique_id);
                 $("#button-call").hide();
                 $("#button-join,#button-reject").show();
-                if (data.calling_id == my_id)
+                if (data.receiver_id == my_id)
                 {
-                    getUserInfo(data.caller_id, function (data) {
+                    getUserInfo(data.sender_id, function (data) {
                         $("#call_img").attr("src", '<?php echo base_url('assets/images/icon-05.png'); ?>').show();
                         showMsgCall(data.user_name + ' is calling you.', 'incoming', true);
                     });
@@ -110,38 +112,46 @@ $sess_user_data = $this->session->userdata('user');
                         $("#button-join").trigger('click');
                     } else
                     {
-                        location.href = '<?php echo base_url('message/videocall/'); ?>' + data.caller_id + '/' + data.calling_id + '/' + data.id + '/' + data.call_unique_id + '';
+                        location.href = '<?php echo base_url('message/videocall/'); ?>' + data.sender_id + '/' + data.receiver_id + '/' + data.id + '/' + data.unique_id + '';
                     }
                 });
-            } else if (data.call_status == 2)
+            } else if (data.message == 2 || data.message == '2')
             {
                 log_status("Call connected.");
                 $("#button-join").trigger('click');
                 $("#button-leave").show();
                 $("#button-call,#button-join,#button-reject").hide();
                 $("#button-preview").trigger('click');
-            } else if (data.call_status == 3)
+            } else if (data.message == 3 || data.message == '3')
             {
-                if (data.caller_id == my_id)
+                if (data.sender_id == my_id)
                 {
-                    getUserInfo(data.caller_id, function (data) {
+                    getUserInfo(data.sender_id, function (data) {
                         $("#call_img").attr("src", '<?php echo base_url('assets/images/icon-06.png'); ?>').show();
                         showMsgCall('Call rejected!', 'rejected', true);
                     });
                 }
+                window.clearTimeout(tmptout);
+                call_timeout = 0;
+                audioElement.pause();
+                audioElement.currentTime = 0;
                 $("#button-call").removeAttr("disabled");
                 /*$("#button-call a").html("Video Call " + $("#button-call").attr("data-name"));*/
                 $("#button-join,#button-reject,#button-leave").hide();
                 $("#button-leave").trigger('click');
                 $("#button-preview").trigger('click');
-            } else if (data.call_status == 4)
+            } else if (data.message == 4 || data.message == '4')
             {
+                window.clearTimeout(tmptout);
+                call_timeout = 0;
+                audioElement.pause();
+                audioElement.currentTime = 0;
                 $("#button-call").removeAttr("disabled");
                 log_status("Call busy!");
                 /*$("#button-call a").html("Video Call " + $("#button-call").attr("data-name"));*/
                 $("#button-join,#button-reject").hide();
                 $("#button-preview").trigger('click');
-            } else if (data.call_status == 5)
+            } else if (data.message == 5 || data.message == '5')
             {
                 $("#button-call").removeAttr("disabled");
                 log_status("Call timed out!");
@@ -171,8 +181,11 @@ $sess_user_data = $this->session->userdata('user');
             socket.emit('CALL Action Web', {
                 'id': $("#msgid").val(),
                 'caller_id': $("#callerid").val(),
+                'sender_id': $("#callerid").val(),
                 'calling_id': $("#callingid").val(),
-                'call_status': 5
+                'receiver_id': $("#callingid").val(),
+                'call_status': 5,
+                'message': 5
             }, function (data) {
             });
         } else
@@ -207,7 +220,9 @@ $sess_user_data = $this->session->userdata('user');
             socket.emit('CALL Action Web', {
                 'id': $("#msgid").val(),
                 'caller_id': $("#callerid").val(),
-                'call_status': 5
+                'sender_id': $("#callerid").val(),
+                'call_status': 5,
+                'message': 5
             }, function (data) {
             });
         });
