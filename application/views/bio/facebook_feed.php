@@ -1,16 +1,12 @@
 <div class="my-account">
-
     <?php
-    $message = $this->session->flashdata('message');
-    if (!empty($message)) {
-        echo '<div class="' . $message['class'] . '">' . $message['message'] . '</div>';
-    }
-    $this->load->view('side_bar_account');
+        $message = $this->session->flashdata('message');
+        if (!empty($message)) {
+            echo '<div class="' . $message['class'] . '">' . $message['message'] . '</div>';
+        }
+        $this->load->view('side_bar_account');
     ?>
-
     <div class="col-md-8 col-sm-8 col-xs-12 account-r">
-
-
         <div class="account-r-head">                        
             <h2>
                 <big>
@@ -42,7 +38,8 @@
                                 $fancybox_str = 'data-fancybox="gallery"';
                                 $anchor_target = '';
                                 $dynamic_id = random_string();
-                                
+                                $is_video_class = '';
+
                                 if ($image['type'] == 'video') {
                                     $type = '4'; // For the online video link
                                     if(strpos($image['source'],"video.xx.fbcdn.net") == FALSE){ continue; }
@@ -50,6 +47,7 @@
                                     $anchor_target = '_blank';
                                     $image_link = base_url() . "video/play?url=".urlencode($image['source']);
                                     $data_val =  $image['source'];
+                                    $is_video_class = 'video-tag';
                                 }
 
                                 $is_delete = 'no';
@@ -58,7 +56,7 @@
                                     ?>
                                     <li id="<?php echo $dynamic_id; ?>">
                                         <div class="my-picture-box">
-                                            <a>
+                                            <a class="<?php echo $is_video_class; ?>">
                                                 <img src="<?php echo $link; ?>" alt="" />
                                             </a>
                                             <div class="picture-action">
@@ -161,7 +159,10 @@
                             'Your feed has been saved into Bio.',
                             'success');
                 } else {
-                    alert('ERROR:CAN NOT SAVE MORE THAN 50 IMAGES');
+                    show_notification('<strong> Error </strong>',
+                            'Can Not Save More Than 50 Images.',
+                            'error'); 
+                    //alert('ERROR:CAN NOT SAVE MORE THAN 50 IMAGES');
                 }
             }
         });

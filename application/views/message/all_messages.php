@@ -1,6 +1,5 @@
 <?php
-    $sess_user_data = $this->session->userdata('user');
-    // pr($all_matches);
+    $sess_user_data = $this->session->userdata('user');    
 ?>
 
 <div class="my-account">
@@ -109,11 +108,6 @@
     </div>
 </div>
 
-<script type="text/javascript">
-    
-    // Manually call Join_socket     
-    var socket = io.connect( 'https://'+window.location.hostname+':8100' );
- 
-    
-
+<script type="text/javascript">    
+    // Manually call Join_socket
 </script>
