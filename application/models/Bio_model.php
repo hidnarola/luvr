@@ -38,7 +38,7 @@ class Bio_model extends CI_Model {
 
     public function fetch_total_feed_cnt(){
         $u_data = $this->session->userdata('user');   
-        return $this->db->get_where('media',['userid'=>$u_data['id'],'is_active'=>'1'])->num_rows();
+        return $this->db->get_where('media',['userid'=>$u_data['id'],'is_active'=>'1','is_bios'=>'1'])->num_rows();
     }
 
     public function fetch_media_for_sidebar($user_id){

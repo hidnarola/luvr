@@ -104,6 +104,18 @@
                                         </button>
                                     <?php } ?>
                                 </div>
+
+                                <div class="chat-option">
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation"><a href="#chat-tab" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
+                                        <li role="presentation"><a href="#upload-tab" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane" id="chat-tab">...</div>
+                                        <div role="tabpanel" class="tab-pane" id="upload-tab">...</div>
+                                    </div>
+                                </div>
+
                             </form>
                         </div>
                     </div>
@@ -296,7 +308,7 @@
                 cls = 'rider-talk session_user';
                 alt_1 = 'session_user';
                 img_url = '<?php echo $db_user_img; ?>';
-                delete_str = '<a data-msg-id="'+msg['id']+'" onclick="delete_chat(this)"> X </a>';
+                delete_str = '<a class="remove-chat" data-msg-id="'+msg['id']+'" onclick="delete_chat(this)"> X </a>';
             }else{                
                 cls = 'user-talk chat_user';
                 alt_1 = 'chat_user';
@@ -312,10 +324,10 @@
             if(msg['message_type'] == '1'){
                 new_str += atob(msg['encrypted_message']);
             }else if(msg['message_type'] == '2'){                
-                new_str += '<a data-fancybox="" href="'+img_base_url+msg['media_name']+'">';
+                new_str += '<a class="chat_img" data-fancybox="" href="'+img_base_url+msg['media_name']+'">';
                 new_str += '<img width="50px" height="50px" src="'+img_base_url+msg['media_name']+'/1"/></a>';
             }else if(msg['message_type'] == '3'){                
-                new_str += '<a href="" class="msg_vid" data-url="'+msg['media_name']+'" target="_blank">';
+                new_str += '<a href="" data-url="'+msg['media_name']+'" target="_blank" class="msg_vid chat_video">';
                 msg['media_name'] = msg['media_name'].replace('.mp4','.png');
                 new_str += '<img width="50px" height="50px" src="'+img_base_url+msg['media_name']+'/1"/></a>';
             }
@@ -339,7 +351,7 @@
             var cls = 'rider-talk'; 
             var alt_1= 'rider-talk';
             var img_url = '<?php echo $db_user_img; ?>';
-            delete_str = '<a data-msg-id="'+msg['id']+'" onclick="delete_chat(this)"> X </a>';
+            delete_str = '<a class="remove-chat" data-msg-id="'+msg['id']+'" onclick="delete_chat(this)"> X </a>';
         }else{
             var cls = 'user-talk chat_user'; 
             var alt_1= 'chat_user';
@@ -357,10 +369,10 @@
         if(msg['message_type'] == '1'){
             new_str += atob(msg['encrypted_message']);
         }else if(msg['message_type'] == '2'){
-            new_str += '<a data-fancybox="" href="'+img_base_url+msg['media_name']+'">';
+            new_str += '<a class="chat_img" data-fancybox="" href="'+img_base_url+msg['media_name']+'">';
             new_str += '<img width="50px" height="50px" src="'+img_base_url+msg['media_name']+'/1"/></a>';
         }else if(msg['message_type'] == '3'){
-            new_str += '<a href="" class="msg_vid" data-url="'+msg['media_name']+'" target="_blank">';
+            new_str += '<a  href="" class="msg_vid chat_video" data-url="'+msg['media_name']+'" target="_blank">';
             msg['media_name'] = msg['media_name'].replace('.mp4','.png');
             new_str += '<img width="50px" height="50px" src="'+img_base_url+msg['media_name']+'/1"/></a>';
         }

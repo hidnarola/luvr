@@ -27,7 +27,7 @@
             <div class="account-body-body">
                 
                 <form action="<?php echo base_url().'bio/upload_feed'; ?>" enctype="multipart/form-data" method="post">
-                    <input type="file" name="feed" >                    
+                    <input type="file" name="feed" >
                     <input type="submit" value="Submit" class="btn btn-primary">
                 </form>
 
@@ -44,6 +44,8 @@
 
                             $thumb = $image['media_thumb'];
                             $image_link = $image['media_name'];
+
+                            $is_video_class = '';
                                                         
                             // If type is uploaded video or video URL from instagram or facebook
                             if ($type == '4') {
@@ -51,6 +53,7 @@
                                 $anchor_target = '_blank';                                
                                 $img_thumb = $link = $image['media_thumb'];
                                 $image_link = base_url() . "video/play/" . $image['id'];
+                                $is_video_class = 'video-tag';
                             }
 
                             if($type == '3'){
@@ -65,9 +68,9 @@
                                 $anchor_target = '_blank';
                                 $link = $image['media_name'];
                                 $image['media_thumb'] = str_replace('.mp4','.png', $image['media_thumb']);
-                                $img_thumb = base_url().'bio/show_img/'.$image['media_thumb'].'/1';
-
+                                $img_thumb = base_url().'bio/show_img/'.$image['media_thumb'].'/1';                                
                                 $image_link = base_url() . "video/play/".$image['id'];
+                                $is_video_class = 'video-tag';
                             }
 
                             if($type == '1'){
@@ -81,7 +84,7 @@
                         ?>
                             <li id="<?php echo $dynamic_id; ?>">
                                 <div class="my-picture-box">
-                                    <a>
+                                    <a class="<?php echo $is_video_class; ?>">
                                         <img src="<?php echo $img_thumb; ?>" alt="" />
                                     </a>
                                     <div class="picture-action">
@@ -113,7 +116,6 @@
                         } ?>
                     <?php } ?>
                 </ul>
-
 
                 <?php if (!empty($next_link)) { ?>                    
                     <div class="load-more">
@@ -170,5 +172,6 @@
         if($('.js-mytooltip').length != 0){
             $('.js-mytooltip').myTooltip();
         }
+        // alert = function(mesg) {console.trace(mesg)}
     });
 </script>

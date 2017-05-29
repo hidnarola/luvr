@@ -41,6 +41,7 @@
                             $fancybox_str = 'data-fancybox="gallery"';
                             $anchor_target = '';
                             $dynamic_id = random_string();
+                            $is_video_class = '';
 
                             if ($image['type'] == 'video') {
                                 $type = '4';
@@ -49,6 +50,7 @@
                                 $vid_url = urlencode($image['videos']['standard_resolution']['url']);
                                 $image_link = base_url() . "video/play?url=".$vid_url;
                                 $data_val = $image['videos']['standard_resolution']['url'];
+                                $is_video_class = 'video-tag';
                             }
 
                             $is_delete = 'no';
@@ -61,7 +63,7 @@
                                 ?>
                                 <li id="<?php echo $dynamic_id; ?>">
                                     <div class="my-picture-box">
-                                        <a>
+                                        <a class="<?php echo $is_video_class; ?>">
                                             <img src="<?php echo $link; ?>" alt="" />
                                         </a>
                                         <div class="picture-action">
@@ -165,7 +167,10 @@
                             'Your feed has been saved into Bio.',
                             'success');                    
                 } else {
-                    alert('ERROR:CAN NOT SAVE MORE THAN 50 IMAGES');
+                    show_notification('<strong> Error </strong>',
+                            'Can Not Save More Than 50 Images.',
+                            'error'); 
+                    //alert('ERROR:CAN NOT SAVE MORE THAN 50 IMAGES');
                 }
             }
         });

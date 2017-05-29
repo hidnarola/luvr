@@ -32,11 +32,13 @@ class Bio extends CI_Controller {
             } else {
                 $upload_path = UPLOADPATH_IMAGE;
             }
+            
+            $new_file_name = $u_data['id'].'_'.random_name_generate(); // Generate random file name of 8 characters only - Look into Site helper for reference
 
+            $config['file_name'] = $new_file_name;
             $config['upload_path'] = $upload_path;
             $config['allowed_types'] = 'jpg|png|jpeg|mp4';
-            $config['max_size'] = '30000';
-            $config['encrypt_name'] = TRUE;
+            $config['max_size'] = '30000';            
             $config['detect_mime'] = TRUE;
             $config['file_ext_tolower'] = TRUE;
 
@@ -138,10 +140,20 @@ class Bio extends CI_Controller {
             $upload_path = UPLOADPATH_IMAGE;
         }
 
+        $total_feeds_cnt = $this->Bio_model->fetch_total_feed_cnt();
+
+        if ($total_feeds_cnt == 50) {
+            $this->session->set_flashdata('message', ['message'=>'Can Not Save More Than 50 Images or Videos in Bio.','class'=>'alert alert-danger']);
+            redirect('bio/saved_feed');
+        }
+
+
+        $new_file_name = $u_data['id'].'_'.random_name_generate(); // Generate random file name of 8 characters only - Look into Site helper for reference
+
+        $config['file_name'] = $new_file_name;
         $config['upload_path'] = $upload_path;
         $config['allowed_types'] = 'jpg|png|jpeg|mp4';
-        $config['max_size']  = '1000000000';                
-        $config['encrypt_name'] = TRUE;
+        $config['max_size']  = '1000000000';
         $config['detect_mime'] = TRUE;
         $config['file_ext_tolower'] = TRUE;
         
@@ -149,10 +161,11 @@ class Bio extends CI_Controller {
 
         if ( ! $this->upload->do_upload('feed')){
             $error = array('error' => $this->upload->display_errors());
-            pr($error,1);
+            $this->session->set_flashdata('message', ['message'=>$error['error'],'class'=>'alert alert-danger']);
+            redirect('bio/saved_feed');
         } else {
             $data = array('upload_data' => $this->upload->data());
-
+            
             $full_path = $data['upload_data']['full_path'];
             $file_name = $data['upload_data']['file_name'];
             $raw_name  = $data['upload_data']['raw_name'];
@@ -174,13 +187,36 @@ class Bio extends CI_Controller {
                 _createThumbnail($full_path, $thumb_path);
                 $media_type = '1';
             } else {
-                exec(FFMPEG_PATH . ' -i ' . $full_path . ' -ss 00:00:01.000 -vframes 1 ' . $thumb_path);
-                $media_type = '2';
-            }
+                // Count the length of the video for the validation
+                ob_start();
+                passthru(FFMPEG_PATH." -i ".$full_path."  2>&1");
+                $duration = ob_get_contents();
+                $full = ob_get_contents();
+                ob_end_clean();
 
-            echo 'File name ==> '.$file_name;
-            echo "<br/>";
-            echo 'Thumb Name ==> '.$thumb_name;
+                $search='/Duration: (.*?),/';
+                $duration = preg_match($search, $duration, $matches, PREG_OFFSET_CAPTURE, 3);
+
+                if(isset($matches[0][0])){
+                    
+                    $explode_arr = explode(':',$matches[0][0]);
+
+                    $hour_vid = (int)trim($explode_arr[count($explode_arr) - 3]);
+                    $min_vid = (int)trim($explode_arr[count($explode_arr) - 2]);
+                    $sec_vid = (int)trim($explode_arr[count($explode_arr) - 1]);
+                    
+                    if($hour_vid > 0 || $min_vid > 0 || $sec_vid > 30){
+                        $this->session->set_flashdata('message', ['message'=>'Video can not be longer than 30 seconds.','class'=>'alert alert-danger']);
+                        redirect('bio/saved_feed');
+                    } // v! end of IF condition for house,min,sec limit
+                }
+                exec(FFMPEG_PATH . ' -i ' . $full_path . ' -ss 00:00:01.000 -vframes 1 ' . $thumb_path);
+                $media_type = '2';        
+            }            
+
+            if ($ext == 'mp4') {
+                $thumb_name = str_replace('.png', '.mp4', $thumb_name);
+            }
 
             $ins_data = array(
                                 'userid'=>$u_data['id'],
@@ -191,9 +227,9 @@ class Bio extends CI_Controller {
                                 'is_bios'=>'1'
                             );
             $this->Bio_model->insert_media($ins_data);
-            pr($data);
+            $this->session->set_flashdata('message', ['message'=>'Video can not be longer than 30 seconds.','class'=>'alert alert-danger']);
+            redirect('bio/saved_feed');
         }
-
     }    
 
     // ------------------------------------------------------------------------
@@ -263,7 +299,8 @@ class Bio extends CI_Controller {
                     $fancybox_str = 'data-fancybox="gallery"';
                     $anchor_target = '';
                     $dynamic_id = random_string();
-                    
+                    $is_video_class = '';
+                                        
                     if ($image['type'] == 'video') {
                         $type = '4'; // Online Video link
                         if(strpos($image['source'],"video.xx.fbcdn.net") == FALSE){ continue; }
@@ -271,13 +308,14 @@ class Bio extends CI_Controller {
                         $anchor_target = '_blank';
                         $image_link = base_url() . "video/play?url=".urlencode($image['source']);
                         $data_val =  $image['source'];
+                        $is_video_class = 'video-tag';
                     }
 
                     
                     $is_delete = 'no';
                     if (in_array($image['id'], $all_saved_media)) { continue; }
 
-                    $new_str .= '<li id="'.$dynamic_id.'"> <div class="my-picture-box"> <a> <img src="'.$link.'" alt="" /> </a>';
+                    $new_str .= '<li id="'.$dynamic_id.'"> <div class="my-picture-box"> <a class="'.$is_video_class.'"> <img src="'.$link.'" alt="" /> </a>';
                     $new_str .= '<div class="picture-action"> <div class="picture-action-inr">';
                     $new_str .= '<a data-type="'.$type.'" data-insta-id="'.$image['id'].'" data-insta-time="'.$image['created_time'].'"';
                     $new_str .= ' data-val="'.urlencode($link).'" class="for_pointer icon-picture js-mytooltip type-inline-block style-block style-block-one"';
@@ -293,7 +331,7 @@ class Bio extends CI_Controller {
                     $new_str .= ' data-mytooltip-custom-class="align-center" data-mytooltip-content="Save into Bio"> </a> </div> </div> </div> </li>';
                 }                
             }
-        }
+        }        
 
         $ret_data['all_images'] = $new_str;
         $ret_data['next_link'] = $next_link;
@@ -363,6 +401,7 @@ class Bio extends CI_Controller {
                 $fancybox_str = 'data-fancybox="gallery"';
                 $anchor_target = '';
                 $dynamic_id = random_string();
+                $is_video_class = '';
 
                 if ($image['type'] == 'video') {
                     $type = '4'; // For online video link
@@ -371,6 +410,7 @@ class Bio extends CI_Controller {
                     $vid_url = urlencode($image['videos']['standard_resolution']['url']);
                     $image_link = base_url() . "video/play?url=".$vid_url;                    
                     $data_val = $image['videos']['standard_resolution']['url'];
+                    $is_video_class = 'video-tag';
                 }
 
                 $is_delete = 'no';
@@ -379,7 +419,7 @@ class Bio extends CI_Controller {
                 }
 
                 if ($is_delete == 'no') {
-                    $new_str .= '<li id="' . $dynamic_id . '"> <div class="my-picture-box"> <a> <img src="' . $link . '" alt="" /> </a>';
+                    $new_str .= '<li id="' . $dynamic_id . '"> <div class="my-picture-box"> <a class="'.$is_video_class.'"> <img src="' . $link . '" alt="" /> </a>';
                     $new_str .= '<div class="picture-action"> <div class="picture-action-inr">';
                     $new_str .= '<a data-type="' . $type . '" data-insta-id="' . $image['id'] . '" data-insta-time="' . $image['created_time'] . '"';
                     $new_str .= ' data-val="' . urlencode($link) . '" class="for_pointer icon-picture js-mytooltip type-inline-block style-block style-block-one"';
