@@ -35,8 +35,8 @@ function detachParticipantTracks(participant) {
 
 // Check for WebRTC
 /*if (!navigator.webkitGetUserMedia && !navigator.mozGetUserMedia) {
-    alert('WebRTC is not available in your browser.');
-}*/
+ alert('WebRTC is not available in your browser.');
+ }*/
 
 // When we are about to transition away from this page, disconnect
 // from the room, if joined.
@@ -56,7 +56,11 @@ function roomJoined(room) {
         'id': $("#msgid").val(),
         'caller_id': $("#callerid").val(),
         'sender_id': $("#callerid").val(),
+        'calling_id': $("#callingid").val(),
+        'receiver_id': $("#callingid").val(),
+        'call_unique_id': $("#room-name").val(),
         'call_status': 2,
+        'app_version': 0,
         'message': 2
     }, function (data) {
     });
