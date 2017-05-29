@@ -55,13 +55,10 @@ function roomJoined(room) {
     socket.emit('CALL Action Web', {
         'id': $("#msgid").val(),
         'caller_id': $("#callerid").val(),
-        'sender_id': $("#callerid").val(),
         'calling_id': $("#callingid").val(),
-        'receiver_id': $("#callingid").val(),
         'call_unique_id': $("#room-name").val(),
         'call_status': 2,
-        'app_version': 0,
-        'message': 2
+        'app_version': 0
     }, function (data) {
     });
     $("#button-call,#button-reject").hide();
