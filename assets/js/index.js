@@ -121,7 +121,7 @@ function log_status(message) {
     /*var logDiv = document.getElementById('log');
      logDiv.innerHTML += '<p>&gt;&nbsp;' + message + '</p>';
      logDiv.scrollTop = logDiv.scrollHeight;*/
-    $('#log').html(message);
+    $('#log').append(message + "<br/>");
 }
 
 // Leave Room.
