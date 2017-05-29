@@ -96,6 +96,7 @@ $chat_user_data['user_name'] = $chatusername;
     });
 
     $("#button-reject").on("click", function () {
+        alert("reject clicked");
         socket.emit('CALL Action Web', {
             'id': $("#msgid").val(),
             'caller_id': $("#callerid").val(),
