@@ -47,7 +47,7 @@ function roomJoined(room) {
     activeRoom = room;
 
     console.log("Joined as '" + identity + "'");
-    log_status("Call connected.");
+    log_status("Room joined.");
     window.clearTimeout(tmptout);
     call_timeout = 0;
     audioElement.pause();

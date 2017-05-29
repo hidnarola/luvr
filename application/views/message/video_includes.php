@@ -47,14 +47,14 @@ $sess_user_data = $this->session->userdata('user');
         identity = data.identity;
         $('#room-controls').css('display', 'table');
         // Bind button to join Room.
-        $('#button-join').on('click', function () {
+        document.getElementById('button-join').onclick = function () {
             join_room(data);
-        });
+        };
 <?php if ($this->uri->segment(1) != "match" && $this->uri->segment(1) != "video" && !empty($this->uri->segment(3)) && !empty($this->uri->segment(4)) && !empty($this->uri->segment(3))) { ?>
-            //join_room(data);
+            join_room(data);
 <?php } ?>
         // Bind button to leave Room.
-        $('#button-leave').on('click', function () {
+        document.getElementById('button-leave').onclick = function () {
             log_status('Ending Call...');
             $("#button-call").show();
             $("#button-join,#button-reject").hide();
@@ -76,7 +76,7 @@ $sess_user_data = $this->session->userdata('user');
                 $("#button-call").removeAttr("disabled");
                 /*$("#button-call a").html("Video Call " + $("#button-call").attr("data-name"));*/
             });
-        });
+        };
     });
     /* IMPORTANT : Script to check tab status constantly. */
     /*$(document).one('click', function () {
