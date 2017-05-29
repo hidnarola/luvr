@@ -48,11 +48,11 @@ $sess_user_data = $this->session->userdata('user');
         $('#room-controls').css('display', 'table');
         // Bind button to join Room.
         $('#button-join').on('click', function () {
-            alert("join1");
+            /*alert("join1");*/
             join_room(data);
         });
 <?php if ($this->uri->segment(1) != "match" && $this->uri->segment(1) != "video" && !empty($this->uri->segment(3)) && !empty($this->uri->segment(4)) && !empty($this->uri->segment(3))) { ?>
-            alert("join2");
+            /*alert("join2");*/
             join_room(data);
 <?php } ?>
         // Bind button to leave Room.
