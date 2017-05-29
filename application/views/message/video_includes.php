@@ -51,7 +51,7 @@ $sess_user_data = $this->session->userdata('user');
             join_room(data);
         });
 <?php if ($this->uri->segment(1) != "match" && $this->uri->segment(1) != "video" && !empty($this->uri->segment(3)) && !empty($this->uri->segment(4)) && !empty($this->uri->segment(3))) { ?>
-            join_room(data);
+            //join_room(data);
 <?php } ?>
         // Bind button to leave Room.
         $('#button-leave').on('click', function () {
@@ -221,6 +221,9 @@ $sess_user_data = $this->session->userdata('user');
                 'id': $("#msgid").val(),
                 'caller_id': $("#callerid").val(),
                 'sender_id': $("#callerid").val(),
+                'calling_id': $("#callingid").val(),
+                'receiver_id': $("#callingid").val(),
+                'app_version': 0,
                 'call_status': 5,
                 'message': 5
             }, function (data) {
