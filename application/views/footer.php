@@ -181,6 +181,9 @@ $sess_user_data = $this->session->userdata('user');
         <input id="callerid" type="hidden" value=""/>
         <input id="callingid" type="hidden"/>
     <?php } ?>
+    <script type="text/javascript">
+        myid = '<?php echo $sess_user_data['id']; ?>';
+    </script>
     <script src="<?php echo base_url() . 'assets/js/index.js'; ?>"></script>
     <?php
 }
@@ -189,63 +192,63 @@ if (!empty($sess_user_data)) {
 }
 ?>
 <script type="text/javascript">
-        function log(text) {
-            console.log(text);
+    function log(text) {
+        console.log(text);
+    }
+    function showMsg(text, mode, autofadeout) {
+        if (mode == "success")
+        {
+            $("#op_success .message-r p").html(text);
+            if (autofadeout == true)
+                $("#op_success").fadeIn().delay(8000).fadeOut('slow');
+            else
+                $('#op_success').fadeIn();
+        } else
+        {
+            $("#op_error .message-r p").html(text);
+            if (autofadeout == true)
+                $("#op_error").fadeIn().delay(8000).fadeOut('slow');
+            else
+                $('#op_error').fadeIn();
         }
-        function showMsg(text, mode, autofadeout) {
-            if (mode == "success")
-            {
-                $("#op_success .message-r p").html(text);
-                if (autofadeout == true)
-                    $("#op_success").fadeIn().delay(8000).fadeOut('slow');
-                else
-                    $('#op_success').fadeIn();
-            } else
-            {
-                $("#op_error .message-r p").html(text);
-                if (autofadeout == true)
-                    $("#op_error").fadeIn().delay(8000).fadeOut('slow');
-                else
-                    $('#op_error').fadeIn();
-            }
+    }
+    function showMsgCall(text, mode, autofadeout) {
+        if (mode == "incoming")
+        {
+            $("#call_statuses .message-r h3").html("Incoming Call");
+            $("#call_statuses .message-r p").html(text);
+            $("#call_statuses").addClass('success-message');
+            $("#call_statuses").removeClass('cancel-message');
+            if (autofadeout == true)
+                $("#call_statuses").fadeIn().delay(8000).fadeOut('slow');
+            else
+                $('#call_statuses').fadeIn();
+        } else if (mode == "rejected")
+        {
+            $("#call_statuses .message-r h3").html("Call Rejected!");
+            $("#call_statuses .message-r p").html(text);
+            $("#call_statuses").addClass('cancel-message');
+            $("#call_statuses").removeClass('success-message');
+            if (autofadeout == true)
+                $("#call_statuses").fadeIn().delay(8000).fadeOut('slow');
+            else
+                $('#call_statuses').fadeIn();
+        } else
+        {
+            $("#call_statuses .message-r h3").html(text);
+            $("#call_statuses .message-r p").html(text);
+            $("#call_statuses").addClass('cancel-message');
+            $("#call_statuses").removeClass('success-message');
+            if (autofadeout == true)
+                $("#call_statuses").fadeIn().delay(8000).fadeOut('slow');
+            else
+                $('#call_statuses').fadeIn();
         }
-        function showMsgCall(text, mode, autofadeout) {
-            if (mode == "incoming")
-            {
-                $("#call_statuses .message-r h3").html("Incoming Call");
-                $("#call_statuses .message-r p").html(text);
-                $("#call_statuses").addClass('success-message');
-                $("#call_statuses").removeClass('cancel-message');
-                if (autofadeout == true)
-                    $("#call_statuses").fadeIn().delay(8000).fadeOut('slow');
-                else
-                    $('#call_statuses').fadeIn();
-            } else if (mode == "rejected")
-            {
-                $("#call_statuses .message-r h3").html("Call Rejected!");
-                $("#call_statuses .message-r p").html(text);
-                $("#call_statuses").addClass('cancel-message');
-                $("#call_statuses").removeClass('success-message');
-                if (autofadeout == true)
-                    $("#call_statuses").fadeIn().delay(8000).fadeOut('slow');
-                else
-                    $('#call_statuses').fadeIn();
-            } else
-            {
-                $("#call_statuses .message-r h3").html(text);
-                $("#call_statuses .message-r p").html(text);
-                $("#call_statuses").addClass('cancel-message');
-                $("#call_statuses").removeClass('success-message');
-                if (autofadeout == true)
-                    $("#call_statuses").fadeIn().delay(8000).fadeOut('slow');
-                else
-                    $('#call_statuses').fadeIn();
-            }
-        }
-        function scrollToElement(id) {
-            $('html,body').animate({
-                scrollTop: $(id).offset().top}, 'slow');
-        }
+    }
+    function scrollToElement(id) {
+        $('html,body').animate({
+            scrollTop: $(id).offset().top}, 'slow');
+    }
 </script>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'assets/css/jquery.fancybox.min.css'; ?>"/>
 <script src="<?php echo base_url() . 'assets/js/jquery.fancybox.min.js'; ?>" type="text/javascript"></script>

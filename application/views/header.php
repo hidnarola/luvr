@@ -42,6 +42,7 @@ $user_data = $this->session->userdata('user');
                     'app_version': 0
                 });
                 var audioElement = '';
+                var myid = '';
                 var call_timeout = 0;
                 var tmptout;
             </script>

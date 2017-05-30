@@ -42,6 +42,7 @@ if (empty($user_data)) {
                     'app_version': 0
                 });
                 var audioElement = '';
+                var myid = '';
                 var call_timeout = 0;
                 var tmptout;
             </script>

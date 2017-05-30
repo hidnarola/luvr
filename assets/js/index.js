@@ -52,6 +52,9 @@ function roomJoined(room) {
     call_timeout = 0;
     audioElement.pause();
     audioElement.currentTime = 0;
+    alert("My ID : " + myid);
+    alert("Caller ID : " + $("#callerid").val());
+    alert("Calling ID : " + $("#callingid").val());
     socket.emit('CALL Action Web', {
         'id': $("#msgid").val(),
         'caller_id': $("#callerid").val(),
