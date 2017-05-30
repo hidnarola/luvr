@@ -98,10 +98,12 @@ $chat_user_data['user_name'] = $chatusername;
     $("#button-reject").on("click", function () {
         socket.emit('CALL Action Web', {
             'id': $("#msgid").val(),
+            'user_name': '<?php echo $db_user_data['user_name']; ?>',
             'caller_id': $("#callerid").val(),
             'sender_id': $("#callerid").val(),
             'calling_id': $("#callingid").val(),
             'receiver_id': $("#callingid").val(),
+            'call_unique_id': $("#room-name").val(),
             'call_status': 3,
             'message': 3
         }, function (data) {

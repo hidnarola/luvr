@@ -107,6 +107,9 @@ class Video extends CI_Controller {
                 }
             }
         }
+        if (strpos($data['ad_url'], 'optimatic') !== false) {
+            redirect(str_replace('https', 'http', base_url(uri_string())));
+        }
         $data['sub_view'] = 'bio/video';
         $data['show_header_footer'] = 1;
         $next_random = $this->Videos_model->getRandomVideoOwner($id);

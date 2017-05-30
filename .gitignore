@@ -4,7 +4,6 @@
 */cache/*
 !*/cache/index.html
 !*/cache/.htaccess
-/application/config/database.php
 /nbproject/private/
 /nbproject
 /assets/uploads/Image

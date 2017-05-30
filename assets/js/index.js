@@ -47,23 +47,23 @@ function roomJoined(room) {
     activeRoom = room;
 
     console.log("Joined as '" + identity + "'");
-    log_status("Call connected.");
+    log_status("Room joined.");
     window.clearTimeout(tmptout);
     call_timeout = 0;
     audioElement.pause();
     audioElement.currentTime = 0;
-    socket.emit('CALL Action Web', {
-        'id': $("#msgid").val(),
-        'caller_id': $("#callerid").val(),
-        'sender_id': $("#callerid").val(),
-        'calling_id': $("#callingid").val(),
-        'receiver_id': $("#callingid").val(),
-        'call_unique_id': $("#room-name").val(),
-        'call_status': 2,
-        'app_version': 0,
-        'message': 2
-    }, function (data) {
-    });
+    if (myid == $("#callingid").val())
+    {
+        socket.emit('CALL Action Web', {
+            'id': $("#msgid").val(),
+            'caller_id': $("#callerid").val(),
+            'calling_id': $("#callingid").val(),
+            'call_unique_id': $("#room-name").val(),
+            'call_status': 2,
+            'app_version': 0
+        }, function (data) {
+        });
+    }
     $("#button-call,#button-reject").hide();
     $("#local-media").addClass("col-sm-4 col-md-4 col-xs-4").css('position', 'absolute');
     document.getElementById('button-join').style.display = 'none';

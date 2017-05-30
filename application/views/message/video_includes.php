@@ -48,9 +48,11 @@ $sess_user_data = $this->session->userdata('user');
         $('#room-controls').css('display', 'table');
         // Bind button to join Room.
         $('#button-join').on('click', function () {
+            /*alert("join1");*/
             join_room(data);
         });
-<?php if ($this->uri->segment(1) != "match" && !empty($this->uri->segment(3)) && !empty($this->uri->segment(4)) && !empty($this->uri->segment(3))) { ?>
+<?php if ($this->uri->segment(1) != "match" && $this->uri->segment(1) != "video" && !empty($this->uri->segment(3)) && !empty($this->uri->segment(4)) && !empty($this->uri->segment(3))) { ?>
+            /*alert("join2");*/
             join_room(data);
 <?php } ?>
         // Bind button to leave Room.
@@ -63,8 +65,12 @@ $sess_user_data = $this->session->userdata('user');
                 activeRoom.disconnect();
             socket.emit('CALL Action Web', {
                 'id': $("#msgid").val(),
+                'user_name': '<?php echo $sess_user_data['user_name']; ?>',
                 'caller_id': $("#callerid").val(),
                 'sender_id': $("#callerid").val(),
+                'calling_id': $("#callingid").val(),
+                'receiver_id': $("#callingid").val(),
+                'call_unique_id': $("#room-name").val(),
                 'call_status': 3,
                 'message': 3
             }, function (data) {
@@ -221,6 +227,9 @@ $sess_user_data = $this->session->userdata('user');
                 'id': $("#msgid").val(),
                 'caller_id': $("#callerid").val(),
                 'sender_id': $("#callerid").val(),
+                'calling_id': $("#callingid").val(),
+                'receiver_id': $("#callingid").val(),
+                'app_version': 0,
                 'call_status': 5,
                 'message': 5
             }, function (data) {
