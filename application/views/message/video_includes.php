@@ -70,6 +70,7 @@ $sess_user_data = $this->session->userdata('user');
                 'sender_id': $("#callerid").val(),
                 'calling_id': $("#callingid").val(),
                 'receiver_id': $("#callingid").val(),
+                'call_unique_id': $("#room-name").val(),
                 'call_status': 3,
                 'message': 3
             }, function (data) {
