@@ -190,7 +190,30 @@ class Message extends CI_Controller {
         $this->Messages_model->update_message($msg_id, ['is_delete' => '1']);
     }
 
-    function videocall($id = null, $calling_id = null, $msg_id = null, $room_id = null) {
+    public function change_message_status(){
+
+        $u_data = $this->session->userdata('user');
+        $user_id = $u_data['id'];
+
+        $all_unread_msg_ids = $this->input->post('all_unread_msg_ids');
+        $msg_status = $this->input->post('msg_status');
+
+        if(!empty($all_unread_msg_ids)){
+            foreach($all_unread_msg_ids as $msg){
+                $this->Messages_model->update_message($msg,['status'=>'2']);
+            }
+        }
+
+        echo json_encode(['status'=>'success','total_unread'=>GetUserUnreadNotificationCounts($user_id)]);
+    }
+
+    public function get_msg_unread_cnt(){
+        $u_data = $this->session->userdata('user');
+        $user_id = $u_data['id'];
+        echo (int)GetUserUnreadNotificationCounts($user_id);
+    }
+
+    public function videocall($id = null, $calling_id = null, $msg_id = null, $room_id = null) {
         if (is_numeric($id) && $id != null) {
             $u_data = $this->session->userdata('user');
             $user_id = $u_data['id'];

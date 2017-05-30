@@ -5,6 +5,10 @@ $all_side_medias = $this->Bio_model->fetch_media_for_sidebar($user_data['id']);
 $IsPowerLuvsAllowed = IsPowerLuvsAllowed($user_data['id']);
 $UserPowerLuvsPerDay = GetUserPowerLuvsPerDay($user_data['id']);
 $max_powerluvs = MAX_POWERLUVS_PER_DAY;
+
+$current_class = $this->router->fetch_class();
+$current_method = $this->router->fetch_method();
+
 if (isUserActiveSubscriber($user_data['id']) == 1) {
     $max_powerluvs = MAX_POWERLUVS_PER_DAY_P;
 }
@@ -54,6 +58,13 @@ if ($UserPowerLuvsPerDay >= $max_powerluvs) {
             <ul>
                 <li class="<?php echo ($sub_view == "user/userProfileSettings") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/setup_userprofile/edit'); ?>">Edit Profile</a></li>
                 <li class="<?php echo ($sub_view == "user/settings") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/user_settings'); ?>">Edit Settings</a></li>
+
+                <li class="<?php echo ($current_class == "message") ? "active" : ""; ?>">
+                    <a href="<?php echo base_url('/message/all_chats'); ?>">
+                        Messages
+                    </a>
+                </li>
+
                 <li class="<?php echo ($sub_view == "user/userProfile") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/view_profile'); ?>">View Profile </a></li>
                 <li class="<?php echo ($sub_view == "user/userFilterSettings") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/edit_filters'); ?>">Edit Filters </a></li>
                 <li class="<?php echo ($sub_view == "user/videoRequests") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/video_requests'); ?>">Video Snap Requests </a></li>

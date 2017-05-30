@@ -24,6 +24,12 @@ function my_img_url($img_type, $img_url) {
     }
 }
 
+function date_compare($a, $b){
+    $t1 = strtotime($a['msg_created']);
+    $t2 = strtotime($b['msg_created']);
+    return $t2 - $t1;
+}  
+
 function _createThumbnail($img_path, $thumb_path) {
     $CI = & get_instance();
 
@@ -236,6 +242,7 @@ if (!function_exists('GetUserUnreadNotificationCounts')) {
             $CI->db->where("receiver_id", $user_id);
             $CI->db->where("is_delete", 0);
             $CI->db->where("status", 0);
+            $CI->db->group_by("sender_id");
             return $CI->db->count_all_results();
         }
         return false;

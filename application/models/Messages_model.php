@@ -64,6 +64,24 @@ class Messages_model extends CI_Model {
 		return $ret;
 	}
 
+	public function fetch_last_message($sender_id,$receiver_id){
+		$this->db->where('is_delete','0');
+		//$this->db->where(['sender_id'=>$sender_id,'receiver_id'=>$receiver_id]);
+
+		$this->db->where('(sender_id = '.$sender_id.' and receiver_id ='.$receiver_id.')', null, false);
+		$this->db->or_where('(sender_id = '.$receiver_id.' and receiver_id ='.$sender_id.')', null, false);
+
+		// $this->db->or_where(['sender_id'=>$receiver_id,'receiver_id'=>$sender_id]);
+		$res = $this->db->order_by('id','desc')->limit(1)->get('messages')->row_array();
+		return $res;
+	}
+
+	public function unread_cnt_message_indivisual($user_id,$db_user_id){
+		$res = $this->db->get_where('messages',['receiver_id'=>$db_user_id,'sender_id'=>$user_id,'is_delete'=>'0','status'=>'0'])
+						->num_rows();
+		return $res;
+	}
+
 	// ------------------------------------------------------------------------
 
 	public function get_new_matches($userid,$lastseen_date){

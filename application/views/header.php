@@ -83,7 +83,11 @@ $user_data = $this->session->userdata('user');
                                     $unread_counts = GetUserUnreadNotificationCounts($user_data['id']);
                                     if ($unread_counts > 0) {
                                         ?>
-                                        <div class="notification-count"><?php echo $unread_counts; ?></div>
+                                        <div class="notification-count">
+                                            <a href="<?php echo base_url().'message/all_chats'; ?>">
+                                                <?php echo $unread_counts; ?>
+                                            </a>
+                                        </div>
                                     <?php } ?>
                                     <a href="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         <span class="user-pic">                                                        

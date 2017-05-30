@@ -35,7 +35,7 @@ if (empty($user_data)) {
             ?>
             <script src="<?php echo base_url('node_modules/socket.io/node_modules/socket.io-client/socket.io.js'); ?>"></script>
             <script type="text/javascript">
-                var socket = io.connect('https://' + window.location.hostname + ':4343');
+                var socket = io.connect('http://' + window.location.hostname + ':4343');
                 socket.emit('join_socket_web', {
                     'userID': '<?php echo $user_data['id']; ?>',
                     'is_login': '1',
@@ -83,7 +83,11 @@ if (empty($user_data)) {
                                     $unread_counts = GetUserUnreadNotificationCounts($user_data['id']);
                                     if ($unread_counts > 0) {
                                         ?>
-                                        <div class="notification-count"><?php echo $unread_counts; ?></div>
+                                        <div class="notification-count">
+                                            <a href="<?php echo base_url().'message/all_chats'; ?>">
+                                                <?php echo $unread_counts; ?>
+                                            </a>
+                                        </div>
                                     <?php } ?>
                                     <a href="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         <span class="user-pic">

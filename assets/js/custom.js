@@ -28,7 +28,7 @@ function show_notification(noti_title,noti_message,noti_alert_type) {
         target:'_self'
     }, {
         // settings
-        delay:1000,
+        delay:1500,
         element: 'body',
         position: null,
         type: noti_alert_type,

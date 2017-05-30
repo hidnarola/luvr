@@ -186,6 +186,7 @@ $sess_user_data = $this->session->userdata('user');
 }
 if (!empty($sess_user_data)) {
     $this->load->view('message/video_includes');
+    $this->load->view('message/message_includes');
 }
 ?>
 <script type="text/javascript">

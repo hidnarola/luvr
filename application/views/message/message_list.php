@@ -73,47 +73,53 @@
                                 </ul>
                             </div>
                             <form method="post" onsubmit="event.preventDefault(); submit_message(this); " id="msg_form" enctype="multipart/form-data">
-                                <div class="col-md-6 col-sm-6 col-xs-12 mar-btm-20 choose-file">
-                                    <h6>Upload Image or Video</h6>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" readonly>
-                                        <label class="input-group-btn">
-                                            <span class="btn btn-primary">
-                                                Browse <input type="file" style="display: none;" name="msg_file">
-                                            </span>
-                                        </label>
-                                    </div>  
-                                </div>
 
-                                <div class="message-to-talk">
-                                    <!--  -->
-                                    <textarea name="message" 
-                                             onkeypress="socket.emit('Typing',{'receiver_id':<?php echo $chat_user_id; ?>});"
-                                             id="msg_id" placeholder="Write here..."></textarea>
-                                    <h3>You're writing a message to you like it</h3>
-                                    <input type="hidden" name="session_id" id="session_id" value="<?php echo $db_user_data['id']; ?>">
-                                    <input type="hidden" name="chat_user_id" id="chat_user_id" value="<?php echo $chat_user_id; ?>">
-                                    
-                                    <input type="hidden" name="db_user_img" id="db_user_img" value="<?php echo $db_user_img; ?>">
-                                    <input type="hidden" name="chat_user_img" id="chat_user_img" value="<?php echo $chat_user_img; ?>">
+                                <div class="chat-option">
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a href="#chat-tab" aria-controls="messages" role="tab" data-toggle="tab"> Text Message </a>
+                                        </li>
+                                        <li role="presentation">
+                                            <a href="#upload-tab" aria-controls="settings" role="tab" data-toggle="tab"> File uploads </a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        
+                                        <div role="tabpanel" class="tab-pane active" id="chat-tab">                                            
+                                            <div class="message-to-talk">
+                                                <!--  -->
+                                                <textarea name="message" 
+                                                         onkeypress="socket.emit('Typing',{'receiver_id':<?php echo $chat_user_id; ?>});"
+                                                         id="msg_id" placeholder="Write here..."></textarea>
+                                                <h3>You're writing a message to you like it</h3>
+                                                <input type="hidden" name="session_id" id="session_id" value="<?php echo $db_user_data['id']; ?>">
+                                                <input type="hidden" name="chat_user_id" id="chat_user_id" value="<?php echo $chat_user_id; ?>">
+                                                
+                                                <input type="hidden" name="db_user_img" id="db_user_img" value="<?php echo $db_user_img; ?>">
+                                                <input type="hidden" name="chat_user_img" id="chat_user_img" value="<?php echo $chat_user_img; ?>">
+                                            </div>
+                                        </div>
+                                        <div role="tabpanel" class=" tab-pane" id="upload-tab">
+                                            <div class="choose-file">
+                                                <h6>Upload Image or Video</h6>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" readonly>
+                                                    <label class="input-group-btn">
+                                                        <span class="btn btn-primary">
+                                                            Browse <input type="file" style="display: none;" name="msg_file">
+                                                        </span>
+                                                    </label>
+                                                </div>  
+                                            </div>
 
+                                        </div>
+                                    </div>
                                     <button type="submit"> Send Message </button>
                                     <?php if($is_active_usr == '1') { ?>
                                         <button type="button" onclick="location.href='<?php echo base_url('message/videocall/'.$chat_user_data['id']) ?>'">
                                             Video Call
                                         </button>
                                     <?php } ?>
-                                </div>
-
-                                <div class="chat-option">
-                                    <ul class="nav nav-tabs" role="tablist">
-                                        <li role="presentation"><a href="#chat-tab" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
-                                        <li role="presentation"><a href="#upload-tab" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
-                                    </ul>
-                                    <div class="tab-content">
-                                        <div role="tabpanel" class="tab-pane" id="chat-tab">...</div>
-                                        <div role="tabpanel" class="tab-pane" id="upload-tab">...</div>
-                                    </div>
                                 </div>
 
                             </form>
@@ -153,9 +159,6 @@
         });
     }
 
-    // Manually call Join_socket     
-    // var socket = io.connect( 'http://'+window.location.hostname+':8100' ); // Load socket connection into header
-
     socket.emit('join_socket_web', {
         'userID':'<?php echo $db_user_data["id"]; ?>',        
         'is_login':'1',
@@ -182,7 +185,7 @@
             data.messages = data.messages.reverse();
             var new_str = generate_all_message(data.messages);
             
-            if($.trim($('#all_messages_ul').html()).length == 0){                
+            if($.trim($('#all_messages_ul').html()).length == 0){
                 $('#all_messages_ul').html(new_str);
                 $(".message-to-owner").scrollTop($('#all_messages_ul').prop("scrollHeight")); // Scroll Bottom of that DIV
             }else{
@@ -202,7 +205,7 @@
     });
 
     socket.on('New Message',function(data){
-        console.log('New Message');
+
         if($('#all_messages_ul li').length != 0){
             $('#all_messages_ul li:last').after(generate_new_message(data,'no'));
         }else{
@@ -211,7 +214,9 @@
         $('.message-to-owner').animate({
            scrollTop: $('#all_messages_ul').prop("scrollHeight")
         }, 1000);
+
         set_video_url(); // Set Video URl for the message
+
     });
 
     socket.on('Typing',function(data){
@@ -219,15 +224,13 @@
     });
 
     $('.message-to-owner').scroll(function() {
-        var pos = $('.message-to-owner').scrollTop();
-        
+        var pos = $('.message-to-owner').scrollTop();        
         if (pos == 0) {
             socket.emit( 'Get Old Messages', {
                 'app_version':'<?php echo $chat_user_data["app_version"]; ?>',
                 'chat_user' :'<?php echo $chat_user_id; ?>',
                 'message_id':$('#last_msg_id').val()        
             });
-
         }
     });
 
@@ -297,46 +300,66 @@
         var img_url = '';
         var img_base_url = '<?php echo base_url()."bio/show_img/"; ?>';        
         var delete_str = '';
+        var all_unread_msg_ids = [];
+        var msg_status = '0';
 
         for(var i =0; i<messages.length; i++){
 
             msg = messages[i];
 
+            // console.log(msg);
+
             var msg_date = formatAMPM(msg["created_date"]);
 
-            if(msg['sender_id'] == sess_user_id){                
+            if(msg['sender_id'] == sess_user_id){
                 cls = 'rider-talk session_user';
                 alt_1 = 'session_user';
                 img_url = '<?php echo $db_user_img; ?>';
-                delete_str = '<a class="remove-chat" data-msg-id="'+msg['id']+'" onclick="delete_chat(this)"> X </a>';
-            }else{                
+                delete_str = '<a class="remove-chat for_pointer" data-msg-id="'+msg['id']+'" onclick="delete_chat(this)"> X </a>';
+            }else{
                 cls = 'user-talk chat_user';
                 alt_1 = 'chat_user';
                 img_url = '<?php echo $chat_user_img; ?>';
-                delete_str = '';
+                delete_str = '';                
+                msg_status = '2';
+                
+                if(msg['status'] == '0'){ all_unread_msg_ids.push(msg['id']); } 
             }
 
             new_str += '<li id="li_'+msg['id']+'" class="'+cls+'"><div class="pic-01">';
             new_str += '<img src="'+img_url+'" alt="'+alt_1+'" onerror="this.src=<?php echo base_url(); ?>assets/images/default_avatar.jpg" />';
             new_str += '</div><p>';
-            
+
             // 1: text message 2: Image 3: Video
             if(msg['message_type'] == '1'){
                 new_str += atob(msg['encrypted_message']);
-            }else if(msg['message_type'] == '2'){                
+            }else if(msg['message_type'] == '2'){
                 new_str += '<a class="chat_img" data-fancybox="" href="'+img_base_url+msg['media_name']+'">';
                 new_str += '<img width="50px" height="50px" src="'+img_base_url+msg['media_name']+'/1"/></a>';
-            }else if(msg['message_type'] == '3'){                
+            }else if(msg['message_type'] == '3'){
                 new_str += '<a href="" data-url="'+msg['media_name']+'" target="_blank" class="msg_vid chat_video">';
                 msg['media_name'] = msg['media_name'].replace('.mp4','.png');
                 new_str += '<img width="50px" height="50px" src="'+img_base_url+msg['media_name']+'/1"/></a>';
+            }else if(msg['message_type'] == '6'){
+                var call_var = '';
+                switch(msg['message']) {
+                    case '1':call_var = 'Called at'; break;
+                    case '2':call_var = 'Called at'; break;
+                    case '3':call_var = 'Called at'; break;
+                    case '4':call_var = 'Called at'; break;
+                    case '5':call_var = 'Missed at'; break;
+                }
+                new_str += call_var + ' '+msg_date;
             }
 
             new_str +='<span>'+msg_date+'</span>'+delete_str+'</p></li>';
 
             if(i == 0){ $('#last_msg_id').val(msg['id']); }
-         
+
         }
+
+        change_message_status(msg_status,all_unread_msg_ids); // Change unread status message to read
+
         return new_str;
     }
 
@@ -345,18 +368,22 @@
         
         var new_str = '';
         var delete_str = '';
+        var all_unread_msg_ids = [];
+        var msg_status = '0';
 
         var img_base_url = '<?php echo base_url()."bio/show_img/"; ?>';
-        if(is_db_user == 'yes'){
+        if(is_db_user == 'yes'){            
             var cls = 'rider-talk'; 
             var alt_1= 'rider-talk';
             var img_url = '<?php echo $db_user_img; ?>';
-            delete_str = '<a class="remove-chat" data-msg-id="'+msg['id']+'" onclick="delete_chat(this)"> X </a>';
-        }else{
+            delete_str = '<a class="remove-chat for_pointer" data-msg-id="'+msg['id']+'" onclick="delete_chat(this)"> X </a>';
+        }else{            
             var cls = 'user-talk chat_user'; 
             var alt_1= 'chat_user';
             var img_url = '<?php echo $chat_user_img; ?>';
             delete_str = '';
+            msg_status = '2';            
+            all_unread_msg_ids.push(msg['id']);
         }
 
         var msg_date = formatAMPM(msg["created_date"]);
@@ -375,22 +402,61 @@
             new_str += '<a  href="" class="msg_vid chat_video" data-url="'+msg['media_name']+'" target="_blank">';
             msg['media_name'] = msg['media_name'].replace('.mp4','.png');
             new_str += '<img width="50px" height="50px" src="'+img_base_url+msg['media_name']+'/1"/></a>';
+        }else if(msg['message_type'] == '6'){
+            var call_var = '';
+            switch(msg['message']) {
+                case '1':call_var = 'Called at'; break;
+                case '2':call_var = 'Called at'; break;
+                case '3':call_var = 'Called at'; break;
+                case '4':call_var = 'Called at'; break;
+                case '5':call_var = 'Missed at'; break;
+            }
+            new_str += call_var + ' '+msg_date;
         }
 
         new_str += '<span>'+msg_date+'</span>'+delete_str+'</p></li>';
+
+        change_message_status(msg_status,all_unread_msg_ids); // Change unread status message to read
+
         return new_str;
     }
 
     function delete_chat(obj){
-        var msg_id = $(obj).data('msg-id');
-        $.ajax({
-            url:'<?php echo base_url()."message/delete_chat"; ?>',
-            data:{msg_id:msg_id},
-            method:'POST',
-            success:function(data){
-                $('#li_'+msg_id).fadeOut();
-            }
-        });        
+
+        var is_confirm = confirm("Are you sure for delete this message ?");
+
+        if(is_confirm){
+            var msg_id = $(obj).data('msg-id');
+            $.ajax({
+                url:'<?php echo base_url()."message/delete_chat"; ?>',
+                data:{msg_id:msg_id},
+                method:'POST',
+                success:function(data){
+                    $('#li_'+msg_id).fadeOut();
+                }
+            });
+        }
+    }
+
+    function change_message_status(msg_status,all_unread_msg_ids){
+
+        if(msg_status != 0 && all_unread_msg_ids.length > 0){            
+            $.ajax({
+                url:'<?php echo base_url()."message/change_message_status"; ?>',
+                method:'POST',
+                data:{msg_status:msg_status,all_unread_msg_ids:all_unread_msg_ids},
+                dataType:'JSON',
+                success:function(data){                    
+                    var total_unread = data['total_unread'];
+
+                    if(total_unread > 0){
+                        $('.notification-count a').html(total_unread);
+                    }else{                        
+                        $('.notification-count').fadeOut();
+                    }
+                }
+            });
+        }
     }
 
 </script>
