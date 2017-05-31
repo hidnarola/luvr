@@ -12,11 +12,11 @@ if (!empty($next_random)) {
 if (isset($_GET['p']) && !empty($_GET['p'])) {
     $next_random_url .= '?p=' . $_GET['p'] . '';
 }
-/* if (isset($ad_url) && !empty($ad_url)) {
-  if (strpos($ad_url, 'optimatic') !== false) {
-  $next_random_url = str_replace("https", "http", $next_random_url);
-  }
-  } */
+if (isset($ad_url) && !empty($ad_url)) {
+    if (strpos($ad_url, 'streamrail') !== false) {
+        $next_random_url = str_replace("https", "http", $next_random_url);
+    }
+}
 ?>
 <div class="container">
     <div class="row">
