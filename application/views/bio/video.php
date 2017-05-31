@@ -9,11 +9,11 @@ if (!empty($user_data)) {
 if (!empty($next_random)) {
     $next_random_url = base_url() . "video/play/" . $next_random . "/2";
 }
-/*if (isset($ad_url) && !empty($ad_url)) {
-    if (strpos($ad_url, 'optimatic') !== false) {
-        $next_random_url = str_replace("https", "http", $next_random_url);
-    }
-}*/
+/* if (isset($ad_url) && !empty($ad_url)) {
+  if (strpos($ad_url, 'optimatic') !== false) {
+  $next_random_url = str_replace("https", "http", $next_random_url);
+  }
+  } */
 ?>
 <div class="container">
     <div class="row">
@@ -54,8 +54,6 @@ if (!empty($next_random)) {
         });
                 player.on('error', function () {
                     var next = parseInt(jwplayer().getPlaylistIndex()) + 1;
-                    console.log("Next : " + next);
-                    console.log(<?php echo count($playlist); ?>);
                     if (next < <?php echo count($playlist); ?>) {
                         jwplayer().playlistItem(next);
                     } else {
@@ -78,6 +76,9 @@ if (!empty($next_random)) {
         });
     <?php if (!empty($ad_url) && $show_ad == true) { ?>
             console.log('<?php echo $ad_url; ?>');
+    <?php } ?>
+    <?php if (!empty($next_random_url)) { ?>
+            console.log('<?php echo $next_random_url; ?>');
     <?php } ?>
     </script>
 <?php } ?>
