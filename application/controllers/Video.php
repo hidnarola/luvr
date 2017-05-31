@@ -122,8 +122,12 @@ class Video extends CI_Controller {
                 }
             }
         }
+        echo strpos($data['ad_url'], 'streamrail')."<br/>";
+        echo strpos(current_url(), 'https')."<br/>";
+        echo $data['ad_url']."<br/>";
         if (isset($data['ad_url']) && !empty($data['ad_url'])) {
             if (strpos($data['ad_url'], 'streamrail') !== false && strpos(current_url(), 'https') !== false) {
+                echo "in";die;
                 redirect(str_replace('https', 'http', current_url()));
             }
         }
