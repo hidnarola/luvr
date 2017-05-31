@@ -125,6 +125,7 @@ class Video extends CI_Controller {
         echo "a : " . strpos($data['ad_url'], 'streamrail') . "<br/>";
         echo "b : " . strpos(_current_url(), 'https') . "<br/>";
         echo "c : " . $data['ad_url'] . "<br/>";
+        echo "d : " . _current_url() . "<br/>";
         if (isset($data['ad_url']) && !empty($data['ad_url'])) {
             if (strpos($data['ad_url'], 'streamrail') !== false && strpos(_current_url(), 'https') !== false) {
                 echo "in";
