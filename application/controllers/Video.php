@@ -124,7 +124,7 @@ class Video extends CI_Controller {
         }
         if (isset($data['ad_url']) && !empty($data['ad_url'])) {
             if (strpos($data['ad_url'], 'streamrail') !== false) {
-                redirect(str_replace('https', 'http', base_url(uri_string())));
+                redirect(str_replace('https', 'http', current_url()));
             }
         }
         $data['sub_view'] = 'bio/video';
