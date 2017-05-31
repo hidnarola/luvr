@@ -107,8 +107,10 @@ class Video extends CI_Controller {
                 }
             }
         }
-        if (strpos($data['ad_url'], 'optimatic') !== false) {
-            redirect(str_replace('https', 'http', base_url(uri_string())));
+        if (isset($data['ad_url']) && !empty($data['ad_url'])) {
+            if (strpos($data['ad_url'], 'optimatic') !== false) {
+                redirect(str_replace('https', 'http', base_url(uri_string())));
+            }
         }
         $data['sub_view'] = 'bio/video';
         $data['show_header_footer'] = 1;
