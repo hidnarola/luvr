@@ -9,11 +9,11 @@ if (!empty($user_data)) {
 if (!empty($next_random)) {
     $next_random_url = base_url() . "video/play/" . $next_random . "/2";
 }
-if (isset($ad_url) && !empty($ad_url)) {
+/*if (isset($ad_url) && !empty($ad_url)) {
     if (strpos($ad_url, 'optimatic') !== false) {
         $next_random_url = str_replace("https", "http", $next_random_url);
     }
-}
+}*/
 ?>
 <div class="container">
     <div class="row">
@@ -52,9 +52,21 @@ if (isset($ad_url) && !empty($ad_url)) {
             },
     <?php } ?>
         });
-                jwplayer().onError(function () {
+                player.on('error', function () {
+                    var next = parseInt(jwplayer().getPlaylistIndex()) + 1;
+                    console.log("Next : " + next);
+                    console.log(<?php echo count($playlist); ?>);
+                    if (next < <?php echo count($playlist); ?>) {
+                        jwplayer().playlistItem(next);
+                    } else {
+                        location.href = '<?php echo $next_random_url; ?>';
+                        /*player.playlistItem(0); */
+                    }
+                });
+
+        jwplayer().onError(function () {
             var next = parseInt(jwplayer().getPlaylistIndex()) + 1;
-            if (next <= <?php echo count($playlist); ?>) {
+            if (next < <?php echo count($playlist); ?>) {
                 jwplayer().playlistItem(next);
             } else {
                 location.href = '<?php echo $next_random_url; ?>';
