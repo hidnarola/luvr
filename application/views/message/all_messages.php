@@ -31,7 +31,7 @@
             $i++;
         }
         usort($all_sorted_msgs, 'date_compare');
-    }
+    }    
 
 ?>
 
@@ -112,7 +112,28 @@
                                         </td>
                                         <td>
                                             <div class="message-count-div">
-                                                <h6>Location</h6>
+                                                <h6>
+                                                    <?php 
+                                                        if($msg_new['msg_type'] == '1') {
+                                                            echo $msg_new['msg_text'];
+                                                        }else if($msg_new['msg_type'] == '2'){
+                                                            echo 'Image';
+                                                        }else if($msg_new['msg_type'] == '3'){
+                                                            echo 'Video';
+                                                        }else if($msg_new['msg_type'] == '5'){
+                                                            echo 'Video Snap';
+                                                        }else if($msg_new['msg_type'] == '6'){
+                                                            switch ($msg_new['msg_text']) {
+                                                                case '1': echo 'Called'; break;
+                                                                case '2': echo 'Called'; break;
+                                                                case '3': echo 'Called'; break;
+                                                                case '4': echo 'Called'; break;
+                                                                case '5': echo 'Called'; break;
+                                                                case '6': echo 'Missed call'; break;
+                                                            }
+                                                        }
+                                                    ?>
+                                                </h6>
                                             </div>
                                         </td>
                                         <td>

@@ -377,7 +377,7 @@
             var alt_1= 'rider-talk';
             var img_url = '<?php echo $db_user_img; ?>';
             delete_str = '<a class="remove-chat for_pointer" data-msg-id="'+msg['id']+'" onclick="delete_chat(this)"> X </a>';
-        }else{            
+        }else{
             var cls = 'user-talk chat_user'; 
             var alt_1= 'chat_user';
             var img_url = '<?php echo $chat_user_img; ?>';
@@ -404,14 +404,15 @@
             new_str += '<img width="50px" height="50px" src="'+img_base_url+msg['media_name']+'/1"/></a>';
         }else if(msg['message_type'] == '6'){
             var call_var = '';
+            var style_inline='';
             switch(msg['message']) {
                 case '1':call_var = 'Called at'; break;
                 case '2':call_var = 'Called at'; break;
                 case '3':call_var = 'Called at'; break;
                 case '4':call_var = 'Called at'; break;
-                case '5':call_var = 'Missed at'; break;
+                case '5':call_var = 'Missed at'; style_inline='style="color:#ff0000;"'; break;
             }
-            new_str += call_var + ' '+msg_date;
+            new_str += '<span '+style_inline+'>'+ call_var + ' '+msg_date+'</span>';            
         }
 
         new_str += '<span>'+msg_date+'</span>'+delete_str+'</p></li>';

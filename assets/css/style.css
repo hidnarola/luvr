@@ -542,3 +542,5 @@ span#log{font-style:italic;color:#bbb;margin-left:5px;}
 .mar-btm-20.choose-file{margin:0;}
 .chat-option .nav-tabs {border-bottom:0;}
 .chat-option button{margin:0 15px 0 0; }
+
+.video-call-btn{background:url(../images/icon-01.png) no-repeat !important;background-size: 40px 40px;display:block !important;}
