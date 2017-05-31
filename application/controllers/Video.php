@@ -45,6 +45,21 @@ class Video extends CI_Controller {
                     $random_video = $this->Videos_model->getRandomVideo();
                     $data['playlist'][0]['file'] = $random_video['media_name'];
                 }
+            } else if ($param2 != 2 && !is_numeric($param2) && !empty($param2)) {
+                $this->db->select('*');
+                $this->db->where('userid', $id);
+                $this->db->where_in('media_type', array(2,4));
+                $user_media = $this->db->get('media')->row_array();
+                if (!empty($user_media)) {
+                    if ($user_media['media_type'] == 2) {
+                        $data['playlist'][0]['file'] = base_url() . "video/show_video/" . $user_media['media_name'];
+                    } else if ($user_media['media_type'] == 4) {
+                        $data['playlist'][0]['file'] = $user_media['media_name'];
+                    } else
+                        show_404();
+                }else {
+                    show_404();
+                }
             } else {
                 $user_media = $this->Users_model->getUserMediaByCol('id', $id);
                 if (!empty($user_media)) {
@@ -107,11 +122,11 @@ class Video extends CI_Controller {
                 }
             }
         }
-        /*if (isset($data['ad_url']) && !empty($data['ad_url'])) {
-            if (strpos($data['ad_url'], 'optimatic') !== false) {
-                redirect(str_replace('https', 'http', base_url(uri_string())));
-            }
-        }*/
+        /* if (isset($data['ad_url']) && !empty($data['ad_url'])) {
+          if (strpos($data['ad_url'], 'optimatic') !== false) {
+          redirect(str_replace('https', 'http', base_url(uri_string())));
+          }
+          } */
         $data['sub_view'] = 'bio/video';
         $data['show_header_footer'] = 1;
         $next_random = $this->Videos_model->getRandomVideoOwner($id);
