@@ -30,7 +30,7 @@ class Video extends CI_Controller {
             if ($param2 == 2) {
                 $this->db->select('*');
                 $this->db->where('userid', $id);
-                $this->db->where_in('media_type', array(2, 4));
+                $this->db->where_in('media_type', array(4));
                 $user_media = $this->db->get('media')->result_array();
                 if (!empty($user_media)) {
                     $i = 0;
