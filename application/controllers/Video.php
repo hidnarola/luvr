@@ -48,7 +48,7 @@ class Video extends CI_Controller {
             } else if ($param2 != 2 && !is_numeric($param2) && !empty($param2)) {
                 $this->db->select('*');
                 $this->db->where('userid', $id);
-                $this->db->where_in('media_type', array(2, 4));
+                $this->db->where_in('media_type', array(4));
                 $user_media = $this->db->get('media')->row_array();
                 if (!empty($user_media)) {
                     if ($user_media['media_type'] == 2) {
