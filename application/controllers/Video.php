@@ -29,8 +29,8 @@ class Video extends CI_Controller {
         if (isset($_GET['s']) && !empty($_GET['s'])) {
             $playlist = array();
             for ($i = 0; $i < 5; $i++) {
-                $playlist[$i]['file'] = '' . $_SERVER['REQUEST_SCHEME'] . '://dsd7huazccen8.cloudfront.net/assets/videos/rabbit.mp4';
-                $playlist[$i]['image'] = '' . $_SERVER['REQUEST_SCHEME'] . '://dsd7huazccen8.cloudfront.net/assets/videos/images/rabbit.jpg';
+                $playlist[$i]['file'] = '' . $_SERVER['REQUEST_SCHEME'] . '://s3.ap-south-1.amazonaws.com/luvr/Videos/rabbit.mp4';
+                $playlist[$i]['image'] = '' . $_SERVER['REQUEST_SCHEME'] . '://s3.ap-south-1.amazonaws.com/luvr/Videos/Thumbs/rabbit.jpg';
             }
             $data['playlist'] = $playlist;
         } else {
