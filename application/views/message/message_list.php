@@ -1,5 +1,4 @@
 <?php
-    
     $sess_user_data = $this->session->userdata('user');    
     $db_user_img = my_img_url($db_user_media['media_type'],$db_user_media['media_thumb']);
     $chat_user_img = my_img_url($chat_user_media['media_type'],$chat_user_media['media_thumb']);
@@ -76,10 +75,10 @@
 
                                 <div class="chat-option">
                                     <ul class="nav nav-tabs" role="tablist">
-                                        <li role="presentation" class="active">
+                                        <li role="presentation" class="active msg_text">
                                             <a href="#chat-tab" aria-controls="messages" role="tab" data-toggle="tab"> Text Message </a>
                                         </li>
-                                        <li role="presentation">
+                                        <li role="presentation" class="msg_files">
                                             <a href="#upload-tab" aria-controls="settings" role="tab" data-toggle="tab"> File uploads </a>
                                         </li>
                                     </ul>
@@ -101,17 +100,27 @@
                                         </div>
                                         <div role="tabpanel" class=" tab-pane" id="upload-tab">
                                             <div class="choose-file">
+                                                
                                                 <h6>Upload Image or Video</h6>
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" readonly>
-                                                    <label class="input-group-btn">
-                                                        <span class="btn btn-primary">
-                                                            Browse <input type="file" style="display: none;" name="msg_file">
-                                                        </span>
-                                                    </label>
-                                                </div>  
-                                            </div>
+                                                
+                                                <a onclick="duplicate_files();" class="for_pointer btn btn-warning"> Add </a>
 
+                                                <a onclick="remove_file();" class="for_pointer btn btn-danger delete_file" style="display:none;">
+                                                    Remove
+                                                </a>
+
+                                                <span class="all_files">
+                                                    <div class="input-group myfile div_1">
+                                                        <input type="text" class="form-control input_file_1" readonly>
+                                                        <label class="input-group-btn">
+                                                            <span class="btn btn-primary">
+                                                                Browse <input type="file" style="display: none;" name="msg_file_1">
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                </span>
+
+                                            </div>
                                         </div>
                                     </div>
                                     <button type="submit"> Send Message </button>
@@ -239,8 +248,39 @@
     function submit_message(obj){
         
         var message = $.trim($('#msg_id').val());
-
         var formData = new FormData($(obj)[0]);
+        
+        if($('.msg_text').hasClass('active')){
+            if(message == ''){
+                show_notification('<strong> OOPS </strong>', 'Please enter message field.', 'error');
+                return false;
+            }
+        }
+
+        if($('.msg_files').hasClass('active')){
+            var total_len = $('.myfile').length;
+            var error_file_upload = 0;
+            var file_name = '';
+
+            for(var i = 1; i <=total_len; i++){                
+                file_name = $('.input_file_'+i).val();
+                
+                if(file_name == ''){
+                    error_file_upload++; // If file is empty
+                }else{
+                    var file_name_split = file_name.split('.');
+                    var file_ext = file_name_split[file_name_split.length-1];                    
+                    if($.inArray( file_ext, [ 'jpg','png','jpeg','mp4','JPG','PNG','JPEG','MP4'] ) == '-1'){
+                        error_file_upload++; // If file extension is not valid
+                    }
+                }
+            } // End of for loop
+
+            if(error_file_upload != 0){
+                show_notification('<strong> OOPS </strong>', 'Please select valid files for upload.', 'error');
+                return false;
+            }
+        }        
 
         $.ajax({
             url:"<?php echo base_url().'message/insert_data'; ?>",
@@ -253,38 +293,64 @@
             data:formData,
             success:function(data){
 
-                $('#msg_form')[0].reset(); // Reset Form                                
+                $('.delete_file').hide();
+                for(var j=2; j<11; j++){ $('.div_'+j).remove(); }
+                $('#msg_form')[0].reset(); // Reset Form
 
-                if(data['message_type'] == '1' &&  data['message'] == ''){
-                    show_notification('<strong> OOPS </strong>',
-                                    'Please enter message field.',
-                                    'error');
-                    return false;
-                }                
+                if(data['status'] == 'upload'){
+                    var ret_data = $.parseJSON(data['str']);
+                    for(var i=0; i<ret_data.length; i++){
 
-                socket.emit('New Message',{
-                    'message_type':data['message_type'],
-                    'message':data['message'],                    
-                    'media_name':data['media_name'],
-                    'unique_id':data['unique_id'],
-                    'sender_id':data['sender_id'],
-                    'receiver_id':data['receiver_id'],                    
-                    'created_date':data['created_date'],                    
-                    'is_encrypted':data['is_encrypted'],
-                    'encrypted_message':data['encrypted_message']
-                },function(data){
+                        var r_data = ret_data[i];
 
-                });
+                        console.log(r_data);
 
-                if($('#all_messages_ul li').length != 0){
-                    $('#all_messages_ul li:last').after(generate_new_message(data,'yes'));
+                        socket.emit('New Message',{
+                            'message_type':r_data['message_type'],
+                            'message':r_data['message'],                    
+                            'media_name':r_data['media_name'],
+                            'unique_id':r_data['unique_id'],
+                            'sender_id':r_data['sender_id'],
+                            'receiver_id':r_data['receiver_id'],                    
+                            'created_date':r_data['created_date'],                    
+                            'is_encrypted':r_data['is_encrypted'],
+                            'encrypted_message':r_data['encrypted_message']
+                        },function(data){
+
+                        });
+                        
+                        if($('#all_messages_ul li').length != 0){
+                            $('#all_messages_ul li:last').after(generate_new_message(r_data,'yes'));
+                        }else{
+                            $('#all_messages_ul').html(generate_new_message(r_data,'yes'));
+                        }
+                        
+                        $('.message-to-owner').animate({scrollTop: $('#all_messages_ul').prop("scrollHeight") }, 1000);
+
+                    } // End of For Loop
                 }else{
-                    $('#all_messages_ul').html(generate_new_message(data,'yes'));
-                }
+                    var ret_data = $.parseJSON(data['str']);
 
-                $('.message-to-owner').animate({
-                   scrollTop: $('#all_messages_ul').prop("scrollHeight")
-                }, 1000);  
+                    socket.emit('New Message',{
+                        'message_type':ret_data['message_type'],
+                        'message':ret_data['message'],                    
+                        'media_name':ret_data['media_name'],
+                        'unique_id':ret_data['unique_id'],
+                        'sender_id':ret_data['sender_id'],
+                        'receiver_id':ret_data['receiver_id'],                    
+                        'created_date':ret_data['created_date'],                    
+                        'is_encrypted':ret_data['is_encrypted'],
+                        'encrypted_message':ret_data['encrypted_message']
+                    },function(data){
+
+                    });
+                    if($('#all_messages_ul li').length != 0){
+                        $('#all_messages_ul li:last').after(generate_new_message(ret_data,'yes'));
+                    }else{
+                        $('#all_messages_ul').html(generate_new_message(ret_data,'yes'));
+                    }
+                    $('.message-to-owner').animate({scrollTop: $('#all_messages_ul').prop("scrollHeight") }, 1000);
+                }
 
                 set_video_url(); // Set Video URl for the message
             }
@@ -441,7 +507,7 @@
 
     function change_message_status(msg_status,all_unread_msg_ids){
 
-        if(msg_status != 0 && all_unread_msg_ids.length > 0){            
+        if(msg_status != 0 && all_unread_msg_ids.length > 0){
             $.ajax({
                 url:'<?php echo base_url()."message/change_message_status"; ?>',
                 method:'POST',
@@ -458,6 +524,61 @@
                 }
             });
         }
+    }
+
+    // For add miltiple files 
+    function duplicate_files(){
+
+        var total_len = $('.myfile').length;
+
+        if($('.input_file_'+total_len).val() == '' || $('.input_file_'+total_len).val() == undefined){
+            show_notification('<strong> OOPS </strong>','Please select file before add any more files.','error');
+            return false;
+        }
+
+        total_len = total_len + 1;
+
+        if(total_len < 11){
+            var new_str_file  = '';
+            new_str_file += '<div class="input-group myfile div_'+total_len+'">';
+            new_str_file += '<input type="text" class="form-control input_file_'+total_len+'" readonly>';
+            new_str_file += '<label class="input-group-btn"><span class="btn btn-primary">';
+            new_str_file += 'Browse <input type="file" style="display: none;" name="msg_file_'+total_len+'">';
+            new_str_file += '</span> </label> </div>';
+            
+            $('.all_files').append(new_str_file);
+
+            $('.delete_file').show();
+
+            $(document).on('change', ':file', function() {
+                var input = $(this),
+                    numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                input.trigger('fileselect', [numFiles, label]);
+            });
+
+            $(document).ready( function() {
+                $(':file').on('fileselect', function(event, numFiles, label) {
+                    var input = $(this).parents('.input-group').find(':text'),
+                    log = numFiles > 1 ? numFiles + ' files selected' : label;
+                    if( input.length ) {
+                        input.val(log);
+                    } else {
+                        // if( log ) alert(log);
+                    }
+                });
+            });
+
+        }else{
+            show_notification('<strong> OOPS </strong>', 'Can enter only upto 10 files at a time.', 'error');
+        }
+    }
+
+    // Remove file
+    function remove_file(){
+        var total_len = $('.myfile').length;
+        $('.div_'+total_len).remove();
+        if(total_len == 2){ $('.delete_file').hide();}
     }
 
 </script>

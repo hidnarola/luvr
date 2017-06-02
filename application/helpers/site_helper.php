@@ -1,5 +1,5 @@
 <?php
-
+ob_start();
 function qry($is_die = false) {
     $CI = & get_instance();
     echo $CI->db->last_query();
@@ -30,7 +30,7 @@ function date_compare($a, $b) {
     return $t2 - $t1;
 }
 
-function _createThumbnail($img_path, $thumb_path) {
+function _createThumbnail($img_path, $thumb_path) {    
     $CI = & get_instance();
 
     $config['image_library'] = 'gd2';
@@ -40,8 +40,11 @@ function _createThumbnail($img_path, $thumb_path) {
     $config['width'] = 500;
     $config['height'] = 500;
 
-    $CI->load->library('image_lib', $config);
+    $CI->load->library('image_lib');
+    $CI->image_lib->initialize($config);
+
     if (!$CI->image_lib->resize()) {
+        die('Over here');
         echo $CI->image_lib->display_errors();
     }
 }
@@ -250,6 +253,17 @@ if (!function_exists('GetUserUnreadNotificationCounts')) {
 
 }
 
+
+function gen_uuid(){        
+    return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x',
+        mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+        mt_rand(0, 0xffff),
+        mt_rand(0, 0x0fff) | 0x4000,
+        mt_rand(0, 0x3fff) | 0x8000,
+        mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+    );
+}
+
 if (!function_exists('_current_url')) {
 
     function _current_url() {
@@ -259,4 +273,5 @@ if (!function_exists('_current_url')) {
     }
 
 }
+
 ?>

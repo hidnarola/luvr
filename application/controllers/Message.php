@@ -6,7 +6,7 @@ class Message extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model(['Users_model', 'Messages_model', 'Bio_model']);
+        $this->load->model(['Users_model', 'Messages_model', 'Bio_model']);        
     }
 
     public function index() {
@@ -19,27 +19,9 @@ class Message extends CI_Controller {
         $encode_message = base64_encode($message);
 
         $sender_id = $this->input->post('session_id');
-        $receiver_id = $this->input->post('chat_user_id');
+        $receiver_id = $this->input->post('chat_user_id');        
 
-        if ($_FILES['msg_file']['error'] != '4') {
-
-            $ret_data = $this->upload_message_data($_FILES, $sender_id);
-
-            $unique_id = $ret_data['raw_name'];
-
-            $arr = array(
-                'message_type' => $ret_data['message_type'],
-                'message' => $ret_data['message'],
-                'media_name' => $ret_data['raw_name'] . '.' . $ret_data['ext'],
-                'unique_id' => $unique_id,
-                'sender_id' => $sender_id,
-                'receiver_id' => $receiver_id,
-                'created_date' => date('Y-m-d H:i:s'),
-                'is_encrypted' => $ret_data['is_encrypted'], // dynamic
-                'encrypted_message' => $encode_message
-            );
-        } else {
-
+        if(!empty($message)){
             $unique_id = $sender_id . '_' . random_string('alnum', 8);
 
             $arr = array(
@@ -51,19 +33,42 @@ class Message extends CI_Controller {
                 'receiver_id' => $receiver_id,
                 'created_date' => date('Y-m-d H:i:s'),
                 'is_encrypted' => '1', // dynamic
-                'encrypted_message' => $encode_message
+                'encrypted_message' => $encode_message,
             );
+            
+            $status = 'text';
+            $arr_str = json_encode($arr);
+
+        }else{
+
+            $arr = array();
+            $is_error = 0;            
+            $my_all_files = array();
+
+            for($i=1; $i <= count($_FILES); $i++){
+                if($_FILES['msg_file_'.$i]['error'] != '4'){
+                    $ret_data = $this->upload_message_data($_FILES['msg_file_'.$i], $sender_id,'msg_file_'.$i);                    
+                    if($ret_data['status'] == 'upload'){
+                        $arr_new = array('message_type' => $ret_data['message_type'], 'message' => $ret_data['message'], 'media_name' => $ret_data['raw_name'] . '.' . $ret_data['ext'], 'unique_id' => $ret_data['raw_name'], 'sender_id' => $sender_id, 'receiver_id' => $receiver_id, 'created_date' => date('Y-m-d H:i:s'), 'is_encrypted' => $ret_data['is_encrypted'], 'encrypted_message' => $encode_message );
+                        array_push($my_all_files,$arr_new);
+                    }
+                } // End condition for the if() $_FILES['msg_file_'.$i]['error'] != '4'
+            } // End of For loop            
+
+            $arr = $my_all_files;            
+            $arr_str = json_encode($arr);
+            $status = 'upload';
         }
 
-        echo json_encode($arr);
+        echo json_encode(['str'=>$arr_str,'status'=>$status]);
     }
 
-    public function upload_message_data($file_data, $sender_id) {
+    public function upload_message_data($file_data, $sender_id , $upload_file_name) {
 
         $u_data = $this->session->userdata('user');
         $user_id = $u_data['id'];
 
-        $path = $file_data['msg_file']['name'];
+        $path = $file_data['name'];
         $ext = pathinfo($path, PATHINFO_EXTENSION);
 
         if ($ext == 'mp4') {
@@ -79,18 +84,19 @@ class Message extends CI_Controller {
         $config['file_name'] = $new_file_name;
         $config['upload_path'] = $upload_path;
         $config['allowed_types'] = 'jpg|png|jpeg|mp4';
-        $config['max_size'] = '30000';
+        $config['max_size'] = '30000000';
         $config['detect_mime'] = TRUE;
         $config['file_ext_tolower'] = TRUE;
 
         $this->upload->initialize($config);
 
-        if (!$this->upload->do_upload('msg_file')) {
+        if (!$this->upload->do_upload($upload_file_name)) {
             $error = array('error' => $this->upload->display_errors());
-            pr($error);
+            $ret['status'] = 'error';
+            $ret['error_msg'] = $this->upload->display_errors();
         } else {
 
-            $data = array('upload_data' => $this->upload->data());
+            $data = array('upload_data' => $this->upload->data());            
 
             $full_path = $data['upload_data']['full_path'];
             $file_name = $data['upload_data']['file_name'];
@@ -138,8 +144,11 @@ class Message extends CI_Controller {
             );
             $this->Bio_model->insert_media($ins_data);
 
-            return $ret;
+            $ret['status'] = 'upload';
+
         }
+
+        return $ret;
     }
 
     public function all_chats() {

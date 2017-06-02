@@ -617,6 +617,7 @@ class User extends CI_Controller {
         $success = false;
         $data = array();
         $path = "";
+        // pr($_FILES);
         if (isset($_FILES['file']) && !$_FILES['file']['error']) {
             if ($_FILES['file']['type'] == "video/webm") {
                 $random = random_string('alnum', 9);
@@ -627,7 +628,7 @@ class User extends CI_Controller {
                 $mp4name = $random . ".mp4";
                 $fpath = UPLOADPATH_VIDEO . '/' . $mp4name;
                 if ($_FILES['file']['type'] == "video/webm") {
-                    exec('C:\wamp\www\ffmpeg\bin\ffmpeg.exe -i ' . $fpathw . ' ' . $fpath);
+                    exec(FFMPEG_PATH.' -i ' . $fpathw . ' ' . $fpath);
                     @unlink($fpathw);
                 }
                 $thumb_name = $random . '.png';

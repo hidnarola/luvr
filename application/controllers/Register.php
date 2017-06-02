@@ -118,8 +118,8 @@ class Register extends CI_Controller {
                     $last_media_id = $this->Bio_model->insert_media($media_data);
 
                     $ins_data = array('userid' => $insta_id, 'instagram_username' => $insta_username, 'full_name' => $insta_full_name, 'profile_media_id' => $last_media_id,
-                        'created_date' => date('Y-m-d H:i:s'), 'gender' => 'male', 'radius' => 100, 'lastseen_date' => date('Y-m-d H:i:s'));
-
+                        'created_date' => date('Y-m-d H:i:s'), 'gender' => 'male', 'radius' => 100, 
+                        'lastseen_date' => date('Y-m-d H:i:s'),'guid'=>gen_uuid());
                     $last_id = $this->Users_model->insert_record($ins_data);
 
                     $u_sess_data = (array) $this->Users_model->fetch_userdata(['id' => $last_id], true);
@@ -240,7 +240,7 @@ class Register extends CI_Controller {
 
             $ins_data = array('facebook_id' => $fb_id, 'userid' => '', 'user_name' => $fb_name, 'facebook_username' => $fb_name, 'full_name' => $fb_full_name,
                 'profile_media_id' => $last_media_id, 'created_date' => date('Y-m-d H:i:s'), 'gender' => 'male', 'radius' => 100,
-                'lastseen_date' => date('Y-m-d H:i:s'));
+                'lastseen_date' => date('Y-m-d H:i:s'),'guid'=>gen_uuid());
             $last_id = $this->Users_model->insert_record($ins_data);
 
             $u_sess_data = (array) $this->Users_model->fetch_userdata(['id' => $last_id], true);
