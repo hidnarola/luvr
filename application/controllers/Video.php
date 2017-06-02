@@ -125,7 +125,7 @@ class Video extends CI_Controller {
                 } else if ($_GET['p'] == "opk") {
                     $data['ad_url'] = $ads[1];
                 } else if ($_GET['p'] == "ha") {
-                    $data['ad_url'] = $ads[2];
+                    $data['ad_url'] = $ads[0];
                 } else if ($_GET['p'] == "ac") {
                     $data['ad_url'] = $ads[3];
                 }
