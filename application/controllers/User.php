@@ -392,7 +392,7 @@ class User extends CI_Controller {
         $data['updated_date'] = date("Y-m-d H:i:s");
         $success = false;
         if (!empty($data)) {
-            $success = $this->Users_model->manageVideoRequest($data);
+            $success = $this->Users_model->manageVideoRequest($data);            
         }
         echo json_encode(array("success" => $success));
     }
@@ -614,10 +614,12 @@ class User extends CI_Controller {
     }
 
     public function saverecordedvideo() {
-        $success = false;
+
         $data = array();
         $path = "";
+
         // pr($_FILES);
+
         if (isset($_FILES['file']) && !$_FILES['file']['error']) {
             if ($_FILES['file']['type'] == "video/webm") {
                 $random = random_string('alnum', 9);
@@ -644,26 +646,20 @@ class User extends CI_Controller {
             }
         } else {
             $success = false;
-            if ($_FILES['file']['error'] == 1) {
-                $data['message'] = "The uploaded file exceeds the upload_max_filesize directive in php.ini.";
-            } else if ($_FILES['file']['error'] == 2) {
-                $data['message'] = "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.";
-            } else if ($_FILES['file']['error'] == 3) {
-                $data['message'] = "The uploaded file was only partially uploaded.";
-            } else if ($_FILES['file']['error'] == 4) {
-                $data['message'] = "No file was uploaded.";
-            } else if ($_FILES['file']['error'] == 6) {
-                $data['message'] = "Missing /tmp folder.";
-            } else if ($_FILES['file']['error'] == 7) {
-                $data['message'] = "Failed to write file to disk.";
-            } else if ($_FILES['file']['error'] == 8) {
-                $data['message'] = "A PHP extension stopped the file upload.";
-            }
+            switch ($_FILES['file']['error']) {
+                case '1': $data['message'] = "The uploaded file exceeds the upload_max_filesize directive in php.ini."; break;
+                case '2': $data['message'] = "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form."; break;
+                case '3': $data['message'] = "The uploaded file was only partially uploaded."; break;                
+                case '4': $data['message'] = "No file was uploaded."; break;                
+                case '6': $data['message'] = "Missing /tmp folder."; break;
+                case '7': $data['message'] = "Failed to write file to disk."; break;
+                case '8': $data['message'] = "A PHP extension stopped the file upload."; break;
+            }            
         }
         echo json_encode(array("success" => $success, "message" => $data['message'], "path" => $path));
     }
 
-    function manage_powerluv_subscription() {
+    public function manage_powerluv_subscription() {
         require APPPATH . 'third_party/stripe/Stripe.php';
         $u_data = $this->session->userdata('user');
         $user_id = $u_data['id'];

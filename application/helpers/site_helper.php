@@ -273,5 +273,4 @@ if (!function_exists('_current_url')) {
     }
 
 }
-
 ?>

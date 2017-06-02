@@ -25,9 +25,18 @@
                 <p> &nbsp; </p>
             </div>  
             <div class="account-body-body">
-                
-                <form action="<?php echo base_url().'bio/upload_feed'; ?>" enctype="multipart/form-data" method="post">
-                    <input type="file" name="feed" >
+                <form action="<?php echo base_url().'bio/upload_feed'; ?>" enctype="multipart/form-data" method="post" class="upload-anythings">
+                    <!-- <input type="file" name="feed" > -->
+                    <h6>Upload Image or Video</h6>
+                    <div class="input-group myfile div_1">
+                        <input type="text" class="form-control input_file_1" readonly>
+                        <label class="input-group-btn">
+                            <span class="btn btn-primary">
+                                Browse <input type="file" style="display: none;" name="feed">
+                            </span>
+                        </label>
+                    </div>
+
                     <input type="submit" value="Submit" class="btn btn-primary">
                 </form>
 

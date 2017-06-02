@@ -181,6 +181,7 @@ class Message extends CI_Controller {
         $data['chat_user_media'] = $this->Bio_model->fetch_mediadata(['id' => $data['chat_user_data']['profile_media_id']], true);
 
         $data['last_message_id'] = (int) $this->Messages_model->fetch_all_messages_from_user($user_id, $chat_user_id);
+        $data['video_snap_data'] = $this->Messages_model->fetch_videosnap_request($user_id,$chat_user_id);
 
         $data['sub_view'] = 'message/message_list';
         $data['meta_title'] = "Chat Messages";

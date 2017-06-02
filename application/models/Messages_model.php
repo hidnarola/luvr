@@ -82,6 +82,14 @@ class Messages_model extends CI_Model {
 		return $res;
 	}
 
+	public function fetch_videosnap_request($user1,$user2){
+		$data_fetch_1 = $this->db->get_where('videosnaps',['requestby_id'=>$user1,'requestto_id'=>$user2])->row_array();
+		$data_fetch_2 = $this->db->get_where('videosnaps',['requestby_id'=>$user2,'requestto_id'=>$user1])->row_array();
+		if(!empty($data_fetch_1)){ return $data_fetch_1; }
+		if(!empty($data_fetch_2)){ return $data_fetch_2; }
+		return false;
+	}
+
 	// ------------------------------------------------------------------------
 
 	public function get_new_matches($userid,$lastseen_date){

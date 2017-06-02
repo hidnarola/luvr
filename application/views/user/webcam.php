@@ -65,12 +65,13 @@
         console.log('Recorded videos');
         console.log(player.recordedData);
         /*player.recorder.saveAs({'video': 'my-video-file-name.webm'});*/
+        //data.append('file', player.recordedData.video);
         var data = new FormData();
         data.append('file', player.recordedData.video);
 
         $.ajax({
-            url: "http://localhost/luvr/user/saverecordedvideo",
-            //url: "<?php echo base_url('user/saverecordedvideo'); ?>",
+            // url: "http://localhost/luvr/user/saverecordedvideo",
+            url: "<?php echo base_url('user/saverecordedvideo'); ?>",
             type: 'POST',
             data: data,
             dataType: 'json',

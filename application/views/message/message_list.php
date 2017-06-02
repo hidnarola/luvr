@@ -1,5 +1,6 @@
 <?php
     $sess_user_data = $this->session->userdata('user');    
+
     $db_user_img = my_img_url($db_user_media['media_type'],$db_user_media['media_thumb']);
     $chat_user_img = my_img_url($chat_user_media['media_type'],$chat_user_media['media_thumb']);
 
@@ -102,13 +103,6 @@
                                             <div class="choose-file">
                                                 
                                                 <h6>Upload Image or Video</h6>
-                                                
-                                                <a onclick="duplicate_files();" class="for_pointer btn btn-warning"> Add </a>
-
-                                                <a onclick="remove_file();" class="for_pointer btn btn-danger delete_file" style="display:none;">
-                                                    Remove
-                                                </a>
-
                                                 <span class="all_files">
                                                     <div class="input-group myfile div_1">
                                                         <input type="text" class="form-control input_file_1" readonly>
@@ -119,16 +113,45 @@
                                                         </label>
                                                     </div>
                                                 </span>
+                                                <div class="all_files_add">
+                                                    <a onclick="duplicate_files();" class="for_pointer btn btn-warning"> Add </a>
+                                                    <a onclick="remove_file();" class="for_pointer btn btn-danger delete_file" style="display:none;">
+                                                        Remove
+                                                    </a>
+                                                </div>
 
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="btm-btn-div">
                                     <button type="submit"> Send Message </button>
-                                    <?php if($is_active_usr == '1') { ?>
-                                        <button type="button" onclick="location.href='<?php echo base_url('message/videocall/'.$chat_user_data['id']) ?>'">
-                                            Video Call
-                                        </button>
-                                    <?php } ?>
+                                        <?php if($is_active_usr == '1') { ?>
+                                            <a href="<?php echo base_url('message/videocall/'.$chat_user_data['id']) ?>">
+                                                <img src="<?php echo base_url().'assets/images/icon-01.png'; ?>" alt="img">                                                
+                                            </a>
+                                        <?php } ?>
+                                        
+                                        <?php if(empty($video_snap_data)) { ?>
+                                            <button type="button" onclick="send_snap_request('<?php echo $sess_user_data["id"]; ?>','<?php echo $chat_user_id; ?>')">
+                                                Send Request
+                                            </button>
+                                        <?php 
+                                            }else{
+                                                $snap_status = $video_snap_data['status'];                                            
+                                                if($sess_user_data["id"] == $video_snap_data['requestby_id']){ $by_user = 'requestby_id'; }
+                                                if($sess_user_data["id"] == $video_snap_data['requestto_id']){ $by_user = 'requestto_id'; }
+                                            
+                                                if($by_user == 'requestby_id' && $snap_status == '1'){
+                                                    echo '<a class="btn btn-default for_pointer already-requested" > Already Requested </a>';
+                                                }
+
+                                                if($by_user == 'requestto_id' && $snap_status == '1'){
+                                                    echo '<a class="btn btn-success btn-default-css" href="'.base_url().'user/video_requests"> View Snap Request</a>';
+                                                }
+                                            } // End of IF condition for video snap data
+                                        ?>
+                                    </div>
+
                                 </div>
 
                             </form>
@@ -518,7 +541,9 @@
 
                     if(total_unread > 0){
                         $('.notification-count a').html(total_unread);
+                        $('.sidebar_message span.badge').html(total_unread)
                     }else{                        
+                        $('.sidebar_message span.badge').fadeOut()
                         $('.notification-count').fadeOut();
                     }
                 }
@@ -579,6 +604,19 @@
         var total_len = $('.myfile').length;
         $('.div_'+total_len).remove();
         if(total_len == 2){ $('.delete_file').hide();}
+    }
+
+    function send_snap_request(user1,user2){
+        console.log('Over here');
+        // New VideoSnap Request
+
+        socket.emit( 'New VideoSnap Request', {
+            'requestby_id':user1,
+            'requestto_id' :user2,
+            'status':'1'
+        },function(data){
+            console.log(data);
+        });
     }
 
 </script>

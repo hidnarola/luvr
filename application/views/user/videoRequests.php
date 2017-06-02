@@ -101,11 +101,11 @@
             var html = '';
             for (var i = 0; i < data.VideoRequests.length; i++)
             {
-                var obj = data.VideoRequests[i];
-                html += '<tr id="request_' + obj.vs_id + '">';
+                var obj = data.VideoRequests[i];                
+                html += '<tr id="request_' + obj.id + '">';
                 html += '<td><img class="pro_pic" src="' + obj.media_thumb + '" alt="' + obj.user_name + '" title="' + obj.user_name + '" onerror="this.src=\'<?php echo base_url(); ?>assets/images/default_avatar.jpg\'"><span class="user-link">' + obj.user_name + '</span><span class="user-subhead">Age : ' + obj.age + '</span></td>';
                 html += '<td class="text-center" id="status_txt"><span class="label label-success">New Request</span></td>';
-                html += '<td><a class="btn btn-success" title="Approve" onclick="manageVideoRequest(' + obj.vs_id + ', 2);"><i class="fa fa-check"></i></a><a class="btn btn-danger" title="Reject" onclick="manageVideoRequest(' + obj.vs_id + ', 0);"><i class="fa fa-ban"></i></a></td>';
+                html += '<td><a class="btn btn-success" title="Approve" onclick="manageVideoRequest(' + obj.id + ', 2);"><i class="fa fa-check"></i></a><a class="btn btn-danger" title="Reject" onclick="manageVideoRequest(' + obj.id + ', 0);"><i class="fa fa-ban"></i></a></td>';
                 html += '</tr>';
             }
             $("#tbl_requests tbody").html(html);

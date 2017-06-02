@@ -106,7 +106,7 @@
                                                 </span>
                                                 <h4>
                                                     <?php echo $msg_new['decode_uname']; ?>
-                                                    <?php echo ' Unread => '.$msg_new['unread_cnt']; ?>
+                                                    <?php echo '<small>'.$msg_new['unread_cnt'].'</small>'; ?>
                                                 </h4>
                                             </div>
                                         </td>

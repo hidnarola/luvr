@@ -59,9 +59,15 @@ if ($UserPowerLuvsPerDay >= $max_powerluvs) {
                 <li class="<?php echo ($sub_view == "user/userProfileSettings") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/setup_userprofile/edit'); ?>">Edit Profile</a></li>
                 <li class="<?php echo ($sub_view == "user/settings") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/user_settings'); ?>">Edit Settings</a></li>
 
-                <li class="<?php echo ($current_class == "message") ? "active" : ""; ?>">
-                    <a href="<?php echo base_url('/message/all_chats'); ?>">
-                        Messages
+                <li class="<?php echo ($current_class == "message") ? "active" : ""; ?> ">
+                    <a href="<?php echo base_url('/message/all_chats'); ?>" class="sidebar_message">
+                        Messages 
+                        <?php 
+                            $unread_counts = GetUserUnreadNotificationCounts($user_data['id']);
+                            if ($unread_counts > 0) { 
+                        ?>
+                            <span class="badge"><?php echo $unread_counts; ?></span>
+                        <?php } ?>
                     </a>
                 </li>
 
