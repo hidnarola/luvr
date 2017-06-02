@@ -12,11 +12,18 @@ if (!empty($next_random)) {
 if (isset($_GET['p']) && !empty($_GET['p'])) {
     $next_random_url .= '?p=' . $_GET['p'] . '';
 }
-/* if (isset($ad_url) && !empty($ad_url)) {
-  if (strpos($ad_url, 'optimatic') !== false) {
-  $next_random_url = str_replace("https", "http", $next_random_url);
-  }
-  } */
+if (isset($_GET['s']) && !empty($_GET['s'])) {
+    if (isset($_GET['p']) && !empty($_GET['p'])) {
+        $next_random_url .= '&s=' . $_GET['s'] . '';
+    } else {
+        $next_random_url .= '?s=' . $_GET['s'] . '';
+    }
+}
+if (isset($ad_url) && !empty($ad_url)) {
+    if (strpos($ad_url, 'streamrail') !== false) {
+        $next_random_url = str_replace("https", "http", $next_random_url);
+    }
+}
 ?>
 <div class="container">
     <div class="row">
@@ -40,6 +47,7 @@ if (isset($_GET['p']) && !empty($_GET['p'])) {
     <script type="text/javascript" src="<?php echo base_url('assets/js/jwplayer.js'); ?>"></script>
     <script>jwplayer.key = "+NBpDYuEp+FQ1VZ4YR8hbrcC1s9O/eD5ul+RdSAMR04=";</script>
     <script type="text/javascript">
+        console.log('<?php echo count($playlist); ?>');
         var player = jwplayer('playerObject');
         player.setup({
         playlist: <?php echo json_encode($playlist); ?>,

@@ -24,11 +24,11 @@ function my_img_url($img_type, $img_url) {
     }
 }
 
-function date_compare($a, $b){
+function date_compare($a, $b) {
     $t1 = strtotime($a['msg_created']);
     $t2 = strtotime($b['msg_created']);
     return $t2 - $t1;
-}  
+}
 
 function _createThumbnail($img_path, $thumb_path) {    
     $CI = & get_instance();
@@ -253,6 +253,7 @@ if (!function_exists('GetUserUnreadNotificationCounts')) {
 
 }
 
+
 function gen_uuid(){        
     return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x',
         mt_rand(0, 0xffff), mt_rand(0, 0xffff),
@@ -261,6 +262,16 @@ function gen_uuid(){
         mt_rand(0, 0x3fff) | 0x8000,
         mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
     );
+}
+
+if (!function_exists('_current_url')) {
+
+    function _current_url() {
+        $CI = & get_instance();
+        $url = $CI->config->site_url($CI->uri->uri_string());
+        return $_SERVER['QUERY_STRING'] ? $url . '?' . $_SERVER['QUERY_STRING'] : $url;
+    }
+
 }
 
 ?>
