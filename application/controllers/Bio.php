@@ -147,7 +147,6 @@ class Bio extends CI_Controller {
             redirect('bio/saved_feed');
         }
 
-
         $new_file_name = $u_data['id'].'_'.random_name_generate(); // Generate random file name of 8 characters only - Look into Site helper for reference
 
         $config['file_name'] = $new_file_name;
@@ -227,7 +226,7 @@ class Bio extends CI_Controller {
                                 'is_bios'=>'1'
                             );
             $this->Bio_model->insert_media($ins_data);
-            $this->session->set_flashdata('message', ['message'=>'Video can not be longer than 30 seconds.','class'=>'alert alert-danger']);
+            $this->session->set_flashdata('message', ['message'=>'Bio has been inserted successfully.','class'=>'alert alert-success']);
             redirect('bio/saved_feed');
         }
     }    

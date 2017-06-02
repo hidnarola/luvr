@@ -37,7 +37,7 @@
                     record: {
                         audio: true,
                         video: true,
-                        maxLength: 15,
+                        maxLength: 5,
                         debug: true
                     }
                 }
@@ -62,13 +62,14 @@
     player.on('finishRecord', function ()
     {
         // the blob object contains the recorded data that can be downloaded by the user, stored on server etc.
-        console.log('finished recording: ', player.recordedData);
+        console.log('Recorded videos');
+        console.log(player.recordedData);
         /*player.recorder.saveAs({'video': 'my-video-file-name.webm'});*/
         var data = new FormData();
         data.append('file', player.recordedData.video);
 
         $.ajax({
-            url: "http://localhost/Luvr/user/saverecordedvideo",
+            url: "http://localhost/luvr/user/saverecordedvideo",
             //url: "<?php echo base_url('user/saverecordedvideo'); ?>",
             type: 'POST',
             data: data,
