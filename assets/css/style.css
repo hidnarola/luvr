@@ -549,7 +549,7 @@ span#log{font-style:italic;color:#bbb;margin-left:5px;}
 
 .btm-btn-div button,
 .btm-btn-div a{vertical-align:middle;display:inline-block;margin-right:15px;text-decoration:none; }
-.choose-file > span.all_files{width:76%;border:0;padding:0;s  }
+.choose-file > span.all_files{width:76%;border:0;padding:0;}
 .choose-file > span.all_files > .input-group{margin:0 0 15px; }
 .all_files_add{width:22%;vertical-align:top;display:inline-block;margin:0 0 0 5px; }
 .all_files_add a {border-radius: 0;line-height: 40px;padding:0 10px;  }
