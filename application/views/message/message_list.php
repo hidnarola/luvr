@@ -98,11 +98,7 @@
                                     </div>
                                     <div class="btm-btn-div">
                                     <button type="submit"> Send Message </button>
-                                        <?php if($is_active_usr == '1') { ?>
-                                            <a href="<?php echo base_url('message/videocall/'.$chat_user_data['id']) ?>">
-                                                <img src="<?php echo base_url().'assets/images/icon-01.png'; ?>" alt="img">
-                                            </a>
-                                        <?php } ?>
+                                        
                                         
                                         <?php if(empty($video_snap_data)) { ?>
                                             <button class="send_req" type="button" onclick="send_snap_request('<?php echo $sess_user_data["id"]; ?>','<?php echo $chat_user_id; ?>')">
@@ -128,6 +124,11 @@
 
                                             } // End of IF condition for video snap data
                                         ?>
+                                        <?php if($is_active_usr == '1') { ?>
+                                            <a href="<?php echo base_url('message/videocall/'.$chat_user_data['id']) ?>">
+                                                <img src="<?php echo base_url().'assets/images/icon-01.png'; ?>" alt="img">
+                                            </a>
+                                        <?php } ?>
 
                                         <a onclick="blockFriend()" class="for_pointer">
                                             <img src="<?php echo base_url().'assets/images/user-block.png'; ?>" alt="img">
