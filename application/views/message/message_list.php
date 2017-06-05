@@ -100,7 +100,7 @@
                                     <button type="submit"> Send Message </button>
                                         <?php if($is_active_usr == '1') { ?>
                                             <a href="<?php echo base_url('message/videocall/'.$chat_user_data['id']) ?>">
-                                                <img src="<?php echo base_url().'assets/images/icon-01.png'; ?>" alt="img">                                                
+                                                <img src="<?php echo base_url().'assets/images/icon-01.png'; ?>" alt="img">
                                             </a>
                                         <?php } ?>
                                         
@@ -128,6 +128,10 @@
 
                                             } // End of IF condition for video snap data
                                         ?>
+
+                                        <a onclick="blockFriend()" class="for_pointer">
+                                            <img src="<?php echo base_url().'assets/images/user-block.png'; ?>" alt="img">
+                                        </a>
                                     </div>
 
                                 </div>
@@ -182,6 +186,17 @@
         'chat_user' :'<?php echo $chat_user_id; ?>',
         'message_id':'<?php echo $last_message_id + 1; ?>'
     });    
+
+    function blockFriend() { 
+        socket.emit('Block Friend', { 
+                                        'requestby_id': '<?php echo $sess_user_data["id"]; ?>', 
+                                        'requestto_id': '<?php echo $chat_user_id; ?>',
+                                        'is_blocked': 1 
+                                    }, 
+                    function (data) { 
+                        console.log(data); 
+                    }); 
+    }
 
     //-------------------------------------------------------------------------------------------------    
     // Get initial messages limit of 10 and also fetch pagination for next 10 and so on
