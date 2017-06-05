@@ -100,9 +100,7 @@ $is_active_usr = isUserActiveSubscriber($sess_user_data['id']);
 
 
                                         <?php if (empty($video_snap_data)) { ?>
-                                            <button class="send_req" type="button" onclick="send_snap_request('<?php echo $sess_user_data["id"]; ?>', '<?php echo $chat_user_id; ?>')">
-                                                Send Request
-                                            </button>
+                                            <a class="send_req for_pointer" onclick="send_snap_request('<?php echo $sess_user_data["id"]; ?>', '<?php echo $chat_user_id; ?>')" title="Send Video Request"><img src="<?php echo base_url() . 'assets/images/video-request.png'; ?>" alt="img"></a>
                                             <?php
                                         } else {
                                             $snap_status = $video_snap_data['status'];
@@ -669,7 +667,7 @@ $is_active_usr = isUserActiveSubscriber($sess_user_data['id']);
         }, function (data) {
             console.log(data);
             if (data.status == '1') {
-                $('.send_req').after('<a class="for_pointer already-requested" title="Already Requested"></a>');
+                $('.send_req').after('<a class="for_pointer already-requested" title="Already Requested"><img src="<?php echo base_url() . 'assets/images/video-request.png'; ?>" alt="img"></a>');
                 $('.send_req').remove();
             }
         });
