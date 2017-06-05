@@ -26,11 +26,22 @@ class Video extends CI_Controller {
         /* if (empty($id)) {
           show_404();
           } */
+        /*set_time_limit(3600);
+        for ($i = 1; $i <= 100; $i++) {
+            $full_path = "C:/wamp/www/Luvr/assets/uploads/Video/Sample/$i.mp4";
+            $dest_path = "C:/wamp/www/Luvr/assets/uploads/Video/processed/$i.mp4";
+            $thumb_path = "C:/wamp/www/Luvr/assets/uploads/Video/processed/thumbs/$i.jpg";
+            exec(FFMPEG_PATH . " -i $full_path -vf delogo=x=160:y=150:w=320:h=60 -c:a copy $dest_path");
+            exec(FFMPEG_PATH . ' -i ' . $dest_path . ' -ss 00:00:01.000 -vframes 1 ' . $thumb_path);
+        }
+        die;*/
         if (isset($_GET['s']) && !empty($_GET['s'])) {
             $playlist = array();
-            for ($i = 0; $i < 5; $i++) {
-                $playlist[$i]['file'] = '' . $_SERVER['REQUEST_SCHEME'] . '://s3.ap-south-1.amazonaws.com/luvr/Videos/rabbit.mp4';
-                $playlist[$i]['image'] = '' . $_SERVER['REQUEST_SCHEME'] . '://s3.ap-south-1.amazonaws.com/luvr/Videos/Thumbs/rabbit.jpg';
+            $j = 1;
+            for ($i = 0; $i < 100; $i++) {
+                $playlist[$i]['file'] = '' . $_SERVER['REQUEST_SCHEME'] . '://s3.ap-south-1.amazonaws.com/luvr/Videos/' . $j . '.mp4';
+                $playlist[$i]['image'] = '' . $_SERVER['REQUEST_SCHEME'] . '://s3.ap-south-1.amazonaws.com/luvr/Videos/Thumbs/' . $j . '.jpg';
+                $j++;
             }
             $data['playlist'] = $playlist;
         } else {
@@ -127,7 +138,7 @@ class Video extends CI_Controller {
                 } else if ($_GET['p'] == "ha") {
                     $data['ad_url'] = $ads[0];
                 } else if ($_GET['p'] == "ac") {
-                    $data['ad_url'] = $ads[3];
+                    $data['ad_url'] = $ads[0];
                 }
             }
         }
