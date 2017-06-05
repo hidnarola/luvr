@@ -64,7 +64,6 @@
                                                 <textarea name="message" 
                                                          onkeypress="socket.emit('Typing',{'receiver_id':<?php echo $chat_user_id; ?>});"
                                                          id="msg_id" placeholder="Write here..."></textarea>
-                                                <h3>You're writing a message to you like it</h3>
                                                 <input type="hidden" name="session_id" id="session_id" value="<?php echo $db_user_data['id']; ?>">
                                                 <input type="hidden" name="chat_user_id" id="chat_user_id" value="<?php echo $chat_user_id; ?>">
                                                 
