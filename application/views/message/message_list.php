@@ -114,15 +114,15 @@ $is_active_usr = isUserActiveSubscriber($sess_user_data['id']);
                                             }
 
                                             if ($by_user == 'requestby_id' && $snap_status == '1') {
-                                                echo '<a class="btn btn-default for_pointer already-requested" > Already Requested </a>';
+                                                echo '<a class="for_pointer already-requested" title="Already Requested"><img src="' . base_url() . 'assets/images/video-request.png" alt="img"></a>';
                                             }
 
                                             if ($by_user == 'requestto_id' && $snap_status == '1') {
-                                                echo '<a class="btn btn-success btn-default-css" href="' . base_url() . 'user/video_requests"> View Snap Request</a>';
+                                                echo '<a href="' . base_url() . 'user/video_requests" title="View Snap Request"><img src="' . base_url() . 'assets/images/video-list.png" alt="img"></a>';
                                             }
 
                                             if ($snap_status == '2') {
-                                                echo '<a class="btn btn-success btn-default-css" href="' . base_url() . 'user/send_video_snap/' . $chat_user_id . '"> Send Videosnap</a>';
+                                                echo '<a href="' . base_url() . 'user/send_video_snap/' . $chat_user_id . '" title="Send video snap"><img src="' . base_url() . 'assets/images/video-snap.png" alt="img"></a>';
                                             }
                                         } // End of IF condition for video snap data
                                         ?>
@@ -669,7 +669,7 @@ $is_active_usr = isUserActiveSubscriber($sess_user_data['id']);
         }, function (data) {
             console.log(data);
             if (data.status == '1') {
-                $('.send_req').after('<a class="btn btn-default for_pointer already-requested" > Already Requested </a>');
+                $('.send_req').after('<a class="for_pointer already-requested" title="Already Requested"></a>');
                 $('.send_req').remove();
             }
         });

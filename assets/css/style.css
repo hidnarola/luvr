@@ -547,7 +547,7 @@ span#log{font-style:italic;color:#bbb;margin-left:5px;}
 .chat-option button{margin:0 15px 0 0; }
 
 .video-call-btn{background:url(../images/icon-01.png) no-repeat !important;background-size: 40px 40px;display:block !important;}
-.already-requested{background:#eee;border:1px solid #ddd;padding:10px 20px ;line-height:20px;border-radius:0;text-transform:uppercase;font-weight: 500;}
+.already-requested{opacity:0.3;}
 .btn-default-css{padding:10px 20px;line-height:18px;border-radius:0;text-transform:uppercase;font-weight: 500; }
 
 .btm-btn-div button,
