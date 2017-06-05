@@ -102,8 +102,14 @@
             for (var i = 0; i < data.VideoRequests.length; i++)
             {
                 var obj = data.VideoRequests[i];                
+                var new_img_url = my_img_url_js(obj['media_type'],obj['media_thumb']);
+                
+                if(obj['media_type'] == '1' || obj['media_type'] == '2'){
+                    new_img_url = '<?php echo base_url(); ?>'+my_img_url_js(obj['media_type'],obj['media_thumb']);
+                }
+
                 html += '<tr id="request_' + obj.id + '">';
-                html += '<td><img class="pro_pic" src="' + obj.media_thumb + '" alt="' + obj.user_name + '" title="' + obj.user_name + '" onerror="this.src=\'<?php echo base_url(); ?>assets/images/default_avatar.jpg\'"><span class="user-link">' + obj.user_name + '</span><span class="user-subhead">Age : ' + obj.age + '</span></td>';
+                html += '<td><img class="pro_pic" src="' + new_img_url + '" alt="' + obj.user_name + '" title="' + obj.user_name + '" ><span class="user-link">' + obj.user_name + '</span><span class="user-subhead">Age : ' + obj.age + '</span></td>';
                 html += '<td class="text-center" id="status_txt"><span class="label label-success">New Request</span></td>';
                 html += '<td><a class="btn btn-success" title="Approve" onclick="manageVideoRequest(' + obj.id + ', 2);"><i class="fa fa-check"></i></a><a class="btn btn-danger" title="Reject" onclick="manageVideoRequest(' + obj.id + ', 0);"><i class="fa fa-ban"></i></a></td>';
                 html += '</tr>';
@@ -126,10 +132,10 @@
                 dataType: 'json',
                 data: "mode=" + mode + "&request_id=" + request_id,
                 success: function (data) {
+                    console.log(data);
                     if (data.success == true) {
                         showMsg("Request " + mode_txted + " successfully.", "success", true);
-                        $("#request_" + request_id + " #status_txt span").attr("class", (mode == 2) ? "label label-success" : "label label-danger");
-                        $("#request_" + request_id + " #status_txt span").html((mode == 2) ? "Request Approved" : "Request Rejected");
+                        $('#request_'+data['last_id']).fadeOut();
                     } else {
                         showMsg("Something went wrong!", "error", true);
                         scrollToElement("#header");

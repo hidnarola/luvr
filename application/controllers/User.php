@@ -7,7 +7,7 @@ class User extends CI_Controller {
     public function __construct() {
         // Call the Model constructor
         parent::__construct();
-        $this->load->model(array('Users_model', 'Filters_model', 'Matches_model', 'Bio_model'));
+        $this->load->model(array('Users_model', 'Filters_model', 'Matches_model', 'Bio_model','Messages_model'));
         $this->load->library(['unirest', 'facebook']);
         $u_data = $this->session->userdata('user');
 
@@ -387,14 +387,16 @@ class User extends CI_Controller {
       ------------------------------------------------------------------------------------------ */
 
     public function manageVideoRequest() {
-        $data['id'] = $this->input->post('request_id');
-        $data['status'] = $this->input->post('mode');
-        $data['updated_date'] = date("Y-m-d H:i:s");
-        $success = false;
-        if (!empty($data)) {
-            $success = $this->Users_model->manageVideoRequest($data);            
-        }
-        echo json_encode(array("success" => $success));
+        $u_data = $this->session->userdata('user');
+        $user_id = $u_data['id'];
+
+        $request_id = $this->input->post('request_id');
+        $status = $this->input->post('mode');
+        $updated_date = date("Y-m-d H:i:s");
+        $res = $this->db->get_where('videosnaps',['requestto_id'=>$user_id,'requestby_id'=>$request_id])->row_array();
+        $this->db->update('videosnaps',['status'=>$status],['id'=>$res['id']]);
+        $success = true;        
+        echo json_encode(array("success" => $success,'last_id'=>$request_id));
     }
 
     /* --------------------------------------------------------------------------------------------------
@@ -607,22 +609,35 @@ class User extends CI_Controller {
         redirect('user/user_settings');
     }
 
-    public function webcam() {
+    public function send_video_snap($chat_user_id) {
+
+        $u_data = $this->session->userdata('user');
+        $user_id = $u_data['id'];
+
+        $data['video_snap_data'] = $this->Messages_model->fetch_videosnap_request($user_id,$chat_user_id);
+        if(empty($data['video_snap_data'])){ show_404(); }
+        if($data['video_snap_data']['status'] != 2){ show_404(); }
+
+        $data['chat_user_id'] = $chat_user_id;
         $data['sub_view'] = 'user/webcam';
-        $data['meta_title'] = "Webcam";
+        $data['meta_title'] = "Snap request";
         $this->load->view('main', $data);
     }
 
     public function saverecordedvideo() {
 
+        $u_data = $this->session->userdata('user');
+        $user_id = $u_data['id'];
+
         $data = array();
         $path = "";
-
+        $filename = '';
+        $receiver_id = $this->input->post('receiver_id');        
         // pr($_FILES);
 
         if (isset($_FILES['file']) && !$_FILES['file']['error']) {
             if ($_FILES['file']['type'] == "video/webm") {
-                $random = random_string('alnum', 9);
+                $random = $user_id.'_'.random_name_generate();
                 $fname = $random . ".webm";
                 $fpathw = UPLOADPATH_VIDEO . '/' . $fname;
             }
@@ -635,11 +650,12 @@ class User extends CI_Controller {
                 }
                 $thumb_name = $random . '.png';
                 $thumb_path = UPLOADPATH_THUMB . '/' . $thumb_name;
-                exec(FFMPEG_PATH . ' -i ' . $fpath . ' -ss 00:00:01.000 -vframes 1 ' . $thumb_path);
-                /* $upd_data['media_type'] = '2'; */
+                exec(FFMPEG_PATH . ' -i ' . $fpath . ' -ss 00:00:01.000 -vframes 1 ' . $thumb_path);                
+
                 $success = true;
                 $data['message'] = "";
                 $path = $fpath;
+                $filename = $random;
             } else {
                 $success = false;
                 $data['message'] = "Could not move file to destination folder!";
@@ -656,7 +672,33 @@ class User extends CI_Controller {
                 case '8': $data['message'] = "A PHP extension stopped the file upload."; break;
             }            
         }
-        echo json_encode(array("success" => $success, "message" => $data['message'], "path" => $path));
+
+        $this->Bio_model->insert_media([
+                                        'userid'=>$user_id,
+                                        'media_id'=>'0',
+                                        'media_name'=>$filename.'.mp4',
+                                        'media_thumb'=>$filename.'.mp4',
+                                        'media_type'=>'2',
+                                        'insta_datetime'=>date('Y-m-d H:i:s'),
+                                        'created_date'=>date('Y-m-d H:i:s'),
+                                        'is_bios'=>'0',
+                                        'is_active'=>'1'
+                                    ]);
+
+        // sender_id
+        // receiver_id
+        // created_date
+        echo json_encode(
+                array(
+                        "success" => $success,
+                        "message" => $data['message'],
+                        "path" => $path,
+                        'filename'=>$filename,
+                        'sender_id'=>$user_id,
+                        'receiver_id'=>$receiver_id,
+                        'created_date'=>date('Y-m-d H:i:s')
+                    )
+                );
     }
 
     public function manage_powerluv_subscription() {

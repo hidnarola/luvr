@@ -78,11 +78,11 @@ $(function() {
 
 function my_img_url_js(img_type, img_url){
     if(img_type == '1'){
-        return '<?php echo base_url()."bio/show_img/"; ?>'+img_url+'/1';
+        return "bio/show_img/"+img_url+'/1';
     }
     if(img_type == '2'){
         img_url = img_url.replace(".mp4", ".png");
-        return '<?php echo base_url()."bio/show_img/"; ?>'+img_url+'/1';
+        return 'bio/show_img/'+img_url+'/1';
     }
     if(img_type == '3'){
         return img_url;

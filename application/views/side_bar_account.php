@@ -61,10 +61,10 @@ if ($UserPowerLuvsPerDay >= $max_powerluvs) {
 
                 <li class="<?php echo ($current_class == "message") ? "active" : ""; ?> ">
                     <a href="<?php echo base_url('/message/all_chats'); ?>" class="sidebar_message">
-                        Messages 
+                        Messages
                         <?php 
                             $unread_counts = GetUserUnreadNotificationCounts($user_data['id']);
-                            if ($unread_counts > 0) { 
+                            if ($unread_counts > 0) {
                         ?>
                             <span class="badge"><?php echo $unread_counts; ?></span>
                         <?php } ?>
@@ -75,7 +75,6 @@ if ($UserPowerLuvsPerDay >= $max_powerluvs) {
                 <li class="<?php echo ($sub_view == "user/userFilterSettings") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/edit_filters'); ?>">Edit Filters </a></li>
                 <li class="<?php echo ($sub_view == "user/videoRequests") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/video_requests'); ?>">Video Snap Requests </a></li>
                 <li class="<?php echo ($sub_view == "user/blockedList") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/blocked_list'); ?>">Blocked List </a></li>
-
                 <?php
                 $CI = & get_instance();
                 $CI->load->library('facebook');

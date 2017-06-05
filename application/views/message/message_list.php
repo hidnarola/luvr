@@ -29,7 +29,7 @@
                     <?php echo $chat_user_data['user_name']; ?>                    
                 </h4>
                 <span>
-                    <img src="<?php echo $chat_user_img; ?>" alt="<?php echo $chat_user_data['user_name']; ?>" />
+                    <img style="width:100%" src="<?php echo $chat_user_img; ?>" alt="<?php echo $chat_user_data['user_name']; ?>" />
                 </span>
             </div>
             
@@ -43,34 +43,7 @@
                     <div class="tab-content">
                         <div class="talk-to-carowner">
                             <div class="message-to-owner">
-                                <ul id="all_messages_ul">
-                                    <?php 
-                                        //user-talk ,  
-                                        if(!empty($all_messages)){
-                                            foreach($all_messages as $message){
-                                                if($message['sender_id'] == $db_user_data['id']){
-                                                    // Login User
-                                                    $cls = 'rider-talk';
-                                                    $img_type = $message['med1_type'];
-                                                    $img_url = my_img_url($img_type,$message['med1_name']);
-                                                }else{
-                                                    // Chat User
-                                                    $cls = 'user-talk';
-                                                    $img_type = $message['med2_type'];
-                                                    $img_url = my_img_url($img_type,$message['med2_name']);
-                                                }
-                                    ?>
-                                        <li class="<?php echo $cls; ?>">
-                                            <div class="pic-01">
-                                                <img src="<?php echo $img_url; ?>" alt="" onerror="this.src='<?php echo base_url(); ?>assets/images/default_avatar.jpg'" />
-                                            </div>
-                                            <p><?php echo $message['message']; ?></p>
-                                        </li>
-                                    <?php
-                                            }
-                                        }
-                                    ?>
-                                </ul>
+                                <ul id="all_messages_ul"></ul>
                             </div>
                             <form method="post" onsubmit="event.preventDefault(); submit_message(this); " id="msg_form" enctype="multipart/form-data">
 
@@ -132,7 +105,7 @@
                                         <?php } ?>
                                         
                                         <?php if(empty($video_snap_data)) { ?>
-                                            <button type="button" onclick="send_snap_request('<?php echo $sess_user_data["id"]; ?>','<?php echo $chat_user_id; ?>')">
+                                            <button class="send_req" type="button" onclick="send_snap_request('<?php echo $sess_user_data["id"]; ?>','<?php echo $chat_user_id; ?>')">
                                                 Send Request
                                             </button>
                                         <?php 
@@ -148,6 +121,11 @@
                                                 if($by_user == 'requestto_id' && $snap_status == '1'){
                                                     echo '<a class="btn btn-success btn-default-css" href="'.base_url().'user/video_requests"> View Snap Request</a>';
                                                 }
+
+                                                if($snap_status == '2'){
+                                                    echo '<a class="btn btn-success btn-default-css" href="'.base_url().'user/send_video_snap/'.$chat_user_id.'"> Send Videosnap</a>';
+                                                }
+
                                             } // End of IF condition for video snap data
                                         ?>
                                     </div>
@@ -166,6 +144,8 @@
 <input type="hidden" id="last_msg_id" val="">
 
 <script type="text/javascript">
+    
+    var first_counter = 0;
 
     function formatAMPM(date) {
         date = date.replace(' +0000','');
@@ -201,9 +181,7 @@
         'app_version':'<?php echo $chat_user_data["app_version"]; ?>',
         'chat_user' :'<?php echo $chat_user_id; ?>',
         'message_id':'<?php echo $last_message_id + 1; ?>'
-    });
-
-    //socket.emit('get_users');   
+    });    
 
     //-------------------------------------------------------------------------------------------------    
     // Get initial messages limit of 10 and also fetch pagination for next 10 and so on
@@ -234,6 +212,20 @@
 
             set_video_url(); // Set Video URl for the message
         }
+
+        if(first_counter == 0){
+            if($.trim($('#all_messages_ul').html()).length == 0){
+                $('#all_messages_ul').html('<?php echo $unread_video_snaps_str; ?>');
+            }else{
+                $('#all_messages_ul li:last').after('<?php echo $unread_video_snaps_str; ?>');
+            }
+
+            $('.message-to-owner').animate({
+                   scrollTop: $('#all_messages_ul').offset().top+1000
+            }, 500);            
+        }
+
+        first_counter++;
     });
 
     socket.on('New Message',function(data){
@@ -347,7 +339,7 @@
                         }else{
                             $('#all_messages_ul').html(generate_new_message(r_data,'yes'));
                         }
-                        
+
                         $('.message-to-owner').animate({scrollTop: $('#all_messages_ul').prop("scrollHeight") }, 1000);
 
                     } // End of For Loop
@@ -367,6 +359,7 @@
                     },function(data){
 
                     });
+
                     if($('#all_messages_ul li').length != 0){
                         $('#all_messages_ul li:last').after(generate_new_message(ret_data,'yes'));
                     }else{
@@ -394,9 +387,7 @@
 
         for(var i =0; i<messages.length; i++){
 
-            msg = messages[i];
-
-            // console.log(msg);
+            msg = messages[i];            
 
             var msg_date = formatAMPM(msg["created_date"]);
 
@@ -427,6 +418,10 @@
                 new_str += '<img width="50px" height="50px" src="'+img_base_url+msg['media_name']+'/1"/></a>';
             }else if(msg['message_type'] == '3'){
                 new_str += '<a href="" data-url="'+msg['media_name']+'" target="_blank" class="msg_vid chat_video">';
+                msg['media_name'] = msg['media_name'].replace('.mp4','.png');
+                new_str += '<img width="50px" height="50px" src="'+img_base_url+msg['media_name']+'/1"/></a>';
+            }else if(msg['message_type'] == '5'){                
+                new_str += '<a onclick="delete_snap()" href="" data-url="'+msg['media_name']+'" target="_blank" class="msg_vid chat_video">';
                 msg['media_name'] = msg['media_name'].replace('.mp4','.png');
                 new_str += '<img width="50px" height="50px" src="'+img_base_url+msg['media_name']+'/1"/></a>';
             }else if(msg['message_type'] == '6'){
@@ -491,6 +486,12 @@
             new_str += '<a  href="" class="msg_vid chat_video" data-url="'+msg['media_name']+'" target="_blank">';
             msg['media_name'] = msg['media_name'].replace('.mp4','.png');
             new_str += '<img width="50px" height="50px" src="'+img_base_url+msg['media_name']+'/1"/></a>';
+        }else if(msg['message_type'] == '5'){
+            
+            new_str +='<a data-cls="'+cls+'" data-msg-id="'+msg['id']+'" onclick="delete_snap(this)" data-url="'+msg['media_name']+'" target="_blank" class="chat_video for_pointer">';
+            msg['media_name'] = msg['media_name'].replace('.mp4','.png');
+            new_str += '<img width="50px" height="50px" src="'+img_base_url+msg['media_name']+'/1"/></a>';
+            delete_str = '';
         }else if(msg['message_type'] == '6'){
             var call_var = '';
             var style_inline='';
@@ -608,7 +609,7 @@
 
     function send_snap_request(user1,user2){
         console.log('Over here');
-        // New VideoSnap Request
+        // New VideoSnap Request        
 
         socket.emit( 'New VideoSnap Request', {
             'requestby_id':user1,
@@ -616,7 +617,30 @@
             'status':'1'
         },function(data){
             console.log(data);
+            if(data.status == '1'){
+                $('.send_req').after('<a class="btn btn-default for_pointer already-requested" > Already Requested </a>');
+                $('.send_req').remove();
+            }
         });
+    }
+
+    function delete_snap(obj){
+        var curr_clss = $(obj).data('cls');
+        var msg_id = $(obj).data('msg-id');
+        var vid_url = $(obj).data('url');
+
+        if(curr_clss == 'user-talk' || curr_clss =='user-talk chat_user'){
+            $.ajax({
+                url:'<?php echo base_url()."message/update_message_status"; ?>',
+                method:'POST',
+                data:{vid_url:vid_url,msg_id:msg_id},
+                dataType:'JSON',
+                success:function(data){
+                    $('#li_'+msg_id).fadeOut();
+                    window.open('<?php echo base_url()."video/play/"?>'+data['media_id'], '_blank');                    
+                }
+            });
+        }        
     }
 
 </script>

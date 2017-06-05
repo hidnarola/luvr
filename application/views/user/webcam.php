@@ -1,6 +1,12 @@
+<?php 
+    $sess_user_data = $this->session->userdata('user');
+    $is_active_usr = isUserActiveSubscriber($sess_user_data['id']);
+?>
 <link href="<?php echo base_url('assets/css/video-js.min.css'); ?>" rel="stylesheet"/>
 <link href="<?php echo base_url('assets/css/videojs.record.min.css'); ?>" rel="stylesheet"/>
 <link href="<?php echo base_url('assets/css/style-recorder.css'); ?>" rel="stylesheet"/>
+<script type="text/javascript" src="<?php echo base_url().'assets/js/jquery.browser.min.js'; ?>"></script>
+
 <script src="<?php echo base_url('assets/js/video.min.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/RecordRTC.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/videojs.record.min.js'); ?>"></script>
@@ -60,14 +66,23 @@
 
     // user completed recording and stream is available
     player.on('finishRecord', function ()
-    {
-        // the blob object contains the recorded data that can be downloaded by the user, stored on server etc.
-        console.log('Recorded videos');
-        console.log(player.recordedData);
+    {   
+        
+        // the blob object contains the recorded data that can be downloaded by the user, stored on server etc.        
         /*player.recorder.saveAs({'video': 'my-video-file-name.webm'});*/
         //data.append('file', player.recordedData.video);
+        
         var data = new FormData();
-        data.append('file', player.recordedData.video);
+        // var is_mozzila = false;
+
+        if($.browser.mozilla == true){
+            // is_mozzila = true;
+            data.append('file', player.recordedData);
+        }else{
+            data.append('file', player.recordedData.video);
+        }
+
+        data.append('receiver_id','<?php echo $chat_user_id; ?>');
 
         $.ajax({
             // url: "http://localhost/luvr/user/saverecordedvideo",
@@ -78,9 +93,26 @@
             contentType: false,
             processData: false,
             success: function (data) {
-                if (data.success == false)
-                {
+                console.log(data);
+                if (data.success == false){
                     showMsg(data.message, 'error', true);
+                }else{
+
+                    socket.emit('New Message',{
+                        'message_type':'5',
+                        'message':null,
+                        'media_name':data['filename']+'.mp4',
+                        'unique_id':data['filename'],
+                        'sender_id':data['sender_id'],
+                        'receiver_id':data['receiver_id'],
+                        'created_date':data['created_date'],                    
+                        'is_encrypted':'0',
+                        'encrypted_message':''
+                    },function(data){
+
+                    });
+                    
+                    window.location.href = "<?php echo base_url().'message/chat/'; ?>"+data['receiver_id'];
                 }
             },
             error: function () {

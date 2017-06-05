@@ -106,7 +106,11 @@
                                                 </span>
                                                 <h4>
                                                     <?php echo $msg_new['decode_uname']; ?>
-                                                    <?php echo '<small>'.$msg_new['unread_cnt'].'</small>'; ?>
+                                                    <?php 
+                                                        if($msg_new['unread_cnt'] > 0) {
+                                                            echo '<small>'.$msg_new['unread_cnt'].'</small>'; 
+                                                        }
+                                                    ?>
                                                 </h4>
                                             </div>
                                         </td>

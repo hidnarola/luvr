@@ -190,9 +190,12 @@
         window.location.href = "<?php echo base_url() . 'bio/ajax_picture_set_profile'; ?>" + new_str;
     }
 
-    <?php if (($i >= 0 && $i <= 3)) { ?>
+    <?php 
+        if(isset($i)){
+            if (($i >= 0 && $i <= 3)) { 
+    ?>
         $('#load_more_id').click();
-    <?php } ?>
+    <?php } } ?>
 
      $(document).ready(function() {        
         if($('.js-mytooltip').length != 0){

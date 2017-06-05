@@ -182,6 +182,8 @@ class Message extends CI_Controller {
 
         $data['last_message_id'] = (int) $this->Messages_model->fetch_all_messages_from_user($user_id, $chat_user_id);
         $data['video_snap_data'] = $this->Messages_model->fetch_videosnap_request($user_id,$chat_user_id);
+        
+        $data['unread_video_snaps_str'] = $this->Messages_model->unread_video_snaps($user_id,$chat_user_id);        
 
         $data['sub_view'] = 'message/message_list';
         $data['meta_title'] = "Chat Messages";
@@ -254,6 +256,14 @@ class Message extends CI_Controller {
         $rs = $this->db->get()->row_array();
         echo json_encode($rs);
         exit;
+    }
+
+    public function update_message_status(){
+        $vid_url = $this->input->post('vid_url');
+        $msg_id = $this->input->post('msg_id');
+        $this->Messages_model->update_message($msg_id,['status'=>'2']); 
+        $res = $this->db->get_where('media',['media_name'=>$vid_url])->row_array();
+        echo json_encode(['status'=>'success','media_id'=>$res['id']]);
     }
 
 }

@@ -90,6 +90,46 @@ class Messages_model extends CI_Model {
 		return false;
 	}
 
+	public function unread_video_snaps($sender_id,$receiver_id){		
+		$u_data = $this->session->userdata('user');
+        $user_id = $u_data['id'];
+
+		$this->db->where('(sender_id = '.$sender_id.' and receiver_id ='.$receiver_id.' and is_delete = 0 and status = 0 and message_type = 5)', null, false);
+		$this->db->or_where('(sender_id = '.$receiver_id.' and receiver_id ='.$sender_id.' and is_delete = 0 and status = 0 and message_type = 5)', null, false);
+		$res = $this->db->order_by('id','desc')->get('messages')->result_array();
+
+		$new_str = '';
+		if(!empty($res)){
+			foreach($res as $r){
+				if($r['sender_id'] == $user_id){
+                    // Login User                    
+                    $u_data = $this->db->select('profile_media_id')->get_where('users',['id'=>$r['sender_id']])->row_array();                    
+                    $u_media_data = $this->db->get_where('media',['id'=>$u_data['profile_media_id']])->row_array();          
+                    $cls = 'rider-talk';                    
+                    $img_url = my_img_url($u_media_data['media_type'],$u_media_data['media_name']);
+                }else{
+                    // Chat User                    
+                    $u_data = $this->db->select('profile_media_id')->get_where('users',['id'=>$r['sender_id']])->row_array();
+                    $u_media_data = $this->db->get_where('media',['id'=>$u_data['profile_media_id']])->row_array();                    
+                    $cls = 'user-talk';
+                    $img_url = my_img_url($u_media_data['media_type'],$u_media_data['media_name']);
+                }
+
+				$new_str .='<li id="li_'.$r['id'].'" class="'.$cls.'">';
+				$new_str .='<div class="pic-01">';
+				$new_str .='<img src="'.$img_url.'" />';
+				$new_str .='</div><p>';
+				
+				$msg_date = date('h:i a',strtotime($r['created_date']));
+				$new_str .='<a data-cls="'.$cls.'" data-msg-id="'.$r['id'].'" onclick="delete_snap(this)" data-url="'.$r['media_name'].'" target="_blank" class="chat_video for_pointer">';
+				$media_thumb = str_replace('.mp4', '.png', $r['media_name']);
+				$new_str .='<img width="50px" height="50px" src="'.base_url().'bio/show_img/'.$media_thumb.'/1" /></a>';
+				$new_str .='<span>'.$msg_date.'</span></p></li>';				
+			}
+		}
+		return $new_str;
+	}	
+
 	// ------------------------------------------------------------------------
 
 	public function get_new_matches($userid,$lastseen_date){
