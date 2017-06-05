@@ -246,7 +246,7 @@ a:hover, a:focus{outline:none;outline:0;outline-offset:0;}
 .loader-container {position:absolute;width:100%;margin-left:0;left:0;top:50%;display:inline-block;-webkit-transform:translateY(-50%); -ms-transform: translateY(-50%); -moz-transform: translateY(-50%); -o-transform: translateY(-50%); transform: translateY(-50%);}
 
 #loader-nodatanbm.loader-style{position:relative;}
-#loader-nodatanbm.loader-container{position:relative;-webkit-transform:translate(0);-moz-transform:translate(0);transform:translate(0);top:0;}
+#loader-nodatanbm .loader-container{position:relative;-webkit-transform:translate(0);-moz-transform:translate(0);transform:translate(0);top:0;}
 .my-account{position:relative;width:100%;display:inline-block;vertical-align:top;margin:0 0 -60px;padding:0 0 25px;}
 .my-account:before{background:#f3f3f3;top:90px;left:-70%;width:240%;position:absolute;content:'';height:1px;}
 .my-account:after{content:'';border-left:1px solid #f3f3f3;background:#fafafa;position:absolute;top:0;left:375px;display:block;height:100%;width:150%;z-index:-1;}
