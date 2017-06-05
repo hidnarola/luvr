@@ -222,6 +222,14 @@ if (!empty($nearByUsers)) {
             </div>
         <?php } ?>
     </div>
+    <div id="loader-nodatanbm" class="loader-style" style='background:none;display:none;'>
+        <div class="loader-container">
+            <img src="<?php echo base_url(); ?>assets/images/loader.gif"/>
+            <?php if (empty($nearByUsers) || $nearByUsers == null) { ?>
+                <p>Hey Luvr! Right now, there is no one else to Luv in your area! Check back soon!<br/>We are growing fast with your help! Spread the word about Luvr on all your social media!</p>
+            <?php } ?>
+        </div>
+    </div>
 </div>
 <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 ad-div text-center">
     <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me' && $show_ad == true) { ?>
@@ -265,7 +273,7 @@ if (!empty($nearByUsers)) {
                                 /*$("#radar").hide();*/
                                 $("#loader").fadeOut();
 <?php if (empty($nearByUsers) || $nearByUsers == null) { ?>
-                                    $("#loader-nodata").fadeIn();
+                                    $("#loader-nodatanbm").fadeIn();
 <?php } ?>
                                 $("#tinderslide").removeAttr('style');
                             }, Math.floor((Math.random() * 1000) + 1000));
@@ -421,8 +429,8 @@ if (!empty($nearByUsers)) {
                                     } else {
                                         $("#loader").hide();
                                         $(".user-list-l,.user-list-r").hide();
-                                        $("#loader-nodata .loader-container").append('<p>Hey Luvr! Right now, there is no one else to Luv in your area! Check back soon!<br/>We are growing fast with your help! Spread the word about Luvr on all your social media!</p>');
-                                        $("#loader-nodata").show();
+                                        $("#loader-nodatanbm .loader-container").append('<p>Hey Luvr! Right now, there is no one else to Luv in your area! Check back soon!<br/>We are growing fast with your help! Spread the word about Luvr on all your social media!</p>');
+                                        $("#loader-nodatanbm").show();
                                     }
                                     setTimeout(function () {
                                         /*$("#radar").hide();*/
