@@ -568,3 +568,5 @@ span#log{font-style:italic;color:#bbb;margin-left:5px;}
 
 .message-user-pic h4 small {background: #ed7575 none repeat scroll 0 0; font-size: 11px; height:18px; line-height:12px; min-width: 20px; padding: 3px 6px; vertical-align: middle;border-radius:60px;color:#fff; 
 display:inline-block;vertical-align:middle;text-align:center;}
+.chat_img img,.chat_video img{width:100px;height:auto;}
+label.missed{font-weight:normal;display:inline;color:#f26f6f;cursor:text;}
