@@ -533,9 +533,9 @@ span#log{font-style:italic;color:#bbb;margin-left:5px;}
 .message-to-owner ul li p a.remove-chat{position: absolute; border-radius: 60px; width: 24px; height: 24px; background: #FFF; text-align: center; font-size: 12px;line-height: 20px; color: #666; text-decoration: none; border: 2px solid #fff; box-shadow: 0 0 10px 0 rgba(0,0,0,.2);}
 .user-talk p a.remove-chat{top: -12px; left:auto;right:-10px;}
 .rider-talk p a.remove-chat{top: -12px; left:-10px;right:auto;}
-.chat_video{position:relative;display:inline-block;vertical-align:middle;}
+.chat_video{position:relative;display:inline-block;vertical-align:middle;border:2px solid #f26f6f;}
 .chat_video:before{content:'';background:rgba(0,0,0,.4);width:100%;height:100%;position:absolute;top:0;left:0;display:block;  }
-.chat_video:after{content:'';width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:10px solid #fff;position:absolute;top:50%;left:50%;
+.chat_video:after{content:'';width:0;height:0;border-top:15px solid transparent;border-bottom:15px solid transparent;border-left:25px solid #f26f6f;position:absolute;top:50%;left:50%;
 -webkit-transform:translate(-50%, -50%);-moz-transform:translate(-50%, -50%);transform:translate(-50%, -50%);}
 
 .nav-tabs>li.active>a, 
@@ -569,4 +569,5 @@ span#log{font-style:italic;color:#bbb;margin-left:5px;}
 .message-user-pic h4 small {background: #ed7575 none repeat scroll 0 0; font-size: 11px; height:18px; line-height:12px; min-width: 20px; padding: 3px 6px; vertical-align: middle;border-radius:60px;color:#fff; 
 display:inline-block;vertical-align:middle;text-align:center;}
 .chat_img img,.chat_video img{width:100px;height:auto;}
+.chat_img img{border:2px solid #f26f6f;}
 label.missed{font-weight:normal;display:inline;color:#f26f6f;cursor:text;}
