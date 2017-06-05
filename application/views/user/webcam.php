@@ -35,6 +35,13 @@
     </div>
 </div>
 <script type='text/javascript'>
+    
+    <?php if($is_active_usr == '1') { ?>
+        var video_length = '60';
+    <?php }else{ ?>
+        var video_length = '15';
+    <?php } ?>
+
     var player = videojs("webVideo",
             {
                 controls: true,
@@ -43,7 +50,7 @@
                     record: {
                         audio: true,
                         video: true,
-                        maxLength: 5,
+                        maxLength: video_length,
                         debug: true
                     }
                 }
@@ -105,6 +112,7 @@
                         'unique_id':data['filename'],
                         'sender_id':data['sender_id'],
                         'receiver_id':data['receiver_id'],
+
                         'created_date':data['created_date'],                    
                         'is_encrypted':'0',
                         'encrypted_message':''
