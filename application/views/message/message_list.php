@@ -467,7 +467,7 @@ $is_active_usr = isUserActiveSubscriber($sess_user_data['id']);
                         break;
                 }
                 if (msg['message'] == 5)
-                    new_str += "<label class='missed'>"call_var + ' ' + msg_date + "</label>";
+                    new_str += "<label class='missed'>" + call_var + ' ' + msg_date + "</label>";
                 else
                     new_str += call_var + ' ' + msg_date;
             }
