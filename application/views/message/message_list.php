@@ -125,12 +125,12 @@
                                             } // End of IF condition for video snap data
                                         ?>
                                         <?php if($is_active_usr == '1') { ?>
-                                            <a href="<?php echo base_url('message/videocall/'.$chat_user_data['id']) ?>">
+                                            <a href="<?php echo base_url('message/videocall/'.$chat_user_data['id']) ?>" title="Video Call">
                                                 <img src="<?php echo base_url().'assets/images/icon-01.png'; ?>" alt="img">
                                             </a>
                                         <?php } ?>
 
-                                        <a onclick="blockFriend()" class="for_pointer">
+                                        <a onclick="blockFriend()" class="for_pointer" title="Block">
                                             <img src="<?php echo base_url().'assets/images/user-block.png'; ?>" alt="img">
                                         </a>
                                     </div>
