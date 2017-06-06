@@ -170,8 +170,8 @@ $sess_user_data = $this->session->userdata('user');
     if ($("#spplayer1").length > 0)
     {
     jwplayer('spplayer1').setup({
-    file: "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.mp4",
-            image: "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.jpg",
+    file: "<?php echo $_SERVER['REQUEST_SCHEME']; ?>://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.mp4",
+            image: "<?php echo $_SERVER['REQUEST_SCHEME']; ?>://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.jpg",
             primary:'flash',
             repeat:true,
             autostart:true,
@@ -188,8 +188,8 @@ $sess_user_data = $this->session->userdata('user');
     if ($("#spplayer2").length > 0)
     {
     jwplayer('spplayer2').setup({
-    file: "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.mp4",
-            image: "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.jpg",
+    file: "<?php echo $_SERVER['REQUEST_SCHEME']; ?>://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.mp4",
+            image: "<?php echo $_SERVER['REQUEST_SCHEME']; ?>://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.jpg",
             primary:'flash',
             repeat:true,
             autostart:true,
