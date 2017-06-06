@@ -1,6 +1,10 @@
 <?php
 $user_data = $this->session->userdata('user');
 $error = $this->session->flashdata('error');
+$playlist[0] = array("file" => "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.mp4", "image" => "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.jpg");
+$playlist[1] = array("file" => "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.mp4", "image" => "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.jpg");
+$playlist = json_encode($playlist);
+$ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . "";
 ?>
 <section id="hero-section" class="hero-section">
     <ul class="bxslider">
@@ -28,7 +32,27 @@ $error = $this->session->flashdata('error');
                 <a href="">View more</a>
             </div>
         </li>
-    </ul>	
+    </ul>
+    <div class="homepage-player-outer">
+        <div id="hpplayer"></div>
+    </div>
+    <script type="text/javascript">
+        var player_hp = jwplayer('hpplayer');
+        player_hp.setup({
+        playlist: <?php echo $playlist; ?>,
+                primary:'flash',
+                repeat:true,
+                autostart:true,
+                aspectratio:"16:9",
+                width:"100%",
+<?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
+            advertising: {
+            client:'vast',
+                    tag:'<?php echo $ad_url; ?>',
+            },
+<?php } ?>
+        });
+    </script>
 </section>
 
 <section id="welcome" class="home-welcome">
@@ -336,25 +360,25 @@ $error = $this->session->flashdata('error');
 <script src="<?php echo base_url(); ?>assets/js/jquery.bxslider.min.js"></script>
 <script type="text/javascript">
 <?php if (!empty($error)) { ?>
-        $(document).ready(function () {
-            showMsg("<?php echo $error; ?>", "error", true);
-        });
+            $(document).ready(function () {
+                showMsg("<?php echo $error; ?>", "error", true);
+            });
 <?php } ?>
-    $(function () {
-        
-        $("#frm_monthly .stripe-button-el").html('1 Month');
-        $("#frm_6monthly .stripe-button-el").html('6 Months');
-        $("#frm_yearly .stripe-button-el").html('1 Year');
-        $("#frm_2yearly .stripe-button-el").html('2 Years');
-        $("#frm_5yearly .stripe-button-el").html('5 Years');
-        $(".stripe-button-el").removeClass('stripe-button-el');
-        
-        $('.bxslider').bxSlider({
-            mode: 'fade',
-            captions: true,
-            auto: true,
-            pager:false,
-            responsive:true
+        $(function () {
+
+            $("#frm_monthly .stripe-button-el").html('1 Month');
+            $("#frm_6monthly .stripe-button-el").html('6 Months');
+            $("#frm_yearly .stripe-button-el").html('1 Year');
+            $("#frm_2yearly .stripe-button-el").html('2 Years');
+            $("#frm_5yearly .stripe-button-el").html('5 Years');
+            $(".stripe-button-el").removeClass('stripe-button-el');
+
+            $('.bxslider').bxSlider({
+                mode: 'fade',
+                captions: true,
+                auto: true,
+                pager: false,
+                responsive: true
+            });
         });
-    });
 </script>

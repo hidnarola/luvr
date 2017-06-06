@@ -44,8 +44,6 @@ if (isset($ad_url) && !empty($ad_url)) {
     <?php } else if ($_SERVER['HTTP_HOST'] == 'luvr.me' && $show_ad == true) { ?>
         <!--<script data-cfasync="false" type="text/javascript" src="<?php echo $_SERVER['REQUEST_SCHEME']; ?>://www.tradeadexchange.com/a/display.php?r=1592351"></script>-->
     <?php } ?>
-    <script type="text/javascript" src="<?php echo base_url('assets/js/jwplayer.js'); ?>"></script>
-    <script>jwplayer.key = "+NBpDYuEp+FQ1VZ4YR8hbrcC1s9O/eD5ul+RdSAMR04=";</script>
     <script type="text/javascript">
         console.log('<?php echo count($playlist); ?>');
         var player = jwplayer('playerObject');

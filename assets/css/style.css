@@ -19,7 +19,7 @@ a:hover, a:focus{outline:none;outline:0;outline-offset:0;}
 .btn.green:hover,.btn.red:hover{color:#fff;}
 
 /***** Hero section css ****/
-.hero-section {margin:-140px 0 0;display:inline-block;vertical-align:middle;width:100%;}
+.hero-section {margin:-140px 0 0;display:inline-block;vertical-align:middle;width:100%;position:relative;}
 .hero-caption{max-width:1140px;widtH:100%;position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);text-align:left;margin:55px 0 0 20px;}
 .hero-caption h2{margin:0 0 30px;padding:0;font-family:'Poppins';font-size:44px;font-weight:700;letter-spacing:0.06em;line-height:60px;text-transform:uppercase;color:#f9f9f9;display:block;}
 .hero-caption p{margin:0 0 40px;padding:0 0 0 5px;font-family:'Roboto';font-size:16px;font-weight:400;text-decoration:none;line-height:24px;color:#fafafa;display:block;letter-spacing:0.06em;}
@@ -571,3 +571,4 @@ display:inline-block;vertical-align:middle;text-align:center;}
 .chat_img img,.chat_video img{width:100px;height:auto;}
 .chat_img img{border:2px solid #f26f6f;}
 label.missed{font-weight:normal;display:inline;color:#f26f6f;cursor:text;}
+.homepage-player-outer{width:520px;position:absolute;bottom:10px;right:230px;border:2px solid #f26f6f;}

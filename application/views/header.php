@@ -29,23 +29,24 @@ $user_data = $this->session->userdata('user');
         echo $this->minify->deploy_js(FALSE, 'combined.min.js');
         ?>
         <script src="<?php echo base_url('node_modules/socket.io/node_modules/socket.io-client/socket.io.js'); ?>"></script>
-
+        <script type="text/javascript" src="<?php echo base_url('assets/js/jwplayer.js'); ?>"></script>
+        <script>jwplayer.key = "+NBpDYuEp+FQ1VZ4YR8hbrcC1s9O/eD5ul+RdSAMR04=";</script>
         <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/myTooltip.css'; ?>"> <!-- CSS for the for Tool-tip  -->        
         <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/animate.min.css'; ?>"> <!-- Css for bootstrap notify show/hide effect -->
         <script type="text/javascript" src="<?php echo base_url() . 'assets/js/myTooltip.js'; ?>"></script> <!-- Script for the Tool-tip  -->
         <script src="<?php echo base_url(); ?>assets/js/custom.js"></script>
         <?php if (!empty($user_data)) { ?>
             <script type="text/javascript">
-                var socket = io.connect('https://' + window.location.hostname + ':8100');
-                socket.emit('join_socket_web', {
-                    'userID': '<?php echo $user_data['id']; ?>',
-                    'is_login': '1',
-                    'app_version': 0
-                });
-                var audioElement = '';
-                var myid = '';
-                var call_timeout = 0;
-                var tmptout;
+        var socket = io.connect('https://' + window.location.hostname + ':8100');
+        socket.emit('join_socket_web', {
+            'userID': '<?php echo $user_data['id']; ?>',
+            'is_login': '1',
+            'app_version': 0
+        });
+        var audioElement = '';
+        var myid = '';
+        var call_timeout = 0;
+        var tmptout;
             </script>
         <?php } ?>
         <?php if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me' || $_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
@@ -86,7 +87,7 @@ $user_data = $this->session->userdata('user');
                                     if ($unread_counts > 0) {
                                         ?>
                                         <div class="notification-count">
-                                            <a href="<?php echo base_url().'message/all_chats'; ?>">
+                                            <a href="<?php echo base_url() . 'message/all_chats'; ?>">
                                                 <?php echo $unread_counts; ?>
                                             </a>
                                         </div>
