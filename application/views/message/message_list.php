@@ -1,4 +1,8 @@
 <?php
+$playlist[0] = array("file" => "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.mp4", "image" => "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.jpg");
+$playlist[1] = array("file" => "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.mp4", "image" => "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.jpg");
+$playlist = json_encode($playlist);
+$ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . "";
 $sess_user_data = $this->session->userdata('user');
 
 $db_user_img = my_img_url($db_user_media['media_type'], $db_user_media['media_thumb']);
@@ -134,22 +138,35 @@ $is_active_usr = isUserActiveSubscriber($sess_user_data['id']);
                                             <img src="<?php echo base_url() . 'assets/images/user-block.png'; ?>" alt="img">
                                         </a>
                                     </div>
-
                                 </div>
-
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div id="msgplayer"></div>
     </div>
 </div>
 
 <input type="hidden" id="last_msg_id" val="">
 
 <script type="text/javascript">
-
+    var player_msg = jwplayer('msgplayer');
+    player_msg.setup({
+    playlist: <?php echo $playlist; ?>,
+            primary:'flash',
+            repeat:true,
+            autostart:true,
+            aspectratio:"16:9",
+            width:"100%",
+<?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
+        advertising: {
+        client:'vast',
+                tag:'<?php echo $ad_url; ?>',
+        },
+<?php } ?>
+    });
     var first_counter = 0;
 
     function formatAMPM(date) {

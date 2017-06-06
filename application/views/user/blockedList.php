@@ -65,7 +65,7 @@
     $user_data = $this->session->userdata('user');
     $username = (!empty($user_data['user_name'])) ? ucfirst($user_data['user_name']) : $user_data['instagram_username'];
     ?>
-    <div class="col-md-8 col-sm-8 col-xs-12 account-r">
+    <div class="col-md-8 col-sm-8 col-xs-12 account-r has-player">
         <div class="account-r-head"><h2><big><?php echo $username; ?></big></h2></div>
         <div class="account-r-body">
             <div class="account-body-head">
@@ -121,6 +121,10 @@
                     ?>
                 </div>
             </div>
+        </div>
+        <div class="ad-video">
+            <div class="video-box-add"><div id="spplayer1"></div></div>
+            <div class="video-box-add"><div id="spplayer2"></div></div>
         </div>
     </div>
 </div>

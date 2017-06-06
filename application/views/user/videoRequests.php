@@ -65,7 +65,7 @@
     $user_data = $this->session->userdata('user');
     $username = (!empty($user_data['user_name'])) ? ucfirst($user_data['user_name']) : $user_data['instagram_username'];
     ?>
-    <div class="col-md-8 col-sm-8 col-xs-12 account-r">
+    <div class="col-md-8 col-sm-8 col-xs-12 account-r has-player">
         <div class="account-r-head"><h2><big><?php echo $username; ?></big></h2></div>
         <div class="account-r-body">
             <div class="account-body-head">
@@ -90,6 +90,10 @@
                 </div>
             </div>
         </div>
+        <div class="ad-video">
+            <div class="video-box-add"><div id="spplayer1"></div></div>
+            <div class="video-box-add"><div id="spplayer2"></div></div>
+        </div>
     </div>
 </div>
 <script type='text/javascript'>
@@ -101,11 +105,11 @@
             var html = '';
             for (var i = 0; i < data.VideoRequests.length; i++)
             {
-                var obj = data.VideoRequests[i];                
-                var new_img_url = my_img_url_js(obj['media_type'],obj['media_thumb']);
-                
-                if(obj['media_type'] == '1' || obj['media_type'] == '2'){
-                    new_img_url = '<?php echo base_url(); ?>'+my_img_url_js(obj['media_type'],obj['media_thumb']);
+                var obj = data.VideoRequests[i];
+                var new_img_url = my_img_url_js(obj['media_type'], obj['media_thumb']);
+
+                if (obj['media_type'] == '1' || obj['media_type'] == '2') {
+                    new_img_url = '<?php echo base_url(); ?>' + my_img_url_js(obj['media_type'], obj['media_thumb']);
                 }
 
                 html += '<tr id="request_' + obj.id + '">';
@@ -135,7 +139,7 @@
                     console.log(data);
                     if (data.success == true) {
                         showMsg("Request " + mode_txted + " successfully.", "success", true);
-                        $('#request_'+data['last_id']).fadeOut();
+                        $('#request_' + data['last_id']).fadeOut();
                     } else {
                         showMsg("Something went wrong!", "error", true);
                         scrollToElement("#header");

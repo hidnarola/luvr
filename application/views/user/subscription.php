@@ -5,6 +5,10 @@
     $username = (!empty($user_data['user_name'])) ? ucfirst($user_data['user_name']) : $user_data['instagram_username'];
     if (!empty($user_settings['main_receipe_token']))
         $order_details = json_decode($user_settings['main_receipe_token'], true);
+    $playlist[0] = array("file" => "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.mp4", "image" => "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.jpg");
+    $playlist[1] = array("file" => "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.mp4", "image" => "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.jpg");
+    $playlist = json_encode($playlist);
+    $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . "";
     ?>
     <div class="col-md-8 col-sm-8 col-xs-12 account-r">
         <div class="account-r-head">
@@ -23,7 +27,7 @@
                         <table class="table">
                             <tbody>
                                 <tr>
-                                    <td>Transaction ID : </td>
+                                    <td>Trans. ID : </td>
                                     <td><?php echo (!empty($order_details)) ? $order_details['id'] : " - "; ?></td>
                                 </tr>
                                 <tr>
@@ -47,5 +51,23 @@
                 </div>
             </div>
         </div>
+        <div id="subsplayer"></div>
     </div>
 </div>
+<script type="text/javascript">
+    var player_sub = jwplayer('subsplayer');
+    player_sub.setup({
+    playlist: <?php echo $playlist; ?>,
+            primary:'flash',
+            repeat:true,
+            autostart:true,
+            aspectratio:"16:9",
+            width:"100%",
+<?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
+        advertising: {
+        client:'vast',
+                tag:'<?php echo $ad_url; ?>',
+        },
+<?php } ?>
+    });
+</script>

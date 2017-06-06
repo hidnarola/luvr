@@ -28,8 +28,6 @@
         #slider-range2 .ui-widget-header{background:#51ca94;}
     </style>
     <div class="col-md-8 col-sm-8 col-xs-12 account-r">
-
-
         <div class="account-r-head"><h2><big><?php echo $username; ?></big></h2></div>
         <div class="account-r-body">
             <?php
@@ -84,7 +82,7 @@
             ?>
 
 
-            <div class="col-md-12 col-sm-12 col-xs-12 text-center mar-btm-20 social-connect">
+            <div class="col-md-12 col-sm-12 col-xs-12 mar-btm-20 social-connect">
                 <div class="facebook-connet">
                     <span>
                         <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"viewBox="0 0 490 490" style="enable-background:new 0 0 490 490;" xml:space="preserve"> <g id="XMLID_21_"> <g> <g> <path d="M460,0H30C13.458,0,0,13.458,0,30v430c0,16.542,13.458,30,30,30h430c16.542,0,30-13.458,30-30V30 C490,13.458,476.542,0,460,0z M470,460c0,5.514-4.486,10-10,10H30c-5.514,0-10-4.486-10-10V30c0-5.514,4.486-10,10-10h430 c5.514,0,10,4.486,10,10V460z"/> <path d="M345,180h-50v-49.965c0.076-0.015,0.151-0.027,0.219-0.035H335c5.523,0,10-4.477,10-10V50c0-5.522-4.477-10-10-10h-60 c-41.268,0-60.95,22.039-70.194,40.528C195.111,99.916,195,119.189,195,120v60h-50c-5.523,0-10,4.477-10,10v80 c0,5.523,4.477,10,10,10h40v155c0,5.523,4.477,10,10,10h90c5.523,0,10-4.477,10-10V270h40c4.977,0,9.196-3.659,9.899-8.586l10-70 c0.41-2.87-0.445-5.776-2.345-7.966C350.655,181.258,347.899,180,345,180z M326.327,250H285c-5.523,0-10,4.477-10,10v165h-70V270 c0-5.522-4.477-10-10-10h-40v-60h50c5.523,0,10-4.477,10-10v-69.969c0.001-0.158,0.189-15.92,7.977-31.119 C232.81,69.728,250.313,60,275,60h50v50h-30c-9.695,0-20,7.009-20,20v60c0,5.523,4.477,10,10,10h48.47L326.327,250z"/> </g> </g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> </svg>
@@ -138,7 +136,7 @@
                     <ul class="preferences-ul">                        
                         <li>
                             <div class="clearfix">
-                                <span><label>Maximum Distance</label></span>
+                                <span><label>Max. Distance</label></span>
                                 <span id="slider-range1-amount" class="pull-right"><?php echo $userInfo['radius']; ?> Miles</span>
                             </div>
                             <div class="clearfix">

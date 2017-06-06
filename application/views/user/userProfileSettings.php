@@ -1,7 +1,6 @@
 <link href="<?php echo base_url(); ?>assets/css/bootstrap-select.min.css" rel="stylesheet" />
 
 <div class="my-account">
-
     <?php
     $message = $this->session->flashdata('message');
     if (!empty($message)) {
@@ -10,7 +9,7 @@
     $this->load->view('side_bar_account');
     ?>
 
-    <div class="col-md-8 col-sm-8 col-xs-12 account-r">
+    <div class="col-md-8 col-sm-8 col-xs-12 account-r has-player">
         <div class="account-r-head">
             <h2>
                 <big>
@@ -166,8 +165,11 @@
                 </form>
             </div>
         </div>
+        <div class="ad-video">
+            <div class="video-box-add"><div id="spplayer1"></div></div>
+            <div class="video-box-add"><div id="spplayer2"></div></div>
+        </div>
     </div>
-
 </div>
 
 <div id="map"></div>
@@ -178,7 +180,6 @@
         var map = new google.maps.Map(document.getElementById('map'), {center: {lat: -33.8688, lng: 151.2195}, zoom: 13});
         var input = document.getElementById('address');
         var autocomplete = new google.maps.places.Autocomplete(input);
-
         // Bind the map's bounds (viewport) property to the autocomplete object,
         // so that the autocomplete requests use the current map bounds for the
         // bounds option in the request.

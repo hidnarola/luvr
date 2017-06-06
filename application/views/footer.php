@@ -167,6 +167,42 @@ $sess_user_data = $this->session->userdata('user');
 </audio>
 <script type="text/javascript">
     audioElement = document.getElementById('caller_tune');
+    if ($("#spplayer1").length > 0)
+    {
+    jwplayer('spplayer1').setup({
+    file: "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.mp4",
+            image: "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.jpg",
+            primary:'flash',
+            repeat:true,
+            autostart:true,
+            aspectratio:"16:9",
+            width:"100%",
+<?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
+        advertising: {
+        client:'vast',
+                tag:'<?php echo "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . ""; ?>',
+        },
+<?php } ?>
+    });
+    }
+    if ($("#spplayer2").length > 0)
+    {
+    jwplayer('spplayer2').setup({
+    file: "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.mp4",
+            image: "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.jpg",
+            primary:'flash',
+            repeat:true,
+            autostart:true,
+            aspectratio:"16:9",
+            width:"100%",
+<?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
+        advertising: {
+        client:'vast',
+                tag:'<?php echo "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . ""; ?>',
+        },
+<?php } ?>
+    });
+    }
 </script>
 <script src="//media.twiliocdn.com/sdk/js/video/v1/twilio-video.min.js"></script>
 <?php if (!empty($sess_user_data)) { ?>
@@ -182,7 +218,7 @@ $sess_user_data = $this->session->userdata('user');
         <input id="callingid" type="hidden"/>
     <?php } ?>
     <script type="text/javascript">
-        myid = '<?php echo $sess_user_data['id']; ?>';
+    myid = '<?php echo $sess_user_data['id']; ?>';
     </script>
     <script src="<?php echo base_url() . 'assets/js/index.js'; ?>"></script>
     <?php
@@ -194,61 +230,61 @@ if (!empty($sess_user_data)) {
 ?>
 <script type="text/javascript">
     function log(text) {
-        console.log(text);
+    console.log(text);
     }
     function showMsg(text, mode, autofadeout) {
-        if (mode == "success")
-        {
-            $("#op_success .message-r p").html(text);
-            if (autofadeout == true)
-                $("#op_success").fadeIn().delay(8000).fadeOut('slow');
-            else
-                $('#op_success').fadeIn();
-        } else
-        {
-            $("#op_error .message-r p").html(text);
-            if (autofadeout == true)
-                $("#op_error").fadeIn().delay(8000).fadeOut('slow');
-            else
-                $('#op_error').fadeIn();
-        }
+    if (mode == "success")
+    {
+    $("#op_success .message-r p").html(text);
+    if (autofadeout == true)
+            $("#op_success").fadeIn().delay(8000).fadeOut('slow');
+    else
+            $('#op_success').fadeIn();
+    } else
+    {
+    $("#op_error .message-r p").html(text);
+    if (autofadeout == true)
+            $("#op_error").fadeIn().delay(8000).fadeOut('slow');
+    else
+            $('#op_error').fadeIn();
+    }
     }
     function showMsgCall(text, mode, autofadeout) {
-        if (mode == "incoming")
-        {
-            $("#call_statuses .message-r h3").html("Incoming Call");
-            $("#call_statuses .message-r p").html(text);
-            $("#call_statuses").addClass('success-message');
-            $("#call_statuses").removeClass('cancel-message');
-            if (autofadeout == true)
-                $("#call_statuses").fadeIn().delay(8000).fadeOut('slow');
-            else
-                $('#call_statuses').fadeIn();
-        } else if (mode == "rejected")
-        {
-            $("#call_statuses .message-r h3").html("Call Rejected!");
-            $("#call_statuses .message-r p").html(text);
-            $("#call_statuses").addClass('cancel-message');
-            $("#call_statuses").removeClass('success-message');
-            if (autofadeout == true)
-                $("#call_statuses").fadeIn().delay(8000).fadeOut('slow');
-            else
-                $('#call_statuses').fadeIn();
-        } else
-        {
-            $("#call_statuses .message-r h3").html(text);
-            $("#call_statuses .message-r p").html(text);
-            $("#call_statuses").addClass('cancel-message');
-            $("#call_statuses").removeClass('success-message');
-            if (autofadeout == true)
-                $("#call_statuses").fadeIn().delay(8000).fadeOut('slow');
-            else
-                $('#call_statuses').fadeIn();
-        }
+    if (mode == "incoming")
+    {
+    $("#call_statuses .message-r h3").html("Incoming Call");
+    $("#call_statuses .message-r p").html(text);
+    $("#call_statuses").addClass('success-message');
+    $("#call_statuses").removeClass('cancel-message');
+    if (autofadeout == true)
+            $("#call_statuses").fadeIn().delay(8000).fadeOut('slow');
+    else
+            $('#call_statuses').fadeIn();
+    } else if (mode == "rejected")
+    {
+    $("#call_statuses .message-r h3").html("Call Rejected!");
+    $("#call_statuses .message-r p").html(text);
+    $("#call_statuses").addClass('cancel-message');
+    $("#call_statuses").removeClass('success-message');
+    if (autofadeout == true)
+            $("#call_statuses").fadeIn().delay(8000).fadeOut('slow');
+    else
+            $('#call_statuses').fadeIn();
+    } else
+    {
+    $("#call_statuses .message-r h3").html(text);
+    $("#call_statuses .message-r p").html(text);
+    $("#call_statuses").addClass('cancel-message');
+    $("#call_statuses").removeClass('success-message');
+    if (autofadeout == true)
+            $("#call_statuses").fadeIn().delay(8000).fadeOut('slow');
+    else
+            $('#call_statuses').fadeIn();
+    }
     }
     function scrollToElement(id) {
-        $('html,body').animate({
-            scrollTop: $(id).offset().top}, 'slow');
+    $('html,body').animate({
+    scrollTop: $(id).offset().top}, 'slow');
     }
 </script>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'assets/css/jquery.fancybox.min.css'; ?>"/>

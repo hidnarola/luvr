@@ -427,7 +427,7 @@ input:checked + .slider:before { -webkit-transform: translateX(56px); -ms-transf
 .message-conversations .tab-content p{ font-family:'Roboto'; font-size:14px; color:#666; line-height:100%; margin:10px 0;}
 .message-user-pic span{ width:60px; height:60px; overflow:hidden; display:inline-block; vertical-align:middle; margin:0 10px 0 0; -webkit-border-radius:80px; -moz-border-radius:80px; border-radius:80px; }
 .message-user-pic span img{  width:100%; min-height:60px;}
-.message-user-pic h4{ margin:20px 0; padding:0; display:inline-block; font-family:'Poppins'; font-size:14px; color:#666; text-overflow:ellipsis; white-space:nowrap; width:68%; height:18px; overflow:hidden; vertical-align:middle; }
+.message-user-pic h4{margin:20px 0;padding:0; display:inline-block;font-family:'Poppins'; font-size:14px; color:#666; text-overflow:ellipsis; white-space:nowrap; width:62%; height:18px; overflow:hidden; vertical-align:middle; }
 .message-count-div h6{ font-size:14px;}
 .exchange-rating-table p{ margin:0;  font-size:14px;}
 .message-conversations .tab-content .table{ table-layout: fixed;}
@@ -463,7 +463,7 @@ input:checked + .slider:before { -webkit-transform: translateX(56px); -ms-transf
 
 
 /***** 27-april-2017 *****/
-.social-connect{text-align:center;}
+/*.social-connect{text-align:center;}*/
 .social-connect > div:after{content:'';display:block;clear:both;}
 .social-connect > div{padding:12px;display:inline-block;vertical-align:top;margin:0 10px;border-radius:4px;}
 .social-connect span{float:left;margin:0 10px 0 0;height:30px;}
@@ -571,4 +571,8 @@ display:inline-block;vertical-align:middle;text-align:center;}
 .chat_img img,.chat_video img{width:100px;height:auto;}
 .chat_img img{border:2px solid #f26f6f;}
 label.missed{font-weight:normal;display:inline;color:#f26f6f;cursor:text;}
-.homepage-player-outer{width:520px;position:absolute;bottom:10px;right:230px;border:2px solid #f26f6f;}
+.homepage-player-outer {margin: 0 auto;max-width: 1170px;position: relative;width: 100%;}
+#hpplayer{bottom:0;position:absolute;right:0;width:520px !important;}
+
+.ad-video{position:absolute;left:100%;top:50%;-webkit-transform:translateY(-50%);-moz-transform:translateY(-50%);transform:translateY(-50%);}
+.video-box-add{background:#eee;/*height:180px;*/margin:0 0 30px;width:200px;}
