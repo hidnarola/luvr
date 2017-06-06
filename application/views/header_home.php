@@ -18,6 +18,7 @@ if (empty($user_data)) {
         <meta charset="utf-8"/>
         <meta name="trafficjunky-site-verification" content="7yars5u58" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0"/>
+        <meta name="google-site-verification" content="UNgm5MGSw_4AD2v6kou_mWSyZf6eXDfaGuBiqx_TNHk" />
         <link rel="icon" href="<?php echo base_url('/favicon.png'); ?>" type="image/x-icon"/>
         <title><?php echo $site_title; ?></title>
         <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:400,500" rel="stylesheet"/>
