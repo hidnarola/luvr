@@ -151,6 +151,8 @@ if (!empty($all_messages)) {
                                         </tr>
                                         <?php
                                     }
+                                } else {
+                                    echo '<tr><td colspan="3">No messages yet!</td></tr>';
                                 }
                                 ?>
                             </tbody>
