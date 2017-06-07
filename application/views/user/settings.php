@@ -179,6 +179,9 @@
                                 <button type="button" title="Add more locations" class="btn btn-success" onclick="cloneElement(this);">+</button>
                             <?php } ?>
                             <div class="clearfix"></div>
+                            <?php if ($allow_more_location == true && empty($userAddresses)) { ?>
+                                <button type="button" title="Add more locations" class="btn btn-success" onclick="cloneElement(this);">+</button>
+                            <?php } ?>
                             <?php if ($allow_more_location == true) { ?>
                                 <div id="locations">
                                     <div class="locations-wrap">
@@ -203,9 +206,6 @@
                                         <?php } ?>
                                     </div>
                                 </div>
-                                <?php if (empty($userAddresses)) { ?>
-                                    <button type="button" title="Add more locations" class="btn btn-success" onclick="cloneElement(this);">+</button>
-                                <?php } ?>
                             <?php } else { ?>
                                 <input type="text" id="address" name="address[]" value="<?php echo $userInfo['address']; ?>"/>
                             <?php } ?>
@@ -231,71 +231,71 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo GOOGLE_MAP_API; ?>&libraries=places&callback=initMap" async defer></script>
 <script src="<?php echo base_url(); ?>assets/jquery-ui/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-                                        $(document).ready(function () {
-                                            $("#slider-range1").slider({
-                                                range: "max",
-                                                min: 1,
-                                                max: 100,
-                                                value: <?php echo $userInfo['radius']; ?>,
-                                                slide: function (event, ui) {
-                                                    $("#slider-range1-amount").html("&nbsp;" + ui.value + " Miles");
-                                                    $("#hdn_radius").val(ui.value);
-                                                }
-                                            });
-                                            $("#slider-range2").slider({
-                                                range: true,
-                                                min: 18,
-                                                max: 100,
-                                                values: [<?php echo $age_range[0]; ?>, <?php echo $age_range[1]; ?>],
-                                                slide: function (event, ui) {
-                                                    $("#slider-range2-amount").html("&nbsp;" + ui.values[0] + " - " + ui.values[1]);
-                                                    $("#hdn_age_range").val(ui.values[0] + " - " + ui.values[1]);
-                                                }
-                                            });
-                                        });
-                                        function initMap() {
-                                            var map = new google.maps.Map(document.getElementById('map'), {center: {lat: -33.8688, lng: 151.2195}, zoom: 13});
-                                            var input = document.getElementById('address');
-                                            var autocomplete = new google.maps.places.Autocomplete(input);
-                                            // Bind the map's bounds (viewport) property to the autocomplete object,
-                                            // so that the autocomplete requests use the current map bounds for the
-                                            // bounds option in the request.
-                                            autocomplete.bindTo('bounds', map);
-                                            google.maps.event.addListener(autocomplete, 'place_changed', function () {
-                                                var place = autocomplete.getPlace();
-                                                $('#address').parent().find("input[type='hidden']").val(place.geometry.location.lat() + "," + place.geometry.location.lng());
-                                            });
-                                        }
-                                        function setMyValue(obj) {
-                                            if ($(obj).is(":checked")) {
-                                                $(obj).val(1);
-                                            } else {
-                                                $(obj).val(0);
-                                            }
-                                        }
-                                        function cloneElement(obj) {
-                                            if ($(".locationboxes").length < 5)
-                                            {
-                                                var map = new google.maps.Map(document.getElementById('map'));
-                                                $("#locations").append('<div class="location-block"><input type="radio" name="same" onchange="setThisValue(this);"/><input type="hidden" name="latlongs[]"/><input type="text" id="address" class="locationboxes" name="address[]" placeholder="Enter a location"/></div>');
-                                                var i = 2;
-                                                $(".locationboxes").each(function () {
-                                                    $(this).attr("id", "address_" + i);
-                                                    var obj = document.getElementById('address_' + i);
-                                                    var tmp = new google.maps.places.Autocomplete(obj);
-                                                    tmp.bindTo('bounds', map);
-                                                    google.maps.event.addListener(tmp, 'place_changed', function () {
-                                                        var place = tmp.getPlace();
-                                                        /*console.log(place.name);*/
-                                                        $(obj).parent().find("input[type='hidden']").val(place.geometry.location.lat() + "," + place.geometry.location.lng());
+                                                    $(document).ready(function () {
+                                                        $("#slider-range1").slider({
+                                                            range: "max",
+                                                            min: 1,
+                                                            max: 100,
+                                                            value: <?php echo $userInfo['radius']; ?>,
+                                                            slide: function (event, ui) {
+                                                                $("#slider-range1-amount").html("&nbsp;" + ui.value + " Miles");
+                                                                $("#hdn_radius").val(ui.value);
+                                                            }
+                                                        });
+                                                        $("#slider-range2").slider({
+                                                            range: true,
+                                                            min: 18,
+                                                            max: 100,
+                                                            values: [<?php echo $age_range[0]; ?>, <?php echo $age_range[1]; ?>],
+                                                            slide: function (event, ui) {
+                                                                $("#slider-range2-amount").html("&nbsp;" + ui.values[0] + " - " + ui.values[1]);
+                                                                $("#hdn_age_range").val(ui.values[0] + " - " + ui.values[1]);
+                                                            }
+                                                        });
                                                     });
-                                                    i++;
-                                                });
-                                            }
-                                        }
-                                        function setThisValue(obj)
-                                        {
-                                            if ($.trim($(obj).parent().find("input[type='text']").val()).length > 0)
-                                                $('#hdn_default_address').val($(obj).parent().find("input[type='text']").val());
-                                        }
+                                                    function initMap() {
+                                                        var map = new google.maps.Map(document.getElementById('map'), {center: {lat: -33.8688, lng: 151.2195}, zoom: 13});
+                                                        var input = document.getElementById('address');
+                                                        var autocomplete = new google.maps.places.Autocomplete(input);
+                                                        // Bind the map's bounds (viewport) property to the autocomplete object,
+                                                        // so that the autocomplete requests use the current map bounds for the
+                                                        // bounds option in the request.
+                                                        autocomplete.bindTo('bounds', map);
+                                                        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                                                            var place = autocomplete.getPlace();
+                                                            $('#address').parent().find("input[type='hidden']").val(place.geometry.location.lat() + "," + place.geometry.location.lng());
+                                                        });
+                                                    }
+                                                    function setMyValue(obj) {
+                                                        if ($(obj).is(":checked")) {
+                                                            $(obj).val(1);
+                                                        } else {
+                                                            $(obj).val(0);
+                                                        }
+                                                    }
+                                                    function cloneElement(obj) {
+                                                        if ($(".locationboxes").length < 5)
+                                                        {
+                                                            var map = new google.maps.Map(document.getElementById('map'));
+                                                            $("#locations").append('<div class="location-block"><input type="radio" name="same" onchange="setThisValue(this);"/><input type="hidden" name="latlongs[]"/><input type="text" id="address" class="locationboxes" name="address[]" placeholder="Enter a location"/></div>');
+                                                            var i = 2;
+                                                            $(".locationboxes").each(function () {
+                                                                $(this).attr("id", "address_" + i);
+                                                                var obj = document.getElementById('address_' + i);
+                                                                var tmp = new google.maps.places.Autocomplete(obj);
+                                                                tmp.bindTo('bounds', map);
+                                                                google.maps.event.addListener(tmp, 'place_changed', function () {
+                                                                    var place = tmp.getPlace();
+                                                                    /*console.log(place.name);*/
+                                                                    $(obj).parent().find("input[type='hidden']").val(place.geometry.location.lat() + "," + place.geometry.location.lng());
+                                                                });
+                                                                i++;
+                                                            });
+                                                        }
+                                                    }
+                                                    function setThisValue(obj)
+                                                    {
+                                                        if ($.trim($(obj).parent().find("input[type='text']").val()).length > 0)
+                                                            $('#hdn_default_address').val($(obj).parent().find("input[type='text']").val());
+                                                    }
 </script>
