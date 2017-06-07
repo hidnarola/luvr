@@ -43,7 +43,7 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
         playlist: <?php echo $playlist; ?>,
                 primary:'flash',
                 repeat:true,
-                autostart:true,
+                autostart:false,
                 aspectratio:"16:9",
                 width:"100%",
 <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>

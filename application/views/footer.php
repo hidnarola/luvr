@@ -175,7 +175,7 @@ $sess_user_data = $this->session->userdata('user');
             image: "<?php echo $_SERVER['REQUEST_SCHEME']; ?>://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid" + i + ".jpg",
             primary:'flash',
             repeat:true,
-            autostart:true,
+            autostart:false,
             aspectratio:"16:9",
             width:"100%",
 <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
