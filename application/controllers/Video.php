@@ -36,6 +36,7 @@ class Video extends CI_Controller {
           exec(FFMPEG_PATH . ' -i new.mp4 -c:v libx264 -crf 24 -b:v 1M -c:a aac new1.mp4');
           }
           die; */
+        $data['single_video'] = false;
         if (isset($_GET['s']) && !empty($_GET['s'])) {
             $playlist = array();
             $j = 1;
@@ -115,6 +116,7 @@ class Video extends CI_Controller {
                     }
                 } else {
                     $user_media = $this->Users_model->getUserMediaByCol('id', $id);
+                    $data['single_video'] = true;
                     if (!empty($user_media)) {
                         if ($user_media['media_type'] == 2) {
                             $data['playlist'][0]['file'] = base_url() . "video/show_video/" . $user_media['media_name'];
