@@ -94,6 +94,9 @@ if (!empty($nearByUsers)) {
     <?php } ?>
 </div>
 <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12 content-div">
+    <div class="clearfix"></div>
+    <button type="button" style="margin-top:20px;" class="btn btn-danger mar-btm-20" onclick="window.history.back();">Back</button>
+    <div class="clearfix"></div>
     <div class="user-list">
         <div class="bg-name">luvr</div>
         <?php if (!empty($nearByUsers)) { ?>
@@ -242,7 +245,7 @@ if (!empty($nearByUsers)) {
         playlist: <?php echo $playlist; ?>,
                 primary:'flash',
                 repeat:true,
-                autostart:false,
+                autostart:true,
                 aspectratio:"16:9",
                 width:"100%",
 <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>

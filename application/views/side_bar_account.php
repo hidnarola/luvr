@@ -62,10 +62,10 @@ if ($UserPowerLuvsPerDay >= $max_powerluvs) {
                 <li class="<?php echo ($current_class == "message") ? "active" : ""; ?> ">
                     <a href="<?php echo base_url('/message/all_chats'); ?>" class="sidebar_message">
                         Messages
-                        <?php 
-                            $unread_counts = GetUserUnreadNotificationCounts($user_data['id']);
-                            if ($unread_counts > 0) {
-                        ?>
+                        <?php
+                        $unread_counts = GetUserUnreadNotificationCounts($user_data['id']);
+                        if ($unread_counts > 0) {
+                            ?>
                             <span class="badge"><?php echo $unread_counts; ?></span>
                         <?php } ?>
                     </a>
@@ -119,6 +119,9 @@ if ($UserPowerLuvsPerDay >= $max_powerluvs) {
                 <li class="<?php echo ($sub_view == "user/subscription") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/subscription'); ?>">Subscription</a></li>
             </ul>
         </div>
+        <div class="clearfix"></div>
+        <button type="button" class="btn btn-danger mar-btm-20" onclick="window.history.back();">Back</button>
+        <div class="clearfix"></div>
         <div class="left-my-picture">
             <h3 class="left-title">
                 <span>
