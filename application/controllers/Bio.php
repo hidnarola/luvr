@@ -204,8 +204,8 @@ class Bio extends CI_Controller {
                     $min_vid = (int)trim($explode_arr[count($explode_arr) - 2]);
                     $sec_vid = (int)trim($explode_arr[count($explode_arr) - 1]);
                     
-                    if($hour_vid > 0 || $min_vid > 0 || $sec_vid > 30){
-                        $this->session->set_flashdata('message', ['message'=>'Video can not be longer than 30 seconds.','class'=>'alert alert-danger']);
+                    if($hour_vid > 0 || $min_vid > 0 || $sec_vid > 60){
+                        $this->session->set_flashdata('message', ['message'=>'Video can not be longer than 60 seconds.','class'=>'alert alert-danger']);
                         redirect('bio/saved_feed');
                     } // v! end of IF condition for house,min,sec limit
                 }
