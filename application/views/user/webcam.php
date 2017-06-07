@@ -1,11 +1,15 @@
-<?php 
-    $sess_user_data = $this->session->userdata('user');
-    $is_active_usr = isUserActiveSubscriber($sess_user_data['id']);
+<?php
+$sess_user_data = $this->session->userdata('user');
+$is_active_usr = isUserActiveSubscriber($sess_user_data['id']);
+$playlist[0] = array("file" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid1.mp4", "image" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid1.jpg");
+$playlist[1] = array("file" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.mp4", "image" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.jpg");
+$playlist[2] = array("file" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.mp4", "image" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.jpg");
+$playlist = json_encode($playlist);
 ?>
 <link href="<?php echo base_url('assets/css/video-js.min.css'); ?>" rel="stylesheet"/>
 <link href="<?php echo base_url('assets/css/videojs.record.min.css'); ?>" rel="stylesheet"/>
 <link href="<?php echo base_url('assets/css/style-recorder.css'); ?>" rel="stylesheet"/>
-<script type="text/javascript" src="<?php echo base_url().'assets/js/jquery.browser.min.js'; ?>"></script>
+<script type="text/javascript" src="<?php echo base_url() . 'assets/js/jquery.browser.min.js'; ?>"></script>
 
 <script src="<?php echo base_url('assets/js/video.min.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/RecordRTC.js'); ?>"></script>
@@ -32,15 +36,29 @@
                 <video id="webVideo" class="video-js vjs-default-skin"></video>
             </div>
         </div>
+        <div id="wcplayer"></div>
     </div>
 </div>
 <script type='text/javascript'>
-    
-    <?php if($is_active_usr == '1') { ?>
+    jwplayer('wcplayer').setup({
+    playlist: <?php echo $playlist; ?>,
+            primary:'flash',
+            repeat:true,
+            autostart:true,
+            aspectratio:"16:9",
+            width:"100%",
+<?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
+        advertising: {
+        client:'vast',
+                tag:'<?php echo $ad_url; ?>',
+        },
+<?php } ?>
+    });
+<?php if ($is_active_usr == '1') { ?>
         var video_length = '60';
-    <?php }else{ ?>
+<?php } else { ?>
         var video_length = '15';
-    <?php } ?>
+<?php } ?>
 
     var player = videojs("webVideo",
             {
@@ -73,23 +91,23 @@
 
     // user completed recording and stream is available
     player.on('finishRecord', function ()
-    {   
-        
+    {
+
         // the blob object contains the recorded data that can be downloaded by the user, stored on server etc.        
         /*player.recorder.saveAs({'video': 'my-video-file-name.webm'});*/
         //data.append('file', player.recordedData.video);
-        
+
         var data = new FormData();
         // var is_mozzila = false;
 
-        if($.browser.mozilla == true){
+        if ($.browser.mozilla == true) {
             // is_mozzila = true;
             data.append('file', player.recordedData);
-        }else{
+        } else {
             data.append('file', player.recordedData.video);
         }
 
-        data.append('receiver_id','<?php echo $chat_user_id; ?>');
+        data.append('receiver_id', '<?php echo $chat_user_id; ?>');
 
         $.ajax({
             // url: "http://localhost/luvr/user/saverecordedvideo",
@@ -101,26 +119,25 @@
             processData: false,
             success: function (data) {
                 console.log(data);
-                if (data.success == false){
+                if (data.success == false) {
                     showMsg(data.message, 'error', true);
-                }else{
+                } else {
 
-                    socket.emit('New Message',{
-                        'message_type':'5',
-                        'message':null,
-                        'media_name':data['filename']+'.mp4',
-                        'unique_id':data['filename'],
-                        'sender_id':data['sender_id'],
-                        'receiver_id':data['receiver_id'],
-
-                        'created_date':data['created_date'],                    
-                        'is_encrypted':'0',
-                        'encrypted_message':''
-                    },function(data){
+                    socket.emit('New Message', {
+                        'message_type': '5',
+                        'message': null,
+                        'media_name': data['filename'] + '.mp4',
+                        'unique_id': data['filename'],
+                        'sender_id': data['sender_id'],
+                        'receiver_id': data['receiver_id'],
+                        'created_date': data['created_date'],
+                        'is_encrypted': '0',
+                        'encrypted_message': ''
+                    }, function (data) {
 
                     });
-                    
-                    window.location.href = "<?php echo base_url().'message/chat/'; ?>"+data['receiver_id'];
+
+                    window.location.href = "<?php echo base_url() . 'message/chat/'; ?>" + data['receiver_id'];
                 }
             },
             error: function () {

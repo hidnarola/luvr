@@ -9,15 +9,13 @@
     ?>
 
     <div class="col-md-8 col-sm-8 col-xs-12 account-r">
-
-
         <div class="account-r-head">                        
             <h2>
                 <big>
-                    <?php 
-                        $user_data = $this->session->userdata('user');
-                        $username = (!empty($user_data['user_name'])) ? ucfirst($user_data['user_name']) : $user_data['instagram_username'];
-                        echo $username;
+                    <?php
+                    $user_data = $this->session->userdata('user');
+                    $username = (!empty($user_data['user_name'])) ? ucfirst($user_data['user_name']) : $user_data['instagram_username'];
+                    echo $username;
                     ?>
                 </big>
             </h2>
@@ -37,7 +35,7 @@
 
                             $type = '3';
                             $thumb = $image['images']['thumbnail']['url'];
-                            $image_link = $link = $data_val =  $image['images']['standard_resolution']['url'];
+                            $image_link = $link = $data_val = $image['images']['standard_resolution']['url'];
                             $fancybox_str = 'data-fancybox="gallery"';
                             $anchor_target = '';
                             $dynamic_id = random_string();
@@ -48,7 +46,7 @@
                                 $fancybox_str = '';
                                 $anchor_target = '_blank';
                                 $vid_url = urlencode($image['videos']['standard_resolution']['url']);
-                                $image_link = base_url() . "video/play?url=".$vid_url;
+                                $image_link = base_url() . "video/play?url=" . $vid_url;
                                 $data_val = $image['videos']['standard_resolution']['url'];
                                 $is_video_class = 'video-tag';
                             }
@@ -76,8 +74,8 @@
                                                 </a>        
 
                                                 <a <?php echo $fancybox_str; ?> href="<?php echo $image_link; ?>" target="<?php echo $anchor_target; ?>"
-                                                    class="icon-full-screen image-link js-mytooltip type-inline-block style-block style-block-one"
-                                                    data-mytooltip-custom-class="align-center" data-mytooltip-content="Full screen"></a>
+                                                                                class="icon-full-screen image-link js-mytooltip type-inline-block style-block style-block-one"
+                                                                                data-mytooltip-custom-class="align-center" data-mytooltip-content="Full screen"></a>
 
                                                 <a data-type="<?php echo $type; ?>" data-insta-id="<?= $image['id'] ?>" data-insta-time="<?= $image['created_time'] ?>"
                                                    data-val="<?= $data_val ?>" data-thumb="<?= $thumb ?>" 
@@ -104,11 +102,16 @@
                 <?php } ?>               
 
             </div>
-             <?php if (!empty($next_link)) { ?>                    
-                    <div class="load-more">
-                        <a data-val="<?php echo $next_link; ?>" class="for_pointer" id="load_more_id" onclick="load_more(this)"> Load More </a>
-                    </div>                                            
-                <?php } ?>
+            <?php if (!empty($next_link)) { ?>                    
+                <div class="load-more">
+                    <a data-val="<?php echo $next_link; ?>" class="for_pointer" id="load_more_id" onclick="load_more(this)"> Load More </a>
+                </div>                                            
+            <?php } ?>
+        </div>
+        <div class="ad-video-h">
+            <div class="video-box-add"><div id="spplayer1"></div></div>
+            <div class="video-box-add"><div id="spplayer2"></div></div>
+            <div class="video-box-add"><div id="spplayer3"></div></div>
         </div>
     </div>
 </div>
@@ -128,7 +131,7 @@
                 if (data['all_images'] != '') {
 
                     $('#insta_img_list').append(data['all_images']);
-                    $('.js-mytooltip').myTooltip();                 
+                    $('.js-mytooltip').myTooltip();
 
                     if (data['next_link'] != '') {
                         $('#load_more_id').data('val', data['next_link']);
@@ -161,15 +164,15 @@
             dataType: "JSON",
             success: function (data) {
                 if (data['status'] != 'error') {
-                    
+
                     $('#' + dynamic_id).fadeOut();
                     show_notification('<strong> Success </strong>',
                             'Your feed has been saved into Bio.',
-                            'success');                    
+                            'success');
                 } else {
                     show_notification('<strong> Error </strong>',
                             'Can Not Save More Than 50 Images.',
-                            'error'); 
+                            'error');
                     //alert('ERROR:CAN NOT SAVE MORE THAN 50 IMAGES');
                 }
             }
@@ -190,15 +193,18 @@
         window.location.href = "<?php echo base_url() . 'bio/ajax_picture_set_profile'; ?>" + new_str;
     }
 
-    <?php 
-        if(isset($i)){
-            if (($i >= 0 && $i <= 3)) { 
-    ?>
-        $('#load_more_id').click();
-    <?php } } ?>
+<?php
+if (isset($i)) {
+    if (($i >= 0 && $i <= 3)) {
+        ?>
+            $('#load_more_id').click();
+    <?php
+    }
+}
+?>
 
-     $(document).ready(function() {        
-        if($('.js-mytooltip').length != 0){
+    $(document).ready(function () {
+        if ($('.js-mytooltip').length != 0) {
             $('.js-mytooltip').myTooltip();
         }
     });

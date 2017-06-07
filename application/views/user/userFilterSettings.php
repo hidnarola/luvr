@@ -48,6 +48,11 @@
                 </div>
             <?php } ?>
         </div>
+        <div class="ad-video-h">
+            <div class="video-box-add"><div id="spplayer1"></div></div>
+            <div class="video-box-add"><div id="spplayer2"></div></div>
+            <div class="video-box-add"><div id="spplayer3"></div></div>
+        </div>
     </div>
 </div>
 <script type="text/javascript">

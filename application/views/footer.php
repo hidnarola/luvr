@@ -167,11 +167,12 @@ $sess_user_data = $this->session->userdata('user');
 </audio>
 <script type="text/javascript">
     audioElement = document.getElementById('caller_tune');
-    if ($("#spplayer1").length > 0)
+    for (var i = 1; i <= 3; i++){
+    if ($("#spplayer" + i).length > 0)
     {
-    jwplayer('spplayer1').setup({
-    file: "<?php echo $_SERVER['REQUEST_SCHEME']; ?>://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.mp4",
-            image: "<?php echo $_SERVER['REQUEST_SCHEME']; ?>://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.jpg",
+    jwplayer('spplayer' + i).setup({
+    file: "<?php echo $_SERVER['REQUEST_SCHEME']; ?>://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid" + i + ".mp4",
+            image: "<?php echo $_SERVER['REQUEST_SCHEME']; ?>://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid" + i + ".jpg",
             primary:'flash',
             repeat:true,
             autostart:true,
@@ -185,23 +186,6 @@ $sess_user_data = $this->session->userdata('user');
 <?php } ?>
     });
     }
-    if ($("#spplayer2").length > 0)
-    {
-    jwplayer('spplayer2').setup({
-    file: "<?php echo $_SERVER['REQUEST_SCHEME']; ?>://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.mp4",
-            image: "<?php echo $_SERVER['REQUEST_SCHEME']; ?>://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.jpg",
-            primary:'flash',
-            repeat:true,
-            autostart:true,
-            aspectratio:"16:9",
-            width:"100%",
-<?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
-        advertising: {
-        client:'vast',
-                tag:'<?php echo "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . ""; ?>',
-        },
-<?php } ?>
-    });
     }
 </script>
 <script src="//media.twiliocdn.com/sdk/js/video/v1/twilio-video.min.js"></script>
@@ -291,3 +275,4 @@ if (!empty($sess_user_data)) {
 <script src="<?php echo base_url() . 'assets/js/jquery.fancybox.min.js'; ?>" type="text/javascript"></script>
 <script type="text/javascript" src="<?php echo base_url() . 'assets/js/bootstrap-notify.js'; ?>"></script>    
 </body>
+</html>

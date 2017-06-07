@@ -6,6 +6,9 @@ if (!empty($user_data)) {
         $show_ad = false;
     }
 }
+if ($this->uri->segment(4) == 2 || $this->uri->segment(4) == 3) {
+    $show_ad = false;
+}
 if (!empty($next_random)) {
     $next_random_url = base_url() . "video/play/" . $next_random . "/2";
 }
@@ -49,9 +52,13 @@ if (isset($ad_url) && !empty($ad_url)) {
         var player = jwplayer('playerObject');
         player.setup({
         playlist: <?php echo json_encode($playlist); ?>,
-                primary:'flash',
-                /*repeat:true,*/
-                autostart:true,
+    <?php if ($show_ad == true) { ?>
+            primary:'flash',
+    <?php } ?>
+    <?php if ($show_ad == false) { ?>
+            repeat:true,
+    <?php } ?>
+        autostart:true,
                 aspectratio:"16:9",
                 width:"100%",
     <?php if (($_SERVER['HTTP_HOST'] == 'dev.luvr.me' || $_SERVER['HTTP_HOST'] == 'luvr.me') && $show_ad == true) { ?>
@@ -61,32 +68,37 @@ if (isset($ad_url) && !empty($ad_url)) {
             },
     <?php } ?>
         });
-                player.on('error', function () {
-                    var next = parseInt(jwplayer().getPlaylistIndex()) + 1;
-                    if (next < <?php echo count($playlist); ?>) {
-                        jwplayer().playlistItem(next);
-                    } else {
-                        location.href = '<?php echo $next_random_url; ?>';
-                        /*player.playlistItem(0); */
-                    }
-                });
-
-        jwplayer().onError(function () {
-            var next = parseInt(jwplayer().getPlaylistIndex()) + 1;
-            if (next < <?php echo count($playlist); ?>) {
-                jwplayer().playlistItem(next);
-            } else {
-                location.href = '<?php echo $next_random_url; ?>';
-                /*player.playlistItem(0); */
-            }
-        });
-        jwplayer().onPlaylistComplete(function () {
+        player.on('error', function () {
+        var next = parseInt(jwplayer().getPlaylistIndex()) + 1;
+        if (next < <?php echo count($playlist); ?>) {
+        jwplayer().playlistItem(next);
+        } else {
+    <?php if (!empty($next_random_url) && $show_ad == true) { ?>
             location.href = '<?php echo $next_random_url; ?>';
+    <?php } ?>
+        /*player.playlistItem(0); */
+        }
         });
+        jwplayer().onError(function () {
+        var next = parseInt(jwplayer().getPlaylistIndex()) + 1;
+        if (next < <?php echo count($playlist); ?>) {
+        jwplayer().playlistItem(next);
+        } else {
+    <?php if (!empty($next_random_url) && $show_ad == true) { ?>
+            location.href = '<?php echo $next_random_url; ?>';
+    <?php } ?>
+        /*player.playlistItem(0); */
+        }
+        });
+    <?php if (!empty($next_random_url) && $show_ad == true) { ?>
+            jwplayer().onPlaylistComplete(function () {
+            location.href = '<?php echo $next_random_url; ?>';
+            });
+    <?php } ?>
     <?php if (!empty($ad_url) && $show_ad == true) { ?>
             console.log('<?php echo $ad_url; ?>');
     <?php } ?>
-    <?php if (!empty($next_random_url)) { ?>
+    <?php if (!empty($next_random_url) && $show_ad == true) { ?>
             console.log('<?php echo $next_random_url; ?>');
     <?php } ?>
     </script>

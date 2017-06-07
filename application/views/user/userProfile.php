@@ -8,7 +8,7 @@
     $user_data = $this->session->userdata('user');
     $username = (!empty($user_data['user_name'])) ? ucfirst($user_data['user_name']) : $user_data['instagram_username'];
     ?>
-    <div class="col-md-8 col-sm-8 col-xs-12 account-r">
+    <div class="col-md-8 col-sm-8 col-xs-12 account-r has-player">
         <div class="account-r-head">
             <h2>
                 <big><?php echo ucfirst($db_user_data['user_name']); ?></big>
@@ -20,7 +20,7 @@
                 <p>&nbsp;</p>
             </div>	
             <div class="account-body-body">
-                <div class="table-wrapper content-list">
+                <div class="table-wrapper content-list mar-btm-20">
                     <table class="table">
                         <tbody>
                             <tr>
@@ -70,6 +70,11 @@
                     <a class="color-btn" href="<?php echo base_url() . 'user/setup_userprofile/edit'; ?>">Edit Profile</a>
                 </div>
             </div>
+        </div>
+        <div class="ad-video">
+            <div class="video-box-add"><div id="spplayer1"></div></div>
+            <div class="video-box-add"><div id="spplayer2"></div></div>
+            <div class="video-box-add"><div id="spplayer3"></div></div>
         </div>
     </div>
 </div>

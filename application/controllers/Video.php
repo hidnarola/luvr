@@ -26,15 +26,16 @@ class Video extends CI_Controller {
         /* if (empty($id)) {
           show_404();
           } */
-        /*set_time_limit(3600);
-        for ($i = 1; $i <= 100; $i++) {
-            $full_path = "C:/wamp/www/Luvr/assets/uploads/Video/Sample/$i.mp4";
-            $dest_path = "C:/wamp/www/Luvr/assets/uploads/Video/processed/$i.mp4";
-            $thumb_path = "C:/wamp/www/Luvr/assets/uploads/Video/processed/thumbs/$i.jpg";
-            exec(FFMPEG_PATH . " -i $full_path -vf delogo=x=160:y=150:w=320:h=60 -c:a copy $dest_path");
-            exec(FFMPEG_PATH . ' -i ' . $dest_path . ' -ss 00:00:01.000 -vframes 1 ' . $thumb_path);
-        }
-        die;*/
+        /* set_time_limit(3600);
+          for ($i = 1; $i <= 100; $i++) {
+          $full_path = "C:/wamp/www/Luvr/assets/uploads/Video/Sample/$i.mp4";
+          $dest_path = "C:/wamp/www/Luvr/assets/uploads/Video/processed/$i.mp4";
+          $thumb_path = "C:/wamp/www/Luvr/assets/uploads/Video/processed/thumbs/$i.jpg";
+          exec(FFMPEG_PATH . " -i $full_path -vf delogo=x=160:y=150:w=320:h=60 -c:a copy $dest_path");
+          exec(FFMPEG_PATH . ' -i ' . $dest_path . ' -ss 00:00:01.000 -vframes 1 ' . $thumb_path);
+          exec(FFMPEG_PATH . ' -i new.mp4 -c:v libx264 -crf 24 -b:v 1M -c:a aac new1.mp4');
+          }
+          die; */
         if (isset($_GET['s']) && !empty($_GET['s'])) {
             $playlist = array();
             $j = 1;
@@ -63,6 +64,39 @@ class Video extends CI_Controller {
                     } else {
                         $random_video = $this->Videos_model->getRandomVideo();
                         $data['playlist'][0]['file'] = $random_video['media_name'];
+                    }
+                } else if ($param2 == 3) {
+                    $u_data = $this->session->userdata('user');
+                    $s_user_id = $u_data['id'];
+                    $sql = "
+                            SELECT * 
+                                FROM messages
+                            WHERE
+                                ((sender_id = $s_user_id AND receiver_id = $id) OR (receiver_id = $s_user_id AND sender_id = $id))
+                            AND 
+                                message_type = 3 
+                            AND 
+                                is_delete = 0 
+                            AND 
+                                media_name IS NOT NULL 
+                            AND 
+                                media_name != ''
+                            ORDER BY id DESC";
+                    $q = $this->db->query($sql);
+                    $user_media = $q->result_array();
+                    if (!empty($user_media)) {
+                        $i = 0;
+                        $playlist = array();
+                        foreach ($user_media as $value) {
+                            $playlist[$i]['file'] = base_url() . "video/show_video/" . $value['media_name'];
+                            $thumb_name = str_replace(".mp4", ".png", $value['media_name']);
+                            $playlist[$i]['image'] = base_url() . "bio/show_img/" . $thumb_name . "/1";
+                            $i++;
+                        }
+                        $data['playlist'] = $playlist;
+                    } else {
+                        echo "We could not find any video(s) associated with the requested conversation!";
+                        die;
                     }
                 } else if ($param2 != 2 && !is_numeric($param2) && !empty($param2)) {
                     $this->db->select('*');

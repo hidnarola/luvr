@@ -113,7 +113,7 @@
 }
 
 @media(min-width:1025px){
-.account-r.has-player{min-height:600px;}
+.account-r.has-player{min-height:760px;}
 }
 @media(max-width:1024px){
 .footer-column:nth-child(1){width:18%;}
@@ -127,8 +127,8 @@
 .user-likes a,
 .nbmatches .user-likes a {margin: 0 10px;}
 .user-list-r h2 big { word-break: break-all;}
-.ad-video {left:0;position:relative;top:0;-webkit-transform:translateY(0);-moz-transform:translateY(0);transform:translateY(0);}
-.video-box-add {background:#eee;display:inline-block;height:220px;margin:0 20px 20px 0;width:42%;}
+.ad-video{left:0;position:relative;top:0;-webkit-transform:translateY(0);-moz-transform:translateY(0);transform:translateY(0);}
+.video-box-add{background:#eee;display:inline-block;margin:0 20px 20px 0;width:42%;}
 }
 
 @media(min-width:992px) and (max-width:1024px){

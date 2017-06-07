@@ -11,21 +11,26 @@
         <div class="account-r-head">
             <h2>
                 <big>
-                    <?php 
-                        $user_data = $this->session->userdata('user');
-                        $username = (!empty($user_data['user_name'])) ? ucfirst($user_data['user_name']) : $user_data['instagram_username'];
-                        echo $username;
+                    <?php
+                    $user_data = $this->session->userdata('user');
+                    $username = (!empty($user_data['user_name'])) ? ucfirst($user_data['user_name']) : $user_data['instagram_username'];
+                    echo $username;
                     ?>
                 </big>
             </h2>
         </div>
         <div class="account-r-body">
+            <div class="ad-video-h">
+                <div class="video-box-add"><div id="spplayer1"></div></div>
+                <div class="video-box-add"><div id="spplayer2"></div></div>
+                <div class="video-box-add"><div id="spplayer3"></div></div>
+            </div>
             <div class="account-body-head">
                 <h2 class="account-title">My Medias</h2>
                 <p> &nbsp; </p>
             </div>  
             <div class="account-body-body">
-                <form action="<?php echo base_url().'bio/upload_feed'; ?>" enctype="multipart/form-data" method="post" class="upload-anythings">
+                <form action="<?php echo base_url() . 'bio/upload_feed'; ?>" enctype="multipart/form-data" method="post" class="upload-anythings">
                     <!-- <input type="file" name="feed" > -->
                     <h6>Upload Image or Video</h6>
                     <div class="input-group myfile div_1">
@@ -49,48 +54,47 @@
                             $is_delete = 'yes';
                             $dynamic_id = random_string();
 
-                            $type = $image['media_type'];                            
+                            $type = $image['media_type'];
 
                             $thumb = $image['media_thumb'];
                             $image_link = $image['media_name'];
 
                             $is_video_class = '';
-                                                        
+
                             // If type is uploaded video or video URL from instagram or facebook
                             if ($type == '4') {
                                 $fancybox_str = '';
-                                $anchor_target = '_blank';                                
+                                $anchor_target = '_blank';
                                 $img_thumb = $link = $image['media_thumb'];
                                 $image_link = base_url() . "video/play/" . $image['id'];
                                 $is_video_class = 'video-tag';
                             }
 
-                            if($type == '3'){
+                            if ($type == '3') {
                                 $fancybox_str = 'data-fancybox="gallery"';
                                 $anchor_target = '';
                                 $link = $image['media_name'];
                                 $img_thumb = $image['media_thumb'];
                             }
 
-                            if($type == '2'){                                
+                            if ($type == '2') {
                                 $fancybox_str = '';
                                 $anchor_target = '_blank';
                                 $link = $image['media_name'];
-                                $image['media_thumb'] = str_replace('.mp4','.png', $image['media_thumb']);
-                                $img_thumb = base_url().'bio/show_img/'.$image['media_thumb'].'/1';                                
-                                $image_link = base_url() . "video/play/".$image['id'];
+                                $image['media_thumb'] = str_replace('.mp4', '.png', $image['media_thumb']);
+                                $img_thumb = base_url() . 'bio/show_img/' . $image['media_thumb'] . '/1';
+                                $image_link = base_url() . "video/play/" . $image['id'];
                                 $is_video_class = 'video-tag';
                             }
 
-                            if($type == '1'){
+                            if ($type == '1') {
                                 $fancybox_str = 'data-fancybox="gallery"';
                                 $anchor_target = '';
                                 $link = $image['media_name'];
-                                $image_link = base_url().'bio/show_img/'.$image['media_name'];
-                                $img_thumb = base_url().'bio/show_img/'.$image['media_thumb'].'/1';
+                                $image_link = base_url() . 'bio/show_img/' . $image['media_name'];
+                                $img_thumb = base_url() . 'bio/show_img/' . $image['media_thumb'] . '/1';
                             }
-
-                        ?>
+                            ?>
                             <li id="<?php echo $dynamic_id; ?>">
                                 <div class="my-picture-box">
                                     <a class="<?php echo $is_video_class; ?>">
@@ -106,8 +110,8 @@
                                             </a>
 
                                             <a <?php echo $fancybox_str; ?> href="<?php echo $image_link; ?>" target="<?php echo $anchor_target; ?>"
-                                                class="for_pointer icon-full-screen image-link js-mytooltip type-inline-block style-block style-block-one"
-                                                data-mytooltip-custom-class="align-center" data-mytooltip-content="Full screen">
+                                                                            class="for_pointer icon-full-screen image-link js-mytooltip type-inline-block style-block style-block-one"
+                                                                            data-mytooltip-custom-class="align-center" data-mytooltip-content="Full screen">
                                             </a>
 
                                             <a data-type="<?php echo $type; ?>" data-insta-id="<?= $image['media_id'] ?>" data-insta-time="<?= strtotime($image['insta_datetime']) ?>"
@@ -120,9 +124,10 @@
                                     </div>
                                 </div>
                             </li>                                                          
-                        <?php 
+                            <?php
                             //if($type == '2'){ pr($image,1); } 
-                        } ?>
+                        }
+                        ?>
                     <?php } ?>
                 </ul>
 
@@ -158,8 +163,8 @@
             dataType: "JSON",
             success: function (data) {
                 show_notification('<strong> Success </strong>',
-                            'Your feed has been removed from Bio.',
-                            'success');                    
+                        'Your feed has been removed from Bio.',
+                        'success');
                 $('#' + dynamic_id).fadeOut();
             }
         });
@@ -177,8 +182,8 @@
         window.location.href = "<?php echo base_url() . 'bio/ajax_picture_set_profile'; ?>" + new_str;
     }
 
-    $(document).ready(function() {        
-        if($('.js-mytooltip').length != 0){
+    $(document).ready(function () {
+        if ($('.js-mytooltip').length != 0) {
             $('.js-mytooltip').myTooltip();
         }
         // alert = function(mesg) {console.trace(mesg)}

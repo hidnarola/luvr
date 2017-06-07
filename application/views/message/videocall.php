@@ -3,6 +3,10 @@ $sess_user_data = $this->session->userdata('user');
 $chat_user_img = my_img_url($chat_user_media['media_type'], $chat_user_media['media_thumb']);
 $chatusername = (!empty($chat_user_data['user_name'])) ? $chat_user_data['user_name'] : $chat_user_data['instagram_username'];
 $chat_user_data['user_name'] = $chatusername;
+$playlist[0] = array("file" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid1.mp4", "image" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid1.jpg");
+$playlist[1] = array("file" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.mp4", "image" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.jpg");
+$playlist[2] = array("file" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.mp4", "image" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.jpg");
+$playlist = json_encode($playlist);
 ?>
 <div class="my-account">
     <?php
@@ -40,10 +44,25 @@ $chat_user_data['user_name'] = $chatusername;
                 </div>
             </div>
         </div>
+        <div id="vcplayer"></div>
     </div>
 </div>
 <script type="text/javascript">
-    var call_timeout = 0;
+    jwplayer('vcplayer').setup({
+    playlist: <?php echo $playlist; ?>,
+            primary:'flash',
+            repeat:true,
+            autostart:true,
+            aspectratio:"16:9",
+            width:"100%",
+<?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
+        advertising: {
+        client:'vast',
+                tag:'<?php echo $ad_url; ?>',
+        },
+<?php } ?>
+    });
+            var call_timeout = 0;
     var tmptout;
     /*socket.on('connect', function () {
      socket.emit('connected', {id: socket.id});

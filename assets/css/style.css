@@ -575,4 +575,6 @@ label.missed{font-weight:normal;display:inline;color:#f26f6f;cursor:text;}
 #hpplayer{bottom:0;position:absolute;right:0;width:520px !important;}
 
 .ad-video{position:absolute;left:100%;top:50%;-webkit-transform:translateY(-50%);-moz-transform:translateY(-50%);transform:translateY(-50%);}
+.ad-video-h{display:block;}
+.ad-video-h .video-box-add{display:inline-block;width:240px;}
 .video-box-add{background:#eee;/*height:180px;*/margin:0 0 30px;width:200px;}

@@ -42,7 +42,7 @@ if (!empty($all_messages)) {
     }
     $this->load->view('side_bar_account');
     ?>
-    <div class="col-md-8 col-sm-8 col-xs-12 account-r has-player">
+    <div class="col-md-8 col-sm-8 col-xs-12 account-r">
         <div class="account-r-head">
             <h2><big><?php echo $db_user_data['user_name']; ?></big></h2>
         </div>
@@ -53,33 +53,31 @@ if (!empty($all_messages)) {
             <div class="account-body-body chat-related">
                 <?php if (!empty($all_matches)) { ?>
                     <div class="chatlist-user">
-                        <h5>New matches</h6>
-                            <div class="chatlist-user-wrap">
-                                <ul>
-                                    <?php
-                                    foreach ($all_matches as $match) {
-
-                                        if (in_array($match['id'], $all_messages_user_ids) == false) {
-
-                                            $img_user = my_img_url($match['media_type'], $match['media_thumb']);
-                                            $decode_uname = base64_decode($match['encrypted_username']);
-                                            ?>
-                                            <li>
-                                                <a href="<?php echo base_url() . 'message/chat/' . $match['id']; ?>">
-                                                    <span>
-                                                        <img src="<?php echo $img_user; ?>" alt="" onerror="this.src='<?php echo base_url(); ?>assets/images/default_avatar.jpg'" />
-                                                    </span>
-                                                    <h4>
-                                                        <?php echo character_limiter($decode_uname, 1); ?>
-                                                    </h4>
-                                                </a>
-                                            </li>
-                                            <?php
-                                        }
+                        <h5>New matches</h5>
+                        <div class="chatlist-user-wrap">
+                            <ul>
+                                <?php
+                                foreach ($all_matches as $match) {
+                                    if (in_array($match['id'], $all_messages_user_ids) == false) {
+                                        $img_user = my_img_url($match['media_type'], $match['media_thumb']);
+                                        $decode_uname = base64_decode($match['encrypted_username']);
+                                        ?>
+                                        <li>
+                                            <a href="<?php echo base_url() . 'message/chat/' . $match['id']; ?>">
+                                                <span>
+                                                    <img src="<?php echo $img_user; ?>" alt="" onerror="this.src='<?php echo base_url(); ?>assets/images/default_avatar.jpg'" />
+                                                </span>
+                                                <h4>
+                                                    <?php echo character_limiter($decode_uname, 1); ?>
+                                                </h4>
+                                            </a>
+                                        </li>
+                                        <?php
                                     }
-                                    ?>
-                                </ul>
-                            </div>  
+                                }
+                                ?>
+                            </ul>
+                        </div>  
                     </div>
                 <?php } ?>
                 <div class="message-conversations">
@@ -97,8 +95,8 @@ if (!empty($all_messages)) {
                                 if (!empty($all_sorted_msgs)) {
                                     foreach ($all_sorted_msgs as $msg_new) {
                                         ?>
-                                        <tr onclick="window.location.href = '<?php echo base_url() . "message/chat/" . $msg_new['fetch_user_id']; ?>'" style="cursor:pointer" >
-                                            <td>
+                                        <tr>
+                                            <td onclick="window.location.href = '<?php echo base_url() . "message/chat/" . $msg_new['fetch_user_id']; ?>'" class="for_pointer">
                                                 <div class="message-user-pic">
                                                     <span class="radius">
                                                         <img src="<?php echo $msg_new['img_user']; ?>" alt=""  onerror="this.src='<?php echo base_url(); ?>assets/images/default_avatar.jpg'"/>
@@ -113,7 +111,7 @@ if (!empty($all_messages)) {
                                                     </h4>
                                                 </div>
                                             </td>
-                                            <td>
+                                            <td class="for_pointer" onclick="openInNewTab('<?php echo base_url() . "video/play/" . $msg_new['fetch_user_id']; ?>/3')">
                                                 <div class="message-count-div">
                                                     <h6>
                                                         <?php
@@ -139,6 +137,7 @@ if (!empty($all_messages)) {
                                                                     break;
                                                                 case '6': echo 'Missed call';
                                                                     break;
+                                                                default : echo '&nbsp;';
                                                             }
                                                         }
                                                         ?>
@@ -161,13 +160,42 @@ if (!empty($all_messages)) {
                 </div>
             </div>
         </div>
-        <div class="ad-video">
+        <div class="ad-video-h">
             <div class="video-box-add"><div id="spplayer1"></div></div>
             <div class="video-box-add"><div id="spplayer2"></div></div>
+            <div class="video-box-add"><div id="spplayer3"></div></div>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
-    // Manually call Join_socket
+    function displayConversationAssets(user_id) {
+        /*$(".testa").fancybox({
+         href: "<?php echo base_url('message/getconversationmedia') ?>",
+         type: "ajax",
+         ajax: {
+         type: "POST",
+         data: {
+         user_id: user_id
+         }
+         }
+         });*/
+        $.ajax({
+            type: "GET",
+            dataType: "JSON",
+            url: "<?php echo base_url('message/getconversationmedia') ?>",
+            data: "user_id=" + user_id,
+            success: function (data) {
+                if (data.length > 0)
+                    $.fancybox.open(data);
+                else
+                    alert("No media available!");
+            }
+        });
+        return false;
+    }
+    function openInNewTab(url) {
+        var win = window.open(url, '_blank');
+        win.focus();
+    }
 </script>

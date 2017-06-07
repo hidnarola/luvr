@@ -1,6 +1,7 @@
 <?php
-$playlist[0] = array("file" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.mp4", "image" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.jpg");
-$playlist[1] = array("file" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.mp4", "image" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.jpg");
+$playlist[0] = array("file" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid1.mp4", "image" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid1.jpg");
+$playlist[1] = array("file" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.mp4", "image" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.jpg");
+$playlist[2] = array("file" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.mp4", "image" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.jpg");
 $playlist = json_encode($playlist);
 $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . "";
 $sess_user_data = $this->session->userdata('user');
@@ -50,7 +51,6 @@ $is_active_usr = isUserActiveSubscriber($sess_user_data['id']);
                                 <ul id="all_messages_ul"></ul>
                             </div>
                             <form method="post" onsubmit="event.preventDefault(); submit_message(this);" id="msg_form" enctype="multipart/form-data">
-
                                 <div class="chat-option">
                                     <ul class="nav nav-tabs" role="tablist">
                                         <li role="presentation" class="active msg_text">
@@ -61,7 +61,6 @@ $is_active_usr = isUserActiveSubscriber($sess_user_data['id']);
                                         </li>
                                     </ul>
                                     <div class="tab-content">
-
                                         <div role="tabpanel" class="tab-pane active" id="chat-tab">                                            
                                             <div class="message-to-talk">
                                                 <!--  -->
@@ -77,7 +76,6 @@ $is_active_usr = isUserActiveSubscriber($sess_user_data['id']);
                                         </div>
                                         <div role="tabpanel" class=" tab-pane" id="upload-tab">
                                             <div class="choose-file">
-
                                                 <h6>Upload Image or Video</h6>
                                                 <span class="all_files">
                                                     <div class="input-group myfile div_1">
@@ -95,13 +93,11 @@ $is_active_usr = isUserActiveSubscriber($sess_user_data['id']);
                                                         Remove
                                                     </a>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
                                     <div class="btm-btn-div">
                                         <button type="submit"> Send Message </button>
-
 
                                         <?php if (empty($video_snap_data)) { ?>
                                             <a class="send_req for_pointer" onclick="send_snap_request('<?php echo $sess_user_data["id"]; ?>', '<?php echo $chat_user_id; ?>')" title="Send Video Request"><img src="<?php echo base_url() . 'assets/images/video-request.png'; ?>" alt="img"></a>
@@ -145,28 +141,17 @@ $is_active_usr = isUserActiveSubscriber($sess_user_data['id']);
                 </div>
             </div>
         </div>
-        <div id="msgplayer"></div>
+        <div class="ad-video-h">
+            <div class="video-box-add"><div id="spplayer1"></div></div>
+            <div class="video-box-add"><div id="spplayer2"></div></div>
+            <div class="video-box-add"><div id="spplayer3"></div></div>
+        </div>
     </div>
 </div>
 
 <input type="hidden" id="last_msg_id" val="">
 
 <script type="text/javascript">
-    var player_msg = jwplayer('msgplayer');
-    player_msg.setup({
-    playlist: <?php echo $playlist; ?>,
-            primary:'flash',
-            repeat:true,
-            autostart:true,
-            aspectratio:"16:9",
-            width:"100%",
-<?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
-        advertising: {
-        client:'vast',
-                tag:'<?php echo $ad_url; ?>',
-        },
-<?php } ?>
-    });
     var first_counter = 0;
 
     function formatAMPM(date) {
