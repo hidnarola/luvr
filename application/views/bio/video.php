@@ -6,7 +6,10 @@ if (!empty($user_data)) {
         $show_ad = false;
     }
 }
-if (($this->uri->segment(4) == 2 || $this->uri->segment(4) == 3) && $single_video == true) {
+if ($this->uri->segment(4) == 2 || $this->uri->segment(4) == 3) {
+    $show_ad = false;
+}
+if ($single_video == true) {
     $show_ad = false;
 }
 if (!empty($next_random)) {
