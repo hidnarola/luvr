@@ -245,7 +245,7 @@ if (!empty($nearByUsers)) {
         playlist: <?php echo $playlist; ?>,
                 primary:'flash',
                 repeat:true,
-                autostart:true,
+                autostart:false,
                 aspectratio:"16:9",
                 width:"100%",
 <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
