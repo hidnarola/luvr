@@ -129,7 +129,8 @@
 .nbmatches .user-likes a {margin: 0 10px;}
 .user-list-r h2 big { word-break: break-all;}
 .ad-video{left:0;position:relative;top:0;-webkit-transform:translateY(0);-moz-transform:translateY(0);transform:translateY(0);}
-.video-box-add,ad-video-h .video-box-add{background:#eee;display:inline-block;margin:0 20px 20px 0;width:42%;}
+.video-box-add,
+.ad-video-h .video-box-add{background:#eee;display:inline-block;margin:0 20px 20px 0;width:42%;}
 }
 
 @media(min-width:992px) and (max-width:1024px){
@@ -245,7 +246,6 @@ ul.my-picture-ul > li {width:100%;}
 .user-likes a,
 .nbmatches .user-likes a {margin: 0 5px;}
 .video-box-add,.ad-video-h .video-box-add{margin:0 0 20px;width:100%;}
-
 }
 
 /*19-04-2017*/
