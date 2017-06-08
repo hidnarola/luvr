@@ -95,6 +95,7 @@ if (!empty($nearByUsers)) {
 </div>
 <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12 content-div">
     <div class="user-list">
+        <div class="back-btn-div"><a onclick="window.history.back();" class="for_pointer"></a></div>    
         <div class="bg-name">luvr</div>
         <?php if (!empty($nearByUsers)) { ?>
             <div class="user-list-l">

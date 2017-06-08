@@ -55,6 +55,7 @@ if (!empty($user_profile) && !empty($db_user_data)) {
     <div class='alert alert-info'>Swipe right again to give them your final approval or swipe left to pass!</div>
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="user-list">
+            <div class="back-btn-div"><a onclick="window.history.back();" class="for_pointer"></a></div>
             <div class="bg-name">luvr</div>
             <div class="user-list-l">
                 <div class="user-list-l-l">

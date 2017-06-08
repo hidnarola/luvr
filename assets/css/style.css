@@ -578,7 +578,7 @@ label.missed{font-weight:normal;display:inline;color:#f26f6f;cursor:text;}
 .ad-video-h{display:block;}
 .ad-video-h .video-box-add{display:inline-block;width:240px;}
 .video-box-add{background:#eee;/*height:180px;*/margin:0 0 30px;width:200px;}
-.back-btn-div{position:absolute;top:60px;left:-1px;z-index: 1;}
+.back-btn-div{z-index:1;margin:-20px 0 30px;}
 .account-l .back-btn-div {top:0;position:relative;margin:-5px 0 20px;}
 .back-btn-div a{background:url(../images/back-btn.png) no-repeat 0 0;display:block;width:158px;height:52px;text-decoration:none; }
 .video .back-btn-div {position:relative;top:0;left: -1px;z-index: 1;max-width: 1170px;margin:0 auto 30px;}

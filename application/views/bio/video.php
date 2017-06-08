@@ -26,6 +26,7 @@ if (isset($_GET['s']) && !empty($_GET['s'])) {
         $next_random_url .= '?s=' . $_GET['s'] . '';
     }
     $show_ad = true;
+    echo "IP : " . $this->input->ip_address();
 }
 if (isset($ad_url) && !empty($ad_url)) {
     if (strpos($ad_url, 'streamrail') !== false) {
@@ -35,6 +36,7 @@ if (isset($ad_url) && !empty($ad_url)) {
 ?>
 <div class="container">
     <div class="row">
+        <div class="back-btn-div"><a onclick="window.history.back();" class="for_pointer"></a></div>    
         <?php if (!empty($playlist)) { ?>
             <div id="playerObject"></div>        
         <?php } else { ?>

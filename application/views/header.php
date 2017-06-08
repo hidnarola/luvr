@@ -132,9 +132,6 @@ $user_data = $this->session->userdata('user');
         </header>
 
         <section id="inner-content" class="inner-content <?php echo ($sub_view == "bio/video") ? "video" : ""; ?>">
-            <?php if ($sub_view == "match/nearByMatches" || $sub_view == "match/level2" || $sub_view == "bio/video") { ?>
-                <div class="back-btn-div"><a onclick="window.history.back();" class="for_pointer"></a></div>
-            <?php } ?>
             <div class="<?php echo ($sub_view == "match/nearByMatches") ? "nbmatches" : "container"; ?>">
                 <div class="row">
                     <div id="msg_txt" style="display:none;"></div>
