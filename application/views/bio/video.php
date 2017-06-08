@@ -17,6 +17,7 @@ if (!empty($next_random)) {
 }
 if (isset($_GET['p']) && !empty($_GET['p'])) {
     $next_random_url .= '?p=' . $_GET['p'] . '';
+    $show_ad = true;
 }
 if (isset($_GET['s']) && !empty($_GET['s'])) {
     if (isset($_GET['p']) && !empty($_GET['p'])) {
@@ -24,6 +25,7 @@ if (isset($_GET['s']) && !empty($_GET['s'])) {
     } else {
         $next_random_url .= '?s=' . $_GET['s'] . '';
     }
+    $show_ad = true;
 }
 if (isset($ad_url) && !empty($ad_url)) {
     if (strpos($ad_url, 'streamrail') !== false) {
