@@ -61,9 +61,12 @@ if (isset($ad_url) && !empty($ad_url)) {
     <?php } ?>
     <?php if ($show_ad == false) { ?>
                 repeat:true,
+                        autostart:false,
     <?php } ?>
-            autostart:false,
-                    aspectratio:"16:9",
+    <?php if ($show_ad == true) { ?>
+                autostart:true,
+    <?php } ?>
+            aspectratio:"16:9",
                     width:"100%",
     <?php if (($_SERVER['HTTP_HOST'] == 'dev.luvr.me' || $_SERVER['HTTP_HOST'] == 'luvr.me') && $show_ad == true) { ?>
                 advertising: {
