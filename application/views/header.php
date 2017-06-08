@@ -37,16 +37,16 @@ $user_data = $this->session->userdata('user');
         <script src="<?php echo base_url(); ?>assets/js/custom.js"></script>
         <?php if (!empty($user_data)) { ?>
             <script type="text/javascript">
-        var socket = io.connect('https://' + window.location.hostname + ':8100');
-        socket.emit('join_socket_web', {
-            'userID': '<?php echo $user_data['id']; ?>',
-            'is_login': '1',
-            'app_version': 0
-        });
-        var audioElement = '';
-        var myid = '';
-        var call_timeout = 0;
-        var tmptout;
+            var socket = io.connect('https://' + window.location.hostname + ':8100');
+            socket.emit('join_socket_web', {
+                'userID': '<?php echo $user_data['id']; ?>',
+                'is_login': '1',
+                'app_version': 0
+            });
+            var audioElement = '';
+            var myid = '';
+            var call_timeout = 0;
+            var tmptout;
             </script>
         <?php } ?>
         <?php if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me' || $_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
@@ -132,6 +132,9 @@ $user_data = $this->session->userdata('user');
         </header>
 
         <section id="inner-content" class="inner-content <?php echo ($sub_view == "bio/video") ? "video" : ""; ?>">
+            <?php if ($sub_view == "match/nearByMatches" || $sub_view == "match/level2" || $sub_view == "bio/video") { ?>
+                <div class="back-btn-div"><a onclick="window.history.back();" class="for_pointer"></a></div>
+            <?php } ?>
             <div class="<?php echo ($sub_view == "match/nearByMatches") ? "nbmatches" : "container"; ?>">
                 <div class="row">
                     <div id="msg_txt" style="display:none;"></div>

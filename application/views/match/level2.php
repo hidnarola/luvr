@@ -54,9 +54,6 @@ if (!empty($user_profile) && !empty($db_user_data)) {
     ?>
     <div class='alert alert-info'>Swipe right again to give them your final approval or swipe left to pass!</div>
     <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="clearfix"></div>
-        <button type="button" style="margin-top:20px;" class="btn btn-danger mar-btm-20" onclick="window.history.back();">Back</button>
-        <div class="clearfix"></div>
         <div class="user-list">
             <div class="bg-name">luvr</div>
             <div class="user-list-l">

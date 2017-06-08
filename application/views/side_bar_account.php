@@ -119,9 +119,7 @@ if ($UserPowerLuvsPerDay >= $max_powerluvs) {
                 <li class="<?php echo ($sub_view == "user/subscription") ? "active" : ""; ?>"><a href="<?php echo base_url('/user/subscription'); ?>">Subscription</a></li>
             </ul>
         </div>
-        <div class="clearfix"></div>
-        <button type="button" class="btn btn-danger mar-btm-20" onclick="window.history.back();">Back</button>
-        <div class="clearfix"></div>
+        <div class="back-btn-div"><a onclick="window.history.back();" class="for_pointer"></a></div>
         <div class="left-my-picture">
             <h3 class="left-title">
                 <span>

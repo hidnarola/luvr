@@ -33,7 +33,6 @@ if (isset($ad_url) && !empty($ad_url)) {
 ?>
 <div class="container">
     <div class="row">
-        <button type="button" class="btn btn-danger mar-btm-20" onclick="window.history.back();">Back</button>
         <?php if (!empty($playlist)) { ?>
             <div id="playerObject"></div>        
         <?php } else { ?>
