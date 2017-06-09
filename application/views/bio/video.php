@@ -29,7 +29,6 @@ if (isset($_GET['s']) && !empty($_GET['s'])) {
     echo "IP : " . $this->input->ip_address();
 }
 if (isset($_GET['p']) && !empty($_GET['p']) && (empty($_GET['s'])) || !isset($_GET['s'])) {
-    $playlist = null;
 }
 if (isset($ad_url) && !empty($ad_url)) {
     if (strpos($ad_url, 'streamrail') !== false) {
