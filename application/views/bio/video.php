@@ -1,8 +1,10 @@
 <?php
 $user_data = $this->session->userdata('user');
 $show_ad = true;
+$active_subscriber = 0;
 if (!empty($user_data)) {
-    if (isUserActiveSubscriber($user_data['id']) == 1) {
+    $active_subscriber = isUserActiveSubscriber($user_data['id']);
+    if ($active_subscriber == 1) {
         $show_ad = false;
     }
 }
@@ -28,8 +30,13 @@ if (isset($_GET['s']) && !empty($_GET['s'])) {
     $show_ad = true;
     echo "IP : " . $this->input->ip_address();
 }
+$manage_errors = true;
 if (isset($_GET['p']) && !empty($_GET['p']) && (empty($_GET['s'])) || !isset($_GET['s'])) {
-    $playlist = null;
+    $playlist = array("file" => "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/luvr-logo.mp4", "image" => "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/luvr-logo.jpg");
+    $manage_errors = false;
+    if ($active_subscriber == 1) {
+        $show_ad = false;
+    }
 }
 if (isset($ad_url) && !empty($ad_url)) {
     if (strpos($ad_url, 'streamrail') !== false) {
@@ -82,7 +89,7 @@ if (isset($ad_url) && !empty($ad_url)) {
                 },
 <?php } ?>
             });
-<?php if ($playlist != null && !empty($playlist)) { ?>
+<?php if ($manage_errors == true) { ?>
                 player.on('error', function () {
                 var next = parseInt(jwplayer().getPlaylistIndex()) + 1;
                 if (next < <?php echo count($playlist); ?>) {
@@ -110,6 +117,15 @@ if (isset($ad_url) && !empty($ad_url)) {
                     location.href = '<?php echo $next_random_url; ?>';
                     });
     <?php } ?>
+<?php } ?>
+<?php if ($manage_errors == false) { ?>
+                jwplayer().onPlaylistComplete(function () {
+    <?php if (isset($_GET['uid']) && !empty($_GET['uid'])) { ?>
+                    location.href = "<?php echo base_url('/match/level2/') . $_GET['uid']; ?>/1/2";
+    <?php } else { ?>
+                    location.href = '<?php echo base_url('match/nearby'); ?>';
+    <?php } ?>
+                });
 <?php } ?>
 <?php if (!empty($ad_url) && $show_ad == true) { ?>
                 console.log('<?php echo $ad_url; ?>');

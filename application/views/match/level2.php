@@ -272,7 +272,11 @@ if (!empty($user_profile) && !empty($db_user_data)) {
                                         });
                                     }
                                     if (data.success == true) {
-                                        location.href = "<?php echo base_url('/match/nearby'); ?>";
+    <?php if ($is_user_premium_member == 1) { ?>
+                                            location.href = "<?php echo base_url('/match/nearby'); ?>";
+    <?php } else { ?>
+                                            location.href = "<?php echo base_url('video/play?p=op'); ?>";
+    <?php } ?>
                                     }
                                     if ((data.user_swipes_per_day == <?php echo MAX_SWIPES_PER_DAY; ?>) && mode == "like")
                                     {

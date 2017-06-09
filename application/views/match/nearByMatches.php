@@ -57,33 +57,12 @@ if (!empty($nearByUsers)) {
 <script type="text/javascript">
     var nearby_matches = <?php echo json_encode($nearByUsers); ?>
 </script>
-<?php if ($this->uri->segment(3) == "c") { ?>
-    <script>
-        $(window).load(function () {
-            //$(".addvertise-img1 iframe").attr("sandbox","allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-pointer-lock");
-
-
-            //$(".addvertise-img1 iframe").contents().find("a:first").trigger('click');
-            var ur = $(".addvertise-img1 iframe").contents().find("a:first").attr('href');
-            log(ur);
-            location.href = ur;
-            //window.open(ur, '_blank');
-
-
-
-            //$(".addvertise-img1 iframe").contents().find("a:first").click();
-            /*var $iframe = $(".addvertise-img1 iframe").contents();
-             $("body", $iframe).trigger("click");*/
-        });
-    </script>
-<?php } ?>
 <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me' && $show_ad == true) { ?>
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <?php } ?>
 <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 ad-div text-center">
     <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me' && $show_ad == true) { ?>
         <div class="addvertise-img1 adv">
-            <!--<script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1582351"></script>-->
             <iframe src="//rcm-na.amazon-adsystem.com/e/cm?o=1&p=14&l=ur1&category=gift_certificates&banner=0S32YAVKXXKQGNQSSGG2&f=ifr&linkID=d657de821aa5bba1c26d3a3d5de1e99d&t=luvrweb-20&tracking_id=luvrweb-20" width="160" height="600" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>
         </div>
         <div class="addvertise-img2 adv">
@@ -258,27 +237,12 @@ if (!empty($nearByUsers)) {
 <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 ad-div text-center">
     <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me' && $show_ad == true) { ?>
         <div class="addvertise-img3 adv">
-            <!--<script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1582359"></script>-->
             <iframe src="//rcm-na.amazon-adsystem.com/e/cm?o=1&p=11&l=ez&f=ifr&linkID=50e379b0a4c5a4f0cbaa6b826d1497c7&t=luvrweb-20&tracking_id=luvrweb-20" width="120" height="600" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>
         </div>
         <div class="addvertise-img4 adv">
             <script data-cfasync="false" type="text/javascript" src="<?php echo $_SERVER['REQUEST_SCHEME']; ?>://www.tradeadexchange.com/a/display.php?r=1582363"></script>
         </div>
     <?php } ?>
-</div>
-<div class="modal fade" id="adpopup" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <input type="hidden" id="hdn_tmp_id"/>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Sneak Peak</h4>
-            </div>
-            <div class="modal-body">
-                <iframe src="" id="sneak_peak_frame" frameborder="0" scrolling="no" style="overflow:hidden;height:300px;width:100%;"></iframe>
-            </div>
-        </div>
-    </div>
 </div>
 <style type="text/css">
     .inner-content{position:relative;}
@@ -313,15 +277,7 @@ if (!empty($nearByUsers)) {
     <?php if ($is_user_premium_member == 1) { ?>
                             location.href = "<?php echo base_url('/match/level2/'); ?>" + $(item).data("id") + "/1/2";
     <?php } else { ?>
-                            $("#adpopup").modal('show');
-                            $("#hdn_tmp_id").val($(item).data("id"));
-                            $("#sneak_peak_frame").attr('src', '<?php echo base_url('video/adcash'); ?>');
-                            $("#sneak_peak_frame").on('load', function () {
-                                showSneakPeak();
-                            });
-                            $("#sneak_peak_frame").on('error', function () {
-                                location.href = "<?php echo base_url('match/level2/'); ?>" + $(item).data("id") + "/1/2";
-                            });
+                            location.href = "<?php echo base_url('video/play?p=op'); ?>&uid=" + $(item).data("id") + "";
     <?php } ?>
 <?php } ?>
                     reflectUserInfo(item.index() - 1);
@@ -329,6 +285,9 @@ if (!empty($nearByUsers)) {
                 onDislike: function (item) {
                     likedislikeuser($(item).data("id"), 'dislike');
                     reflectUserInfo(item.index() - 1);
+<?php if ($is_user_premium_member == 0) { ?>
+                        location.href = "<?php echo base_url('video/play?p=op'); ?>";
+<?php } ?>
                 },
                 onLuv: function (item) {
                     /*loadLevel2(item, 'luv');*/
@@ -463,27 +422,6 @@ if (!empty($nearByUsers)) {
                     }, Math.floor((Math.random() * 1000) + 1000));
                 }
             });
-        }
-        /*function loadLevel2(item, mode) {
-         var index = item.index();
-         $("#tinderslide2 ul li.panel").attr("data-id", nearby_matches[index].id);
-         $("#tinderslide2 ul li.panel .user-list-pic-bg").attr("style", "background:url('" + nearby_matches[index].media_thumb + "') no-repeat scroll center center;");
-         $('#level2Popup').modal('show');
-         $('.secondSwiper ul li,panel').removeAttr('style');
-         $('.secondSwiper ul li,panel').show();
-         }*/
-        /*$("#adpopup").on("shown.bs.modal", function () {
-         showSneakPeak();
-         });*/
-        function showSneakPeak() {
-            popup_seconds = popup_seconds + 1;
-            if (popup_seconds == 5)
-            {
-                location.href = "<?php echo base_url('match/level2/'); ?>" + $("#hdn_tmp_id").val() + "/1/2";
-            } else
-            {
-                setTimeout(showSneakPeak, 1000);
-            }
         }
         socket.on('New Like Request', function (data) {
             console.log(data);
