@@ -31,7 +31,7 @@ if (isset($_GET['s']) && !empty($_GET['s'])) {
     echo "IP : " . $this->input->ip_address();
 }
 $manage_errors = true;
-if (isset($_GET['p']) && !empty($_GET['p']) && (empty($_GET['s'])) || !isset($_GET['s'])) {
+if (isset($_GET['p']) && !empty($_GET['p']) && (empty($_GET['s']) || !isset($_GET['s']))) {
     $playlist = array("file" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/luvr-logo.mp4", "image" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/luvr-logo.jpg");
     $manage_errors = false;
     if ($active_subscriber == 1) {
