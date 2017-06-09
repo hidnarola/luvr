@@ -572,7 +572,7 @@ display:inline-block;vertical-align:middle;text-align:center;}
 .chat_img img{border:2px solid #f26f6f;}
 label.missed{font-weight:normal;display:inline;color:#f26f6f;cursor:text;}
 .homepage-player-outer {margin: 0 auto;max-width: 1170px;position: relative;width: 100%;}
-#hpplayer{bottom:0;position:absolute;right:0;width:520px !important;}
+#hpplayer{bottom:0;position:absolute;right:0;width:650px !important;}
 
 .ad-video{position:absolute;left:100%;top:50%;-webkit-transform:translateY(-50%);-moz-transform:translateY(-50%);transform:translateY(-50%);}
 .ad-video-h{display:block;}

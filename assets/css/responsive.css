@@ -32,6 +32,8 @@
 }
 @media (min-width:1200px) and (max-width:1279px){
 .benefits-content p br{display:none;}
+#hpplayer{width:600px !important;}
+
 }
 @media(max-width:1199px){
 .home-welcome p br,
@@ -54,6 +56,8 @@
 .my-account::after {left:308px;}
 .left-my-picture ul li {padding:0 7px 20px;}
 .preferences-ul li {width:44%;margin:0 5% 30px 0;}
+#hpplayer {width: 500px !important;}
+
 }
 
 
@@ -139,6 +143,8 @@
 .left-my-picture ul li {padding:0 7px 20px;}
 ul.my-picture-ul > li {padding:10px;}
 #hpplayer{right:20px;width:420px !important;}
+#hpplayer {width:500px !important;}
+.hero-caption h2 {font-size:30px;}
 }
 
 @media(min-width:768px) and (max-width:991px){
@@ -164,8 +170,10 @@ ul.my-picture-ul > li {padding:10px;}
 .left-my-picture ul li {padding:0 5px 20px;}
 ul.my-picture-ul > li {padding:7px;}
 #frm_powerluvs .color-btn {min-width: inherit;white-space: nowrap;width:45px;overflow:hidden;}
-#hpplayer{width:350px !important;}
-
+#hpplayer{width:420px !important;}
+.hero-caption p {width:40%;font-size:14px;}
+.hero-caption p br{display:none;}
+.hero-caption h2 {font-size:30px;}
 }
 
 @media(max-width:767px){
