@@ -189,7 +189,7 @@ class Video extends CI_Controller {
         $data['show_header_footer'] = 1;
         $next_random = $this->Videos_model->getRandomVideoOwner($id);
         $data['next_random'] = $next_random['userid'];
-        if ($param2 == 0 && $param2 != null)
+        if (($param2 == 0 && $param2 != null) || $_GET['hf'] == 0)
             $data['show_header_footer'] = 0;
         $data['meta_title'] = "Play Video";
         $data['is_video'] = true;
