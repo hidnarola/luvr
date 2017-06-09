@@ -32,7 +32,7 @@ if (isset($_GET['s']) && !empty($_GET['s'])) {
 }
 $manage_errors = true;
 if (isset($_GET['p']) && !empty($_GET['p']) && (empty($_GET['s'])) || !isset($_GET['s'])) {
-    $playlist = array("file" => "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/luvr-logo.mp4", "image" => "http://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/luvr-logo.jpg");
+    $playlist = array("file" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/luvr-logo.mp4", "image" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/luvr-logo.jpg");
     $manage_errors = false;
     if ($active_subscriber == 1) {
         $show_ad = false;
