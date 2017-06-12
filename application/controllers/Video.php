@@ -256,12 +256,12 @@ class Video extends CI_Controller {
         if (isset($proxies)) {  // If the $proxies array contains items, then
             $proxy = $proxies[array_rand($proxies)];    // Select a random proxy from the array and assign to $proxy variable
         }
-        pr($proxy);
         pr(_current_url());
         
         $ch = curl_init();  // Initialise a cURL handle
         /* Setting proxy option for cURL */
         if (isset($proxy)) {    // If the $proxy variable is set, then
+            pr($proxy);
             curl_setopt($ch, CURLOPT_PROXY, $proxy);    // Set CURLOPT_PROXY with proxy in $proxy variable
         }
         
@@ -275,7 +275,7 @@ class Video extends CI_Controller {
 
         $results = curl_exec($ch);  // Execute a cURL request
         curl_close($ch);
-
+        pr($results);
         $data['sub_view'] = 'ads/testproxy';
         $data['meta_title'] = "Test";
         $this->load->view('main', $data);
