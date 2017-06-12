@@ -275,7 +275,7 @@ class Video extends CI_Controller {
 
         $results = curl_exec($ch);  // Execute a cURL request
         curl_close($ch);
-        
+        pr($_SERVER,1);
         $data['sub_view'] = 'ads/testproxy';
         $data['meta_title'] = "Test";
         $this->load->view('main', $data);
