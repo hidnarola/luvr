@@ -240,4 +240,42 @@ class Video extends CI_Controller {
         $this->load->view('main', $data);
     }
 
+    function testproxy() {
+        $proxies = array(); // Declaring an array to store the proxy list
+        /* Adding list of proxies to the $proxies array */
+        /* $proxies[] = 'user:password@173.234.11.134:54253';  // Some proxies require user, password, IP and port number
+          $proxies[] = 'user:password@173.234.120.69:54253';
+          $proxies[] = 'user:password@173.234.46.176:54253'; */
+        $proxies[] = '104.198.63.245:8888';  // Some proxies only require IP
+        $proxies[] = '93.188.164.193:3128';
+        $proxies[] = '64.140.159.209:80'; // Some proxies require IP and port number
+        $proxies[] = '54.219.138.73:8083';
+        $proxies[] = '173.75.39.21:3128';
+
+
+        if (isset($proxies)) {  // If the $proxies array contains items, then
+            $proxy = $proxies[array_rand($proxies)];    // Select a random proxy from the array and assign to $proxy variable
+        }
+        pr($proxy);
+        $ch = curl_init();  // Initialise a cURL handle
+        /* Setting proxy option for cURL */
+        if (isset($proxy)) {    // If the $proxy variable is set, then
+            curl_setopt($ch, CURLOPT_PROXY, $proxy);    // Set CURLOPT_PROXY with proxy in $proxy variable
+        }
+
+        /* Set any other cURL options that are required */
+        curl_setopt($ch, CURLOPT_HEADER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_COOKIESESSION, TRUE);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_URL, _current_url());
+
+        $results = curl_exec($ch);  // Execute a cURL request
+        curl_close($ch);
+
+        echo "IP : " . $this->input->ip_address();
+        die;
+    }
+
 }
