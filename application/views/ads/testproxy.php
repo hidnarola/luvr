@@ -22,4 +22,5 @@ foreach ($proxy_headers as $x) {
     if (isset($_SERVER[$x]))
         die("You are using a proxy!");
 }
+echo getUserIP();
 ?>
