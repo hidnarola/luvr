@@ -1,4 +1,4 @@
 <?php
 
-pr($_SERVER);
+pr($_REQUEST);
 ?>
