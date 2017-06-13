@@ -163,18 +163,19 @@ class Video extends CI_Controller {
                 "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . "", // US traffic
                 "https://vast.optimatic.com/vast/getVast.aspx?id=TKEjzowTy68F&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . "", // UK traffic
                 "http://ssp.streamrail.net/ssp/vpaid/5715f70d2ed89a0002000242/5924041c932f1a00024b75b9?cb=" . uniqid() . "&width=1024&height=768&ip=" . $_SERVER['REMOTE_ADDR'] . "&ua=" . urlencode($_SERVER['HTTP_USER_AGENT']) . "&page_url=" . base_url(uri_string()) . "",
-                "" . $_SERVER['REQUEST_SCHEME'] . "://www.objectdisplay.com/a/display.php?r=1593023&acp=pre&acw=1024&ach=768&vast=3"
+                "" . $_SERVER['REQUEST_SCHEME'] . "://www.objectdisplay.com/a/display.php?r=1593023&acp=pre&acw=1024&ach=768&vast=3",
+                "" . $_SERVER['REQUEST_SCHEME'] . "://go.aniview.com/api/adserver6/vast/?AV_PUBLISHERID=59394e4828a06156ac564965&AV_CHANNELID=59395c9728a06118183e72cf&AV_URL=" . base_url(_current_url()) . "&cb=" . time() . "&AV_WIDTH=1024&AV_HEIGHT=768"
             );
             $data['ad_url'] = $ads[array_rand($ads)];
             if (!empty($_GET['p'])) {
                 if ($_GET['p'] == "op") {
-                    $data['ad_url'] = $ads[0];
+                    $data['ad_url'] = $ads[4];
                 } else if ($_GET['p'] == "opk") {
-                    $data['ad_url'] = $ads[1];
+                    $data['ad_url'] = $ads[4];
                 } else if ($_GET['p'] == "ha") {
-                    $data['ad_url'] = $ads[0];
+                    $data['ad_url'] = $ads[4];
                 } else if ($_GET['p'] == "ac") {
-                    $data['ad_url'] = $ads[0];
+                    $data['ad_url'] = $ads[4];
                 }
             }
         }
