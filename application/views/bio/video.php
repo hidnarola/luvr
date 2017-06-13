@@ -118,7 +118,7 @@ if (isset($ad_url) && !empty($ad_url)) {
                     });
     <?php } ?>
 <?php } ?>
-<?php if ($manage_errors == false) { ?>
+<?php if ($manage_errors == false && !empty($user_data)) { ?>
                 jwplayer().onPlaylistComplete(function () {
     <?php if (isset($_GET['uid']) && !empty($_GET['uid'])) { ?>
                     location.href = "<?php echo base_url('/match/level2/') . $_GET['uid']; ?>/1/2";
