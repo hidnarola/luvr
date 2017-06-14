@@ -70,7 +70,9 @@ if (isset($ad_url) && !empty($ad_url)) {
 <?php if ($playlist != null && !empty($playlist)) { ?>
                 playlist: <?php echo json_encode($playlist); ?>,
 <?php } ?>
-
+<?php if ($show_ad == true) { ?>
+                /*primary:'flash',*/
+<?php } ?>
 <?php if ($show_ad == false) { ?>
                 repeat:true,
                         autostart:false,
