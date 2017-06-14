@@ -86,6 +86,7 @@ if (isset($ad_url) && !empty($ad_url)) {
                 advertising: {
                 client:'vast',
                         tag:'<?php echo $ad_url; ?>',
+                        requestTimeout:20000
                 },
 <?php } ?>
             });
