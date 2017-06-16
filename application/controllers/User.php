@@ -7,11 +7,11 @@ class User extends CI_Controller {
     public function __construct() {
         // Call the Model constructor
         parent::__construct();
-        $this->load->model(array('Users_model', 'Filters_model', 'Matches_model', 'Bio_model','Messages_model'));
+        $this->load->model(array('Users_model', 'Filters_model', 'Matches_model', 'Bio_model', 'Messages_model'));
         $this->load->library(['unirest', 'facebook']);
         $u_data = $this->session->userdata('user');
 
-        if (empty($u_data) && uri_string() != 'user/manage_subscription' && uri_string() != "user/login_callback" && uri_string() != "user/webcam" && uri_string() != "user/saverecordedvideo") {
+        if (empty($u_data) && uri_string() != 'user/manage_subscription' && uri_string() != "user/login_callback" && uri_string() != "user/webcam" && uri_string() != "user/saverecordedvideo" && uri_string() != "user/midieast") {
             redirect('register');
         }
     }
@@ -393,10 +393,10 @@ class User extends CI_Controller {
         $request_id = $this->input->post('request_id');
         $status = $this->input->post('mode');
         $updated_date = date("Y-m-d H:i:s");
-        $res = $this->db->get_where('videosnaps',['requestto_id'=>$user_id,'requestby_id'=>$request_id])->row_array();
-        $this->db->update('videosnaps',['status'=>$status],['id'=>$res['id']]);
-        $success = true;        
-        echo json_encode(array("success" => $success,'last_id'=>$request_id));
+        $res = $this->db->get_where('videosnaps', ['requestto_id' => $user_id, 'requestby_id' => $request_id])->row_array();
+        $this->db->update('videosnaps', ['status' => $status], ['id' => $res['id']]);
+        $success = true;
+        echo json_encode(array("success" => $success, 'last_id' => $request_id));
     }
 
     /* --------------------------------------------------------------------------------------------------
@@ -614,9 +614,13 @@ class User extends CI_Controller {
         $u_data = $this->session->userdata('user');
         $user_id = $u_data['id'];
 
-        $data['video_snap_data'] = $this->Messages_model->fetch_videosnap_request($user_id,$chat_user_id);
-        if(empty($data['video_snap_data'])){ show_404(); }
-        if($data['video_snap_data']['status'] != 2){ show_404(); }
+        $data['video_snap_data'] = $this->Messages_model->fetch_videosnap_request($user_id, $chat_user_id);
+        if (empty($data['video_snap_data'])) {
+            show_404();
+        }
+        if ($data['video_snap_data']['status'] != 2) {
+            show_404();
+        }
 
         $data['chat_user_id'] = $chat_user_id;
         $data['sub_view'] = 'user/webcam';
@@ -632,12 +636,12 @@ class User extends CI_Controller {
         $data = array();
         $path = "";
         $filename = '';
-        $receiver_id = $this->input->post('receiver_id');        
+        $receiver_id = $this->input->post('receiver_id');
         // pr($_FILES);
 
         if (isset($_FILES['file']) && !$_FILES['file']['error']) {
             if ($_FILES['file']['type'] == "video/webm") {
-                $random = $user_id.'_'.random_name_generate();
+                $random = $user_id . '_' . random_name_generate();
                 $fname = $random . ".webm";
                 $fpathw = UPLOADPATH_VIDEO . '/' . $fname;
             }
@@ -645,12 +649,12 @@ class User extends CI_Controller {
                 $mp4name = $random . ".mp4";
                 $fpath = UPLOADPATH_VIDEO . '/' . $mp4name;
                 if ($_FILES['file']['type'] == "video/webm") {
-                    exec(FFMPEG_PATH.' -i ' . $fpathw . ' ' . $fpath);
+                    exec(FFMPEG_PATH . ' -i ' . $fpathw . ' ' . $fpath);
                     @unlink($fpathw);
                 }
                 $thumb_name = $random . '.png';
                 $thumb_path = UPLOADPATH_THUMB . '/' . $thumb_name;
-                exec(FFMPEG_PATH . ' -i ' . $fpath . ' -ss 00:00:01.000 -vframes 1 ' . $thumb_path);                
+                exec(FFMPEG_PATH . ' -i ' . $fpath . ' -ss 00:00:01.000 -vframes 1 ' . $thumb_path);
 
                 $success = true;
                 $data['message'] = "";
@@ -663,42 +667,49 @@ class User extends CI_Controller {
         } else {
             $success = false;
             switch ($_FILES['file']['error']) {
-                case '1': $data['message'] = "The uploaded file exceeds the upload_max_filesize directive in php.ini."; break;
-                case '2': $data['message'] = "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form."; break;
-                case '3': $data['message'] = "The uploaded file was only partially uploaded."; break;                
-                case '4': $data['message'] = "No file was uploaded."; break;                
-                case '6': $data['message'] = "Missing /tmp folder."; break;
-                case '7': $data['message'] = "Failed to write file to disk."; break;
-                case '8': $data['message'] = "A PHP extension stopped the file upload."; break;
-            }            
+                case '1': $data['message'] = "The uploaded file exceeds the upload_max_filesize directive in php.ini.";
+                    break;
+                case '2': $data['message'] = "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.";
+                    break;
+                case '3': $data['message'] = "The uploaded file was only partially uploaded.";
+                    break;
+                case '4': $data['message'] = "No file was uploaded.";
+                    break;
+                case '6': $data['message'] = "Missing /tmp folder.";
+                    break;
+                case '7': $data['message'] = "Failed to write file to disk.";
+                    break;
+                case '8': $data['message'] = "A PHP extension stopped the file upload.";
+                    break;
+            }
         }
 
         $this->Bio_model->insert_media([
-                                        'userid'=>$user_id,
-                                        'media_id'=>'0',
-                                        'media_name'=>$filename.'.mp4',
-                                        'media_thumb'=>$filename.'.mp4',
-                                        'media_type'=>'2',
-                                        'insta_datetime'=>date('Y-m-d H:i:s'),
-                                        'created_date'=>date('Y-m-d H:i:s'),
-                                        'is_bios'=>'0',
-                                        'is_active'=>'1'
-                                    ]);
+            'userid' => $user_id,
+            'media_id' => '0',
+            'media_name' => $filename . '.mp4',
+            'media_thumb' => $filename . '.mp4',
+            'media_type' => '2',
+            'insta_datetime' => date('Y-m-d H:i:s'),
+            'created_date' => date('Y-m-d H:i:s'),
+            'is_bios' => '0',
+            'is_active' => '1'
+        ]);
 
         // sender_id
         // receiver_id
         // created_date
         echo json_encode(
                 array(
-                        "success" => $success,
-                        "message" => $data['message'],
-                        "path" => $path,
-                        'filename'=>$filename,
-                        'sender_id'=>$user_id,
-                        'receiver_id'=>$receiver_id,
-                        'created_date'=>date('Y-m-d H:i:s')
-                    )
-                );
+                    "success" => $success,
+                    "message" => $data['message'],
+                    "path" => $path,
+                    'filename' => $filename,
+                    'sender_id' => $user_id,
+                    'receiver_id' => $receiver_id,
+                    'created_date' => date('Y-m-d H:i:s')
+                )
+        );
     }
 
     public function manage_powerluv_subscription() {
@@ -794,6 +805,12 @@ class User extends CI_Controller {
               echo "<BR>Stripe Response : ";
               pr($charge); */
         }
+    }
+
+    public function midieast() {
+        $data['sub_view'] = 'user/midieast';
+        $data['meta_title'] = "Midieastphotography";
+        $this->load->view('main', $data);
     }
 
 }
