@@ -54,6 +54,19 @@ if (isset($ad_url) && !empty($ad_url)) {
         <div id="playerObject"></div>        
     </div>
 </div>
+    <script type="text/javascript">
+var exoOpts = {
+  cat: '492',
+  login: 'luvrinc',
+  idzone_300x250: '2657732',
+  idsite: '669986',
+  preroll: {},
+  pause: {},
+  postroll: {},
+  show_thumb: '1'
+};
+</script>
+<script type="text/javascript" src="https://ads.exdynsrv.com/invideo.js"></script>
 <style type="text/css">
     .jw-progress{background:#f26f6f;}
     .jw-button-color:focus, :not(.jw-flag-touch) .jw-button-color:hover{color:#f26f6f;}
