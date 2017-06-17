@@ -86,7 +86,7 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
             <div class="benefits-img"><img src="<?php echo base_url(); ?>assets/images/share-experiences.jpg" alt="" /></div>
             <div class="benefits-content">
                 <h2>Timestamps</h2>
-                <p>Using Luvr's timestamp feature you are able to see exactly when a photo or video was created. This ensures that someone is showing you the current them, and not then from 5 years ago.</p>
+                <p>Using Luvr's timestamp feature you are able to see exactly when a photo or video was created. This ensures that someone is showing you the current them, and not them from 5 years ago.</p>
             </div>	
         </li>
         <li class="count-people">
