@@ -18,6 +18,7 @@
     vid1.muted(true);
     vid1.ads();
     vid1.vast({
-        url: 'http://playertest.longtailvideo.com/vast-30s-ad.xml'
+        url: 'http://playertest.longtailvideo.com/vast-30s-ad.xml',
+        skip: 5
     });
 </script>
