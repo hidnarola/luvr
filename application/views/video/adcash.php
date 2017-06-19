@@ -2,7 +2,7 @@
 <link href="<?php echo S3_URL; ?>/assets/css/videojs.ads.css" rel="stylesheet">
 <link href="<?php echo S3_URL; ?>/assets/css/videojs.vast.css" rel="stylesheet">
 
-<script src="http://vjs.zencdn.net/4.7.1/video.js"></script>
+<script src="<?php echo S3_URL; ?>/assets/js/video4.7.1.js"></script>
 <script src="<?php echo S3_URL; ?>/assets/js/videojs.ads.js"></script>
 <script src="<?php echo S3_URL; ?>/assets/js/vast-client.js"></script>
 <script src="<?php echo S3_URL; ?>/assets/js/videojs.vast.js"></script>
