@@ -34,26 +34,6 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
             </div>
         </li>
     </ul>
-    <div class="homepage-player-outer">
-        <div id="hpplayer"></div>
-    </div>
-    <script type="text/javascript">
-        var player_hp = jwplayer('hpplayer');
-        player_hp.setup({
-        playlist: <?php echo $playlist; ?>,
-                primary:'flash',
-                repeat:true,
-                autostart:false,
-                aspectratio:"16:9",
-                width:"100%",
-<?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
-            advertising: {
-            client:'vast',
-                    tag:'<?php echo $ad_url; ?>',
-            },
-<?php } ?>
-        });
-    </script>
 </section>
 
 <section id="welcome" class="home-welcome">
