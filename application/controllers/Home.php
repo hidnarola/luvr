@@ -144,9 +144,9 @@ class Home extends CI_Controller {
             pr(urlencode($mob_user_agent));
             pr($_SERVER['HTTP_USER_AGENT']);
         }
-        //if ($_SERVER['HTTP_HOST'] == 'luvr.me') {
+        if ($_SERVER['HTTP_HOST'] == 'luvr.me') {
             $data['ad_url'] = "" . $_SERVER['REQUEST_SCHEME'] . "://go.aniview.com/api/adserver6/vast/?AV_PUBLISHERID=59394e4828a06156ac564965&AV_CHANNELID=59395c9728a06118183e72cf&cb=" . time() . "&AV_WIDTH=1024&AV_HEIGHT=768";
-        //}
+        }
         $data['sub_view'] = 'video/adcash';
         $data['show_header_footer'] = 1;
         /* $next_random = $this->Videos_model->getRandomVideoOwner($id);
@@ -159,6 +159,12 @@ class Home extends CI_Controller {
         }
         $data['meta_title'] = "Luvr";
         $data['is_video'] = true;
+        $this->load->view('main', $data);
+    }
+
+    public function aniplayer() {
+        $data['meta_title'] = "Aniplayer";
+        $data['sub_view'] = 'video/aniplayer';
         $this->load->view('main', $data);
     }
 
