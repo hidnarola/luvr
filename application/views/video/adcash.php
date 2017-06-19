@@ -1,4 +1,4 @@
-<link href="<?php echo S3_URL; ?>/assets/css/video-js.css" rel="stylesheet">
+<link href="http://vjs.zencdn.net/4.7.1/video-js.css" rel="stylesheet">
 <link href="<?php echo S3_URL; ?>/assets/css/videojs.ads.css" rel="stylesheet">
 <link href="<?php echo S3_URL; ?>/assets/css/videojs.vast.css" rel="stylesheet">
 
