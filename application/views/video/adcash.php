@@ -18,7 +18,7 @@
     vid1.muted(true);
     vid1.ads();
     vid1.vast({
-        url: '<?php echo $_SERVER['REQUEST_SCHEME']; ?>://playertest.longtailvideo.com/vast-30s-ad.xml',
+        url: '<?php echo $_SERVER['REQUEST_SCHEME'] . "://go.aniview.com/api/adserver6/vast/?AV_PUBLISHERID=59394e4828a06156ac564965&AV_CHANNELID=59395c9728a06118183e72cf&cb=" . time() . "&AV_WIDTH=1024&AV_HEIGHT=768"; ?>',
         skip: 5
     });
 </script>
