@@ -219,18 +219,12 @@ if (!empty($nearByUsers)) {
     <script type="text/javascript">
         var player_nbmp = jwplayer('nbmpplayer');
         player_nbmp.setup({
-        playlist: <?php echo $playlist; ?>,
-                primary:'flash',
-                repeat:true,
-                autostart:false,
-                aspectratio:"16:9",
-                width:"100%",
-<?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
-            advertising: {
-            client:'vast',
-                    tag:'<?php echo $ad_url; ?>',
-            },
-<?php } ?>
+            playlist: <?php echo $playlist; ?>,
+            primary: 'flash',
+            repeat: true,
+            autostart: false,
+            aspectratio: "16:9",
+            width: "100%",
         });
     </script>
 </div>

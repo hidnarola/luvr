@@ -42,18 +42,12 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
 </div>
 <script type='text/javascript'>
     jwplayer('wcplayer').setup({
-    playlist: <?php echo $playlist; ?>,
-            primary:'flash',
-            repeat:true,
-            autostart:false,
-            aspectratio:"16:9",
-            width:"100%",
-<?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
-        advertising: {
-        client:'vast',
-                tag:'<?php echo $ad_url; ?>',
-        },
-<?php } ?>
+        playlist: <?php echo $playlist; ?>,
+        primary: 'flash',
+        repeat: true,
+        autostart: false,
+        aspectratio: "16:9",
+        width: "100%",
     });
 <?php if ($is_active_usr == '1') { ?>
         var video_length = '60';

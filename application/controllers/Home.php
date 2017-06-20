@@ -168,6 +168,17 @@ class Home extends CI_Controller {
         $this->load->view('main', $data);
     }
 
+    public function drluvr($video = null) {
+        $data['meta_title'] = "Dr. Luvr";
+        if (!empty($video) && $video != null)
+            $data['sub_view'] = 'video/video';
+        else
+            $data['sub_view'] = 'drluvr';
+        $data['video'] = (!empty($video) && $video != null) ? $video : null;
+        $data['playlist'] = (!empty($video) && $video != null) ? array("file" => S3_URL . "/Videos/Dating/$video.mp4", "image" => S3_URL . "/Videos/Dating/thumbs/$video.jpg") : null;
+        $this->load->view('main', $data);
+    }
+
 }
 
 /* End of file Home.php */

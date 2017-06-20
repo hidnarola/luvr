@@ -14,7 +14,7 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
             <div class="hero-caption">
                 <h2>Welcome to the Future <br/>of Online Dating.</h2>
                 <p>Introducing Luvr, the world's most first and <br/>most advanced video dating application.<br/>Luvr allows you to connect with your <br/>perfect match via 3 levels of <br/>video based communication.</p>
-                <a href="">View more</a>
+                <a href="#packages">View more</a>
             </div>
         </li>
         <li>
@@ -22,7 +22,7 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
             <div class="hero-caption">
                 <h2>Welcome to the Future <br/>of Online Dating.</h2>
                 <p>Introducing Luvr, the world's most first and <br/>most advanced video dating application.<br/>Luvr allows you to connect with your <br/>perfect match via 3 levels of <br/>video based communication.</p>
-                <a href="">View more</a>
+                <a href="#packages">View more</a>
             </div>
         </li>
         <li>
@@ -30,13 +30,34 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
             <div class="hero-caption">
                 <h2>Welcome to the Future <br/>of Online Dating.</h2>
                 <p>Introducing Luvr, the world's most first and <br/>most advanced video dating application.<br/>Luvr allows you to connect with your <br/>perfect match via 3 levels of <br/>video based communication.</p>
-                <a href="">View more</a>
+                <a href="#packages">View more</a>
             </div>
         </li>
     </ul>
+    <div class="homepage-player-outer">
+        <div id="hpplayer"></div>
+    </div>
+    <script type="text/javascript">
+        var player_hp = jwplayer('hpplayer');
+        player_hp.setup({
+        playlist: <?php echo $playlist; ?>,
+                primary:'flash',
+                repeat:true,
+                autostart:false,
+                aspectratio:"16:9",
+                width:"100%",
+<?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
+            advertising: {
+            client:'vast',
+                    tag:'<?php echo $ad_url; ?>',
+            },
+<?php } ?>
+        });
+    </script>
 </section>
 
 <section id="welcome" class="home-welcome">
+    <a href='<?php echo base_url('drluvr'); ?>' class='drluvr-btn'>Check Out Dr. Luvr!</a>
     <div class="container">
         <h2>
             <span><img src="<?php echo base_url(); ?>assets/images/welcome-icon.png" alt="" /></span>

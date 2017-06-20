@@ -50,20 +50,14 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
 </div>
 <script type="text/javascript">
     jwplayer('vcplayer').setup({
-    playlist: <?php echo $playlist; ?>,
-            primary:'flash',
-            repeat:true,
-            autostart:false,
-            aspectratio:"16:9",
-            width:"100%",
-<?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
-        advertising: {
-        client:'vast',
-                tag:'<?php echo $ad_url; ?>',
-        },
-<?php } ?>
+        playlist: <?php echo $playlist; ?>,
+        primary: 'flash',
+        repeat: true,
+        autostart: false,
+        aspectratio: "16:9",
+        width: "100%",
     });
-            var call_timeout = 0;
+    var call_timeout = 0;
     var tmptout;
     /*socket.on('connect', function () {
      socket.emit('connected', {id: socket.id});
