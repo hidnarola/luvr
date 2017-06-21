@@ -28,7 +28,8 @@ $playlist = json_encode($playlist);
             preloader: {
                 type: 'content',
                 link: <?php echo $playlist; ?>,
-                poster: '<?php echo "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid1.jpg"; ?>'
+                clickthrough: '',
+                poster: ''
             },
             position: 'aniplayer'
         };
