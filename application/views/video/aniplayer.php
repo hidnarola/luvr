@@ -1,3 +1,9 @@
+<?php
+$playlist[0] = "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid1.mp4";
+$playlist[1] = "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.mp4";
+$playlist[2] = "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.mp4";
+$playlist = json_encode($playlist);
+?>
 <div id="aniplayer"></div>
 <script type="text/javascript" id="aniviewJS">
     (function ()
@@ -19,6 +25,11 @@
             pauseButton: true,
             closeButton: true,
             format: "html5",
+            preloader: {
+                type: 'content',
+                link: <?php echo $playlist; ?>,
+                poster: '<?php echo "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid1.jpg"; ?>'
+            },
             position: 'aniplayer'
         };
 
