@@ -12,7 +12,7 @@ $playlist = json_encode($playlist);
         var adConfig = {
             publisherId: '59394e4828a06156ac564965',
             channelId: '59395c9728a06118183e72cf',
-            ref1: 'AV_URL=[URL_MACRO]',
+            ref1: '',
             width: 1024,
             height: 768,
             HD: true,
