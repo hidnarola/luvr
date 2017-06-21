@@ -4,6 +4,9 @@ $playlist[1] = "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com
 $playlist[2] = "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.mp4";
 $playlist = json_encode($playlist);
 ?>
+<style>
+    #av-container{width:100% !important;}
+</style>
 <div id="aniplayer"></div>
 <script type="text/javascript" id="aniviewJS">
     (function ()

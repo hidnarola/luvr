@@ -131,7 +131,7 @@ $user_data = $this->session->userdata('user');
             </div>
         </header>
 
-        <section id="inner-content" class="inner-content <?php echo ($sub_view == "bio/video" || $sub_view == "video/video" || $sub_view == "drluvr") ? "video" : ""; ?> <?php if ($sub_view == "user/midieast") echo "midieast-container"; ?>">
+        <section id="inner-content" class="inner-content <?php echo ($sub_view == "bio/video" || $sub_view == "video/video" || $sub_view == "drluvr" || $sub_view == "video/aniplayer") ? "video" : ""; ?> <?php if ($sub_view == "user/midieast") echo "midieast-container"; ?>">
             <div class="<?php echo ($sub_view == "match/nearByMatches" || $sub_view == "user/midieast") ? "nbmatches" : "container"; ?>">
                 <div class="row">
                     <div id="msg_txt" style="display:none;"></div>
