@@ -45,7 +45,6 @@ $playlist = json_encode($playlist);
             }
             document.getElementsByTagName('head')[0].appendChild(scp);
         }
-        ;
         downloadScript(PlayerUrl, adConfig);
     })();
 
