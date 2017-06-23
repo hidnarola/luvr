@@ -22,7 +22,7 @@ $proxies = array(
 );
 if (isset($_GET['nr']) && !empty($_GET['nr'])) {
     pr($_SERVER);
-    echo $this->input->ip_address();
+    echo (int)$this->input->ip_address();
     /*if ($_GET['nr'] == 1) {
         $next_random_url = base_url() . "drluvr/video" . rand(1, 12) . "?nr=1";
     }*/
