@@ -8,8 +8,23 @@ if (!empty($user_data)) {
         $show_ad = false;
     }
 }
-if (!empty($next_random)) {
-    $next_random_url = base_url() . "drluvr/video/" . $next_random;
+$proxies = array(
+    '198.46.144.104',
+    '107.172.65.59',
+    '172.106.148.134',
+    '172.106.148.8',
+    '104.202.129.236',
+    '172.106.148.105',
+    '196.17.11.85',
+    '104.202.129.242',
+    '107.172.64.40',
+    '104.202.137.148'
+);
+if (isset($_GET['nr']) && !empty($_GET['nr'])) {
+    pr($_SERVER);
+    /*if ($_GET['nr'] == 1) {
+        $next_random_url = base_url() . "drluvr/video" . rand(1, 12) . "?nr=1";
+    }*/
 }
 $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . "";
 ?>

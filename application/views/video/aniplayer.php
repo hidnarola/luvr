@@ -50,5 +50,4 @@ $playlist = json_encode($playlist);
         }
         downloadScript(PlayerUrl, adConfig);
     })();
-
 </script>
