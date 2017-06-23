@@ -57,8 +57,8 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
 </section>
 
 <section id="welcome" class="home-welcome">
-    <a href='<?php echo base_url('drluvr'); ?>' class='drluvr-btn'>Check Out Dr. Luvr!</a>
     <div class="container">
+        <a href='<?php echo base_url('drluvr'); ?>' class='drluvr-btn'><img src="<?php echo S3_URL; ?>/images/drluvr.jpg"/></a>
         <h2>
             <span><img src="<?php echo base_url(); ?>assets/images/welcome-icon.png" alt="" /></span>
             <big>Welcome to luvr</big>

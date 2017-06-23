@@ -588,4 +588,5 @@ label.missed{font-weight:normal;display:inline;color:#f26f6f;cursor:text;}
 
 .dating-box ul.my-picture-ul{margin:0; }
 .dating-box ul.my-picture-ul > li{width:25%;float:left;padding:15px 15px 15px 0;position:relative;}
-.drluvr-btn{color:#2887c7;border:2px solid #2887c7;background: transparent;padding:15px 35px;text-decoration:none !important;position:absolute;top:20px;right:205px;line-height:normal;font-family:comic sans ms;}
+.drluvr-btn{position:absolute;top:-60px;right:0;}
+#welcome .container{position:relative;}
