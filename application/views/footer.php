@@ -75,9 +75,6 @@ $sess_user_data = $this->session->userdata('user');
         <p></p>
     </div>
 </div>
-<?php
-echo $this->input->ip_address();
-?>
 <footer id="footer" class="footer">
     <div class="footer-top">
         <div class="container">
