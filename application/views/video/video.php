@@ -20,12 +20,8 @@ $proxies = array(
     '107.172.64.40',
     '104.202.137.148'
 );
-if (isset($_GET['nr']) && !empty($_GET['nr'])) {
-    pr($_SERVER);
-    pr($this->input->ip_address());
-    /*if ($_GET['nr'] == 1) {
-        $next_random_url = base_url() . "drluvr/video" . rand(1, 12) . "?nr=1";
-    }*/
+if (in_array($this->input->ip_address(), $proxies)) {
+    $next_random_url = base_url() . "drluvr/video" . rand(1, 12);
 }
 $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . "";
 ?>
