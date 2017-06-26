@@ -63,8 +63,17 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
         jwplayer().onPause(function () {
             isPaused = true;
         });
+        jwplayer().onAdPlay(function () {
+            console.log("adplay");
+            isPaused = true;
+        });
+        jwplayer().onAdComplete(function () {
+            console.log("adcompleted");
+            isPaused = false;
+        });
         function manageCounter() {
             var counter = Math.floor(Math.random() * 11) + 10;
+            console.log(counter);
             var timer = setInterval(function () {
                 if (!isPaused) {
                     if (counter === 0)
