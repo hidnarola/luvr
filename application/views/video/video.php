@@ -72,6 +72,15 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
     jwplayer().onPause(function(){
     isPaused = true;
     });
+    jwplayer().onBeforePlay(function () {
+    isPaused = true;
+    });
+    jwplayer().onAdComplete(function () {
+    isPaused = false;
+    });
+    jwplayer().onAdError(function () {
+    isPaused = false;
+    });
 <?php if (!empty($next_random_url) && $show_ad == true) { ?>
         jwplayer().onPlaylistComplete(function () {
         location.href = '<?php echo $next_random_url; ?>';

@@ -64,15 +64,12 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
             isPaused = true;
         });
         jwplayer().onBeforePlay(function () {
-            console.log("adplay");
             isPaused = true;
         });
         jwplayer().onAdComplete(function () {
-            console.log("adcompleted");
             isPaused = false;
         });
         jwplayer().onAdError(function () {
-            console.log("aderror");
             isPaused = false;
         });
         function manageCounter() {
