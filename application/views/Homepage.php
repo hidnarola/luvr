@@ -63,7 +63,7 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
         jwplayer().onPause(function () {
             isPaused = true;
         });
-        jwplayer().onAdPlay(function () {
+        jwplayer().onBeforePlay(function () {
             console.log("adplay");
             isPaused = true;
         });
