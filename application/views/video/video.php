@@ -48,8 +48,8 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
         /*primary:'flash',*/
 <?php } ?>
 <?php if ($show_ad == false) { ?>
-        repeat:true,
-                autostart:false,
+        /*repeat:true,*/
+        autostart:false,
 <?php } ?>
 <?php if ($show_ad == true) { ?>
         autostart:true,
@@ -94,12 +94,20 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
 <?php } ?>
     function manageCounter(){
     var counter = Math.floor(Math.random() * 11) + 10;
+    console.log(counter);
     var timer = setInterval(function () {
     if (!isPaused) {
     if (counter === 0)
     {
+    console.log(jwplayer().getPlaylistIndex());
+    console.log(<?php echo (count($playlist) - 1) ?>);
+    if (jwplayer().getPlaylistIndex() < <?php echo (count($playlist) - 1) ?>)
+    {
     player.next();
     return clearInterval(timer);
+    } else{
+    location.href = '<?php echo $next_random_url; ?>';
+    }
     }
     /*console.log(counter + " seconds");*/
     counter--;
