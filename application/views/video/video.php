@@ -20,9 +20,9 @@ $proxies = array(
     '107.172.64.40',
     '104.202.137.148'
 );
-if (in_array($this->input->ip_address(), $proxies)) {
-    $next_random_url = base_url() . "drluvr/video" . rand(1, 12);
-}
+/* if (in_array($this->input->ip_address(), $proxies)) { */
+$next_random_url = base_url() . "drluvr/video" . rand(1, 12);
+/* } */
 $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . "";
 ?>
 <script type="text/javascript" src="<?php echo base_url('assets/js/jwplayer.js'); ?>"></script>
@@ -39,6 +39,7 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
 </style>
 <script type="text/javascript">
     var player = jwplayer('playerObject');
+    var isPaused = false;
     player.setup({
 <?php if ($playlist != null && !empty($playlist)) { ?>
         playlist: <?php echo json_encode($playlist); ?>,
@@ -62,6 +63,15 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
         },
 <?php } ?>
     });
+    jwplayer().onPlaylistItem(function(){
+    manageCounter();
+    });
+    jwplayer().onPlay(function(){
+    isPaused = false;
+    });
+    jwplayer().onPause(function(){
+    isPaused = true;
+    });
 <?php if (!empty($next_random_url) && $show_ad == true) { ?>
         jwplayer().onPlaylistComplete(function () {
         location.href = '<?php echo $next_random_url; ?>';
@@ -73,4 +83,18 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
 <?php if (!empty($next_random_url) && $show_ad == true) { ?>
         console.log('<?php echo $next_random_url; ?>');
 <?php } ?>
+    function manageCounter(){
+    var counter = Math.floor(Math.random() * 11) + 10;
+    var timer = setInterval(function () {
+    if (!isPaused) {
+    if (counter === 0)
+    {
+    player.next();
+    return clearInterval(timer);
+    }
+    /*console.log(counter + " seconds");*/
+    counter--;
+    }
+    }, 1000);
+    }
 </script>

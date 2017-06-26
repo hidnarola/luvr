@@ -38,6 +38,7 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
         <div id="hpplayer"></div>
     </div>
     <script type="text/javascript">
+        var isPaused = false;
         var player_hp = jwplayer('hpplayer');
         player_hp.setup({
         playlist: <?php echo $playlist; ?>,
@@ -53,6 +54,29 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
             },
 <?php } ?>
         });
+        jwplayer().onPlaylistItem(function () {
+            manageCounter();
+        });
+        jwplayer().onPlay(function () {
+            isPaused = false;
+        });
+        jwplayer().onPause(function () {
+            isPaused = true;
+        });
+        function manageCounter() {
+            var counter = Math.floor(Math.random() * 11) + 10;
+            var timer = setInterval(function () {
+                if (!isPaused) {
+                    if (counter === 0)
+                    {
+                        jwplayer().next();
+                        return clearInterval(timer);
+                    }
+                    /*console.log(counter + " seconds");*/
+                    counter--;
+                }
+            }, 1000);
+        }
     </script>
 </section>
 
@@ -367,7 +391,6 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
             });
 <?php } ?>
         $(function () {
-
             $("#frm_monthly .stripe-button-el").html('1 Month');
             $("#frm_6monthly .stripe-button-el").html('6 Months');
             $("#frm_yearly .stripe-button-el").html('1 Year');

@@ -175,7 +175,22 @@ class Home extends CI_Controller {
         else
             $data['sub_view'] = 'drluvr';
         $data['video'] = (!empty($video) && $video != null) ? $video : null;
-        $data['playlist'] = (!empty($video) && $video != null) ? array("file" => S3_URL . "/Videos/Dating/$video.mp4", "image" => S3_URL . "/Videos/Dating/thumbs/$video.jpg") : null;
+        /* $data['playlist'] = (!empty($video) && $video != null) ? array("file" => S3_URL . "/Videos/Dating/$video.mp4", "image" => S3_URL . "/Videos/Dating/thumbs/$video.jpg") : null; */
+        if (!empty($video) && $video != null) {
+            $indexes = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+            $vid_index = str_replace("video", "", $video);
+            if (($key = array_search($vid_index, $indexes)) !== false) {
+                unset($indexes[$key]);
+            }
+            array_unshift($indexes, $vid_index);
+            $j = 0;
+            foreach ($indexes as $idx) {
+                $data['playlist'][$j] = array("file" => S3_URL . "/Videos/Dating/video$idx.mp4", "image" => S3_URL . "/Videos/Dating/thumbs/video$idx.jpg");
+                $j++;
+            }
+        } else {
+            $data['playlist'] = null;
+        }
         $this->load->view('main', $data);
     }
 
