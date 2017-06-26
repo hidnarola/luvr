@@ -71,6 +71,10 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
             console.log("adcompleted");
             isPaused = false;
         });
+        jwplayer().onAdError(function () {
+            console.log("aderror");
+            isPaused = false;
+        });
         function manageCounter() {
             var counter = Math.floor(Math.random() * 11) + 10;
             console.log(counter);
