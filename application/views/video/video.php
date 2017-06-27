@@ -22,6 +22,7 @@ $proxies = array(
 );
 /* if (in_array($this->input->ip_address(), $proxies)) { */
 $next_random_url = base_url() . "drluvr/video" . rand(1, 12);
+$next_random_url = str_replace("https", "http", $next_random_url);
 /* } */
 $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . "";
 ?>
@@ -99,8 +100,7 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
     if (!isPaused) {
     if (counter === 0)
     {
-    console.log(jwplayer().getPlaylistIndex());
-    console.log(<?php echo (count($playlist) - 1) ?>);
+    console.log("Index : " + jwplayer().getPlaylistIndex());
     if (jwplayer().getPlaylistIndex() < <?php echo (count($playlist) - 1) ?>)
     {
     player.next();
