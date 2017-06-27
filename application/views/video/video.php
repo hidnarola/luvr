@@ -29,9 +29,30 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
 <script type="text/javascript" src="<?php echo base_url('assets/js/jwplayer.js'); ?>"></script>
 <script>jwplayer.key = "+NBpDYuEp+FQ1VZ4YR8hbrcC1s9O/eD5ul+RdSAMR04=";</script>
 <div class="container">
+    <?php if (detect_browser() != 'mobile' && $_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
+        <div class="text-center clearfix">
+            <script data-cfasync=false src="<?php echo $_SERVER['REQUEST_SCHEME']; ?>://s.ato.mx/p.js#id=1220822&size=728x90"></script>
+        </div>
+    <?php } ?>
     <div class="row">
-        <div class="back-btn-div"><a onclick="window.history.back();" class="for_pointer"></a></div>    
-        <div id="playerObject"></div>        
+        <div class="back-btn-div"><a onclick="window.history.back();" class="for_pointer"></a></div>
+        <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
+            <?php if (detect_browser() == 'mobile') { ?>
+                <div class="col-md-2 col-sm-3 left-add"><script data-cfasync=false src="<?php echo $_SERVER['REQUEST_SCHEME']; ?>://s.ato.mx/p.js#id=1220823&size=300x250"></script></div>
+            <?php } else { ?>
+                <div class="col-md-2 col-sm-3 left-add"><script data-cfasync=false src="<?php echo $_SERVER['REQUEST_SCHEME']; ?>://s.ato.mx/p.js#id=1220822&size=160x600"></script></div>
+            <?php } ?>
+        <?php } ?>
+        <div class="col-md-8 col-sm-6 center-content">
+            <div id="playerObject"></div>        
+        </div>
+        <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
+            <?php if (detect_browser() == 'mobile') { ?>
+                <div class="col-md-2 col-sm-3 right-add"><script data-cfasync=false src="<?php echo $_SERVER['REQUEST_SCHEME']; ?>://s.ato.mx/p.js#id=1220823&size=300x250"></script></div>
+            <?php } else { ?>
+                <div class="col-md-2 col-sm-3 right-add"><script data-cfasync=false src="<?php echo $_SERVER['REQUEST_SCHEME']; ?>://s.ato.mx/p.js#id=1220824&size=160x600"></script></div>
+            <?php } ?>
+        <?php } ?>
     </div>
 </div>
 <style type="text/css">

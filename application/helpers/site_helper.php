@@ -1,5 +1,7 @@
 <?php
+
 ob_start();
+
 function qry($is_die = false) {
     $CI = & get_instance();
     echo $CI->db->last_query();
@@ -30,7 +32,7 @@ function date_compare($a, $b) {
     return $t2 - $t1;
 }
 
-function _createThumbnail($img_path, $thumb_path) {    
+function _createThumbnail($img_path, $thumb_path) {
     $CI = & get_instance();
 
     $config['image_library'] = 'gd2';
@@ -196,7 +198,9 @@ if (!function_exists('detect_browser')) {
         $CI = & get_instance();
         $CI->load->library('user_agent');
         $agent = $CI->agent->mobile();
-        if ($agent != '') {
+        if ($agent == 'iPad') {
+            return 'iPad';
+        } else if ($agent != '') {
             return 'mobile';
         } else {
             return false;
@@ -253,14 +257,8 @@ if (!function_exists('GetUserUnreadNotificationCounts')) {
 
 }
 
-
-function gen_uuid(){        
-    return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x',
-        mt_rand(0, 0xffff), mt_rand(0, 0xffff),
-        mt_rand(0, 0xffff),
-        mt_rand(0, 0x0fff) | 0x4000,
-        mt_rand(0, 0x3fff) | 0x8000,
-        mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+function gen_uuid() {
+    return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x', mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0x0fff) | 0x4000, mt_rand(0, 0x3fff) | 0x8000, mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
     );
 }
 
