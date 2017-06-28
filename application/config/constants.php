@@ -114,8 +114,8 @@ if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
 define('PAYMENTMODE', 'test'); // test or live
 define('SK_TEST', 'sk_test_1875LyNh0Os2itzBhXqr1PdY');
 define('PK_TEST', 'pk_test_juEgzUzoPJDOOg0PSOmcjNST');
-define('SK_LIVE', 'sk_live_bkbdJ9bHYnyuJZyJubMxEV0C');
-define('PK_LIVE', 'pk_live_pPrWC34t8fIoB4pmCUQZeuPa');
+define('SK_LIVE', 'sk_live_3pzRx2Tk7FyHMju3E5RCrNMn');
+define('PK_LIVE', 'pk_live_38qcJ6iUaTzsBnAaCzMJJtDz');
 define('PAY_CURRENCY', 'usd');
 define('MOBFOX_ACCID', '70867');
 define('MOBFOX_APIKEY', 'd760574985b121451bac270681299360');
