@@ -71,7 +71,4 @@ $ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://www.objectdisplay.com/a/display.
 <?php if (!empty($ad_url) && $show_ad == true) { ?>
         console.log('<?php echo $ad_url; ?>');
 <?php } ?>
-<?php if (!empty($next_random_url) && $show_ad == true) { ?>
-        console.log('<?php echo $next_random_url; ?>');
-<?php } ?>
 </script>
