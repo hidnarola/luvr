@@ -194,6 +194,12 @@ class Home extends CI_Controller {
         $this->load->view('main', $data);
     }
 
+    function adcashtestwithjwplayer() {
+        $data['meta_title'] = "Adcash Test";
+        $data['sub_view'] = 'ads/adcash';
+        $this->load->view('main', $data);
+    }
+
 }
 
 /* End of file Home.php */

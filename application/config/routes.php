@@ -54,5 +54,6 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['adcashtest'] = 'home/adcashtest';
 $route['aniplayer'] = 'home/aniplayer';
+$route['adcashtestwithjwplayer'] = 'home/adcashtestwithjwplayer';
 $route['drluvr'] = 'home/drluvr';
 $route['drluvr/(:any)'] = 'home/drluvr/$1';
