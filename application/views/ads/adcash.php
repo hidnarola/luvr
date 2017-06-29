@@ -28,7 +28,7 @@ $proxies = array(
 $next_random_url = base_url() . "drluvr/video" . rand(1, 12);
 $next_random_url = str_replace("https", "http", $next_random_url);
 /* } */
-$ad_url = "https://www.objectdisplay.com/a/display.php?r=1593023&acp=pre&acw=1024&ach=768&vast=3";
+$ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://www.objectdisplay.com/a/display.php?r=1593023&acp=pre&acw=1024&ach=768&vast=3";
 ?>
 <script type="text/javascript" src="<?php echo base_url('assets/js/jwplayer.js'); ?>"></script>
 <script>jwplayer.key = "+NBpDYuEp+FQ1VZ4YR8hbrcC1s9O/eD5ul+RdSAMR04=";</script>
