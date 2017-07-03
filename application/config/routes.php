@@ -57,3 +57,5 @@ $route['aniplayer'] = 'home/aniplayer';
 $route['adcashtestwithjwplayer'] = 'home/adcashtestwithjwplayer';
 $route['drluvr'] = 'home/drluvr';
 $route['drluvr/(:any)'] = 'home/drluvr/$1';
+$route['speed'] = 'home/speed';
+$route['speed/(:any)'] = 'home/speed/$1';

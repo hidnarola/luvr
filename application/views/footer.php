@@ -75,19 +75,33 @@ $sess_user_data = $this->session->userdata('user');
         <p></p>
     </div>
 </div>
+
+<div class="modal fade" id="eflyer" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <div class="modal-body">
+                <img src="<?php echo S3_URL . "/images/eflyer.jpg"; ?>"/>
+            </div>
+        </div>
+    </div>
+</div>
+
 <footer id="footer" class="footer">
     <div class="footer-top">
         <div class="container">
             <div class="quick-link footer-column">
-                <h3>&nbsp;</h3>
-                <ul class="footer-ul">
-                    <li> <a href="https://www.luvr.us">www.luvr.us</a></li>
+                <h3><a href="https://www.luvr.us">www.luvr.us</a></h3>
+                <ul class="footer-ul store-links">
+                    <li><a href="https://itunes.apple.com/us/app/luvr/id1184796972?ls=1&mt=8" target="_blank"><img src="<?php echo S3_URL . "/images/app-store.png"; ?>"/></a></li>
+                    <li><a href="https://play.google.com/store/apps/details?id=com.luvr" target="_blank"><img src="<?php echo S3_URL . "/images/google-play.png"; ?>"/></a></li>
                 </ul>
             </div>
             <div class="ftr-contact footer-column">
                 <h3>Contact us</h3>
                 <ul class="footer-ul">
-                    <li><a href="mailto:support@luvr.com">info@luvr.us</a></li>
+                    <li><a href="mailto:info@luvr.us">info@luvr.us</a></li>
+                    <li>&nbsp;</li>
                 </ul>
             </div>
             <div class="ftr-newsletter footer-column">
@@ -207,6 +221,25 @@ if (!empty($sess_user_data)) {
 }
 ?>
 <script type="text/javascript">
+    var popup_tout = 0;
+    $(window).load(function () {
+        $("#eflyer").modal('show');
+        managePopupCounter();
+    });
+    function managePopupCounter() {
+        var _counter = 15;
+        console.log(_counter);
+        var _timer = setInterval(function () {
+            if (_counter === 0)
+            {
+                if ($("#eflyer").hasClass('in'))
+                    $("#eflyer").modal('hide');
+                return clearInterval(_timer);
+            }
+            console.log(_counter + " seconds");
+            _counter--;
+        }, 1000);
+    }
     function log(text) {
         console.log(text);
     }

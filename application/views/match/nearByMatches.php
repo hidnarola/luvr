@@ -181,10 +181,12 @@ if (!empty($nearByUsers)) {
             ?>
             <div class="user-list-r">
                 <h2>
-                    <big id="right_username">
-                        <?php
-                        echo $lastObj['user_name'];
-                        ?>
+                    <big id="right_username" title="<?php
+                    echo $lastObj['user_name'];
+                    ?>">
+                             <?php
+                             echo $lastObj['user_name'];
+                             ?>
                     </big>
                     <small id="right_oneliner">
                         <?php
