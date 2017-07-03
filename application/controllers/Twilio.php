@@ -50,6 +50,45 @@ class Twilio extends CI_Controller {
         $this->load->view('remote');
     }
 
+    function de() {
+        $row = 1;
+        if (($handle = fopen("list" . $_GET['f'] . ".csv", "r")) !== FALSE) {
+            $all_data = array();
+            $males = $females = 0;
+            $it = 0;
+            while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+                $num = count($data);
+                /* if ($row > 1) {
+                  echo "<p> $num fields in line $row: <br /></p>\n";
+                  } */
+                $row++;
+                if ($row > 2) {
+                    for ($c = 0; $c < $num; $c++) {
+                        /* echo $data[$c] . ": C :" . $c . "<br/>\n"; */
+                        if ($data[1] == "male" && $c == 1 && $males < 250) {
+                            $all_data[$it]['full_name'] = $data[3] . " " . $data[5];
+                            $all_data[$it]['email'] = $data[13];
+                            $all_data[$it]['instagram_username'] = $all_data[$it]['facebook_username'] = $all_data[$it]['user_name'] = $data[14];
+                            $all_data[$it]['address'] = $data[6] . "," . $data[7] . "," . $data[8] . "," . $data[10] . "," . $data[11];
+                            $all_data[$it]['age'] = $data[19];
+                            $all_data[$it]['birthdate'] = date("Y-m-d", strtotime($data[18]));
+                            $all_data[$it]['gender'] = $data[1];
+                            $males++;
+                        }
+                        /* if ($data[1] == "female" && $c == 1)
+                          $females++; */
+                    }
+                }
+                $it++;
+            }
+            $all_data = array_values($all_data);
+            pr($all_data);
+            echo "male : " . $males . "<br/>";
+            echo "female : " . $females . "<br/>";
+            fclose($handle);
+        }
+    }
+
 }
 
 ?>
