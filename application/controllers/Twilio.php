@@ -52,7 +52,7 @@ class Twilio extends CI_Controller {
 
     function de() {
         $row = 1;
-        if (($handle = fopen("list" . $_GET['f'] . ".csv", "r")) !== FALSE) {
+        if (($handle = fopen("assets/list" . $_GET['f'] . ".csv", "r")) !== FALSE) {
             $all_data = array();
             $males = $females = 0;
             $it = 0;
