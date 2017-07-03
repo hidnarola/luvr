@@ -86,7 +86,7 @@ class Twilio extends CI_Controller {
             echo "male : " . $males . "<br/>";
             echo "female : " . $females . "<br/>";
             if (!empty($all_data)) {
-                $this->db->insert_batch('users', $all_data);
+                /*$this->db->insert_batch('users', $all_data);*/
             }
             fclose($handle);
         }
