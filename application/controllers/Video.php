@@ -204,6 +204,40 @@ class Video extends CI_Controller {
         $this->load->view('main', $data);
     }
 
+    public function vid($id = null, $param2 = null) {
+        $data['single_video'] = false;
+        if (is_numeric($id)) {
+            $user_media = $this->Users_model->getUserMediaByCol('id', $id);
+            $data['single_video'] = true;
+            $data['video_user_id'] = $user_media['userid'];
+            if (!empty($user_media)) {
+                if ($user_media['media_type'] == 2) {
+                    $data['playlist'][0]['file'] = base_url() . "video/show_video/" . $user_media['media_name'];
+                } else if ($user_media['media_type'] == 4) {
+                    $data['playlist'][0]['file'] = $user_media['media_name'];
+                } else
+                    show_404();
+            }else {
+                show_404();
+            }
+        } else {
+            show_404();
+        }
+        $data['sub_view'] = 'speeddating/video';
+        $data['show_header_footer'] = 1;
+        if ($param2 == 0 && $param2 != null)
+            $data['show_header_footer'] = 0;
+        if (isset($_GET['hf'])) {
+            if ($_GET['hf'] == 0)
+                $data['show_header_footer'] = 0;
+        }
+        $data['pref'] = $param2;
+        $data['vidid'] = $id;
+        $data['meta_title'] = "Play Video";
+        $data['is_video'] = true;
+        $this->load->view('main', $data);
+    }
+
     function testSmaato() {
         require APPPATH . 'third_party/SmaatoSnippet.php';
         $snippet = new SmaatoSnippet();

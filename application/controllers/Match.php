@@ -137,6 +137,18 @@ class Match extends CI_Controller {
             $data['relation_status'] = 2;
         else if ($status == "powerluv")
             $data['relation_status'] = 3;
+        else if ($status == "speedpowerluv") {
+            $data['relation_status'] = 3;
+            $this->load->library('email');
+            $this->load->helper('email');
+            if (valid_email(trim($_POST['email'])) && $_SERVER['HTTP_HOST'] == 'luvr.me') {
+                $this->email->from('luvrspeeddating@gmail.com', 'Luvr');
+                $this->email->to(trim($_POST['email']));
+                $this->email->subject('You\'ve got a PowerLuv!');
+                $this->email->message('Hey Luvr! ' . $u_data["user_name"] . ' just PowerLuv’d you via the Luvr Lightning Round!');
+                $this->email->send();
+            }
+        }
         $data['created_date'] = $data['updated_date'] = date("Y-m-d H:i:s");
         if ($totallikesreached == 0) {
             $response = $this->Users_model->likeDislikeUser($data);
@@ -245,6 +257,33 @@ class Match extends CI_Controller {
             }
         }
         echo json_encode(array("success" => $response, "data" => $near_by['result'], "html" => $html));
+    }
+
+    public function pluvuser() {
+        $u_data = $this->session->userdata('user');
+        $data['requestby_id'] = $u_data['id'];
+        $data['requestto_id'] = $this->input->post('user_id');
+        $data['relation_status'] = 3;
+        $data['created_date'] = $data['updated_date'] = date("Y-m-d H:i:s");
+        $response = $this->Users_model->likeDislikeUser($data);
+        if (is_numeric($response) && $response != false)
+            $response = true;
+        echo json_encode(array("success" => $response));
+    }
+
+    public function sendemailtouser() {
+        $msg = $this->input->post('msg');
+        $email = $this->input->post('email');
+        $this->load->library('email');
+        $this->load->helper('email');
+        if (valid_email(trim($email)) && $_SERVER['HTTP_HOST'] == 'luvr.me') {
+            $this->email->from('luvrspeeddating@gmail.com', 'Luvr');
+            $this->email->to(trim($email));
+            $this->email->subject('You’ve got a Message from a Luvr Speed Dating User!');
+            $this->email->message($msg);
+            $this->email->send();
+        }
+        echo json_encode(array("success" => true));
     }
 
 }

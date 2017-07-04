@@ -7,7 +7,7 @@ class Home extends CI_Controller {
     public function __construct() {
 
         parent::__construct();
-        $this->load->model(array('Users_model', 'Videos_model'));
+        $this->load->model(array('Users_model', 'Videos_model', 'Matches_model'));
         /* $u_data = $this->session->userdata('user');
           if (empty($u_data)) {
           redirect('register');
@@ -198,6 +198,35 @@ class Home extends CI_Controller {
         $data['meta_title'] = "Adcash Test";
         $data['sub_view'] = 'ads/adcash';
         $this->load->view('main', $data);
+    }
+
+    function speed($gender = null) {
+        $u_data = $this->session->userdata('user');
+        if ($u_data) {
+            $user_id = $u_data['id'];
+            $user_info = $this->Users_model->getUserByCol('id', $user_id);
+            if ($user_info['location_id'] > 0) {
+                $rs = $this->db->get_where('location', array('id' => $user_info['location_id']))->row_array();
+                $u_data['latlong'] = $rs['latlong'];
+            } else {
+                $u_data['latlong'] = $user_info['latlong'];
+            }
+            $u_data['radius'] = $user_info['radius'];
+            $allusers = $this->Users_model->getRandomUsers($gender, $user_id);
+            $data['randomUsers'] = $allusers;
+            $data['latlong'] = $u_data['latlong'];
+            $data['radius'] = $user_info['radius'];
+            $data['meta_title'] = "Luvr Lightning Round";
+            if ($gender == "a" || $gender == "m" || $gender == "f") {
+                $data['sub_view'] = 'speeddating/speeddating';
+            } else {
+                $data['sub_view'] = 'speeddating/preference';
+            }
+            $data['pref'] = $gender;
+            $this->load->view('main', $data);
+        } else {
+            redirect('register');
+        }
     }
 
 }

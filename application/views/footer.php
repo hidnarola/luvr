@@ -222,14 +222,12 @@ if (!empty($sess_user_data)) {
 ?>
 <script type="text/javascript">
 <?php if ((_current_url() == base_url()) || $sub_view == "Homepage") { ?>
-        var popup_tout = 0;
         $(window).load(function () {
             $("#eflyer").modal('show');
             managePopupCounter();
         });
         function managePopupCounter() {
             var _counter = 15;
-            console.log(_counter);
             var _timer = setInterval(function () {
                 if (_counter === 0)
                 {

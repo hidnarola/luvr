@@ -17,7 +17,7 @@ $user_data = $this->session->userdata('user');
         <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:400,500" rel="stylesheet"/>
         <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/bootstrap.min.css'; ?>"/>
         <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/icomoon.css'; ?>"/>
-        <?php if ($sub_view == "match/nearByMatches" || $sub_view == "match/level2") { ?>
+        <?php if ($sub_view == "match/nearByMatches" || $sub_view == "match/level2" || $sub_view == "speeddating/speeddating") { ?>
             <link href='<?php echo base_url('/assets/css/jTinder.css'); ?>' rel='stylesheet'/>
         <?php } ?>
         <link rel="stylesheet" href="<?php echo base_url() . 'assets/css/style.css'; ?>"/>
@@ -131,7 +131,7 @@ $user_data = $this->session->userdata('user');
             </div>
         </header>
 
-        <section id="inner-content" class="inner-content <?php echo ($sub_view == "bio/video" || $sub_view == "video/video" || $sub_view == "drluvr" || $sub_view == "video/aniplayer" || $sub_view == "ads/adcash") ? "video" : ""; ?> <?php if ($sub_view == "user/midieast") echo "midieast-container"; ?>">
-            <div class="<?php echo ($sub_view == "match/nearByMatches" || $sub_view == "user/midieast") ? "nbmatches" : "container"; ?>">
+        <section id="inner-content" class="inner-content <?php echo ($sub_view == "bio/video" || $sub_view == "video/video" || $sub_view == "speeddating/video" || $sub_view == "drluvr" || $sub_view == "video/aniplayer" || $sub_view == "ads/adcash") ? "video" : ""; ?> <?php if ($sub_view == "user/midieast") echo "midieast-container"; ?>">
+            <div class="<?php echo ($sub_view == "match/nearByMatches" || $sub_view == "user/midieast" || $sub_view == "speeddating/preference" || $sub_view == "speeddating/speeddating") ? "nbmatches" : "container"; ?>">
                 <div class="row">
                     <div id="msg_txt" style="display:none;"></div>

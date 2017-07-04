@@ -208,6 +208,33 @@ class Users_model extends CI_Model {
         return false;
     }
 
+    public function getRandomUsers($gender = null, $user_id) {
+        $this->db->select('*,users.id as uid,media.id as mid');
+        $this->db->from('users');
+        if ($gender != null) {
+            $gender = ($gender == "m") ? "male" : "female";
+            if ($gender == "male" || $gender == "female")
+                $this->db->where('LOWER(gender)', $gender);
+        }
+        $this->db->join('media', 'media.userid = users.id', 'left');
+        /* $this->db->join('users_relation', 'users_relation.requestby_id = users.id', 'left'); */
+        $this->db->where('users.is_delete', 0);
+        $this->db->where('users.id !=', $user_id);
+        $this->db->where('media.media_type', 4);
+        $this->db->where('users.email IS NOT NULL', null);
+        $this->db->where('users.email !=', '');
+        $this->db->where('users.profile_media_id = media.id', null);
+        $this->db->where('users.id NOT IN (SELECT requestto_id FROM users_relation WHERE requestby_id = ' . $user_id . ')');
+        if ($_SERVER['HTTP_HOST'] == 'luvr.me') {
+            $this->db->where('users.id >', 14910);
+            $this->db->where('users.id <=', 15910);
+        }
+        /* $this->db->group_by('media.userid'); */
+        $this->db->order_by('rand()');
+        $this->db->limit(10);
+        return $this->db->get()->result_array();
+    }
+
 }
 
 ?>

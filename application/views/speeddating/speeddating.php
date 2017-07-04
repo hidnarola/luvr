@@ -47,7 +47,6 @@ if (!empty($randomUsers)) {
     <?php } ?>
 </div>
 <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12 content-div">
-    <button onclick="$('#videoModal').modal('show');">test</button>
     <div class="user-list">
         <div class="back-btn-div"><a onclick="window.history.back();" class="for_pointer"></a></div>    
         <div class="bg-name">luvr</div>
@@ -63,19 +62,17 @@ if (!empty($randomUsers)) {
                                     $path = $user['media_thumb'];
                                     $href = $user['media_name'];
                                     if ($user['media_type'] == 4) {
-                                        $href = base_url() . "video/play/" . $user['mid'];
+                                        $href = base_url() . "video/vid/" . $user['mid'] . "/" . $pref;
                                     }
                                     /* $file_headers = @get_headers($path);
                                       if (!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found' || $file_headers[0] == 'HTTP/1.0 404 Key Not Found') {
                                       $path = S3_URL . "assets/images/big_avatar.jpg";
                                       } */
-                                    $timestamp_html = "";
-                                    echo '<li class="panel" data-id="' . $user['id'] . '">
+                                    echo '<li class="panel" data-id="' . $user['uid'] . '" data-email="' . $user['email'] . '">
                                             <div class="user-list-pic-wrapper">
-                                                ' . $timestamp_html . '
                                                 <div class="user-list-pic-bg">
                                                     <a style="background:url(\'' . $path . '\') no-repeat scroll center center;" class="img"></a>';
-                                    echo '<a class="play-btn-large icon-play-button" target="_blank" href="' . $href . '"></a>';
+                                    echo '<a class="play-btn-large icon-play-button" href="' . $href . '"></a>';
                                     echo '</div>
                                             <div class="user-list-pic-close">
                                             <a class="for_pointer" onclick="$(\'#tinderslide3\').jTinder(\'dislike\');">
@@ -151,16 +148,20 @@ if (!empty($randomUsers)) {
     </div>
 </div>
 
-<div class="modal fade" id="videoModal" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <!-- Modal content-->
+<div id="detailMsg" class="modal fade" role="dialog">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Luvr Lightning Round</h4>
+                <h4 class="modal-title">Want to say something?</h4>
             </div>
             <div class="modal-body">
-                <div id="nbmpplayer"></div>
+                <input type="hidden" id="hdn_tmp_uid"/>
+                <textarea class="form-control" id="txt_lng_msg" maxlength="140" placeholder="140 character message."></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="sendMessage();">Send</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -182,121 +183,100 @@ if (!empty($randomUsers)) {
 <script src="<?php echo base_url() . 'assets/js/jquery.transform2d.js'; ?>" type="text/javascript"></script>
 <script src="<?php echo base_url() . 'assets/js/jquery.jTinder.js'; ?>" type="text/javascript"></script>
 <script type="text/javascript">
-            $(window).on('load', function () {
-                setTimeout(function () {
-                    $("#loader").fadeOut();
-                    $("#tinderslide3").removeAttr('style');
-                }, Math.floor((Math.random() * 1000) + 1000));
-            });
-            var likedislikecounts = 0;
-            registerjTinder();
-            function registerjTinder() {
-                $("#tinderslide3").jTinder({
-                    onLike: function (item) {
-                        likedislikeuser($(item).data("id"), 'powerluv', item.index() - 1);
-                    },
-                    onDislike: function (item) {
-                        likedislikeuser($(item).data("id"), 'dislike');
-                        reflectUserInfo(item.index() - 1);
-                    },
-                    animationRevertSpeed: 200,
-                    animationSpeed: 500,
-                    threshold: '<?php echo (detect_browser() == 'mobile') ? 1 : 4; ?>',
-                    likeSelector: '.like',
-                    dislikeSelector: '.dislike'
-                });
-            }
-            function reflectUserInfo(index) {
-                if (index >= 0 && index < $("#tinderslide3 ul li.panel").length)
-                {
-                    $("#right_username").html(randomUsers[index].user_name);
-                    $("#right_oneliner").html(randomUsers[index].one_liner);
-                    $("#right_bio").html((randomUsers[index].bio) ? randomUsers[index].bio : "&nbsp;");
-                    $("#right_age").html("Age : (" + randomUsers[index].age + ")");
-                    $("#right_location").html((randomUsers[index].address) ? "Location : " + randomUsers[index].address : "Location : N/A");
-                    $("#right_distance").html((randomUsers[index].distance) ? "Distance : " + randomUsers[index].distance + " km" : "Distance : N/A");
-                }
-            }
-            function likedislikeuser(user_id, mode, li_index) {
-                $.ajax({
-                    url: "<?php echo base_url(); ?>match/likedislike",
-                    type: 'POST',
-                    dataType: 'json',
-                    data: "user_id=" + user_id + "&status=" + mode,
-                    success: function (data) {
-                        likedislikecounts++;
-                        if (data.success == true) {
-                        }
-                        if (mode == "luv" || mode == "powerluv") {
-                            var md_v = (mode == "luv") ? 2 : 3;
-                            socket.emit('New Like Request Web', {
-                                'requestby_id': '<?php echo $user_data['id'] ?>',
-                                'requestto_id': user_id,
-                                'relation_status': md_v
-                            });
-                        }
-                        reflectUserInfo(li_index);
-                        if (likedislikecounts == $("#tinderslide3 ul li.panel").length)
-                        {
-                            loadMoreRandomUsers();
-                        }
-                    }, error: function () {
-                        showMsg("Something went wrong!", "error", true);
-                        scrollToElement("#header");
-                    }
-                });
-            }
-            function loadMoreRandomUsers() {
-                $("#tinderslide3").css('visibility', 'hidden');
-                $("#loader").show();
-                $.ajax({
-                    url: "<?php echo base_url(); ?>match/loadMoreRandomUsers",
-                    type: 'POST',
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data.success == true) {
-                            likedislikecounts = 0;
-                            if (data.data) {
-                                randomUsers = data.data;
-                                $("#tinderslide3 ul").html(data.html);
-                                reflectUserInfo(parseInt(data.data.length) - 1);
-                                registerjTinder();
-                            }
-                        } else {
-                            $("#loader").hide();
-                            $(".user-list-l,.user-list-r").hide();
-                            $("#loader-nodatanbm .loader-container").append('<p>Hey Luvr! Right now, there is no one else to Luv in your area! Check back soon!<br/>We are growing fast with your help! Spread the word about Luvr on all your social media!</p>');
-                            $("#loader-nodatanbm").show();
-                        }
+                    $(window).on('load', function () {
                         setTimeout(function () {
                             $("#loader").fadeOut();
                             $("#tinderslide3").removeAttr('style');
                         }, Math.floor((Math.random() * 1000) + 1000));
+                        manageAutoSkips();
+                    });
+                    $('#detailMsg').on('hidden.bs.modal', function () {
+                        $("#hdn_tmp_uid,#txt_lng_msg").val('');
+                    })
+                    function manageAutoSkips() {
+                        var _counter = 10;
+                        var _timer = setInterval(function () {
+                            if (_counter === 0)
+                            {
+                                clearInterval(_timer);
+                                //$('#tinderslide3').jTinder('dislike');
+                                manageAutoSkips();
+                            }
+                            /*console.log(_counter + " seconds");*/
+                            _counter--;
+                        }, 1000);
                     }
-                });
-            }
-            socket.on('New Like Request', function (data) {
-                console.log(data);
-            });
-
-            $('#videoModal').on('show.bs.modal', function (e) {
-                showUserVideos();
-            });
-            function showUserVideos() {
-                var player_nbmp = jwplayer('nbmpplayer');
-                player_nbmp.setup({
-                    playlist: <?php echo $playlist; ?>,
-                    primary: 'flash',
-                    repeat: true,
-                    autostart: true,
-                    aspectratio: "16:9",
-                    width: "100%",
-<?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
-                        advertising: {
-                            client:'vast',
-                                    tag:'<?php echo $ad_url; ?>',
-                        },
-<?php } ?>
-                });
-            }
+                    var likedislikecounts = 0;
+                    registerjTinder();
+                    function registerjTinder() {
+                        $("#tinderslide3").jTinder({
+                            onLike: function (item) {
+                                likedislikeuser($(item).data("id"), 'speedpowerluv', item.index() - 1);
+                                $('#detailMsg').modal('show');
+                                $('#detailMsg #hdn_tmp_uid').val($(item).data("email"));
+                                reflectUserInfo(item.index() - 1);
+                            },
+                            onDislike: function (item) {
+                                likedislikeuser($(item).data("id"), 'dislike');
+                                reflectUserInfo(item.index() - 1);
+                            },
+                            animationRevertSpeed: 200,
+                            animationSpeed: 500,
+                            threshold: '<?php echo (detect_browser() == 'mobile') ? 1 : 4; ?>',
+                            likeSelector: '.like',
+                            dislikeSelector: '.dislike'
+                        });
+                    }
+                    function sendMessage() {
+                        var msg = $.trim($("#txt_lng_msg").val());
+                        var email = $("#hdn_tmp_uid").val();
+                        $.ajax({
+                            url: "<?php echo base_url(); ?>match/sendemailtouser",
+                            type: 'POST',
+                            dataType: 'json',
+                            data: "msg=" + msg + "&email=" + email,
+                            success: function (data) {
+                                $('#detailMsg').modal('hide');
+                                showMsg("Message delivered successfully!", "success", true);
+                            }, error: function () {
+                                showMsg("Something went wrong!", "error", true);
+                                scrollToElement("#header");
+                            }
+                        });
+                    }
+                    function reflectUserInfo(index) {
+                        if (index >= 0 && index < $("#tinderslide3 ul li.panel").length)
+                        {
+                            $("#right_username").html(randomUsers[index].user_name);
+                            $("#right_oneliner").html(randomUsers[index].one_liner);
+                            $("#right_bio").html((randomUsers[index].bio) ? randomUsers[index].bio : "&nbsp;");
+                            $("#right_age").html("Age : (" + randomUsers[index].age + ")");
+                            $("#right_location").html((randomUsers[index].address) ? "Location : " + randomUsers[index].address : "Location : N/A");
+                            $("#right_distance").html((randomUsers[index].distance) ? "Distance : " + randomUsers[index].distance + " km" : "Distance : N/A");
+                        }
+                    }
+                    function likedislikeuser(user_id, mode, li_index) {
+                        $.ajax({
+                            url: "<?php echo base_url(); ?>match/likedislike",
+                            type: 'POST',
+                            dataType: 'json',
+                            data: "user_id=" + user_id + "&status=" + mode + "&email=" + randomUsers[li_index + 1].email,
+                            success: function (data) {
+                                likedislikecounts++;
+                                if (data.success == true) {
+                                }
+                                reflectUserInfo(li_index);
+                                if (likedislikecounts == $("#tinderslide3 ul li.panel").length)
+                                {
+                                    location.reload();
+                                }
+                            }, error: function () {
+                                showMsg("Something went wrong!", "error", true);
+                                scrollToElement("#header");
+                            }
+                        });
+                    }
+                    socket.on('New Like Request', function (data) {
+                        console.log(data);
+                    });
 </script>
