@@ -591,7 +591,9 @@ label.missed{font-weight:normal;display:inline;color:#f26f6f;cursor:text;}
 .dating-box ul.my-picture-ul > li{width:25%;float:left;padding:15px 15px 15px 0;position:relative;}
 .drluvr-btn{position:absolute;top:-60px;right:0;}
 #welcome .container{position:relative;}
-.intesested-in{max-width: 880px;width: 100%;padding: 30px;margin: 0 auto;box-shadow: -3px 10px 20px 0 rgba(0,0,0,.1);border-radius: 4px;}
+.intesested-in{width: 100%;padding:120px 30px;margin: 0 auto;box-shadow:0 0 30px 0 rgba(0,0,0,.1);border-radius: 4px;}
+.intesested-in label,
+.intesested-in select{max-width:280px;margin:0 auto 10px;display:block;width:100%;}
 .form-control{border:1px solid #ddd !important;}
 #tinderslide3 .user-list-pic-bg a{z-index:1;}
 #tinderslide .img,#tinderslide2 .img{background-size:cover !important;}
