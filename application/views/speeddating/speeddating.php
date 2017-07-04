@@ -201,7 +201,9 @@ if (!empty($randomUsers)) {
                             if (_counter === 0)
                             {
                                 clearInterval(_timer);
-                                //$('#tinderslide3').jTinder('dislike');
+<?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
+                                    $('#tinderslide3').jTinder('dislike');
+<?php } ?>
                                 manageAutoSkips();
                             }
                             /*console.log(_counter + " seconds");*/

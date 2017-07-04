@@ -8,13 +8,11 @@ if (!empty($user_data)) {
         $show_ad = false;
     }
 }
-if ($this->uri->segment(4) == 2 || $this->uri->segment(4) == 3) {
-    $show_ad = false;
-}
-if ($single_video == true) {
-    $show_ad = false;
-}
-$ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . "";
+/* if ($single_video == true) {
+  $show_ad = false;
+  } */
+/* $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . ""; */
+$ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://www.objectdisplay.com/a/display.php?r=1593023&acp=pre&acw=1024&ach=768&vast=3";
 ?>
 <?php if ($show_header_footer == 0) { ?>
     <script type="text/javascript" src="<?php echo base_url('assets/js/jwplayer.js'); ?>"></script>
@@ -86,7 +84,7 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
 <?php } ?>
     aspectratio:"16:9",
             width:"100%",
-<?php if (($_SERVER['HTTP_HOST'] == 'dev.luvr.me' || $_SERVER['HTTP_HOST'] == 'luvr.me') && $show_ad == true) { ?>
+<?php if ($_SERVER['HTTP_HOST'] == 'luvr.me' && $show_ad == true) { ?>
         advertising: {
         client:'vast',
                 tag:'<?php echo $ad_url; ?>',
