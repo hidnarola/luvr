@@ -51,7 +51,7 @@ class Twilio extends CI_Controller {
     }
 
     function test() {
-        $result = $this->db->query("SELECT * FROM `users` WHERE `id` > '14910' AND `gender` = 'male' LIMIT 25")->result_array();
+        $result = $this->db->query("SELECT * FROM `users` WHERE `id` > '15160' AND `gender` = 'female' LIMIT 75")->result_array();
         pr($result);
         $i = 1;
         foreach ($result as $rs) {
@@ -61,6 +61,7 @@ class Twilio extends CI_Controller {
                 "media_name" => S3_URL . "/Videos/SpeedDating/male/$i.mp4",
                 "media_thumb" => S3_URL . "/Videos/SpeedDating/male/thumbs/$i.jpg",
                 "media_type" => 4,
+                "is_bios" => 1,
                 "created_date" => date("Y-m-d H:i:s")
             );
             $this->db->insert("media", $dt);
