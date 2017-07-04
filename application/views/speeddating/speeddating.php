@@ -260,11 +260,14 @@ if (!empty($randomUsers)) {
                         }
                     }
                     function likedislikeuser(user_id, mode, li_index) {
+                        var dt = "user_id=" + user_id + "&status=" + mode;
+                        if (mode == "speedpowerluv")
+                            dt = "user_id=" + user_id + "&status=" + mode + "&email=" + randomUsers[li_index + 1].email;
                         $.ajax({
                             url: "<?php echo base_url(); ?>match/likedislike",
                             type: 'POST',
                             dataType: 'json',
-                            data: "user_id=" + user_id + "&status=" + mode + "&email=" + randomUsers[li_index + 1].email,
+                            data: dt,
                             success: function (data) {
                                 likedislikecounts++;
                                 if (data.success == true) {
