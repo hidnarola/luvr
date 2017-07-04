@@ -594,6 +594,7 @@ label.missed{font-weight:normal;display:inline;color:#f26f6f;cursor:text;}
 .intesested-in{max-width: 880px;width: 100%;padding: 30px;margin: 0 auto;box-shadow: -3px 10px 20px 0 rgba(0,0,0,.1);border-radius: 4px;}
 .form-control{border:1px solid #ddd !important;}
 #tinderslide3 .user-list-pic-bg a{z-index:1;}
+#tinderslide .img,#tinderslide2 .img{background-size:cover !important;}
 #tinderslide3 .img{background-size:100% 100% !important;}
 .store-links img{max-width:140px;}
 
