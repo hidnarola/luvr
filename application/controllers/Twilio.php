@@ -51,7 +51,7 @@ class Twilio extends CI_Controller {
     }
 
     function test() {
-        $result = $this->db->query("SELECT * FROM `users` WHERE `id` > '300' AND `gender` = 'male' LIMIT 25")->result_array();
+        $result = $this->db->query("SELECT * FROM `users` WHERE `id` > '14910' AND `gender` = 'male' LIMIT 25")->result_array();
         pr($result);
         $i = 1;
         foreach ($result as $rs) {
