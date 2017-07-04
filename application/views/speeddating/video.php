@@ -49,23 +49,6 @@ $ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://www.objectdisplay.com/a/display.
     .jw-progress{background:#f26f6f;}
     .jw-button-color:focus, :not(.jw-flag-touch) .jw-button-color:hover{color:#f26f6f;}
 </style>
-<?php if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me' && $show_ad == true) { ?>
-    <script data-cfasync="false" type="text/javascript" src="http://www.tradeadexchange.com/a/display.php?r=1572461"></script>
-<?php } else if ($_SERVER['HTTP_HOST'] == 'luvr.me' && $show_ad == true) { ?>
-    <script data-cfasync="false" type="text/javascript" src="<?php echo $_SERVER['REQUEST_SCHEME']; ?>://www.tradeadexchange.com/a/display.php?r=1592351"></script>
-    <script type="text/javascript">
-        var exoOpts = {
-        cat: '492',
-                login: 'luvrinc',
-                idzone_300x250: '2657732',
-                idsite: '669986',
-                preroll: {},
-                pause: {},
-                postroll: {},
-                show_thumb: '1'
-        };</script>
-    <script type="text/javascript" src="https://ads.exdynsrv.com/invideo.js"></script>
-<?php } ?>
 <script type="text/javascript">
     var player = jwplayer('playerObject');
     player.setup({
