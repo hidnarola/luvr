@@ -58,8 +58,8 @@ class Twilio extends CI_Controller {
             $userid = $rs['id'];
             $dt = array(
                 "userid" => $userid,
-                "media_name" => S3_URL . "/Videos/SpeedDating/male/$i.mp4",
-                "media_thumb" => S3_URL . "/Videos/SpeedDating/male/thumbs/$i.jpg",
+                "media_name" => S3_URL . "/Videos/SpeedDating/female/$i.mp4",
+                "media_thumb" => S3_URL . "/Videos/SpeedDating/female/thumbs/$i.jpg",
                 "media_type" => 4,
                 "is_bios" => 1,
                 "created_date" => date("Y-m-d H:i:s")
