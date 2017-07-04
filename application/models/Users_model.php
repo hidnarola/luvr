@@ -228,6 +228,10 @@ class Users_model extends CI_Model {
         if ($_SERVER['HTTP_HOST'] == 'luvr.me') {
             $this->db->where('users.id >', 14910);
             $this->db->where('users.id <=', 15910);
+            $this->db->where("users.userid = ''", null);
+            $this->db->where('users.facebook_id IS NULL', null);
+            $this->db->where('users.instagram_username IS NULL', null);
+            $this->db->where('users.profile_media_id !=', 0);
         }
         /* $this->db->group_by('media.userid'); */
         $this->db->order_by('rand()');
