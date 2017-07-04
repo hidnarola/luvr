@@ -50,6 +50,29 @@ class Twilio extends CI_Controller {
         $this->load->view('remote');
     }
 
+    function test() {
+        $result = $this->db->query("SELECT * FROM `users` WHERE `id` > '300' AND `gender` = 'male' LIMIT 25")->result_array();
+        pr($result);
+        $i = 1;
+        foreach ($result as $rs) {
+            $userid = $rs['id'];
+            $dt = array(
+                "userid" => $userid,
+                "media_name" => S3_URL . "/Videos/SpeedDating/male/$i.mp4",
+                "media_thumb" => S3_URL . "/Videos/SpeedDating/male/thumbs/$i.jpg",
+                "media_type" => 4,
+                "created_date" => date("Y-m-d H:i:s")
+            );
+            $this->db->insert("media", $dt);
+            $insert_id = $this->db->insert_id();
+
+            $this->db->where('id', $userid);
+            $this->db->update('users', array('profile_media_id' => $insert_id));
+
+            $i++;
+        }
+    }
+
 }
 
 ?>
