@@ -15,6 +15,7 @@ class Tst extends CI_Controller {
 
     public function test() {
         pr($_SERVER);
+        echo getUserIP();
     }
 
 }
