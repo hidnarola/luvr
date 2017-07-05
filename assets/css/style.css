@@ -20,10 +20,10 @@ a:hover, a:focus{outline:none;outline:0;outline-offset:0;}
 
 /***** Hero section css ****/
 .hero-section {margin:-140px 0 0;display:inline-block;vertical-align:middle;width:100%;position:relative;}
-.hero-caption{max-width:1140px;widtH:100%;position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);text-align:left;margin:55px 0 0 20px;}
+.hero-caption{max-width:1140px;width:100%;position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);text-align:left;margin:55px 0 0 20px;}
 .hero-caption h2{margin:0 0 30px;padding:0;font-family:'Poppins';font-size:44px;font-weight:700;letter-spacing:0.06em;line-height:60px;text-transform:uppercase;color:#f9f9f9;display:block;}
 .hero-caption p{margin:0 0 40px;padding:0 0 0 5px;font-family:'Roboto';font-size:16px;font-weight:400;text-decoration:none;line-height:24px;color:#fafafa;display:block;letter-spacing:0.06em;}
-.hero-caption a{margin:0 0 0 5px;widtH:180px;padding:15px; line-height:16px;background:#f6d8a4;border:2px solid #f6d8a4;color:#231f20;text-decoration:none;letter-spacing:0.1em;text-transform:uppercase;border-radius:4px;display:block;text-align:center;transition:ease-in-out .5s;}
+.hero-caption a{margin:0 0 0 5px;width:180px;padding:15px; line-height:16px;background:#f6d8a4;border:2px solid #f6d8a4;color:#231f20;text-decoration:none;letter-spacing:0.1em;text-transform:uppercase;border-radius:4px;display:block;text-align:center;transition:ease-in-out .5s;}
 .hero-caption a:hover{background:transparent;color:#f6d8a4;}
 .hero-section{border-bottom:5px solid #221e1e;}
 .hero-section .bx-controls-direction{display:none;}
@@ -349,8 +349,8 @@ input:checked + .slider:before { -webkit-transform: translateX(56px); -ms-transf
 .edit-profile-pic .change-pic:after{content:'';background:#f0efef;width:100%;height:118px;position:absolute;top:0;left:0;z-index:-1;}
 .edit-profile-pic .change-pic{position:relative;z-index:10;padding:40px 0;}
 .edit-profile-pic .change-pic span{border:2px solid #fff;width:160px;height:160px;box-shadow:0 0 18px 0 rgba(0,0,0,.2);border-radius:100%;display:block;overflow:hidden;margin:0 auto 30px;}
-.edit-profile-pic .change-pic span img{min-height:170px;min-height:170px;max-width:100%;dispaly:block;}
-.edit-profile-pic .change-pic button{border:2px solid #37b07a;background:#51ca94;padding:10px;display:block;width:164px;height:42px;line-height:20px;color:#fff;font-weight:14px; font-weight:500;text-decoration:none;text-transform:uppercase;margin:0 auto;border-radius:2px; }
+.edit-profile-pic .change-pic span img{min-height:170px;min-height:170px;max-width:100%;display:block;}
+.edit-profile-pic .change-pic button{border:2px solid #37b07a;background:#51ca94;padding:10px;display:block;width:164px;height:42px;line-height:20px;color:#fff;font-weight:500;text-decoration:none;text-transform:uppercase;margin:0 auto;border-radius:2px;}
 .edit-profile-pic .change-pic button:hover{background:#fff;color:#51ca94;}
 .edit-profile-pic  button.close{position:absolute;top:10px;right:10px;z-index:100;opacity:1;}
 .edit-profile-pic  button.close span{font-size:16px;}

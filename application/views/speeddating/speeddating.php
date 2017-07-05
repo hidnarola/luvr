@@ -121,10 +121,10 @@ if (!empty($randomUsers)) {
             <div class="user-list-r">
                 <h2>
                     <big id="right_username" title="<?php
-                    echo $lastObj['user_name'];
+                    echo $lastObj['full_name'];
                     ?>">
                              <?php
-                             echo $lastObj['user_name'];
+                             echo $lastObj['full_name'];
                              ?>
                     </big>
                     <small id="right_oneliner">
@@ -251,7 +251,7 @@ if (!empty($randomUsers)) {
                     function reflectUserInfo(index) {
                         if (index >= 0 && index < $("#tinderslide3 ul li.panel").length)
                         {
-                            $("#right_username").html(randomUsers[index].user_name);
+                            $("#right_username").html(randomUsers[index].full_name);
                             $("#right_oneliner").html(randomUsers[index].one_liner);
                             $("#right_bio").html((randomUsers[index].bio) ? randomUsers[index].bio : "&nbsp;");
                             $("#right_age").html("Age : (" + randomUsers[index].age + ")");
