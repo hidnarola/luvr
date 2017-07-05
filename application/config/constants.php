@@ -129,3 +129,4 @@ if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
     define('TWILIO_TOKEN', 'd990daed3f178c683cf5cdd84b67865b');
 }
 define('S3_URL', $_SERVER['REQUEST_SCHEME'] . '://luvr-live.s3.amazonaws.com');
+define('ASSETS_URL', 'http://149.56.241.24/luvrassets');

@@ -1,7 +1,7 @@
 <?php
-$playlist[0] = "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid1.mp4";
-$playlist[1] = "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.mp4";
-$playlist[2] = "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.mp4";
+$playlist[0] = ASSETS_URL . "/Videos/Commercials/vid1.mp4";
+$playlist[1] = ASSETS_URL . "/Videos/Commercials/vid2.mp4";
+$playlist[2] = ASSETS_URL . "/Videos/Commercials/vid3.mp4";
 $playlist = json_encode($playlist);
 ?>
 <style>

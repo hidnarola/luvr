@@ -1,9 +1,9 @@
 <?php
 $user_data = $this->session->userdata('user');
 $error = $this->session->flashdata('error');
-$playlist[0] = array("file" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid1.mp4", "image" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid1.jpg");
-$playlist[1] = array("file" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.mp4", "image" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid2.jpg");
-$playlist[2] = array("file" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.mp4", "image" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid3.jpg");
+$playlist[0] = array("file" => ASSETS_URL . "/Videos/Commercials/vid1.mp4", "image" => ASSETS_URL . "/Videos/Commercials/vid1.jpg");
+$playlist[1] = array("file" => ASSETS_URL . "/Videos/Commercials/vid2.mp4", "image" => ASSETS_URL . "/Videos/Commercials/vid2.jpg");
+$playlist[2] = array("file" => ASSETS_URL . "/Videos/Commercials/vid3.mp4", "image" => ASSETS_URL . "/Videos/Commercials/vid3.jpg");
 $playlist = json_encode($playlist);
 $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . "";
 ?>
@@ -54,7 +54,7 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
             },
 <?php } ?>
         });
-        jwplayer().onPlaylistItem(function () {
+                jwplayer().onPlaylistItem(function () {
             manageCounter();
         });
         jwplayer().onPlay(function () {
@@ -92,7 +92,7 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
 
 <section id="welcome" class="home-welcome">
     <div class="container">
-        <a href='<?php echo base_url('drluvr'); ?>' class='drluvr-btn'><img src="<?php echo S3_URL; ?>/images/drluvr.jpg"/></a>
+        <a href='<?php echo base_url('drluvr'); ?>' class='drluvr-btn'><img src="<?php echo ASSETS_URL; ?>/images/drluvr.jpg"/></a>
         <h2>
             <span><img src="<?php echo base_url(); ?>assets/images/welcome-icon.png" alt="" /></span>
             <big>Welcome to luvr</big>

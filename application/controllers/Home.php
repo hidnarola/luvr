@@ -37,8 +37,8 @@ class Home extends CI_Controller {
             $playlist = array();
             $j = 1;
             for ($i = 0; $i < 100; $i++) {
-                $playlist[$i]['file'] = '' . $_SERVER['REQUEST_SCHEME'] . '://s3.ap-south-1.amazonaws.com/luvr/Videos/' . $j . '.mp4';
-                $playlist[$i]['image'] = '' . $_SERVER['REQUEST_SCHEME'] . '://s3.ap-south-1.amazonaws.com/luvr/Videos/Thumbs/' . $j . '.jpg';
+                $playlist[$i]['file'] = ASSETS_URL . '/Videos/' . $j . '.mp4';
+                $playlist[$i]['image'] = ASSETS_URL . '/Videos/Thumbs/' . $j . '.jpg';
                 $j++;
             }
             $data['playlist'] = $playlist;
@@ -185,7 +185,7 @@ class Home extends CI_Controller {
             array_unshift($indexes, $vid_index);
             $j = 0;
             foreach ($indexes as $idx) {
-                $data['playlist'][$j] = array("file" => S3_URL . "/Videos/Dating/video$idx.mp4", "image" => S3_URL . "/Videos/Dating/thumbs/video$idx.jpg");
+                $data['playlist'][$j] = array("file" => ASSETS_URL . "/Videos/Dating/video$idx.mp4", "image" => ASSETS_URL . "/Videos/Dating/thumbs/video$idx.jpg");
                 $j++;
             }
         } else {

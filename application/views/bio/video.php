@@ -32,7 +32,7 @@ if (isset($_GET['s']) && !empty($_GET['s'])) {
 }
 $manage_errors = true;
 if (isset($_GET['p']) && !empty($_GET['p']) && (empty($_GET['s']) || !isset($_GET['s']))) {
-    $playlist = array("file" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/luvr-logo.mp4", "image" => "" . $_SERVER['REQUEST_SCHEME'] . "://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/luvr-logo.jpg");
+    $playlist = array("file" => ASSETS_URL . "/Videos/Commercials/luvr-logo.mp4", "image" => ASSETS_URL . "/Videos/Commercials/luvr-logo.jpg");
     $manage_errors = false;
     if ($active_subscriber == 1) {
         $show_ad = false;
@@ -63,16 +63,16 @@ if (isset($ad_url) && !empty($ad_url)) {
 <?php } else if ($_SERVER['HTTP_HOST'] == 'luvr.me' && $show_ad == true) { ?>
     <script data-cfasync="false" type="text/javascript" src="<?php echo $_SERVER['REQUEST_SCHEME']; ?>://www.tradeadexchange.com/a/display.php?r=1592351"></script>
     <script type="text/javascript">
-                var exoOpts = {
-                cat: '492',
-                        login: 'luvrinc',
-                        idzone_300x250: '2657732',
-                        idsite: '669986',
-                        preroll: {},
-                        pause: {},
-                        postroll: {},
-                        show_thumb: '1'
-                };</script>
+            var exoOpts = {
+            cat: '492',
+                    login: 'luvrinc',
+                    idzone_300x250: '2657732',
+                    idsite: '669986',
+                    preroll: {},
+                    pause: {},
+                    postroll: {},
+                    show_thumb: '1'
+            };</script>
     <script type="text/javascript" src="https://ads.exdynsrv.com/invideo.js"></script>
 <?php } ?>
 <script type="text/javascript">

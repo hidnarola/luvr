@@ -41,8 +41,8 @@ class Video extends CI_Controller {
             $playlist = array();
             $j = 1;
             for ($i = 0; $i < 100; $i++) {
-                $playlist[$i]['file'] = '' . $_SERVER['REQUEST_SCHEME'] . '://s3.ap-south-1.amazonaws.com/luvr/Videos/' . $j . '.mp4';
-                $playlist[$i]['image'] = '' . $_SERVER['REQUEST_SCHEME'] . '://s3.ap-south-1.amazonaws.com/luvr/Videos/Thumbs/' . $j . '.jpg';
+                $playlist[$i]['file'] = ASSETS_URL . '/Videos/' . $j . '.mp4';
+                $playlist[$i]['image'] = ASSETS_URL . '/Videos/Thumbs/' . $j . '.jpg';
                 $j++;
             }
             $data['playlist'] = $playlist;

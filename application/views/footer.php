@@ -81,7 +81,7 @@ $sess_user_data = $this->session->userdata('user');
         <div class="modal-content">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <div class="modal-body">
-                <img src="<?php echo S3_URL . "/images/eflyer.jpg"; ?>"/>
+                <img src="<?php echo ASSETS_URL . "/images/eflyer.jpg"; ?>"/>
             </div>
         </div>
     </div>
@@ -93,8 +93,8 @@ $sess_user_data = $this->session->userdata('user');
             <div class="quick-link footer-column">
                 <h3><a href="https://www.luvr.us">www.luvr.us</a></h3>
                 <ul class="footer-ul store-links">
-                    <li><a href="https://itunes.apple.com/us/app/luvr/id1184796972?ls=1&mt=8" target="_blank"><img src="<?php echo S3_URL . "/images/app-store.png"; ?>"/></a></li>
-                    <li><a href="https://play.google.com/store/apps/details?id=com.luvr" target="_blank"><img src="<?php echo S3_URL . "/images/google-play.png"; ?>"/></a></li>
+                    <li><a href="https://itunes.apple.com/us/app/luvr/id1184796972?ls=1&mt=8" target="_blank"><img src="<?php echo ASSETS_URL . "/images/app-store.png"; ?>"/></a></li>
+                    <li><a href="https://play.google.com/store/apps/details?id=com.luvr" target="_blank"><img src="<?php echo ASSETS_URL . "/images/google-play.png"; ?>"/></a></li>
                 </ul>
             </div>
             <div class="ftr-contact footer-column">
@@ -185,8 +185,8 @@ $sess_user_data = $this->session->userdata('user');
         if ($("#spplayer" + i).length > 0)
         {
             jwplayer('spplayer' + i).setup({
-                file: "<?php echo $_SERVER['REQUEST_SCHEME']; ?>://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid" + i + ".mp4",
-                image: "<?php echo $_SERVER['REQUEST_SCHEME']; ?>://s3.ap-south-1.amazonaws.com/luvr/Videos/Commercials/vid" + i + ".jpg",
+                file: "<?php echo ASSETS_URL; ?>/Videos/Commercials/vid" + i + ".mp4",
+                image: "<?php echo ASSETS_URL; ?>/Videos/Commercials/vid" + i + ".jpg",
                 primary: 'flash',
                 repeat: true,
                 autostart: false,
@@ -210,7 +210,7 @@ $sess_user_data = $this->session->userdata('user');
         <input id="callingid" type="hidden"/>
     <?php } ?>
     <script type="text/javascript">
-        myid = '<?php echo $sess_user_data['id']; ?>';
+    myid = '<?php echo $sess_user_data['id']; ?>';
     </script>
     <script src="<?php echo base_url() . 'assets/js/index.js'; ?>"></script>
     <?php
