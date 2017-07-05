@@ -1,8 +1,2 @@
-<?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+<video src="http://149.56.241.24/luvrassets/Videos/1.mp4"/>
+<img src="http://149.56.241.24/luvrassets/Videos/thumbs/1.jpg"/>
