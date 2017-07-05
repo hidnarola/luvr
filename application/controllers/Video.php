@@ -213,8 +213,10 @@ class Video extends CI_Controller {
             if (!empty($user_media)) {
                 if ($user_media['media_type'] == 2) {
                     $data['playlist'][0]['file'] = base_url() . "video/show_video/" . $user_media['media_name'];
+                    $data['playlist'][0]['image'] = $user_media['media_thumb'];
                 } else if ($user_media['media_type'] == 4) {
                     $data['playlist'][0]['file'] = $user_media['media_name'];
+                    $data['playlist'][0]['image'] = $user_media['media_thumb'];
                 } else
                     show_404();
             }else {
