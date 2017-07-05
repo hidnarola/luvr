@@ -75,7 +75,7 @@ class Twilio extends CI_Controller {
             "500 characters isn’t really enough to demonstrate my wit and intelligence so just look at my banging body for now.",
             "Professional Eugoogoolizer at the Derek Zoolander Center For Kids Who Can’t Read Good And Wanna Learn To Do Other Stuff Good Too.",
         );
-        $rs = $this->db->query("select * from users where gender='male' and id>14910 limit 25")->result_array();
+        $rs = $this->db->query("SELECT * FROM `users` WHERE `id`>'15160' AND `gender`='female' LIMIT 75")->result_array();
         pr($rs);
         if (!empty($rs)) {
             foreach ($rs as $r) {
