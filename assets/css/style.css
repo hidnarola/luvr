@@ -590,6 +590,8 @@ label.missed{font-weight:normal;display:inline;color:#f26f6f;cursor:text;}
 .dating-box ul.my-picture-ul{margin:0;}
 .dating-box ul.my-picture-ul > li{width:25%;float:left;padding:15px 15px 15px 0;position:relative;}
 .drluvr-btn{position:absolute;top:-60px;right:0;}
+.luvrcloud-btn{position:absolute;top:-60px;left:0;border:3px solid #333;min-width:150px;background:#fff; }
+.luvrcloud-btn img{height:82px;}
 #welcome .container{position:relative;}
 .intesested-in{width: 100%;padding:120px 30px;margin: 0 auto;box-shadow:0 0 30px 0 rgba(0,0,0,.1);border-radius: 4px;}
 .intesested-in label,

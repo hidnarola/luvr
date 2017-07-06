@@ -29,11 +29,12 @@
 .video-box-add{width:250px;}
 .ad-video-h .video-box-add{width:240px;}
 }
+
 @media (min-width:1200px) and (max-width:1279px){
 .benefits-content p br{display:none;}
 #hpplayer{width:600px !important;}
-
 }
+
 @media(max-width:1199px){
 .home-welcome p br,
 .benefits-content p br{display:none;}
@@ -56,9 +57,7 @@
 .left-my-picture ul li {padding:0 7px 20px;}
 .preferences-ul li {width:44%;margin:0 5% 30px 0;}
 #hpplayer {width: 500px !important;}
-
 }
-
 
 @media(min-width:1300px) and (max-width:1499px){
 .user-list-l-l,
@@ -75,8 +74,8 @@
 .user-list-r {float: left;padding: 40px 0 0 50px;  width: 46%;}
 .user-list-r h2 big { word-break: break-all;}
 .bg-name {font-size:160px;}
-
 }
+
 @media(min-width:1100px) and (max-width:1299px){
 .user-list-l-l,
 .nbmatches .user-list-l-l {min-height: 380px;}
@@ -113,6 +112,7 @@
 .bg-name {font-size:160px;}
 .content-div{width:70% !important;}
 .ad-div{width:15% !important;}
+.luvrcloud-btn,
 .drluvr-btn{top:-40px;}
 }
 
@@ -145,6 +145,7 @@ ul.my-picture-ul > li {padding:10px;}
 #hpplayer {width:500px !important;}
 .hero-caption h2 {font-size:30px;}
 .dating-box ul.my-picture-ul > li{width:33.33%;}
+.luvrcloud-btn,
 .drluvr-btn{top:-30px;}
 }
 
@@ -176,6 +177,7 @@ ul.my-picture-ul > li {padding:7px;}
 .hero-caption p br{display:none;}
 .hero-caption h2 {font-size:30px;}
 .dating-box ul.my-picture-ul > li{width:33.33%;}
+.luvrcloud-btn,
 .drluvr-btn{top:-20px;}
 }
 
@@ -241,7 +243,9 @@ ul.my-picture-ul > li {width:50%;}
 #hpplayer{position:relative;right:0;width:100% !important;}
 .back-btn-div{top:20px;}
 .dating-box ul.my-picture-ul > li{width:50%;}
-.drluvr-btn{position: initial;display:block;width:50%;margin: 0 auto 20px;top:0;}
+.luvrcloud-btn{position: initial;display:inline-block;width:50%;margin:0 5px 20px;top:0;width:150px;}
+.luvrcloud-btn img {height: 76px;}
+.drluvr-btn{position: initial;display:inline-block;width: 144px;min-width: inherit;margin:0 5px 20px;top:0;}
 .center-content{margin:15px 0;}
 .intesested-in {width:90%;padding:50px 30px;box-shadow:0 0 10px 0 rgba(0,0,0,.1);}
 }
