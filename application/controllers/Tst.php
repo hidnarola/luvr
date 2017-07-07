@@ -14,7 +14,8 @@ class Tst extends CI_Controller {
     }
 
     public function test() {
-        $this->load->view('test');
+        $data['sub_view'] = 'test';
+        $this->load->view('main', $data);
     }
 
 }

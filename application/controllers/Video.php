@@ -209,7 +209,9 @@ class Video extends CI_Controller {
         if (is_numeric($id)) {
             $user_media = $this->Users_model->getUserMediaByCol('id', $id);
             $data['single_video'] = true;
+            $user_data = $this->Users_model->fetch_userdata(array("id" => $user_media['userid']), true);
             $data['video_user_id'] = $user_media['userid'];
+            $data['video_user_email'] = $user_data['email'];
             if (!empty($user_media)) {
                 if ($user_media['media_type'] == 2) {
                     $data['playlist'][0]['file'] = base_url() . "video/show_video/" . $user_media['media_name'];
