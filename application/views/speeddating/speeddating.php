@@ -161,7 +161,7 @@ if (!empty($randomUsers)) {
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="sendMessage();">Send</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">No Message</button>
             </div>
         </div>
     </div>
@@ -183,6 +183,7 @@ if (!empty($randomUsers)) {
 <script src="<?php echo base_url() . 'assets/js/jquery.transform2d.js'; ?>" type="text/javascript"></script>
 <script src="<?php echo base_url() . 'assets/js/jquery.jTinder.js'; ?>" type="text/javascript"></script>
 <script type="text/javascript">
+                    var isPaused = false;
                     $(window).on('load', function () {
                         setTimeout(function () {
                             $("#loader").fadeOut();
@@ -190,22 +191,28 @@ if (!empty($randomUsers)) {
                         }, Math.floor((Math.random() * 1000) + 1000));
                         manageAutoSkips();
                     });
+                    $('#detailMsg').on('shown.bs.modal', function () {
+                        isPaused = true;
+                    });
                     $('#detailMsg').on('hidden.bs.modal', function () {
+                        isPaused = false;
                         $("#hdn_tmp_uid,#txt_lng_msg").val('');
-                    })
+                    });
                     function manageAutoSkips() {
                         var _counter = 10;
                         var _timer = setInterval(function () {
-                            if (_counter === 0)
-                            {
-                                clearInterval(_timer);
+                            if (!isPaused) {
+                                if (_counter === 0)
+                                {
+                                    clearInterval(_timer);
 <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
-                                    $('#tinderslide3').jTinder('dislike');
+                                        $('#tinderslide3').jTinder('dislike');
 <?php } ?>
-                                manageAutoSkips();
+                                    manageAutoSkips();
+                                }
+                                /*console.log(_counter + " seconds");*/
+                                _counter--;
                             }
-                            /*console.log(_counter + " seconds");*/
-                            _counter--;
                         }, 1000);
                     }
                     var likedislikecounts = 0;

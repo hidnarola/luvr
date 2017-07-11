@@ -43,7 +43,7 @@ $ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://www.objectdisplay.com/a/display.
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="sendMessage();">Send</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">No Message</button>
             </div>
         </div>
     </div>
