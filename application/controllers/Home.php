@@ -203,6 +203,7 @@ class Home extends CI_Controller {
     function speed($gender = null) {
         $u_data = $this->session->userdata('user');
         if ($u_data) {
+            $this->session->unset_userdata('login_callback');
             $user_id = $u_data['id'];
             $user_info = $this->Users_model->getUserByCol('id', $user_id);
             if ($user_info['location_id'] > 0) {

@@ -92,7 +92,7 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
 
 <section id="welcome" class="home-welcome">
     <div class="container">
-        <a href='<?php echo base_url('speed'); ?>' class='luvrcloud-btn' title="Luvr Speed Dating"><img src="<?php echo base_url(); ?>assets/images/luvrcloud.png"/></a>
+        <a href='<?php echo (isset($user_data) && !empty($user_data)) ? base_url('speed') : base_url("user/login_callback/speed"); ?>' class='luvrcloud-btn' title="Luvr Speed Dating"><img src="<?php echo base_url(); ?>assets/images/luvrcloud.png"/></a>
         <a href='<?php echo base_url('drluvr'); ?>' class='drluvr-btn'><img src="<?php echo ASSETS_URL; ?>/images/drluvr.jpg"/></a>
         <h2>
             <span><img src="<?php echo base_url(); ?>assets/images/welcome-icon.png" alt="" /></span>

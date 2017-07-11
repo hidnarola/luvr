@@ -11,7 +11,7 @@ class User extends CI_Controller {
         $this->load->library(['unirest', 'facebook']);
         $u_data = $this->session->userdata('user');
 
-        if (empty($u_data) && uri_string() != 'user/manage_subscription' && uri_string() != "user/login_callback" && uri_string() != "user/webcam" && uri_string() != "user/saverecordedvideo" && uri_string() != "user/midieast") {
+        if (empty($u_data) && uri_string() != 'user/manage_subscription' && uri_string() != "user/login_callback" && uri_string() != "user/login_callback/speed" && uri_string() != "user/webcam" && uri_string() != "user/saverecordedvideo" && uri_string() != "user/midieast") {
             redirect('register');
         }
     }
@@ -213,8 +213,11 @@ class User extends CI_Controller {
     }
 
     // END of function validate_zipcode
-    public function login_callback() {
-        $this->session->set_userdata('login_callback', base_url('home/#packages'));
+    public function login_callback($custom = null) {
+        if ($custom == null)
+            $this->session->set_userdata('login_callback', base_url('home/#packages'));
+        else
+            $this->session->set_userdata('login_callback', base_url($custom));
         redirect("https://api.instagram.com/oauth/authorize/?client_id=" . INSTA_CLIENT_ID . "&redirect_uri=" . base_url() . "register/return_url&response_type=code&scope=likes+comments+follower_list+relationships+public_content");
     }
 
