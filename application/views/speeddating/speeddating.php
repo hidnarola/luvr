@@ -64,8 +64,6 @@ if (!empty($randomUsers)) {
                                     if ($user['media_type'] == 4) {
                                         $href = base_url() . "video/vid/" . $user['mid'] . "/" . $pref;
                                     }
-                                    $path = str_replace("https", $_SERVER['REQUEST_SCHEME'], $path);
-                                    $path = str_replace("http", $_SERVER['REQUEST_SCHEME'], $path);
                                     /* $file_headers = @get_headers($path);
                                       if (!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found' || $file_headers[0] == 'HTTP/1.0 404 Key Not Found') {
                                       $path = S3_URL . "assets/images/big_avatar.jpg";
