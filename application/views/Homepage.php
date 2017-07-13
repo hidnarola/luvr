@@ -13,7 +13,7 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
             <img src="<?php echo base_url(); ?>assets/images/hero-01.jpg" />
             <div class="hero-caption">
                 <h2>Welcome to the Future <br/>of Online Dating.</h2>
-                <p>Introducing Luvr, the world's most first and <br/>most advanced video dating application.<br/>Luvr allows you to connect with your <br/>perfect match via 3 levels of <br/>video based communication.</p>
+                <p>Introducing Luvr, the world's first and <br/>most advanced video dating application.<br/>Luvr allows you to connect with your <br/>perfect match via 3 levels of <br/>video based communication.</p>
                 <a href="#packages">View more</a>
             </div>
         </li>
@@ -21,7 +21,7 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
             <img src="<?php echo base_url(); ?>assets/images/hero-02.jpg" />
             <div class="hero-caption">
                 <h2>Welcome to the Future <br/>of Online Dating.</h2>
-                <p>Introducing Luvr, the world's most first and <br/>most advanced video dating application.<br/>Luvr allows you to connect with your <br/>perfect match via 3 levels of <br/>video based communication.</p>
+                <p>Introducing Luvr, the world's first and <br/>most advanced video dating application.<br/>Luvr allows you to connect with your <br/>perfect match via 3 levels of <br/>video based communication.</p>
                 <a href="#packages">View more</a>
             </div>
         </li>
@@ -29,7 +29,7 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
             <img src="<?php echo base_url(); ?>assets/images/hero-03.jpg" />
             <div class="hero-caption">
                 <h2>Welcome to the Future <br/>of Online Dating.</h2>
-                <p>Introducing Luvr, the world's most first and <br/>most advanced video dating application.<br/>Luvr allows you to connect with your <br/>perfect match via 3 levels of <br/>video based communication.</p>
+                <p>Introducing Luvr, the world's first and <br/>most advanced video dating application.<br/>Luvr allows you to connect with your <br/>perfect match via 3 levels of <br/>video based communication.</p>
                 <a href="#packages">View more</a>
             </div>
         </li>
