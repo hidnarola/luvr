@@ -52,6 +52,7 @@ $ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://search.spotxchange.com/vast/2.0/
             advertising: {
             client:'vast',
                     tag:'<?php echo $ad_url; ?>',
+                    requestTimeout:20000
             },
 <?php } ?>
         });
