@@ -5,7 +5,8 @@ $playlist[0] = array("file" => ASSETS_URL . "/Videos/Commercials/vid1.mp4", "ima
 $playlist[1] = array("file" => ASSETS_URL . "/Videos/Commercials/vid2.mp4", "image" => ASSETS_URL . "/Videos/Commercials/vid2.jpg");
 $playlist[2] = array("file" => ASSETS_URL . "/Videos/Commercials/vid3.mp4", "image" => ASSETS_URL . "/Videos/Commercials/vid3.jpg");
 $playlist = json_encode($playlist);
-$ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . "";
+/*$ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . "";*/
+$ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://search.spotxchange.com/vast/2.0/202107?VPAID=JS&content_page_url=" . _current_url() . "&cb=" . uniqid(time()) . "&player_width=1024&player_height=768";
 ?>
 <link href="<?php echo base_url('assets/css/video-js.min.css'); ?>" rel="stylesheet"/>
 <link href="<?php echo base_url('assets/css/videojs.record.min.css'); ?>" rel="stylesheet"/>
@@ -42,12 +43,19 @@ $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone
 </div>
 <script type='text/javascript'>
     jwplayer('wcplayer').setup({
-        playlist: <?php echo $playlist; ?>,
-        primary: 'flash',
-        repeat: true,
-        autostart: false,
-        aspectratio: "16:9",
-        width: "100%",
+    playlist: <?php echo $playlist; ?>,
+            primary: 'flash',
+            repeat: true,
+            autostart: false,
+            aspectratio: "16:9",
+            width: "100%",
+<?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
+        advertising: {
+        client:'vast',
+                tag:'<?php echo $ad_url; ?>',
+                requestTimeout:20000
+        },
+<?php } ?>
     });
 <?php if ($is_active_usr == '1') { ?>
         var video_length = '60';
