@@ -44,7 +44,6 @@ $ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://search.spotxchange.com/vast/2.0/
 <script type='text/javascript'>
     jwplayer('wcplayer').setup({
     playlist: <?php echo $playlist; ?>,
-            primary: 'flash',
             repeat: true,
             autostart: false,
             aspectratio: "16:9",

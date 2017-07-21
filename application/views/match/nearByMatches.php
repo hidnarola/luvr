@@ -223,7 +223,6 @@ if (!empty($nearByUsers)) {
         var player_nbmp = jwplayer('nbmpplayer');
         player_nbmp.setup({
         playlist: <?php echo $playlist; ?>,
-                primary: 'flash',
                 repeat: true,
                 autostart: false,
                 aspectratio: "16:9",

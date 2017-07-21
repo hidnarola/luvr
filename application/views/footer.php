@@ -187,7 +187,6 @@ $sess_user_data = $this->session->userdata('user');
             jwplayer('spplayer' + i).setup({
                 file: "<?php echo ASSETS_URL; ?>/Videos/Commercials/vid" + i + ".mp4",
                 image: "<?php echo ASSETS_URL; ?>/Videos/Commercials/vid" + i + ".jpg",
-                primary: 'flash',
                 repeat: true,
                 autostart: false,
                 aspectratio: "16:9",

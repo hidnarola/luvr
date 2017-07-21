@@ -60,7 +60,6 @@
     var player_sub = jwplayer('subsplayer');
     player_sub.setup({
     playlist: <?php echo $playlist; ?>,
-            primary: 'flash',
             repeat: true,
             autostart: false,
             aspectratio: "16:9",
