@@ -49,11 +49,11 @@ $ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://search.spotxchange.com/vast/2.0/
             aspectratio: "16:9",
             width: "100%",
 <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
-        advertising: {
+        /*advertising: {
         client:'vast',
                 tag:'<?php echo $ad_url; ?>',
                 requestTimeout:20000
-        },
+        },*/
 <?php } ?>
     });
 <?php if ($is_active_usr == '1') { ?>

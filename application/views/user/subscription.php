@@ -65,11 +65,11 @@
             aspectratio: "16:9",
             width: "100%",
 <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
-        advertising: {
+        /*advertising: {
         client:'vast',
                 tag:'<?php echo $ad_url; ?>',
                 requestTimeout:20000
-        },
+        },*/
 <?php } ?>
     });
 </script>
