@@ -356,7 +356,7 @@ $ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://search.spotxchange.com/vast/2.0/
                                 <td class='package-buy'>
                                     <form action="<?php echo base_url() . "user/manage_subscription"; ?>" method="post" id='frm_5yearly'>
                                         <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                                data-key="<?php echo PK_TEST; ?>"
+                                                data-key="<?php echo ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') ? PK_TEST : PK_LIVE; ?>"
                                                 data-description="Luvr Premium (5 Years)"
                                                 data-amount="35000"
                                                 data-image='<?php echo base_url() . "assets/images/luvrlogo.png" ?>'
