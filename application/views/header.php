@@ -37,16 +37,16 @@ $user_data = $this->session->userdata('user');
         <script src="<?php echo base_url(); ?>assets/js/custom.js"></script>
         <?php if (!empty($user_data)) { ?>
             <script type="text/javascript">
-                var socket = io.connect('https://' + window.location.hostname + ':8100');
-                socket.emit('join_socket_web', {
-                    'userID': '<?php echo $user_data['id']; ?>',
-                    'is_login': '1',
-                    'app_version': 0
-                });
-                var audioElement = '';
-                var myid = '';
-                var call_timeout = 0;
-                var tmptout;
+            var socket = io.connect('https://' + window.location.hostname + ':8100');
+            socket.emit('join_socket_web', {
+                'userID': '<?php echo $user_data['id']; ?>',
+                'is_login': '1',
+                'app_version': 0
+            });
+            var audioElement = '';
+            var myid = '';
+            var call_timeout = 0;
+            var tmptout;
             </script>
         <?php } ?>
         <?php if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me' || $_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
@@ -65,6 +65,28 @@ $user_data = $this->session->userdata('user');
                 ga('create', 'UA-87679442-2', 'auto');
                 ga('send', 'pageview');
             </script>
+        <?php } ?>
+        <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
+            <script data-cfasync="false" type="text/javascript">(function (s, o, l, v, e, d) {
+                    if (s[o] == null && s[l + e]) {
+                        s[o] = "loading";
+                        s[l + e](d, l = function () {
+                            s[o] = "complete";
+                            s[v + e](d, l, !1)
+                        }, !1)
+                    }
+                })(document, "readyState", "add", "remove", "EventListener", "DOMContentLoaded");
+                (function () {
+                    var s = document.createElement("script");
+                    s.type = "text/javascript";
+                    s.async = true;
+                    s.src = "//cdn.engine.addroplet.com/Scripts/infinity.js.aspx?guid=3b358897-fbf4-435e-bd74-86887282f0b5";
+                    s.id = "infinity";
+                    s.setAttribute("data-guid", "3b358897-fbf4-435e-bd74-86887282f0b5");
+                    s.setAttribute("data-version", "async");
+                    var e = document.getElementsByTagName('script')[0];
+                    e.parentNode.insertBefore(s, e)
+                })();</script>
         <?php } ?>
     </head>
     <body class="with-login">
