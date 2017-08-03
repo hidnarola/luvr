@@ -49,11 +49,11 @@ $ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://api.avidadserver.com/api/vast/vi
                 aspectratio:"16:9",
                 width:"100%",
 <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
-            advertising: {
+            /*advertising: {
             client:'vast',
                     tag:'<?php echo $ad_url; ?>',
                     requestTimeout:15000
-            }
+            }*/
 <?php } ?>
         });
         jwplayer().onPlaylistItem(function () {
