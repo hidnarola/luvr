@@ -50,8 +50,7 @@ if (empty($user_data)) {
                 var tmptout;
             </script>
         <?php } ?>
-        <script type="text/javascript" src="<?php echo base_url('assets/js/jwplayer.js'); ?>"></script>
-        <script>jwplayer.key = "+NBpDYuEp+FQ1VZ4YR8hbrcC1s9O/eD5ul+RdSAMR04=";</script>
+        <script type="text/javascript" src="http://jwpsrv.com/library/Oaxv3rk7EeSJeBJtO5t17w.js"></script>
         <?php if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me' || $_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
             <script>
                 (function (i, s, o, g, r, a, m) {
