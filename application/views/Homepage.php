@@ -6,7 +6,8 @@ $playlist[1] = array("file" => ASSETS_URL . "/Videos/Commercials/vid2.mp4", "ima
 $playlist[2] = array("file" => ASSETS_URL . "/Videos/Commercials/vid3.mp4", "image" => ASSETS_URL . "/Videos/Commercials/vid3.jpg");
 $playlist = json_encode($playlist);
 /* $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . ""; */
-$ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://search.spotxchange.com/vast/2.0/202107?VPAID=JS&content_page_url=" . _current_url() . "&cb=" . uniqid(time()) . "&player_width=1024&player_height=768";
+/* $ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://search.spotxchange.com/vast/2.0/202107?VPAID=JS&content_page_url=" . _current_url() . "&cb=" . uniqid(time()) . "&player_width=1024&player_height=768"; */
+$ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://api.avidadserver.com/api/vast/video?tid=59778d2a1ee0530b30d1df75&pid=5982a8ac1ee05502f01c829e&rnd=" . uniqid(time()) . "&vv=2";
 ?>
 <section id="hero-section" class="hero-section">
     <ul class="bxslider">
@@ -48,45 +49,45 @@ $ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://search.spotxchange.com/vast/2.0/
                 aspectratio:"16:9",
                 width:"100%",
 <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
-            /*advertising: {
+            advertising: {
             client:'vast',
                     tag:'<?php echo $ad_url; ?>',
-                    requestTimeout:20000
-            },*/
+                    requestTimeout:15000
+            }
 <?php } ?>
         });
-                jwplayer().onPlaylistItem(function () {
-            manageCounter();
+        jwplayer().onPlaylistItem(function () {
+        manageCounter();
         });
         jwplayer().onPlay(function () {
-            isPaused = false;
+        isPaused = false;
         });
         jwplayer().onPause(function () {
-            isPaused = true;
+        isPaused = true;
         });
         jwplayer().onBeforePlay(function () {
-            isPaused = true;
+        isPaused = true;
         });
         jwplayer().onAdComplete(function () {
-            isPaused = false;
+        isPaused = false;
         });
         jwplayer().onAdError(function () {
-            isPaused = false;
+        isPaused = false;
         });
         function manageCounter() {
-            var counter = Math.floor(Math.random() * 11) + 10;
-            console.log(counter);
-            var timer = setInterval(function () {
-                if (!isPaused) {
-                    if (counter === 0)
-                    {
-                        jwplayer().next();
-                        return clearInterval(timer);
-                    }
-                    /*console.log(counter + " seconds");*/
-                    counter--;
-                }
-            }, 1000);
+        var counter = Math.floor(Math.random() * 11) + 10;
+        console.log(counter);
+        var timer = setInterval(function () {
+        if (!isPaused) {
+        if (counter === 0)
+        {
+        jwplayer().next();
+        return clearInterval(timer);
+        }
+        /*console.log(counter + " seconds");*/
+        counter--;
+        }
+        }, 1000);
         }
     </script>
 </section>
@@ -399,23 +400,22 @@ $ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://search.spotxchange.com/vast/2.0/
 <script type="text/javascript">
 <?php if (!empty($error)) { ?>
             $(document).ready(function () {
-                showMsg("<?php echo $error; ?>", "error", true);
+            showMsg("<?php echo $error; ?>", "error", true);
             });
 <?php } ?>
         $(function () {
-            $("#frm_monthly .stripe-button-el").html('1 Month');
-            $("#frm_6monthly .stripe-button-el").html('6 Months');
-            $("#frm_yearly .stripe-button-el").html('1 Year');
-            $("#frm_2yearly .stripe-button-el").html('2 Years');
-            $("#frm_5yearly .stripe-button-el").html('5 Years');
-            $(".stripe-button-el").removeClass('stripe-button-el');
-
-            $('.bxslider').bxSlider({
-                mode: 'fade',
+        $("#frm_monthly .stripe-button-el").html('1 Month');
+        $("#frm_6monthly .stripe-button-el").html('6 Months');
+        $("#frm_yearly .stripe-button-el").html('1 Year');
+        $("#frm_2yearly .stripe-button-el").html('2 Years');
+        $("#frm_5yearly .stripe-button-el").html('5 Years');
+        $(".stripe-button-el").removeClass('stripe-button-el');
+        $('.bxslider').bxSlider({
+        mode: 'fade',
                 captions: true,
                 auto: true,
                 pager: false,
                 responsive: true
-            });
+        });
         });
 </script>
