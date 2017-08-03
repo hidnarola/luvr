@@ -1,6 +1,4 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Credentials: false");
 $user_data = $this->session->userdata('user');
 $error = $this->session->flashdata('error');
 $playlist[0] = array("file" => ASSETS_URL . "/Videos/Commercials/vid1.mp4", "image" => ASSETS_URL . "/Videos/Commercials/vid1.jpg");
