@@ -7,8 +7,7 @@ $playlist[2] = array("file" => ASSETS_URL . "/Videos/Commercials/vid3.mp4", "ima
 $playlist = json_encode($playlist);
 /* $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . ""; */
 /* $ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://search.spotxchange.com/vast/2.0/202107?VPAID=JS&content_page_url=" . _current_url() . "&cb=" . uniqid(time()) . "&player_width=1024&player_height=768"; */
-//$ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://api.avidadserver.com/api/vast/video?tid=59778d2a1ee0530b30d1df75&pid=5982a8ac1ee05502f01c829e&rnd=" . uniqid(time()) . "&vv=2";
-$ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://search.spotxchange.com/vast/2.00/85394?VPI=MP4&app[bundle]=[REPLACE_ME]&app[name]=[REPLACE_ME]&app[cat]=[REPLACE_ME]&app[domain]=[REPLACE_ME]&app[privacypolicy]=[REPLACE_ME]&app[storeurl]=[REPLACE_ME]&app[ver]=[REPLACE_ME]&cb=[REPLACE_ME]&device[devicetype]=[REPLACE_ME]&device[ifa]=[REPLACE_ME]&device[make]=[REPLACE_ME]&device[model]=[REPLACE_ME]&device[dnt]=[REPLACE_ME]&player_height=[REPLACE_ME]&player_width=[REPLACE_ME]&ip_addr=[REPLACE_ME]&device[ua]=[REPLACE_ME";
+$ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://api.avidadserver.com/api/vast/video?tid=59778d2a1ee0530b30d1df75&pid=5982a8ac1ee05502f01c829e&rnd=" . uniqid(time()) . "&vv=2";
 ?>
 <section id="hero-section" class="hero-section">
     <ul class="bxslider">
@@ -50,11 +49,11 @@ $ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://search.spotxchange.com/vast/2.00
                 aspectratio:"16:9",
                 width:"100%",
 <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
-            advertising: {
+            /*advertising: {
             client:'vast',
                     tag:'<?php echo $ad_url; ?>',
                     requestTimeout:15000
-            }
+            }*/
 <?php } ?>
         });
         jwplayer().onPlaylistItem(function () {
