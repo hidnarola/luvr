@@ -12,8 +12,6 @@ if ($_SERVER['REQUEST_SCHEME'] == "https")
     $ad_url = "https://api.avidadserver.com/api/vast/video?tid=59778d2a1ee0530b30d1df75&pid=598419fa1ee05504fccb97fa&rnd=" . uniqid(time()) . "&vv=2";
 else
     $ad_url = "http://api.avidadserver.com/api/vast/video?tid=59778d2a1ee0530b30d1df75&pid=5982a8ac1ee05502f01c829e&rnd=" . uniqid(time()) . "&vv=2";
-
-$ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://search.spotxchange.com/vast/2.0/202107?VPAID=JS&content_page_url=" . _current_url() . "&cb=" . uniqid(time()) . "&player_width=1024&player_height=768";
 ?>
 <section id="hero-section" class="hero-section">
     <ul class="bxslider">
