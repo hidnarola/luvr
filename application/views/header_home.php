@@ -1,6 +1,7 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Headers: X-Requested-With");
 if (!empty($meta_title) && $meta_title != null)
     $site_title = $meta_title;
 else
