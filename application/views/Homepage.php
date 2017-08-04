@@ -55,7 +55,8 @@ else
 <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
             advertising: {
             client:'vast',
-                    tag:'<?php echo $ad_url; ?>'
+                    tag:'<?php echo $ad_url; ?>',
+                    requestTimeout:15000
             }
 <?php } ?>
         });
