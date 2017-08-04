@@ -50,11 +50,11 @@ $ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://search.spotxchange.com/vast/2.00
                 aspectratio:"16:9",
                 width:"100%",
 <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
-            /*advertising: {
+            advertising: {
             client:'vast',
                     tag:'<?php echo $ad_url; ?>',
                     requestTimeout:15000
-            }*/
+            }
 <?php } ?>
         });
         jwplayer().onPlaylistItem(function () {
