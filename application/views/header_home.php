@@ -1,5 +1,4 @@
 <?php
-header("Access-Control-Allow-Origin: *");
 if (!empty($meta_title) && $meta_title != null)
     $site_title = $meta_title;
 else
