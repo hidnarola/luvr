@@ -45,14 +45,14 @@ $ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://search.spotxchange.com/vast/2.0/
         player_hp.setup({
         playlist: <?php echo $playlist; ?>,
                 repeat: true,
-                autostart: true,
+                autostart: false,
                 aspectratio: "16:9",
                 width: "100%",
 <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
             advertising: {
-            client:'vpaid2',
+            client:'vpaid',
                     tag:'<?php echo $ad_url; ?>',
-                    requestTimeout:15000
+                    requestTimeout:20000
             }
 <?php } ?>
         });
