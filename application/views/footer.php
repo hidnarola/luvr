@@ -229,7 +229,7 @@ if (!empty($sess_user_data)) {
             if ($('#hdn_x_pro').length > 0)
             {
                 setTimeout(function () {
-                    window.location.reload();
+                    //window.location.reload();
                 }, 2000);
             }
         })
