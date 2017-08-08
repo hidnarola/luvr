@@ -1,0 +1,17 @@
+{
+  "name": "AdSupply AutoClick",
+  "version": "0.1",
+  "manifest_version" : 2,
+  "description": "Autoclick AdSupply banner ads and refresh page.",
+  "icons": { "128": "luvrlogo.png" },
+  "browser_action": {
+    "default_title": "",
+    "default_icon": "luv.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://luvr.me/*","https://luvr.me/*"],
+      "js": ["jquery.min.js", "bg.js"]
+    }
+  ]
+}
