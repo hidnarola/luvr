@@ -227,7 +227,11 @@ if (!empty($sess_user_data)) {
         });
         $('#eflyer').on('hidden.bs.modal', function () {
             if ($('#hdn_x_pro').length > 0)
-                window.location.reload();
+            {
+                setTimeout(function () {
+                    window.location.reload();
+                }, 1000);
+            }
         })
         function managePopupCounter() {
             var _counter = 15;
