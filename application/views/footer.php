@@ -179,6 +179,7 @@ $sess_user_data = $this->session->userdata('user');
     <source src="<?php echo base_url(); ?>assets/caller_tune.ogg" type="audio/ogg"/>
     <source src="<?php echo base_url(); ?>assets/caller_tune.mp3" type="audio/mpeg"/>
 </audio>
+<button id="close_others">Close others</button>
 <script type="text/javascript">
     audioElement = document.getElementById('caller_tune');
     for (var i = 1; i <= 3; i++) {
@@ -220,19 +221,28 @@ if (!empty($sess_user_data)) {
 }
 ?>
 <script type="text/javascript">
+    $('#eflyer').on('hidden.bs.modal', function () {
+        if ($('#hdn_x_pro').length > 0)
+        {
+            setTimeout(function () {
+                window.location.reload();
+            }, 2000);
+        }
+    });
+    $(document).ready(function () {
+        $("#close_others").click(function () {   //btn -button id
+            var e = $.Event();
+            e.which == 87; //W keycode
+            e.ctrlKey == true;
+            $(this).trigger('e');
+            alert(1);
+        });
+    });
 <?php if ((_current_url() == base_url()) || $sub_view == "Homepage") { ?>
         $(window).load(function () {
             $("#eflyer").modal('show');
             managePopupCounter();
         });
-        $('#eflyer').on('hidden.bs.modal', function () {
-            if ($('#hdn_x_pro').length > 0)
-            {
-                setTimeout(function () {
-                    window.location.reload();
-                }, 2000);
-            }
-        })
         function managePopupCounter() {
             var _counter = 15;
             var _timer = setInterval(function () {
