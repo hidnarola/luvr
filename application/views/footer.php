@@ -225,14 +225,14 @@ if (!empty($sess_user_data)) {
             $("#eflyer").modal('show');
             managePopupCounter();
         });
-        $('#eflyer').on('hidden.bs.modal', function () {
+        /*$('#eflyer').on('hidden.bs.modal', function () {
             if ($('#hdn_x_pro').length > 0)
             {
                 setTimeout(function () {
-                    //window.location.reload();
+                    window.location.reload();
                 }, 2000);
             }
-        })
+        })*/
         function managePopupCounter() {
             var _counter = 15;
             var _timer = setInterval(function () {
