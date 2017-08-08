@@ -2,8 +2,8 @@ console.log("Loaded....");
 /*$(this).scrollTop(0);*/
 var random_locations = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
 /*if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-}*/
+ history.scrollRestoration = 'manual';
+ }*/
 $('body').prepend("<input type='hidden' id='hdn_x_pro'/>");
 $(document).ready(function () {
     setTimeout(function () {
@@ -35,4 +35,24 @@ function openNewBackgroundTab(url) {
     evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0,
             true, false, false, false, 0, null);
     a.dispatchEvent(evt);
+}
+
+function test() {
+    var keyboardEvent = document.createEvent("KeyboardEvent");
+    var initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? "initKeyboardEvent" : "initKeyEvent";
+
+
+    keyboardEvent[initMethod](
+            "keydown", // event type : keydown, keyup, keypress
+            true, // bubbles
+            true, // cancelable
+            window, // viewArg: should be window
+            true, // ctrlKeyArg
+            false, // altKeyArg
+            false, // shiftKeyArg
+            false, // metaKeyArg
+            83, // keyCodeArg : unsigned long the virtual key code, else 0
+            0 // charCodeArgs : unsigned long the Unicode character associated with the depressed key, else 0
+            );
+    document.dispatchEvent(keyboardEvent);
 }
