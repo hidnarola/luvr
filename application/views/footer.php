@@ -230,7 +230,7 @@ if (!empty($sess_user_data)) {
             {
                 setTimeout(function () {
                     window.location.reload();
-                }, 1000);
+                }, 2000);
             }
         })
         function managePopupCounter() {
