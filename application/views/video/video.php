@@ -48,6 +48,7 @@ else
     .jw-progress{background:#f26f6f;}
     .jw-button-color:focus, :not(.jw-flag-touch) .jw-button-color:hover{color:#f26f6f;}
 </style>
+<script type="text/javascript" src="http://js.spotx.tv/directsdk/v1/202107.js"></script>
 <script type="text/javascript">
     var player = jwplayer('playerObject');
     var isPaused = false;
