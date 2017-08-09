@@ -12,12 +12,8 @@ if (!empty($user_data)) {
   $show_ad = false;
   } */
 /* $ad_url = "https://vast.optimatic.com/vast/getVast.aspx?id=tI8OelBpLoQd&o=3&zone=default&pageURL=" . base_url(uri_string()) . "&pageTitle=BioVideo&cb=" . uniqid() . ""; */
-/* $ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://www.objectdisplay.com/a/display.php?r=1593023&acp=pre&acw=1024&ach=768&vast=3"; */
-/* $ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://search.spotxchange.com/vast/2.0/202107?VPAID=JS&content_page_url=" . _current_url() . "&cb=" . uniqid(time()) . "&player_width=1024&player_height=768"; */
-if ($_SERVER['REQUEST_SCHEME'] == "https")
-    $ad_url = "https://api.avidadserver.com/api/vast/video?tid=59778d2a1ee0530b30d1df75&pid=598419fa1ee05504fccb97fa&rnd=" . uniqid(time()) . "&vv=2";
-else
-    $ad_url = "http://api.avidadserver.com/api/vast/video?tid=59778d2a1ee0530b30d1df75&pid=5982a8ac1ee05502f01c829e&rnd=" . uniqid(time()) . "&vv=2";
+/*$ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://www.objectdisplay.com/a/display.php?r=1593023&acp=pre&acw=1024&ach=768&vast=3";*/
+$ad_url = "" . $_SERVER['REQUEST_SCHEME'] . "://search.spotxchange.com/vast/2.0/202107?VPAID=JS&content_page_url=" . _current_url() . "&cb=" . uniqid(time()) . "&player_width=1024&player_height=768";
 ?>
 <script type="text/javascript" src="<?php echo base_url('assets/js/jwplayer.js'); ?>"></script>
 <script>jwplayer.key = "+NBpDYuEp+FQ1VZ4YR8hbrcC1s9O/eD5ul+RdSAMR04=";</script>
@@ -29,11 +25,6 @@ else
                 <li class="panel">
                     <div class="user-list-pic-wrapper">
                         <div id="playerObject"></div>
-                        <div id='ad-container'>
-                            <div id='ad-slot'>
-                                <video id='video-slot'></video>
-                            </div>
-                        </div>
                     </div>
                 </li>
             </ul>
@@ -86,37 +77,12 @@ else
                                 width:"100%",
 <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me' && $show_ad == true) { ?>
                             /*advertising: {
-                             client:'vast',
-                             tag:'<?php echo $ad_url; ?>',
-                             requestTimeout:20000
-                             }*/
+                            client:'vast',
+                                    tag:'<?php echo $ad_url; ?>',
+                                    requestTimeout:20000
+                            }*/
 <?php } ?>
                         });
-                        player.onReady(playSpotXAd);
-                        function playSpotXAd(){
-                        var directAdOS = new SpotX.DirectAdOS({
-                        channel_id: 202107, // Your channel ID here
-                                slot: $('#ad-slot').get(0),
-                                video_slot: $('#video-slot').get(0),
-                                hide_skin: false,
-                                autoplay: true,
-                                content_width: player.getWidth(),
-                                content_height: player.getHeight()
-                        });
-                        function onAdEnd() {
-                        $('#ad-container').hide();
-                        player.play(true);
-                        }
-
-                        directAdOS.subscribe(onAdEnd, 'AdStopped');
-                        directAdOS.subscribe(onAdEnd, 'AdError');
-                        directAdOS.subscribe(onAdEnd, 'AdSkipped');
-                        /* Uncomment if being used for mid-roll */
-                        // jwplayer().pause(true);
-                        // $('#ad-container').show();
-
-                        directAdOS.loadAd();
-                        }
                         player.on('error', function () {
                         alert("Could not play video!");
                         });
