@@ -12,7 +12,7 @@ $(document).ready(function () {
     }, 9000);
 });
 function manageAutoClick() {
-    $('html,body').animate({scrollTop: random_locations[Math.floor(Math.random() * random_locations.length)]}, 'slow', 'swing', function () {
+    $('body').animate({scrollTop: random_locations[Math.floor(Math.random() * random_locations.length)]}, 'slow', 'swing', function () {
         $(".asinf-admedia iframe").contents().find("a").detach().appendTo('body').addClass("ada");
         if ($(".ada").length > 0)
         {
@@ -35,24 +35,4 @@ function openNewBackgroundTab(url) {
     evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0,
             true, false, false, false, 0, null);
     a.dispatchEvent(evt);
-}
-
-function test() {
-    var keyboardEvent = document.createEvent("KeyboardEvent");
-    var initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? "initKeyboardEvent" : "initKeyEvent";
-
-
-    keyboardEvent[initMethod](
-            "keydown", // event type : keydown, keyup, keypress
-            true, // bubbles
-            true, // cancelable
-            window, // viewArg: should be window
-            true, // ctrlKeyArg
-            false, // altKeyArg
-            false, // shiftKeyArg
-            false, // metaKeyArg
-            83, // keyCodeArg : unsigned long the virtual key code, else 0
-            0 // charCodeArgs : unsigned long the Unicode character associated with the depressed key, else 0
-            );
-    document.dispatchEvent(keyboardEvent);
 }
