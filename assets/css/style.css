@@ -613,4 +613,11 @@ label.missed{font-weight:normal;display:inline;color:#f26f6f;cursor:text;}
 .video-swipe #tinderslide3 li{width:100%;position:relative;}
 .video-swipe .user-list-pic-wrapper{width:100%;}
 .video-swipe .jwplayer video{position:relative;}
-#ad-container, #ad-slot video {position:absolute;top:0;left:0;width:100%;height:100%;}
+#ad-slot video {top:0;left:0;width:100%;height:100%;}
+#ad-container{width:100%;height:100%;}
+.ad-container-wrapper {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    width: 650px !important;
+}

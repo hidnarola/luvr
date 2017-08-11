@@ -117,7 +117,9 @@ ul.my-picture-ul > li{padding:10px;}
 .dating-box ul.my-picture-ul > li{width:33.33%;}
 .luvrcloud-btn,
 .drluvr-btn{top:-30px;}
+.ad-container-wrapper {width: 500px !important;right: 20px;}
 }
+@media(max-width:991px){.ad-container-wrapper {width: initial !important;}}
 @media(min-width:768px) and (max-width:991px){.hero-caption{max-width:738px;}
 .benefits-content h2 span{display:block;}
 .home-package{padding:30px 0;}
@@ -214,6 +216,9 @@ ul.my-picture-ul > li{width:50%;}
 .drluvr-btn{position:initial;display:inline-block;width:144px;min-width:inherit;margin:0 5px 20px;top:0;}
 .center-content{margin:15px 0;}
 .intesested-in{width:90%;padding:50px 30px;box-shadow:0 0 10px 0 rgba(0,0,0,.1);}
+/*#ad-container iframe{    position: sticky !important;
+    top: initial !important;}*/
+
 }
 @media(max-width:460px){ul.my-picture-ul > li{width:100%;}
 .user-list-l-l,

@@ -42,9 +42,11 @@ else
     </ul>
     <div class="homepage-player-outer">
         <div id="hpplayer"></div>
-        <div id='ad-container'>
-            <div id='ad-slot'>
-                <video id='video-slot'></video>
+        <div class="ad-container-wrapper">
+            <div id='ad-container'>
+                <div id='ad-slot'>
+                    <video id='video-slot'></video>
+                </div>
             </div>
         </div>
     </div>
