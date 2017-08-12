@@ -36,12 +36,16 @@ else
 <div class="container">
     <div class="row">
         <div class="back-btn-div"><a onclick="window.history.back();" class="for_pointer"></a></div>
-        <div id="playerObject"></div>
-        <div id='ad-container'>
-            <div id='ad-slot'>
-                <video id='video-slot'></video>
+        <div class="rdl-css">
+            <div id="playerObject"></div>
+            <div class="ad-container-wrapper">
+                <div id='ad-container'>
+                    <div id='ad-slot'>
+                        <video id='video-slot'></video>
+                    </div>
+                </div>
             </div>
-        </div>
+        </div>    
     </div>
 </div>
 <style type="text/css">
@@ -50,105 +54,105 @@ else
 </style>
 <script type="text/javascript" src="http://js.spotx.tv/directsdk/v1/202107.js"></script>
 <script type="text/javascript">
-    var player = jwplayer('playerObject');
-    var isPaused = false;
-    player.setup({
+            var player = jwplayer('playerObject');
+            var isPaused = false;
+            player.setup({
 <?php if ($playlist != null && !empty($playlist)) { ?>
-        playlist: <?php echo json_encode($playlist); ?>,
+                playlist: <?php echo json_encode($playlist); ?>,
 <?php } ?>
 <?php if ($show_ad == true) { ?>
-        /*primary:'flash',*/
+                /*primary:'flash',*/
 <?php } ?>
 <?php if ($show_ad == false) { ?>
-        /*repeat:true,*/
-        autostart:false,
+                /*repeat:true,*/
+                autostart:false,
 <?php } ?>
 <?php if ($show_ad == true) { ?>
-        autostart:true,
+                autostart:true,
 <?php } ?>
-    aspectratio:"16:9",
-            width:"100%",
+            aspectratio:"16:9",
+                    width:"100%",
 <?php if (($_SERVER['HTTP_HOST'] == 'dev.luvr.me' || $_SERVER['HTTP_HOST'] == 'luvr.me') && $show_ad == true) { ?>
-        /*advertising: {
-         client:'vast',
-         tag:'<?php echo $ad_url; ?>',
-         requestTimeout:20000
-         },*/
+                /*advertising: {
+                 client:'vast',
+                 tag:'<?php echo $ad_url; ?>',
+                 requestTimeout:20000
+                 },*/
 <?php } ?>
-    });
-    player.onReady(playSpotXAd);
-    function playSpotXAd(){
-    var directAdOS = new SpotX.DirectAdOS({
-    channel_id: 202107, // Your channel ID here
-            slot: $('#ad-slot').get(0),
-            video_slot: $('#video-slot').get(0),
-            hide_skin: false,
-            autoplay: true,
-            content_width: player.getWidth(),
-            content_height: player.getHeight()
-    });
-    function onAdEnd() {
-    $('#ad-container').hide();
-    player.play(true);
-    }
+            });
+            player.onReady(playSpotXAd);
+            function playSpotXAd(){
+            var directAdOS = new SpotX.DirectAdOS({
+            channel_id: 202107, // Your channel ID here
+                    slot: $('#ad-slot').get(0),
+                    video_slot: $('#video-slot').get(0),
+                    hide_skin: false,
+                    autoplay: true,
+                    content_width: player.getWidth(),
+                    content_height: player.getHeight()
+            });
+            function onAdEnd() {
+            //$('#ad-container').hide();
+            player.play(true);
+            }
 
-    directAdOS.subscribe(onAdEnd, 'AdStopped');
-    directAdOS.subscribe(onAdEnd, 'AdError');
-    directAdOS.subscribe(onAdEnd, 'AdSkipped');
-    /* Uncomment if being used for mid-roll */
-    // jwplayer().pause(true);
-    // $('#ad-container').show();
+            directAdOS.subscribe(onAdEnd, 'AdStopped');
+            directAdOS.subscribe(onAdEnd, 'AdError');
+            directAdOS.subscribe(onAdEnd, 'AdSkipped');
+            /* Uncomment if being used for mid-roll */
+            // jwplayer().pause(true);
+            // $('#ad-container').show();
 
-    directAdOS.loadAd();
-    }
-    jwplayer().onPlaylistItem(function(){
-    manageCounter();
-    });
-    jwplayer().onPlay(function(){
-    isPaused = false;
-    });
-    jwplayer().onPause(function(){
-    isPaused = true;
-    });
-    jwplayer().onBeforePlay(function () {
-    isPaused = true;
-    });
-    jwplayer().onAdComplete(function () {
-    isPaused = false;
-    });
-    jwplayer().onAdError(function () {
-    isPaused = false;
-    });
+            directAdOS.loadAd();
+            }
+            jwplayer().onPlaylistItem(function(){
+            manageCounter();
+            });
+            jwplayer().onPlay(function(){
+            isPaused = false;
+            });
+            jwplayer().onPause(function(){
+            isPaused = true;
+            });
+            jwplayer().onBeforePlay(function () {
+            isPaused = true;
+            });
+            jwplayer().onAdComplete(function () {
+            isPaused = false;
+            });
+            jwplayer().onAdError(function () {
+            isPaused = false;
+            });
 <?php if (!empty($next_random_url) && $show_ad == true) { ?>
-        jwplayer().onPlaylistComplete(function () {
-        location.href = '<?php echo $next_random_url; ?>';
-        });
+                jwplayer().onPlaylistComplete(function () {
+                location.href = '<?php echo $next_random_url; ?>';
+                });
 <?php } ?>
 <?php if (!empty($ad_url) && $show_ad == true) { ?>
-        console.log('<?php echo $ad_url; ?>');
+                console.log('<?php echo $ad_url; ?>');
 <?php } ?>
 <?php if (!empty($next_random_url) && $show_ad == true) { ?>
-        console.log('<?php echo $next_random_url; ?>');
+                console.log('<?php echo $next_random_url; ?>');
 <?php } ?>
-    function manageCounter(){
-    var counter = Math.floor(Math.random() * 11) + 10;
-    console.log(counter);
-    var timer = setInterval(function () {
-    if (!isPaused) {
-    if (counter === 0)
-    {
-    console.log("Index : " + jwplayer().getPlaylistIndex());
-    if (jwplayer().getPlaylistIndex() < <?php echo (count($playlist) - 1) ?>)
-    {
-    player.next();
-    return clearInterval(timer);
-    } else{
-    location.href = '<?php echo $next_random_url; ?>';
-    }
-    }
-    /*console.log(counter + " seconds");*/
-    counter--;
-    }
-    }, 1000);
-    }
+            function manageCounter(){
+            var counter = Math.floor(Math.random() * 11) + 10;
+            console.log(counter);
+            var timer = setInterval(function () {
+            if (!isPaused) {
+            if (counter === 0)
+            {
+            console.log("Index : " + jwplayer().getPlaylistIndex());
+            if (jwplayer().getPlaylistIndex() < <?php echo (count($playlist) - 1) ?>)
+            {
+            player.next();
+            return clearInterval(timer);
+            } else{
+            location.href = '<?php echo $next_random_url; ?>';
+            }
+            }
+            /*console.log(counter + " seconds");*/
+            counter--;
+            }
+            }, 1000);
+            }
 </script>

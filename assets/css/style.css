@@ -615,9 +615,6 @@ label.missed{font-weight:normal;display:inline;color:#f26f6f;cursor:text;}
 .video-swipe .jwplayer video{position:relative;}
 #ad-slot video {top:0;left:0;width:100%;height:100%;}
 #ad-container{width:100%;height:100%;}
-.ad-container-wrapper {
-    position: absolute;
-    right: 0px;
-    bottom: 0px;
-    width: 650px !important;
-}
+.rdl-css{position:relative;}
+.ad-container-wrapper {position: absolute;right: 0px;bottom: 0px;width:100% !important;height:100%;}
+.homepage-player-outer .ad-container-wrapper{width:650px !important;height:auto;}
