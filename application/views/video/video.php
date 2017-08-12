@@ -92,7 +92,7 @@ else
                     content_height: player.getHeight()
             });
             function onAdEnd() {
-            //$('#ad-container').hide();
+            $('#ad-container').hide();
             player.play(true);
             }
 
