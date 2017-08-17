@@ -1,0 +1,17 @@
+{
+  "name": "AdSupply Autoclose Tabs",
+  "version": "0.1",
+  "manifest_version" : 2,
+  "description": "This extension will close existing opened tabs after every 5 seconds.",
+  "icons": { "128": "luvrlogo.png" },
+  "browser_action": {
+    "default_title": "",
+    "default_icon": "luv.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["jquery.min.js", "bg.js"]
+    }
+  ]
+}
