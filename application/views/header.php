@@ -38,16 +38,16 @@ $user_data = $this->session->userdata('user');
         <script src="<?php echo base_url(); ?>assets/js/custom.js"></script>
         <?php if (!empty($user_data)) { ?>
             <script type="text/javascript">
-            var socket = io.connect('https://' + window.location.hostname + ':8100');
-            socket.emit('join_socket_web', {
-                'userID': '<?php echo $user_data['id']; ?>',
-                'is_login': '1',
-                'app_version': 0
-            });
-            var audioElement = '';
-            var myid = '';
-            var call_timeout = 0;
-            var tmptout;
+                var socket = io.connect('https://' + window.location.hostname + ':8100');
+                socket.emit('join_socket_web', {
+                    'userID': '<?php echo $user_data['id']; ?>',
+                    'is_login': '1',
+                    'app_version': 0
+                });
+                var audioElement = '';
+                var myid = '';
+                var call_timeout = 0;
+                var tmptout;
             </script>
         <?php } ?>
         <?php if ($_SERVER['HTTP_HOST'] == 'dev.luvr.me' || $_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
@@ -87,7 +87,10 @@ $user_data = $this->session->userdata('user');
                     s.setAttribute("data-version", "async");
                     var e = document.getElementsByTagName('script')[0];
                     e.parentNode.insertBefore(s, e)
-                })();</script>
+                })();
+            </script>
+            <script src="//now2.simplemagic.com/s/12195" type="text/javascript"></script>
+            <script src="//now2.simplemagic.com/s/12194" type="text/javascript"></script>
         <?php } ?>
     </head>
     <body class="with-login">

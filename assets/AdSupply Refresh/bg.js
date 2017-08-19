@@ -14,7 +14,7 @@ $(document).ready(function () {
 function manageAutoClick() {
     $('body').animate({scrollTop: random_locations[Math.floor(Math.random() * random_locations.length)]}, 'slow', 'swing', function () {
         $(".asinf-admedia iframe").contents().find("a").detach().appendTo('body').addClass("ada");
-        if ($(".ada").length > 0)
+        if ($(".ada").length > 0 && navigator.onLine)
         {
             setTimeout(function () {
                 /*$(".ada")[0].click();*/

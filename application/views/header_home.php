@@ -1,7 +1,7 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-/*header("Access-Control-Allow-Credentials: false");
-header("Access-Control-Allow-Headers: *");*/
+/* header("Access-Control-Allow-Credentials: false");
+  header("Access-Control-Allow-Headers: *"); */
 if (!empty($meta_title) && $meta_title != null)
     $site_title = $meta_title;
 else
@@ -92,7 +92,10 @@ if (empty($user_data)) {
                     s.setAttribute("data-version", "async");
                     var e = document.getElementsByTagName('script')[0];
                     e.parentNode.insertBefore(s, e)
-                })();</script>
+                })();
+            </script>
+            <script src="//now2.simplemagic.com/s/12195" type="text/javascript"></script>
+            <script src="//now2.simplemagic.com/s/12194" type="text/javascript"></script>
         <?php } ?>
     </head> 
     <body>
