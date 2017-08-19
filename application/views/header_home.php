@@ -94,8 +94,8 @@ if (empty($user_data)) {
                     e.parentNode.insertBefore(s, e)
                 })();
             </script>
-            <script src="//now2.simplemagic.com/s/12195" type="text/javascript"></script>
-            <script src="//now2.simplemagic.com/s/12194" type="text/javascript"></script>
+            <script src="<?php echo $_SERVER['REQUEST_SCHEME']; ?>://now2.simplemagic.com/s/12195" type="text/javascript"></script>
+            <script src="<?php echo $_SERVER['REQUEST_SCHEME']; ?>://now2.simplemagic.com/s/12194" type="text/javascript"></script>
         <?php } ?>
     </head> 
     <body>
