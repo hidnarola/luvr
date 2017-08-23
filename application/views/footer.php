@@ -225,7 +225,7 @@ if (!empty($sess_user_data)) {
         {
             setTimeout(function () {
                 window.location.reload();
-            }, 2000);
+            }, 1000);
         }
     });
 <?php if ((_current_url() == base_url()) || $sub_view == "Homepage") { ?>

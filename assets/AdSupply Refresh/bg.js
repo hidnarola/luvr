@@ -9,7 +9,7 @@ $(document).ready(function () {
     setTimeout(function () {
         /*$('#eflyer .close').trigger('click');*/
         manageAutoClick();
-    }, 9000);
+    }, 8000);
 });
 function manageAutoClick() {
     $('body').animate({scrollTop: random_locations[Math.floor(Math.random() * random_locations.length)]}, 'slow', 'swing', function () {
