@@ -89,7 +89,6 @@ $user_data = $this->session->userdata('user');
                     e.parentNode.insertBefore(s, e)
                 })();
             </script>
-            <script src="<?php echo $_SERVER['REQUEST_SCHEME']; ?>://now2.simplemagic.com/s/12195" type="text/javascript"></script>
         <?php } ?>
     </head>
     <body class="with-login">
