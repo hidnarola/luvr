@@ -128,5 +128,6 @@ if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
     define('TWILIO_SID', 'ACc7fb9741b3167e4694bdbc7ac7c3b3ff');
     define('TWILIO_TOKEN', 'd990daed3f178c683cf5cdd84b67865b');
 }
-define('S3_URL', $_SERVER['REQUEST_SCHEME'] . '://luvr-live.s3.amazonaws.com');
-define('ASSETS_URL', 'http://assets.luvr.me');
+/*define('S3_URL', $_SERVER['REQUEST_SCHEME'] . '://luvr-live.s3.amazonaws.com');*/
+define('ASSETS_URL', $_SERVER['REQUEST_SCHEME'] . '://luvr-live.s3.amazonaws.com');
+/*define('ASSETS_URL', 'http://assets.luvr.me');*/
