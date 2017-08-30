@@ -42,15 +42,14 @@ else
     </ul>
     <div class="homepage-player-outer">
         <div id="hpplayer"></div>
-        <div class="ad-container-wrapper">
+<!--        <div class="ad-container-wrapper">
             <div id='ad-container'>
                 <div id='ad-slot'>
                     <video id='video-slot'></video>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
-    <script type="text/javascript" src="http://js.spotx.tv/directsdk/v1/202107.js"></script>
     <script type="text/javascript">
         var isPaused = false;
         var player_hp = jwplayer('hpplayer');
@@ -68,31 +67,6 @@ else
             }*/
 <?php } ?>
         });
-        player_hp.onReady(playSpotXAd);
-        function playSpotXAd(){
-        var directAdOS = new SpotX.DirectAdOS({
-        channel_id: 202107, // Your channel ID here
-                slot: $('#ad-slot').get(0),
-                video_slot: $('#video-slot').get(0),
-                hide_skin: false,
-                autoplay: true,
-                content_width: player_hp.getWidth(),
-                content_height: player_hp.getHeight()
-        });
-        function onAdEnd() {
-        $('#ad-container').hide();
-        player_hp.play(true);
-        }
-
-        directAdOS.subscribe(onAdEnd, 'AdStopped');
-        directAdOS.subscribe(onAdEnd, 'AdError');
-        directAdOS.subscribe(onAdEnd, 'AdSkipped');
-        /* Uncomment if being used for mid-roll */
-        // jwplayer().pause(true);
-        // $('#ad-container').show();
-
-        directAdOS.loadAd();
-        }
         jwplayer().onPlaylistItem(function () {
         manageCounter();
         });

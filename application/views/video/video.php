@@ -38,13 +38,13 @@ else
         <div class="back-btn-div"><a onclick="window.history.back();" class="for_pointer"></a></div>
         <div class="rdl-css">
             <div id="playerObject"></div>
-            <div class="ad-container-wrapper">
+<!--            <div class="ad-container-wrapper">
                 <div id='ad-container'>
                     <div id='ad-slot'>
                         <video id='video-slot'></video>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>    
     </div>
 </div>
@@ -52,7 +52,6 @@ else
     .jw-progress{background:#f26f6f;}
     .jw-button-color:focus, :not(.jw-flag-touch) .jw-button-color:hover{color:#f26f6f;}
 </style>
-<script type="text/javascript" src="http://js.spotx.tv/directsdk/v1/202107.js"></script>
 <script type="text/javascript">
             var player = jwplayer('playerObject');
             var isPaused = false;
@@ -80,31 +79,6 @@ else
                  },*/
 <?php } ?>
             });
-            player.onReady(playSpotXAd);
-            function playSpotXAd(){
-            var directAdOS = new SpotX.DirectAdOS({
-            channel_id: 202107, // Your channel ID here
-                    slot: $('#ad-slot').get(0),
-                    video_slot: $('#video-slot').get(0),
-                    hide_skin: false,
-                    autoplay: true,
-                    content_width: player.getWidth(),
-                    content_height: player.getHeight()
-            });
-            function onAdEnd() {
-            $('#ad-container').hide();
-            player.play(true);
-            }
-
-            directAdOS.subscribe(onAdEnd, 'AdStopped');
-            directAdOS.subscribe(onAdEnd, 'AdError');
-            directAdOS.subscribe(onAdEnd, 'AdSkipped');
-            /* Uncomment if being used for mid-roll */
-            // jwplayer().pause(true);
-            // $('#ad-container').show();
-
-            directAdOS.loadAd();
-            }
             jwplayer().onPlaylistItem(function(){
             manageCounter();
             });
