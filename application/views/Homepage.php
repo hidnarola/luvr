@@ -42,63 +42,66 @@ else
     </ul>
     <div class="homepage-player-outer">
         <div id="hpplayer"></div>
-<!--        <div class="ad-container-wrapper">
-            <div id='ad-container'>
-                <div id='ad-slot'>
-                    <video id='video-slot'></video>
-                </div>
-            </div>
-        </div>-->
+        <!--        <div class="ad-container-wrapper">
+                    <div id='ad-container'>
+                        <div id='ad-slot'>
+                            <video id='video-slot'></video>
+                        </div>
+                    </div>
+                </div>-->
     </div>
     <script type="text/javascript">
         var isPaused = false;
         var player_hp = jwplayer('hpplayer');
         player_hp.setup({
-        playlist: <?php echo $playlist; ?>,
-                repeat: true,
-                autostart: true,
-                aspectratio: "16:9",
-                width: "100%",
+            playlist: <?php echo $playlist; ?>,
+            repeat: true,
+            autostart: true,
+            aspectratio: "16:9",
+            width: "100%",
 <?php if ($_SERVER['HTTP_HOST'] == 'luvr.me') { ?>
-            /*advertising: {
-            client:'vast',
-                    tag:'<?php echo $ad_url; ?>',
-                    requestTimeout:15000
-            }*/
+                /*advertising: {
+                 client:'vast',
+                 tag:'<?php echo $ad_url; ?>',
+                 requestTimeout:15000
+                 }*/
 <?php } ?>
+        }).onReady(function () {
+            $(".jw-icon-fullscreen").css("z-index", "-1");
         });
+        ;
         jwplayer().onPlaylistItem(function () {
-        manageCounter();
+            manageCounter();
         });
         jwplayer().onPlay(function () {
-        isPaused = false;
+            isPaused = false;
         });
         jwplayer().onPause(function () {
-        isPaused = true;
+            isPaused = true;
         });
         jwplayer().onBeforePlay(function () {
-        isPaused = true;
+            isPaused = true;
         });
         jwplayer().onAdComplete(function () {
-        isPaused = false;
+            isPaused = false;
         });
         jwplayer().onAdError(function () {
-        isPaused = false;
+            isPaused = false;
         });
         function manageCounter() {
-        var counter = Math.floor(Math.random() * 11) + 10;
-        console.log(counter);
-        var timer = setInterval(function () {
-        if (!isPaused) {
-        if (counter === 0)
-        {
-        jwplayer().next();
-        return clearInterval(timer);
-        }
-        /*console.log(counter + " seconds");*/
-        counter--;
-        }
-        }, 1000);
+            var counter = Math.floor(Math.random() * 11) + 10;
+            console.log(counter);
+            var timer = setInterval(function () {
+                if (!isPaused) {
+                    if (counter === 0)
+                    {
+                        jwplayer().next();
+                        return clearInterval(timer);
+                    }
+                    /*console.log(counter + " seconds");*/
+                    counter--;
+                }
+            }, 1000);
         }
     </script>
 </section>
@@ -411,22 +414,22 @@ else
 <script type="text/javascript">
 <?php if (!empty($error)) { ?>
             $(document).ready(function () {
-            showMsg("<?php echo $error; ?>", "error", true);
+                showMsg("<?php echo $error; ?>", "error", true);
             });
 <?php } ?>
         $(function () {
-        $("#frm_monthly .stripe-button-el").html('1 Month');
-        $("#frm_6monthly .stripe-button-el").html('6 Months');
-        $("#frm_yearly .stripe-button-el").html('1 Year');
-        $("#frm_2yearly .stripe-button-el").html('2 Years');
-        $("#frm_5yearly .stripe-button-el").html('5 Years');
-        $(".stripe-button-el").removeClass('stripe-button-el');
-        $('.bxslider').bxSlider({
-        mode: 'fade',
+            $("#frm_monthly .stripe-button-el").html('1 Month');
+            $("#frm_6monthly .stripe-button-el").html('6 Months');
+            $("#frm_yearly .stripe-button-el").html('1 Year');
+            $("#frm_2yearly .stripe-button-el").html('2 Years');
+            $("#frm_5yearly .stripe-button-el").html('5 Years');
+            $(".stripe-button-el").removeClass('stripe-button-el');
+            $('.bxslider').bxSlider({
+                mode: 'fade',
                 captions: true,
                 auto: true,
                 pager: false,
                 responsive: true
-        });
+            });
         });
 </script>
