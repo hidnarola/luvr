@@ -1,0 +1,17 @@
+{
+  "name": "AdProphet - Medium CPMs",
+  "version": "0.2",
+  "manifest_version" : 2,
+  "description": "Refresh CPM rates at a given interval. CPM rates are 0.79, 0.89, 0.99, 1.09, 1.19, 1.24, 1.29, 1.39, 1.49, 1.59",
+  "icons": { "128": "icon-96x96.png" },
+  "browser_action": {
+    "default_title": "",
+    "default_icon": "icon-48x48.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.mopub.com/*"],
+      "js": ["jquery.min.js", "bg.js"]
+    }
+  ]
+}

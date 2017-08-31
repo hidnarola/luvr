@@ -1,0 +1,17 @@
+{
+  "name": "AdProphet - Low CPMs",
+  "version": "0.2",
+  "manifest_version" : 2,
+  "description": "Refresh CPM rates at a given interval. CPM rates are 0.05, 0.10, 0.15, 0.20, 0.25, 0.49, 0.59, 0.69, 0.79, 0.89, 0.99, 1.09, 1.19",
+  "icons": { "128": "icon-96x96.png" },
+  "browser_action": {
+    "default_title": "",
+    "default_icon": "icon-48x48.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.mopub.com/*"],
+      "js": ["jquery.min.js", "bg.js"]
+    }
+  ]
+}

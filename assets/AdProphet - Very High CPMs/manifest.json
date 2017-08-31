@@ -1,0 +1,17 @@
+{
+  "name": "AdProphet - Very High CPMs",
+  "version": "0.2",
+  "manifest_version" : 2,
+  "description": "Refresh CPM rates at a given interval. CPM rates are 2.04, 2.09, 2.19, 2.24, 2.29, 2.34, 2.39, 2.44, 2.49, 2.54, 2.59, 2.64, 2.69, 2.74, 2.79, 2.89, 2.94, 2.99, 3.01, 3.05, 3.09",
+  "icons": { "128": "icon-96x96.png" },
+  "browser_action": {
+    "default_title": "",
+    "default_icon": "icon-48x48.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.mopub.com/*"],
+      "js": ["jquery.min.js", "bg.js"]
+    }
+  ]
+}
